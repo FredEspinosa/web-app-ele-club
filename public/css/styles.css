@@ -1,9 +1,1328 @@
 /***** 😈 En este documento se escribirán los estilos personalizados 😈 *****/
 
-.clase_de_pueba {
-    color: #f78500;
+:root {
+    --color-background-negro: #000000;
+    /* Colores violeta */
+    --color-primario-violeta-01: #FFC1E5;
+    --color-primario-violeta-02: #FC9ED5;
+    --color-primario-violeta-03: #EE7EC0;
+    --color-primario-violeta-04: #D962A8;
+    --color-primario-violeta-05: #CA4794;
+    --color-primario-violeta-06: #BE2F82;
+    --color-primario-violeta-07: #A70A66;
+    --color-primario-violeta-08: #95095B;
+    --color-primario-violeta-09: #890653;
+    --color-primario-violeta-10: #740345;
+    --color-primario-violeta-11: #5D0036;
+    --color-primario-violeta-12: #2F001C;
+    --color-primario-violeta-13: #1C0011;
+    /* Colores menta */
+    --color-secundario-menta-01: #ECFAF8;
+    --color-secundario-menta-02: #D8F5F1;
+    --color-secundario-menta-03: #C5F0EA;
+    --color-secundario-menta-04: #B1EBE3;
+    --color-secundario-menta-05: #8BE0D6;
+    --color-secundario-menta-06: #64D6C8;
+    --color-secundario-menta-07: #3DCCBA;
+    --color-secundario-menta-08: #31A596;
+    --color-secundario-menta-09: #257E72;
+    --color-secundario-menta-10: #1A564F;
+    --color-secundario-menta-11: #14433D;
+    --color-secundario-menta-12: #0E2F2B;
+    --color-secundario-menta-13: #081C19;
+    /* Coolores neutrales */
+    --color-neutral-gris-01: #343434;
+    --color-neutral-gris-02: #6F7271;
+    --color-neutral-gris-03: #98989A;
+    --color-neutral-gris-04: #CAC9C9;
+    --color-neutral-gris-05: #F0F0F0;
+    --color-neutral-blanco-06: #FFFFFF;
+    /* Colores de alertas */
+    --color-alerta-verde: #007D00;
+    --color-alerta-naranja: #FF9E00;
+    --color-alerta-rojo: #CF0000;
 }
 
-.margin_botom_0 {
+/* ❗️Toda clase personalizada será iniciada con la palabra club, 
+    seguida de guión bajo con plabras que hagan referencia a lo 
+    que representa la clase. Ejemplo club_letras_negritas ❗️*/
+
+
+
+/* * {
+    color: var(--color-neutral-blanco-06);
+} */
+
+body {
+    background-color: var(--color-background-negro);
+    color: var(--color-neutral-blanco-06);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+p {
     margin-bottom: 0px;
 }
+
+.club_contenedor {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.club_contenedor_full_height {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh; 
+    /* padding-bottom: 24px; */
+}
+
+.club_sub_contenedor {
+    display: flex;
+    /* flex-wrap: wrap; */
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    /* justify-content: space-between; */
+}
+
+.club_margin_top_56 {
+    margin-top: 56px;
+}
+
+.club_padding_top_26 {
+    padding-top: 26px;
+}
+
+/* Colores de fondo violeta  */
+.club_bg_violeta_01 {
+    background-color: var(--color-primario-violeta-01);
+}
+
+.club_bg_violeta_02 {
+    background-color: var(--color-primario-violeta-02);
+}
+
+.club_bg_violeta_03 {
+    background-color: var(--color-primario-violeta-03);
+}
+
+.club_bg_violeta_04 {
+    background-color: var(--color-primario-violeta-04);
+}
+
+.club_bg_violeta_05 {
+    background-color: var(--color-primario-violeta-05);
+}
+
+.club_bg_violeta_06 {
+    background-color: var(--color-primario-violeta-06);
+}
+
+.club_bg_violeta_07 {
+    background-color: var(--color-primario-violeta-07);
+}
+
+.club_bg_violeta_08 {
+    background-color: var(--color-primario-violeta-08);
+}
+
+.club_bg_violeta_09 {
+    background-color: var(--color-primario-violeta-09);
+}
+
+.club_bg_violeta_10 {
+    background-color: var(--color-primario-violeta-10);
+}
+
+.club_bg_violeta_11 {
+    background-color: var(--color-primario-violeta-11);
+}
+
+.club_bg_violeta_12 {
+    background-color: var(--color-primario-violeta-12);
+}
+
+.club_bg_violeta_13 {
+    background-color: var(--color-primario-violeta-13);
+}
+
+/* Colores de fondo menta */
+.club_bg_menta_01 {
+    background-color: var(--color-secundario-menta-01);
+}
+
+.club_bg_menta_02 {
+    background-color: var(--color-secundario-menta-02);
+}
+
+.club_bg_menta_03 {
+    background-color: var(--color-secundario-menta-03);
+}
+
+.club_bg_menta_04 {
+    background-color: var(--color-secundario-menta-04);
+}
+
+.club_bg_menta_05 {
+    background-color: var(--color-secundario-menta-05);
+}
+
+.club_bg_menta_06 {
+    background-color: var(--color-secundario-menta-06);
+}
+
+.club_bg_menta_07 {
+    background-color: var(--color-secundario-menta-07);
+}
+
+.club_bg_menta_08 {
+    background-color: var(--color-secundario-menta-08);
+}
+
+.club_bg_menta_09 {
+    background-color: var(--color-secundario-menta-09);
+}
+
+.club_bg_menta_10 {
+    background-color: var(--color-secundario-menta-10);
+}
+
+.club_bg_menta_11 {
+    background-color: var(--color-secundario-menta-11);
+}
+
+.club_bg_menta_12 {
+    background-color: var(--color-secundario-menta-12);
+}
+
+.club_bg_menta_13 {
+    background-color: var(--color-secundario-menta-13);
+}
+
+/* Colores de letra neutros */
+
+.club_color_fuente_blanco {
+    color: var(--color-neutral-blanco-06) !important;
+}
+
+.club_color_fuente_gris_01 {
+    color: var(--color-neutral-gris-01) !important;
+}
+
+.club_color_fuente_gris_02 {
+    color: var(--color-neutral-gris-02) !important;
+}
+
+.club_color_fuente_gris_03 {
+    color: var(--color-neutral-gris-03) !important;
+}
+
+.club_color_fuente_rojo,
+.error {
+    color: var(--color-alerta-rojo) !important;
+}
+
+/* Estilos generales para títulos */
+.club_titulo_largo_size_34 {
+    font-size: 34px;
+    line-height: 41px;
+}
+
+.club_titulo_1_size_28 {
+    font-size: 28px;
+    line-height: 34px;
+}
+
+.club_titulo_2_size_22 {
+    font-size: 22px;
+    line-height: 28px;
+}
+
+.club_titulo_3_size_20 {
+    font-size: 20px;
+    line-height: 25px;
+}
+
+.club_txt_titular {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: -0.43%;
+}
+
+/* Estilos para textos  */
+
+.club_txt_body {
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.43%;
+}
+
+.club_txt_callout {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -0.31%;
+}
+
+.club_txt_footnote {
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: -0.08%;
+}
+
+.club_txt_caption {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.club_txt_caption_2 {
+    font-size: 11px;
+    line-height: 13px;
+    letter-spacing: 0.06%;
+}
+
+/* Estilos generales para títulos peso de letra */
+
+.club_font_regular {
+    font-weight: 400;
+}
+
+.club_font_medium {
+    font-weight: 500;
+}
+
+.club_font_semibold {
+    font-weight: 600;
+}
+
+.club_font_bold {
+    font-weight: 700;
+}
+
+/* Botones generales se escribe la clase del botón mas la clase de background del color deseado 
+    ejemplo: club_btn club_bg_violeta_08 */
+
+.club_btn {
+    display: flex;
+    width: 100%;
+    max-width: 138px;
+    height: 50px;
+    border-radius: 16px;
+    color: var(--color-neutral-blanco-06);
+    font: 'inter';
+    font-weight: 500;
+    line-height: 24px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.club_btn_borde_gris {
+    background: transparent !important;
+    border: 1px solid var(--color-neutral-gris-02) !important;
+    color: var(--color-neutral-gris-02) !important;
+}
+
+.club_btn_borde_violeta {
+    background: transparent !important;
+    border: 1px solid var(--color-primario-violeta-08) !important;
+    color: var(--color-primario-violeta-08) !important;
+}
+
+.club_btn_no_borde_gris {
+    border: none !important;
+    height: 40px !important;
+    color: var(--color-neutral-gris-02) !important;
+    font-size: 14px !important;
+    line-height: 21px !important;
+}
+
+.club_btn_no_borde_violeta {
+    border: none !important;
+    height: 40px !important;
+    color: var(--color-primario-violeta-08) !important;
+    font-size: 14px !important;
+    line-height: 21px !important;
+}
+
+.club_btn_no_borde_menta {
+    border: none !important;
+    height: 40px !important;
+    color: var(--color-secundario-menta-06) !important;
+    font-size: 14px !important;
+    line-height: 21px !important;
+}
+
+.club_btn_control_back {
+    width: 100%;
+    max-width: 78px;
+    height: 44px;
+    padding: 11px 8px;
+    border: none;
+    background: transparent;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+}
+
+/* Estilos para barra de progreso */
+
+.club_barra_progreso {
+    display: flex;
+    width: 100%;
+    height: 10px;
+    background: transparent;
+}
+
+.club_progreso {
+    width: 100%;
+    margin-right: 5px;
+    background-color: var(--color-neutral-gris-04);
+}
+
+.club_progreso:first-child {
+    border-radius: 50px 0px 0px 50px;
+}
+
+.club_progreso:last-child {
+    margin-right: 0px;
+    border-radius: 0px 50px 50px 0px;
+}
+
+.club_progreso.active {
+    background-color: var(--color-secundario-menta-07);
+}
+
+/* Estilos para los inputs */
+
+.club_input {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.club_input_label {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 8px;
+    padding: 4px 16px 0px 0px;
+    gap: 10px;
+    color: var(--color-neutral-gris-01);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.club_input_contenedor {
+    display: flex;
+    width: 100%;
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.club_input_contenedor select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.club_input_icon_izq {
+    position: absolute;
+    color: var(--color-neutral-gris-01);
+    left: 16px;
+    /* Posiciona el ícono a la izquierda dentro del input */
+    top: 50%;
+    transform: translateY(-50%);
+    /* Centra verticalmente el ícono */
+}
+
+.club_input_icon_der {
+    position: absolute;
+    color: var(--color-neutral-gris-01);
+    right: 16px;
+    /* Posiciona el ícono a la derecha dentro del input */
+    top: 50%;
+    transform: translateY(-50%);
+    /* Centra verticalmente el ícono */
+}
+
+.club_input_campo {
+    width: 100%;
+    height: 56px;
+    border: 1px solid var(--color-neutral-gris-02);
+    padding: 8px 56px 8px 56px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    /* Asegura que el padding no afecte el tamaño total */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    border-bottom: 4px solid var(--color-primario-violeta-07);
+}
+
+.club_input_campo:focus {
+    border-color: var(--color-neutral-gris-02);
+    box-shadow: 0 0 5px var(--color-neutral-gris-02) !important;
+    outline: none;
+    background-color: transparent !important;
+    border: 1px solid var(--color-neutral-gris-02);
+}
+
+.club_borde_menta .club_input_campo {
+    border: 2px solid var(--color-secundario-menta-07);
+}
+
+.club_borde_menta .club_input_campo:focus {
+    border: 2px solid var(--color-secundario-menta-07);
+    border-color: var(--color-secundario-menta-07);
+    box-shadow: 0 0 5px var(--color-secundario-menta-07) !important;
+    outline: none;
+    background-color: transparent !important;
+}
+
+.club_borde_rojo .club_input_icon_izq,
+.club_borde_rojo .club_input_icon_der {
+    color: var(--color-alerta-rojo);
+}
+
+.club_borde_rojo .club_input_campo {
+    border: 2px solid var(--color-alerta-rojo);
+}
+
+.club_borde_rojo .club_input_campo:focus {
+    border: 2px solid var(--color-alerta-rojo);
+    border-color: var(--color-alerta-rojo);
+    box-shadow: 0 0 5px var(--color-alerta-rojo) !important;
+    outline: none;
+    background-color: transparent !important;
+}
+
+.club_borde_gris .club_input_icon_izq,
+.club_borde_gris .club_input_icon_der {
+    color: var(--color-neutral-gris-03);
+}
+
+.club_borde_gris .club_input_campo {
+    border: 2px solid var(--color-neutral-gris-03);
+}
+
+.club_input_span {
+    width: 100%;
+    font-size: 12px;
+    font-family: 'inter';
+    font-weight: 400;
+    line-height: 18px;
+    padding: 4px 16px 0px 16px;
+    gap: 10px;
+    color: var(--color-neutral-gris-02);
+}
+
+/* Estilos para Top Bar */
+
+.club_top_bar {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-neutral-gris-03);
+    padding: 16px 24px;
+    position: fixed;
+    top: 0%;
+}
+
+.club_btn_top_menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-neutral-blanco-06);
+}
+
+.club_btn_icon_help {
+    width: 100%;
+    max-width: 24px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 16px;
+}
+
+/* Estilos para la barra de navegacion */
+
+.club_nav_bar {
+    background: var(--color-neutral-gris-03);
+    width: 100%;
+    height: 98px;
+    position: fixed;
+    bottom: 0;
+}
+
+.club_nav_opciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    padding: 16px 24;
+    height: 98px;
+    color: var(--color-primario-violeta-07);
+}
+
+.club_nav_opcion_icono {
+    text-align: center;
+}
+
+.club_nav_opcion_icono div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 11px;
+    border-radius: 50px;
+}
+
+.club_nav_opcion_icono span {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+/* Cuando el icono es active */
+
+.club_nav_opcion_icono.active {
+    position: relative;
+    top: -37%;
+}
+
+.club_nav_opcion_icono.active div {
+    width: 48px;
+    height: 48px;
+    background: var(--color-primario-violeta-07);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px var(--color-background-negro);
+    /* Borde con color blanco (del fondo del body) */
+}
+
+.club_nav_opcion_icono.active div svg {
+    color: var(--color-neutral-blanco-06);
+}
+
+.club_nav_opcion_icono.active span {
+    font-weight: 700;
+}
+
+/* Clases para iconos especiales */
+
+.club-icono-eye-invisible {
+    transform: rotateX(180deg);
+}
+
+.club_icon_help {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background-image: url(../../src/assets/images/icons/Vector.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
+}
+
+/* Estilos para carrucel */
+
+.club_contenedor_diamante {
+    width: 100%;
+    height: 100%;
+    max-width: 371px;
+    max-height: 416px;
+    min-width: 371px;
+    min-height: 416px;
+    clip-path: polygon(20% 0, 80% 0, 100% 30%, 50% 100%, 0 30%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center;
+  object-fit: cover;
+  overflow: hidden; */
+}
+
+.club_contenedor_diamante .club_diamante_img {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
+}
+
+.swiper-slide {
+    display: flex !important;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.club_swiper_tache {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 27%;
+    left: 0%;
+    z-index: inherit;
+}
+
+.club_swiper_corazon {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 27%;
+    right: 0%;
+    z-index: inherit;
+}
+
+.club_swiper_corazon svg {
+    color: var(--color-primario-violeta-07);
+}
+
+.swiper-horizontal>.swiper-pagination-bullets.swiper-pagination-bullets-dynamic,
+.swiper-pagination-horizontal.swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
+    position: absolute;
+    top: 0px;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active.swiper-pagination-bullet-active-main {
+    width: 11.26px;
+    height: 11.26px;
+    background-color: var(--color-neutral-blanco-06) !important;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active-prev,
+.swiper-pagination-bullet.swiper-pagination-bullet-active-next {
+    width: 11.26px;
+    height: 11.26px;
+    background-color: var(--color-neutral-blanco-06) !important;
+    opacity: 0.6;
+}
+
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after,
+.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
+    display: none;
+}
+
+/* Estilos para la parte de Perfil */
+
+.club_contenedor_settings {
+    padding: 10px;
+}
+
+.club_configuración_barra {
+    height: 40px;
+    position: fixed;
+    top: 0%;
+    background-color: var(--color-background-negro);
+    width: 100%;
+    display: flex;
+    z-index: 1;
+}
+
+.club_margin_bar_40 {
+    margin-top: 40px;
+}
+
+.club_contenedor_bg_borde_gris {
+    background-color: var(--color-neutral-gris-01);
+    border-top: 1px solid var(--color-neutral-gris-03);
+    border-bottom: 1px solid var(--color-neutral-gris-03);
+}
+
+.club_titulo_config {
+    font-size: 14px;
+    line-height: 14px;
+    margin-bottom: 0;
+}
+
+.club_config_btn_back {
+    font-size: 14px;
+    line-height: 14px;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.club_config_parrafo {
+    margin-bottom: 0px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.club_btn_padding_0 {
+    padding: 0px;
+}
+
+.club_config_btn_arrow {
+    color: var(--color-neutral-blanco-06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.club_config_verifica_perfil {
+    color: var(--color-alerta-rojo);
+}
+
+.club_config_verifica_perfil .club_config_perfil_icon_warning {
+    margin-right: 5px;
+}
+
+.club_config_perfil_icon_safe {
+    position: relative;
+    /* Necesario para que el pseudo-elemento ::before se posicione relativo al icono */
+}
+
+.club_config_perfil_icon_safe::before {
+    content: '';
+    /* Necesario para mostrar el ::before */
+    position: absolute;
+    top: -5px;
+    /* Ajusta la posición vertical del círculo */
+    right: -5px;
+    /* Ajusta la posición horizontal del círculo */
+    width: 10px;
+    /* Ancho del círculo */
+    height: 10px;
+    /* Alto del círculo */
+    background-color: red;
+    /* Color de la "notificación" */
+    border-radius: 50%;
+    /* Hace que el cuadrado sea un círculo */
+    border: 2px solid white;
+    /* Si quieres agregar un borde alrededor del círculo, opcional */
+    z-index: 1;
+    /* Asegura que el círculo esté por encima del ícono */
+}
+
+.club_padding_right_0 {
+    padding-right: 0px !important;
+}
+
+.club_padding_top_0 {
+    padding-top: 0px !important;
+}
+
+.club_padding_bottom_0 {
+    padding-bottom: 0px !important;
+}
+
+.club_padding_left_0 {
+    padding-left: 0px !important;
+}
+
+.club_sub_contenedor_serttigs {
+    padding: 10px;
+    margin-left: 5px;
+    border-bottom: 1px solid var(--color-neutral-gris-03);
+}
+
+.club_no_border_bottom {
+    border-bottom: none;
+}
+
+.club_no_border_top {
+    border-top: none;
+}
+
+.club_no_border_left {
+    border-left: none;
+}
+
+.club_no_border_right {
+    border-right: none;
+}
+
+.club_parrafo_margin_bottom_5 {
+    margin-bottom: 5px;
+}
+
+.club_bg_premium {
+    color: var(--color-background-negro);
+    border-radius: 50px;
+    padding: 0px 5px;
+    background:
+        radial-gradient(circle at 50% 0,
+            rgba(255, 0, 0, 0.5),
+            rgba(255, 0, 0, 0) 70.71%),
+        radial-gradient(circle at 6.7% 75%,
+            rgba(0, 0, 255, 0.5),
+            rgba(0, 0, 255, 0) 70.71%),
+        radial-gradient(circle at 93.3% 75%,
+            rgba(0, 255, 0, 0.5),
+            rgba(0, 255, 0, 0) 70.71%) beige;
+}
+
+/* Estilos para el splash */
+
+.club_contenedor_splash {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.club_contenedor_splash img,
+.club_bienvenida_logo img {
+    width: 318px;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Estilos para la parte de Bienvenida */
+
+.club_bienvenida_logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.club_bienvenida_info h1 {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 33px;
+    margin-bottom: 50px;
+}
+
+.club_bienvenida_info p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    position: relative;
+    z-index: 2;
+}
+
+.club_cont_btns_full {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-bottom: 16px;
+}
+
+.club_btn_full {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.club_cont_btns_full button:first-child {
+    margin-bottom: 16px;
+}
+
+.club_btn_full_general {
+    height: 37px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.club_bienvenida_btns .club_btn_full_general {
+    color: var(--color-neutral-blanco-06) !important;
+}
+
+.club_bienbenida_bandera_img {
+    position: relative;
+    bottom: 35px;
+}
+
+.club_bienvenida_nav {
+    /* position: absolute; */
+    /* top: 0%; */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 57px;
+    background-color: var(--color-primario-violeta-08);
+}
+
+.club_bienvenida_footer,
+.club_tipo_cuenta_footer {
+    /* position: fixed;
+    bottom: 0%; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.club_bienvenida_footer {
+    height: 17px;
+}
+
+.club_bienvenida_footer span,
+.club_tipo_cuenta_footer p  {
+    color: var(--color-neutral-gris-01);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 16.5px;
+}
+
+.club_tipo_cuenta_footer p {
+    color: var(--color-neutral-blanco-06) !important;
+    text-align: center;
+}
+
+.club_onboarding_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.club_onboarding_info {
+    /* width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start; */
+    margin-top: 50px;
+    flex-grow: 1;
+}
+
+.club_onboarding_info h1 {
+    width: 100%;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 33px;
+    margin-bottom: 50px;
+}
+
+.club_onboarding_info p {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    z-index: 2;
+}
+
+.club_cont_btns_doble {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 16px;
+}
+
+.club_onboarding_bullets_cont {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 16px 0px;
+}
+
+.club_onboarding_bullet {
+    border-radius: 50%;
+    background-color: #F7F7F7;
+    width: 8px;
+    height: 8px;
+    margin: 0px 4px;
+}
+
+.club_onboarding_bullet.active {
+    background-color: var(--color-primario-violeta-08);
+}
+
+/* Estilos para el tipo de cuenta */
+
+.club_margin_top_63 {
+    margin-top: 63px;
+}
+
+.club_cont_info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.club_cont_info_grow_1 {
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: center; */
+    width: 100%;
+    flex-grow: 1;
+}
+
+.club_cont_info .club_titulo_general {
+    text-align: center;
+}
+
+.club_titulo_general {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 48px;
+}
+
+.club_tipo_cuenta_cont_btns,
+.club_crear_cuenta_cont_btns {
+    margin-top: 63px;
+}
+
+.club_tipo_cuenta_cont_btns .club_tipo_cuenta_btn {
+    height: 105px;
+    width: 100%;
+    max-width: 353px;
+    text-align: center;
+    padding: 14px 40px;
+    border-radius: 20px;
+    border: 1px solid var(--color-background-negro);
+    background-color: var(--color-neutral-blanco-06);
+    color: var(--color-background-negro);
+    margin: 10px 0px;
+}
+
+/* Estilos para Notificaciones */
+
+.club_notific_info {
+    margin-top: 93px;
+}
+
+.club_notificaciones_btns .club_btn_full_general {
+    height: 50px;
+}
+
+.club_notificaciones_txt {
+    margin-top: 40px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.club_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+    display: block !important;
+}
+
+.club_modal.fade:not(.show) {
+    transition: opacity .15s linear;
+}
+
+.fade:not(.show) {
+    transition: opacity .15s linear;
+}
+
+.modal-backdrop {
+    z-index: 1056;
+}
+
+.club_modal .modal-dialog {
+    top: 30%;
+    transform: translate(0, -50%) !important;
+}
+
+.club_modal .modal-content {
+    background-color: var(--color-neutral-gris-01);
+}
+
+/* Estilos para Creacion de cuenta */
+
+.club_btn_neutro {
+    height: 50px;
+    width: 100%;
+    color: var(--color-background-negro);
+    background-color: var(--color-neutral-blanco-06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    border-radius: 100px;
+}
+
+.club_crear_cuenta_cont_btns > button {
+    margin-bottom: 12px;
+}
+
+.club_crear_cuenta_btn_top {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+    padding: 14px 0;
+    margin-bottom: 60px;
+}
+
+/* Estilos para la barra de progreso de completar perfil */
+
+.club_cont_barra {
+    width: 100%;
+    padding: 16px 24px;
+    background-color: var(--color-neutral-gris-01);
+    border-radius: 16px;
+}
+
+.club_cont_barra > span {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.club_cont_barra .club_barra_progreso{    
+    margin-top: 8px;
+}
+
+#clubDatosPersonales .club_progreso.active {
+    background-color: var(--color-primario-violeta-07);
+}
+
+#clubDatosPersonales .club_input {
+    margin-bottom: 15px;
+}
+
+#clubDatosPersonales .club_input_icon_der,
+#clubDatosPersonales .club_input_label {
+color: var(--color-neutral-blanco-06);
+}
+
+#clubDatosPersonales .club_input_campo {
+    background-color: var(--color-neutral-gris-01);
+    color: var(--color-neutral-gris-03);
+
+}
+
+#clubDatosPersonales form {
+    margin-bottom: 10%;
+}
+
+/* Estilos para el input de teléfono */
+
+#clubCrearCuentaTel .club_input {
+    margin-bottom: 15px;
+}
+
+#clubCrearCuentaTel .club_input_icon_der,
+#clubCrearCuentaTel .club_input_label {
+color: var(--color-neutral-blanco-06);
+}
+
+#clubCrearCuentaTel .club_input_campo {
+    background-color: var(--color-neutral-gris-01);
+    color: var(--color-neutral-gris-03);
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.club_input_campo_tel {
+    background: transparent;
+    border: none;
+    color: var(--color-neutral-gris-02);
+}
+
+input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: none;
+    color: fieldtext !important;
+}
+
+.club_select_paises {
+    background: none;
+    border: none;
+    color: var(--color-neutral-blanco-06);
+}
+
+#clubCrearCuentaTel .club_select_paises {
+    color: var(--color-neutral-gris-02);
+}
+
+.react-tel-input .flag-dropdown {
+  background-color: #f0f0f0;
+}
+.react-tel-input input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para el selector de opciones de configuracion de perfil */
+
+.club_cont_opciones_check {
+    width: 100%;
+    display: flex;
+    color: var(--color-neutral-blanco-06);
+    border-radius: 16px;
+    background-color: var(--color-neutral-gris-01);
+    padding: 24px 16px;
+    flex-wrap: wrap;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.club_titulo_opciones_check {
+    width: 100%;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 18px;
+    margin-bottom: 3%;
+}
+
+.club_cont_lista_opciones_check {
+    width: 100%;
+    padding: 0px;
+}
+
+.club_lista_opciones_check {
+    width: 100%;
+    padding: 12px 18px 12px 24px;
+    border: none;
+    border-bottom: 1px solid var(--color-neutral-blanco-06);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: var(--color-neutral-blanco-06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 
+No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bootstrap  */
+
+/* Dispositivos pequeños (teléfonos horizontales, 576 px y superiores) */
+
+@media (max-width: 360px) {
+
+    .club_titulo_general {
+        font-size: 22px;
+    }
+    .club_tipo_cuenta_cont_btns {
+        margin-top: 10px;
+    }
+}
+
+/* Dispositivos pequeños (teléfonos horizontales, 576 px y superiores) */
+@media (min-width: 576px) {}
+
+/* Dispositivos medianos (tabletas, 768 px y superiores) */
+@media (min-width: 768px) {}
+
+/* Dispositivos grandes (computadoras de escritorio, 992 px y superiores) */
+@media (min-width: 992px) {
+    .club_contenedor {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+/* Dispositivos X-Large (escritorios grandes, 1200 px y más) */
+@media (min-width: 1200px) {}
+
+/* Dispositivos XX-Large (escritorios más grandes, 1400 px y más) */
+@media (min-width: 1400px) {}
