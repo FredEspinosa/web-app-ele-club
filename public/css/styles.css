@@ -531,10 +531,11 @@ p {
     height: 56px;
     display: flex;
     align-items: center;
-    background-color: var(--color-neutral-gris-03);
+    background-color: var(--color-primario-violeta-07);
     padding: 16px 24px;
     position: fixed;
     top: 0%;
+    z-index: 2;
 }
 
 .club_btn_top_menu {
@@ -557,11 +558,12 @@ p {
 /* Estilos para la barra de navegacion */
 
 .club_nav_bar {
-    background: var(--color-neutral-gris-03);
+    background: var(--color-primario-violeta-12);
     width: 100%;
     height: 98px;
     position: fixed;
     bottom: 0;
+    z-index: 2;
 }
 
 .club_nav_opciones {
@@ -634,7 +636,7 @@ p {
 
 /* Estilos para carrucel */
 
-.club_contenedor_diamante {
+/* .club_contenedor_diamante {
     width: 100%;
     height: 100%;
     max-width: 371px;
@@ -645,14 +647,25 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* align-items: center;
-  object-fit: cover;
-  overflow: hidden; */
+} */
+
+.club_contenedor_diamante {
+    width: 100%;
+    height: 82%;
+    clip-path: polygon(20% 0, 80% 0, 100% 30%, 50% 100%, 0 30%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 100vw;
+    max-height: 100vh;
+    background-color: #343434;
 }
 
 .club_contenedor_diamante .club_diamante_img {
-    width: 100%;
-    height: 100vh;
+    /* width: 100%;
+    height: 100vh; */
+    height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -662,14 +675,14 @@ p {
 .swiper-slide {
     display: flex !important;
     justify-content: center;
-    margin-top: 20px;
+    padding-top: 20px;
 }
 
 .club_swiper_tache {
     width: 60px;
     height: 60px;
     position: absolute;
-    top: 27%;
+    top: 28%;
     left: 0%;
     z-index: inherit;
 }
@@ -678,7 +691,7 @@ p {
     width: 60px;
     height: 60px;
     position: absolute;
-    top: 27%;
+    top: 28%;
     right: 0%;
     z-index: inherit;
 }
@@ -1292,6 +1305,83 @@ input:-internal-autofill-selected {
     cursor: pointer;
 }
 
+/* Estilos nuevos para el contenedor del carruel */
+
+.club_contenedor_tres_secciones {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 100% de la altura de la pantalla */
+}
+
+.club_contenido_top {
+    flex: 0 0 7%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    text-align: center;
+    max-height: 56px;
+}
+
+.club_content_central {
+    /* flex: 0 0 70%; */
+    flex: 1;
+    overflow: hidden !important;
+    color: var(--color-neutral-blanco-06);
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+.club_contenido_bottom {
+    flex: 0 0 11%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    position: relative;
+    max-height: 98px;
+}
+
+#clubHome {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#clubHome .swiper {
+    height: 100%; /* Ajusta la altura al 100% de su contenedor padre */
+    width: 100%;  /* Si también deseas que tome todo el ancho */
+}
+
+#clubHome .input-dinamico .club_input_label {
+    color: var(--color-neutral-blanco-06);
+}
+
+#clubHome .input-dinamico .club_input_campo,
+#clubHome .input-dinamico .club_input_campo:focus {
+    color: var(--color-neutral-gris-02) !important;
+    background-color: var(--color-neutral-gris-01) !important;
+    border-bottom: 4px solid var(--color-primario-violeta-07);
+}
+
+#clubHome .input-dinamico .club_input_icon_der,
+#clubHome .input-dinamico .club_input_icon_izq {
+    color: var(--color-neutral-blanco-06);
+}
+
+/* #clubHome .club_contenedor_diamante, */
+#clubHome .club_swiper_corazon,
+.club_centrar_pantalla {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#clubHome .club_swiper_corazon,
+#clubHome .club_swiper_tache {
+    position: absolute;
+    top: 41%;
+    transform: translateY(-50%);
+}
+
+
+
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 
 No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bootstrap  */
 
@@ -1305,13 +1395,59 @@ No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bo
     .club_tipo_cuenta_cont_btns {
         margin-top: 10px;
     }
+
+    /* .club_contenedor_diamante {
+        width: 100%;
+        height: 100%;
+        max-width: 255px;
+        max-height: 300px;
+        min-width: 255px;
+        min-height: 300px;
+        clip-path: polygon(20% 0, 80% 0, 100% 30%, 50% 100%, 0 30%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    } */
+
+    .club_contenedor_diamante {
+        width: 76vw; 
+        height: 46vh;
+        max-width: 255px;
+        max-height: 300px;
+        min-width: 255px;
+        min-height: 300px;
+    }
 }
 
 /* Dispositivos pequeños (teléfonos horizontales, 576 px y superiores) */
-@media (min-width: 576px) {}
+@media (min-width: 576px) {
+    .club_contenedor_diamante {
+        /* width: 85vw;
+        height: 62vh; */
+        width: 62vw;
+        height: 60vh;
+        max-width: 371px !important;
+        max-height: 416px !important;
+        min-width: 371px !important;
+        min-height: 416px !important;
+    }
+
+    .club_swiper_corazon {
+        top: 29%;
+    }
+
+    .club_swiper_tache {
+        top: 29%;
+    }
+}
 
 /* Dispositivos medianos (tabletas, 768 px y superiores) */
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+    .club_contenedor_diamante {
+        width: 44vw;
+        height: 55vh;
+    }
+}
 
 /* Dispositivos grandes (computadoras de escritorio, 992 px y superiores) */
 @media (min-width: 992px) {
@@ -1319,10 +1455,88 @@ No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bo
         padding-left: 0px;
         padding-right: 0px;
     }
+
+    .club_contenedor_diamante {
+        width: 43vw;
+        height: 55vh;
+    }
 }
 
 /* Dispositivos X-Large (escritorios grandes, 1200 px y más) */
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
+    .club_contenedor_diamante {
+        width: 34vw;
+        height: 53vh;
+    }
+}
 
 /* Dispositivos XX-Large (escritorios más grandes, 1400 px y más) */
-@media (min-width: 1400px) {}
+@media (min-width: 1400px) {
+    .club_contenedor_diamante {
+        width: 21vw;
+        height: 52vh;
+    }
+}
+
+.card {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+}
+  
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+  
+.pagination {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.club_cont_tinder_swipe {
+    width: 100%;
+    /* margin: 0px auto; */
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+}
+
+.club_centrar_swiper_tinder {
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.club_centrar_swiper_tinder h3 {
+    margin-bottom: 0;
+}
+
+.club_imagen_fondo {
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    height: 100%;
+    object-fit: cover;
+}
+
+.club_bullets_imgs {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.swiper-horizontal > .swiper-pagination-bullets.swiper-pagination-bullets-dynamic, 
+.swiper-pagination-horizontal.swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
+    height: 15px !important;
+}
+  

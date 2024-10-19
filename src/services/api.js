@@ -4,6 +4,7 @@ import axios from "axios";
 const endpoints = {
     // Por el momento se utiliza una API de fotos de perritos https://dog.ceo/dog-api/breeds-list
     perfilImagen: `https://dog.ceo/api/breeds/image/random`,
+    fotoPerfil: `https://randomuser.me/api/?results=10`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -11,4 +12,14 @@ export const obtenerImagenPerfil = () => {
         method: 'GET',
         url: endpoints.perfilImagen,
     }).then(response => response.data);
+}
+
+export const obtenerImagenPerfilAleatoria = () => {
+    return axios({
+        method: 'GET',
+        url: endpoints.fotoPerfil,
+    }).then(response => (
+        response, 
+        console.log(response)
+    ));
 }
