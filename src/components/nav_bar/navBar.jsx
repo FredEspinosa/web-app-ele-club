@@ -19,7 +19,7 @@ const NavBar = () => {
           navigate('/guia_de_estilos')
         break;
       case 'Chats':
-          navigate('/guia_de_estilos')
+          navigate('/chatbox')
         break;
       case 'Inicio':
           navigate('/home')
@@ -28,7 +28,8 @@ const NavBar = () => {
           navigate('/guia_de_estilos')
         break;  
       case 'Perfil':
-          navigate('/perfil')
+          navigate('/mi_perfil')
+          // navigate('/configuracion_perfil')
         break;
       default:
         break;

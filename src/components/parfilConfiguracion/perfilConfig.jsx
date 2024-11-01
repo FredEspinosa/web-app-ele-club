@@ -15,14 +15,14 @@ const PerfilConfig = () => {
 
 
   const redirectHome = () => {
-    navigate('/home')
+    navigate('/mi_perfil')
   }
  
   return (
     <div>
       <div className='club_contenedor_settings club_configuración_barra'>
         <div className='col-12 d-flex'>
-          <div className='col-5 d-flex align-items-center'>
+          <div className='col-5 d-flex align-items-center justify-content-start'>
             <button className='btn d-flex align-items-center club_color_fuente_blanco club_config_btn_back'
               onClick={ redirectHome }
             >

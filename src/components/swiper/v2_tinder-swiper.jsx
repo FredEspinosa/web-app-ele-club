@@ -1,14 +1,16 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import TinderCard from "react-tinder-card";
 import axios from "axios";
 import { IoHeartCircleSharp } from "react-icons/io5";
-import { obtenerImagenPerfilAleatoria } from "../../services/api";
 import { TiDelete } from "react-icons/ti";
 
 const TinderLikeCarouselV2 = () => {
   const [profiles, setProfiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0); // Para manejar la imagen actual
+  const [animacionBtnLike, setAnimacionBtnLike] = useState ('');
+  const [animacionBtnDislike, setAnimacionBtnDislike] = useState ('');
 
   const totalImages = 3; // Número total de imágenes (large, medium, thumbnail)
 
@@ -29,12 +31,20 @@ const TinderLikeCarouselV2 = () => {
 
   const handleLike = () => {
     console.log("Me gusta", profiles[currentIndex].name.first);
-    goToNextProfile();
+    setAnimacionBtnLike('animate__flip');    // Activa la animación
+    setTimeout(() => {    // Reinicia la animación después de que termine (duración de animate__rubberBand es ~1s)
+      setAnimacionBtnLike(''); // Resetea la animación
+    }, 1000); 
+    goToNextProfile(); // Cambia al siguiente perfil
   };
 
   const handleDislike = () => {
     console.log("No me gusta", profiles[currentIndex].name.first);
-    goToNextProfile();
+    setAnimacionBtnDislike('animate__rotateOut'); // Activa la animación
+    setTimeout(() => {  // Reinicia la animación después de que termine
+      setAnimacionBtnDislike(''); // Resetea la animación
+    }, 1000); 
+    goToNextProfile(); // Cambia al siguiente perfil
   };
 
   const goToNextProfile = () => {
@@ -57,9 +67,9 @@ const TinderLikeCarouselV2 = () => {
   };
 
   const handleSwipe = (direction) => {
-    if (direction === "right") {
+    if (direction === "left") {
       handleDislike();
-    } else if (direction === "left") {
+    } else if (direction === "right") {
       handleLike();
     }
   };
@@ -114,11 +124,11 @@ const TinderLikeCarouselV2 = () => {
         </div>
       )}
 
-      <div className="club_swiper_tache">
-        <TiDelete size={48.75} onClick={handleDislike} />
+      <div className={`club_swiper_tache`}>
+        <TiDelete size={48.75} onClick={handleDislike} className={`active animate__animated ${animacionBtnDislike}`} />
       </div>
-      <div className="club_swiper_corazon">
-        <IoHeartCircleSharp size={48.75} onClick={handleLike} />
+      <div className={`club_swiper_corazon`}>
+        <IoHeartCircleSharp size={48.75} onClick={handleLike} className={`active animate__animated ${animacionBtnLike}`} />
       </div>
     </div>
   );

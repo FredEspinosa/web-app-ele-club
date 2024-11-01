@@ -22,6 +22,8 @@ import IdentidadSexualPage from './pages/set_up_perfil_pages/identidad-sexual-pa
 import IdentidadGeGeneroPage from './pages/set_up_perfil_pages/identidad_de_genero';
 import EstatusDeRelacion from './components/set_up_perfil/estatus_relacion';
 import QueBuscaPage from './pages/set_up_perfil_pages/que_busca_page';
+import ConfiguracionCuenta from './pages/configuracion_cuenta';
+import Chats from './pages/chats';
 
 
 function App() {
@@ -57,8 +59,12 @@ function App() {
         element: <StyleGuide />
       },
       {
-        path: '/perfil',
+        path: '/mi_perfil',
         element: <PerfilPage />
+      },
+      {
+        path: '/configuracion',
+        element: <ConfiguracionCuenta />
       },
       {
         path: '/datos_personales',
@@ -87,6 +93,10 @@ function App() {
       {
         path: '/modal',
         element: <PermisosUbi />
+      },
+      {
+        path: '/chatbox',
+        element: <Chats />
       },
     ]
   )

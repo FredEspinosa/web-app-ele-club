@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { IoClose, IoMenu, IoSearch } from 'react-icons/io5'
-import LogoClubTopBar from '../../assets/images/LCLUB_LOGO.png'; // Importa la imagen como una URL
+import LogoClubTopBar from '../../assets/images/LCLUB_LOGO_BIG.png'; // Importa la imagen como una URL
 
 export const TopBarClub = () => {
 
@@ -19,7 +19,7 @@ const toggleMenu = () => {
                 </button>
             </div>
             <div className='col-4 d-flex justify-content-center'>
-                <img src={LogoClubTopBar} alt="Logo Club" />
+                <img src={LogoClubTopBar} alt="Logo Club" style={{maxWidth:'80px'}} />
             </div>
             <div className='col-4 d-flex justify-content-end'>
                 {(isMenuOpen &&

@@ -18,15 +18,15 @@ const TipoDeCuentaContenido = () => {
   return (
     <div className='club_contenedor_full_height'>
         <div className='club_contenedor container-lg'>
-            <div className='club_cont_info club_margin_top_63'>
-                <h1 className='club_titulo_general'>
+            <div className='club_cont_info club_margin_top_63 text-center'>
+                <h1 className='club_titulo_general d-flex flex-wrap'>
                     Escoge un tipo de cuenta para empezar
                 </h1>
                 <p>We want you to make all kinds of connections! You’ll be able to switch modes once you’re all set up.</p>
             </div>
-            <div className='club_tipo_cuenta_cont_btns'>
-                <button className='club_tipo_cuenta_btn' >Empresa</button>
-                <button className='club_tipo_cuenta_btn' onClick={siguientePagina}>Clubers</button>
+            <div className='club_tipo_cuenta_cont_btns d-flex justify-content-center flex-wrap'>
+                <button className='club_tipo_cuenta_btn col-12' >Empresa</button>
+                <button className='club_tipo_cuenta_btn col-12' onClick={siguientePagina}>Clubers</button>
             </div>
         </div>
         <Footer />

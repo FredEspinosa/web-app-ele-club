@@ -1,13 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useRef, useState } from 'react'
-import { CarrucelOpciones } from '../swiper/carrucelOpciones'
 import NavBar from '../nav_bar/navBar'
 import { TopBarClub } from '../top_bar/topBarClub'
 import InputDinamico from '../inputs/inputsDinamico'
 import { IoSearch } from 'react-icons/io5'
 import { FiFilter } from 'react-icons/fi'
-import TinderLikeCarousel from '../swiper/carrucel_dos'
-import SwipeCard from '../swiper/tinder-swiper'
 import TinderLikeCarouselV2 from '../swiper/v2_tinder-swiper'
 
 export const ContenidoHome = () => {
@@ -40,7 +37,7 @@ export const ContenidoHome = () => {
 
   return (
     <div>
-      <div className="club_contenedor_tres_secciones club_contenedor">
+      <div className="club_contenedor_tres_secciones club_contenedor container-lg">
           <div className="club_contenido_top club_cont_info">
             <TopBarClub />
           </div>
@@ -59,9 +56,6 @@ export const ContenidoHome = () => {
                       ))}
                     </form>
                   </div>
-                  {/* <CarrucelOpciones /> */}
-                  {/* <TinderLikeCarousel/> */}
-                  {/* <SwipeCard /> */}
                   <TinderLikeCarouselV2 />
                 </div>
           </div>

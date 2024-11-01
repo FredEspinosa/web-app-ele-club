@@ -16,7 +16,7 @@ import { obtenerImagenPerfil } from "../../services/api";
 import { TiDelete } from "react-icons/ti";
 import { IoHeartCircleSharp } from "react-icons/io5";
 
-export const CarrucelOpciones = () => {
+export const PerfilCarrucelFotos = () => {
     const [imagenesPerfiles, setImagenesPerfiles] = useState([SlidePrueba2]); // Estado con imágenes
     const [error, setError] = useState(null); // Estado para manejar errores
     const [swiperInstance, setSwiperInstance] = useState(null); // Estado para guardar la instancia del Swiper
@@ -69,7 +69,8 @@ export const CarrucelOpciones = () => {
         {/* Mapeamos las imágenes en el Swiper */}
         {imagenesPerfiles.map((imagen, index) => (
             <SwiperSlide key={index}>
-                <div className="club_contenedor_diamante">
+                {/* <div className="club_contenedor_diamante"> */}
+                <div className="club_contenedor_foto_perfil">
                     {error ? (
                         <p>{error}</p>
                     ) : (
