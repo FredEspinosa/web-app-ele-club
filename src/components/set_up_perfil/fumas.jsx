@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
 
-const Pronombres = () => {
+const Habitos = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
 
-    const opciones = ['Ella/ella', 'Él/ella', 'Ella/elle', 'Prefiero no decir'];
-    const tituloDeLista = 'Cuál es tu pronombre?'
+    const opciones = ['Si', 'No', 'Social', 'De la verde', 'Prefiero no decir'];
+    const tituloDeLista = 'Fumas?'
     const iconoCheck = <FaCheck size={24} style={{color:'#CA4794'}} />
   
     const handleOptionSelect = (value) => {
@@ -20,7 +20,11 @@ const Pronombres = () => {
     };
 
     const handleRegresar = () => {
-        navigate('/datos_personales')
+        navigate('/signo_zodiacal')
+    }
+
+    const handleOmitir = () => {
+        navigate('/notificaciones')
     }
 
     useEffect(() => {
@@ -36,13 +40,13 @@ const Pronombres = () => {
         if (selectedValue) {
             const nuevosDatos = {
                 ...datosUsuario, // Mantén los datos actuales
-                Pronombre: selectedValue // Agrega la nueva opción seleccionada
+                Fumas: selectedValue // Agrega la nueva opción seleccionada
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
-                navigate('/identidad_sexual');
+                navigate('/notificaciones');
             }, 300);
         } else {
             console.log("No se ha seleccionado ninguna opción");
@@ -81,10 +85,16 @@ const Pronombres = () => {
                 </div>
                 <div className="club_cont_btns_full club_notificaciones_btns">
                     <button
-                    className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
-                    onClick={() => handleContinuar()}
+                        className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
+                        onClick={() => handleContinuar()}
                     >
-                    Continuar
+                        Continuar
+                    </button>
+                    <button
+                        className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_violeta club_color_fuente_violeta_07"
+                        onClick={() => handleOmitir()}
+                    >
+                        Completar después
                     </button>
                 </div>
             </div>
@@ -93,4 +103,4 @@ const Pronombres = () => {
   )
 }
 
-export default Pronombres
+export default Habitos

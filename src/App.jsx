@@ -24,6 +24,11 @@ import EstatusDeRelacion from './components/set_up_perfil/estatus_relacion';
 import QueBuscaPage from './pages/set_up_perfil_pages/que_busca_page';
 import ConfiguracionCuenta from './pages/configuracion_cuenta';
 import Chats from './pages/chats';
+import CuantoMides from './pages/set_up_perfil_pages/cuanto_mides';
+import CincoIntereses from './pages/set_up_perfil_pages/cinco_intereses';
+import TienesMascotas from './pages/set_up_perfil_pages/tienes_mascotas';
+import TuSignoZodiacal from './pages/set_up_perfil_pages/tu_signo_zodiacal';
+import Tushabitos from './pages/set_up_perfil_pages/tus_habitos';
 
 
 function App() {
@@ -45,10 +50,6 @@ function App() {
       {
         path: '/crear_cuenta',
         element: <CrearCuenta />
-      },
-      {
-        path: '/notificaciones',
-        element: <NotificacionesPage />
       },
       {
         path: '/home',
@@ -89,6 +90,30 @@ function App() {
       {
         path: '/que_buscas',
         element: <QueBuscaPage />
+      },
+      {
+        path: '/cuanto_mides',
+        element: <CuantoMides />
+      },
+      {
+        path: '/tus_intereses',
+        element: <CincoIntereses />
+      },
+      {
+        path: '/tienes_mascotas',
+        element: <TienesMascotas />
+      },
+      {
+        path: '/signo_zodiacal',
+        element: <TuSignoZodiacal />
+      },
+      {
+        path: '/fumas',
+        element: <Tushabitos />
+      },
+      {
+        path: '/notificaciones',
+        element: <NotificacionesPage />
       },
       {
         path: '/modal',

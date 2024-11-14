@@ -157,7 +157,10 @@ const CrearCuentaContenido = () => {
                                 <h1 className='club_titulo_2_size_22 club_font_regular text-center'>¿Cuál es tu teléfono?</h1>
                             </div>
                             <div className='col-12 d-flex justify-content-start'>
-                                <p className='club_notificaciones_txt text-start'>¿Empezar de cero? ¿Volver a iniciar sesión? De cualquier manera, comencemos con tus números. Protegemos a nuestra comunidad asegurándonos de que todos los miembros de L Club sean reales.</p>
+                                <p className='club_notificaciones_txt text-start'>
+                                    ¿Empezar de nuevo? ¿Volver a iniciar sesión? De cualquier manera, comencemos con tus dígitos.
+                                    Protegemos nuestra comunidad asegurándonos de que todos en Helena sean reales.
+                                </p>
                             </div>
                             <div className='col-12 club_margin_top_56'>
                                 <form ref={formRef}> {/* Agrega la referencia al formulario */}

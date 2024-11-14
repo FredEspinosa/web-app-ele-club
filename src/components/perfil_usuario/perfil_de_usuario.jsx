@@ -13,24 +13,32 @@ import SlidePrueba3 from "../../assets/images/imgs_slide/imagen_prueba_3.png";
 import SlidePrueba4 from "../../assets/images/imgs_slide/imagen_prueba_4.png";
 import { MdOutlineEditNote } from "react-icons/md";
 import { IoHeartOutline } from "react-icons/io5";
+import NavBar from "../nav_bar/navBar";
 
 const UserProfile = () => {
     const navigate = useNavigate();
     const [editaPerfil,setEditaPerfil] = useState(true)
     const [isEditing, setIsEditing] = useState(false);
     const [topBarTitle, setTopBarTitle] = useState('Mi perfil');
-    const [animPreferencias, setAnimPreferencias] = useState('heartbeat');
+    const [perfilProgress, setPerfilProgress]= useState('65%')
     const [dataUser, setDataUser] = useState({
         Apellidos: "",
         Busca: "",
         CodigoPais: "",
         Correo: "",
+        Delegacion:"",
+        Edad:"",
+        Estatura:"",
         EstatusRelacion: "",
         FechaNacimiento: "",
+        Fumas:"",
         IdentidadDeGenero: "",
         IdentidadSexual: "",
+        Intereses:"",
+        Mascotas:[],
         Nombres: "",
         Pronombre: "",
+        SignoZodiacal:"",
         Telefono: "",
         FotoPerfil: "",
         FotosCarrucel: [],
@@ -44,6 +52,11 @@ const UserProfile = () => {
         SlidePrueba3,
         SlidePrueba4,
     ]);
+    // const infoSeleccionadsPerfil = [
+    //     "Edad", 
+    //     "Pronombre", 
+    //     "Delegación",
+    // ]; // Hace un filtrado de los campos que quiero mostrar
     
     useEffect(() => {
         const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
@@ -92,7 +105,7 @@ const UserProfile = () => {
     }, [topBarTitle]);
 
   return (
-    <div>
+    <div id="perfilUsuario">
         <div className='club_perfil_barra'>
             <div className='col-12 d-flex club_contenedor club_bg_violeta_07'>
                 <div className='col-3 d-flex align-items-center justify-content-start'>
@@ -151,33 +164,80 @@ const UserProfile = () => {
                             <h1 className="club_texto_sombreado_blanco">¡Hola {dataUser.Nombres}!</h1>
                         </div>
                     </div>
-                    <div className='club_perfil_cont_fotos'>
-                        {/* <PerfilCarrucelFotos /> */}
+                    {/* <div className='club_perfil_cont_fotos'>
                         <CarruselPerfilUsuario
                             setNombres={dataUser.Nombres}
                             setEdad={'24'}
                             setPronombres={dataUser.Pronombre}
                             userPhotos={userPhotos}
                         />
+                    </div> */}
+
+                    <div className="club_cont_barra">
+                        <span>Completa tu perfil <span>{perfilProgress}</span></span>
+                        <div className='club_barra_progreso'>
+                            <div className='club_progreso active'></div>
+                            <div className='club_progreso active'></div>
+                            <div className='club_progreso active animate__animated animate__bounceIn'></div>
+                            <div className='club_progreso'></div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+
+                <div className="club_cont_data_perfil">
+                    <h3 className="club_txt_titular">{dataUser.Edad} años</h3>
+                    <div className="d-flex flex-wrap">
+                        <span className="club_txt_caption w-100">{dataUser.Pronombre}</span>
+                        <span className="club_txt_caption w-100">{dataUser.Delegacion ? dataUser.Delegacion : 'CDMX'}</span>
+                    </div>
+                </div>
+                <div className="club_cont_data_perfil">
+                    <h3 className="club_txt_titular">Acerca de mi</h3>
+                    <div className="d-flex flex-wrap">
+                        <span className="club_txt_caption w-100">{dataUser.Busca}</span>
+                    </div>
+                </div>
+                <div className="club_cont_data_perfil">
+                    <h3 className="club_txt_titular">Identidad de género</h3>
+                    <div className="d-flex flex-wrap">
+                        <span className="club_txt_caption w-100">{dataUser.IdentidadDeGenero}</span>
                     </div>
                 </div>
 
+                <div className="club_cont_data_perfil">
+                    <h3 className="club_txt_titular">Identidad sexual</h3>
+                    <div className="d-flex flex-wrap">
+                        <span className="club_txt_caption w-100">{dataUser.IdentidadSexual}</span>
+                    </div>
+                </div>
+                
+
                 <br />
                 <br />
 
-                <div className='col-12 d-flex club_contenedor flex-wrap'>
+                {/* <div className='col-12 d-flex club_contenedor flex-wrap'>
                     <div className="club_perfil_pensamiento">
                         <h3 className="club_perfil_pensamiento_titulo club_texto_sombreado_blanco">¿Qué piensas?</h3>
                     </div>
                     <div className="club_perfil_pensamiento_texto">
                         <p className="">{dataUser.Bio ? dataUser.Bio : 'Soy hermosa'}</p>
                     </div>
+                </div> */}
+                <div className="club_cont_btns_full club_notificaciones_btns">
+                    <button
+                        className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
+                        // onClick={() => handleContinuar()}
+                    >
+                        Suscibirse
+                    </button>
                 </div>
 
                 <br />
                 <br />
 
-                <div className='col-12 d-flex flex-wrap club_contenedor flex-wrap'>
+                {/* <div className='col-12 d-flex flex-wrap club_contenedor flex-wrap'>
                     <div className="club_perfil_pensamiento">
                         <h3 className="club_perfil_pensamiento_titulo club_texto_sombreado_blanco">Mis preferencias</h3>
                     </div>
@@ -211,7 +271,7 @@ const UserProfile = () => {
                         </div>
                         <div className="col-4"></div>
                     </div>
-                </div>
+                </div> */}
 
                 <br />
                 <br />
@@ -265,6 +325,7 @@ const UserProfile = () => {
                     <button
                         type="submit"
                         className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
+                        style={{marginBottom:'120px'}}
                         onClick={() => {setEditaPerfil(true)}}
                     >
                         Actualizar Información
@@ -273,6 +334,7 @@ const UserProfile = () => {
             </div>
         // </div>
         }
+        <NavBar />
     </div>
   );
 };

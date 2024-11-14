@@ -15,7 +15,7 @@ const ProfilePicture = ({ src, onEdit }) => {
   };
 
   return (
-    <div>
+    <div className="d-flex flex-wrap w-100">
         <div className='col-12 d-flex club_contenedor'>
             <div className="club_cont_perfil_foto club_margin_bar_40">
                 <div className="col-12 d-flex justify-content-start text-start">

@@ -181,13 +181,13 @@ const ContenidoBienvenida = () => {
                     <img src={LogoClubTopBarBig} alt="Logo Club" />
                 </div>
                 <div className='col-12 text-center club_bienvenida_info club_cont_info_grow_1'>
-                    <h1 className='col-12'>¡Te damos la bienvenida a <br />L CLUB!</h1>
+                    <h1 className='col-12'>¡Te damos la bienvenida a <br />Helena!</h1>
                     <p className='col-12'>
                         Este mundo mágico esta hecho para mujeres sáficas como tú, que quieren conocer el amor, crear un nuevo grupito de amigas y sobre todo estar informadas de los próximos planes, solo para mujeres.
                     </p>
-                    <div className='club_bienbenida_bandera_img'>
+                    {/* <div className='club_bienbenida_bandera_img'>
                         <img src={FlagBienvenida} alt="" />
-                    </div>
+                    </div> */}
                 </div>
                 <div className='club_cont_btns_full club_bienvenida_btns'>
                     <button className='btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08' onClick={() => { handleClick('Bienvenida'); }}>Iniciar el recorrido</button>
@@ -197,14 +197,16 @@ const ContenidoBienvenida = () => {
         }
         {showChats && 
             <div className='club_contenedor container-lg club_sub_contenedor'>
-                <div className='club_onboarding_img'>
+                {/* <div className='club_onboarding_img'>
                     <img src={ImgChats} alt="Logo Club" />
-                </div>
-                <div className='col-12 text-center club_onboarding_info'>
-                    <h1 className='col-12'>Chats</h1>
-                    <p className='col-12'>
-                        Copy de Chats --
-                    </p>
+                </div> */}
+                <div className='col-12 text-center club_onboarding_info d-flex align-items-center'>
+                    <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
+                        <h1 className='col-12'>CONECTA</h1>
+                        <p className='col-12'>
+                            Copy
+                        </p>
+                    </div>
                 </div>
                 <div className='club_onboarding_bullets_cont'>
                     <span className='club_onboarding_bullet active'></span>
@@ -224,14 +226,16 @@ const ContenidoBienvenida = () => {
         }
         {showPerfil && 
             <div className='club_contenedor container-lg club_sub_contenedor'>
-                <div className='club_onboarding_img'>
+                {/* <div className='club_onboarding_img'>
                     <img src={ImgPerfil} alt="Logo Club" />
-                </div>
-                <div className='col-12 text-center club_onboarding_info'>
-                    <h1 className='col-12'>Perfil</h1>
-                    <p className='col-12'>
-                        Te recomendamos crear un perfil para visualizar de manera rápida y segura tus datos, trámites y solicitudes.
-                    </p>
+                </div> */}
+                <div className='col-12 text-center club_onboarding_info d-flex align-items-center'>
+                    <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
+                        <h1 className='col-12'>DESCUBRE</h1>
+                        <p className='col-12'>
+                            Copy
+                        </p>
+                    </div>
                 </div>
                 <div className='club_onboarding_bullets_cont'>
                     <span className='club_onboarding_bullet active'></span>
@@ -251,14 +255,16 @@ const ContenidoBienvenida = () => {
         }
         {showClubers && 
             <div className='club_contenedor container-lg club_sub_contenedor'>
-                <div className='club_onboarding_img'>
+                {/* <div className='club_onboarding_img'>
                     <img src={ImgClubers} alt="Logo Club" />
-                </div>
-                <div className='col-12 text-center club_onboarding_info'>
-                    <h1 className='col-12'>Clubers</h1>
-                    <p className='col-12'>
-                        Descubre las campañas más actuales con las que cuenta el IMSS.
-                    </p>
+                </div> */}
+                <div className='col-12 text-center club_onboarding_info d-flex align-items-center'>
+                    <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
+                        <h1 className='col-12'>HANGUEA</h1>
+                        <p className='col-12'>
+                            Copy
+                        </p>
+                    </div>
                 </div>
                 <div className='club_onboarding_bullets_cont'>
                     <span className='club_onboarding_bullet active'></span>
@@ -279,14 +285,16 @@ const ContenidoBienvenida = () => {
 
         {showEventos && 
             <div className='club_contenedor container-lg club_sub_contenedor'>
-                <div className='club_onboarding_img'>
+                {/* <div className='club_onboarding_img'>
                     <img src={ImgEventos} alt="Logo Club" />
-                </div>
-                <div className='col-12 text-center club_onboarding_info'>
-                    <h1 className='col-12'>Eventos</h1>
-                    <p className='col-12'>
-                        Descubre los artículos actuales de nuestra Revista.
-                    </p>
+                </div> */}
+                <div className='col-12 text-center club_onboarding_info d-flex align-items-center'>
+                    <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
+                        <h1 className='col-12'>DISFRUTA</h1>
+                        <p className='col-12'>
+                            Copy
+                        </p>
+                    </div>
                 </div>
                 <div className='club_onboarding_bullets_cont'>
                     <span className='club_onboarding_bullet active'></span>

@@ -75,6 +75,7 @@ const IdentidadGenero = () => {
                             onOptionSelect={handleOptionSelect} 
                             tituloDeLista = {tituloDeLista}
                             iconoCheck={iconoCheck} 
+                            multiselect={false}
                         />
                     </div>
                 </div>

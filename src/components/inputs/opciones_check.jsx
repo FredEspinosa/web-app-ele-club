@@ -1,14 +1,23 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react'
-import { FaCheck } from 'react-icons/fa';
 
-const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck }) => {
+const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, multiselect }) => {
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOptions, setSelectedOptions] = useState([]); // Almacena múltiples opciones si multiselect es true
   
     const handleOptionClick = (opcion) => {
-      setSelectedOption(opcion);
-      onOptionSelect(opcion);  // Devuelve la opción seleccionada al componente padre
+      if (multiselect) {
+        // Si es multiselección, agrega o elimina la opción del array
+        setSelectedOptions(prevOptions => 
+          prevOptions.includes(opcion) 
+            ? prevOptions.filter(item => item !== opcion)
+            : [...prevOptions, opcion]
+        );
+      } else {
+        // Si no es multiselección, reemplaza la opción seleccionada
+        setSelectedOptions([opcion]);
+      }
+      onOptionSelect(multiselect ? [...selectedOptions, opcion] : opcion); // Devuelve la opción seleccionada al componente padre
     };
 
   return (
@@ -23,13 +32,13 @@ const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck }) 
                 onClick={() => handleOptionClick(opcion)}
                 >
                 {opcion}
-                {selectedOption === opcion && <div>{iconoCheck}</div>} {/* Muestra el icono de check si está seleccionada */}
+                {selectedOptions.includes(opcion) && <div>{iconoCheck}</div>} {/* Muestra el icono de check si está seleccionada */}
                 </li>
             ))}
             </ul>
         </div>
     </div>
-  )
+  );
 }
 
-export default OpcionesCheck
+export default OpcionesCheck;

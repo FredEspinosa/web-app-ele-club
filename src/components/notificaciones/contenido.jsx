@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LogoClubTopBarBig from '../../assets/images/LCLUB_LOGO_BIG.png'; // Importa la imagen como una URL 
 import { useNavigate } from 'react-router-dom';
 import PermisosUbi from './popupPermiosUbicacion';
@@ -12,6 +12,14 @@ const NotificacionesContenido = () => {
     const [showPermisoUbi, setShowPermisoUbi] = useState (false);
     const [showAceptar, setShowAceptar] = useState (false);
     const [showModal, setShowModal] = useState (false);
+    const [datosUsuario, setDatosUsuario] = useState({});
+
+    useEffect(() => {
+        const datosGuardados = localStorage.getItem("datosUsuario");
+        if (datosGuardados) {
+            setDatosUsuario(JSON.parse(datosGuardados));
+        }
+    }, []);
 
     // Función que actualiza la opción activa
     const handleClick = (option) => {
@@ -28,7 +36,7 @@ const NotificacionesContenido = () => {
             break;
         case 'Aceptar':
             setShowAceptar(true);
-            navigate('/home')
+            handleContinuar()
             break;
         case 'Omitir':
             navigate('/home')
@@ -38,9 +46,44 @@ const NotificacionesContenido = () => {
         }
     };
 
-    const cerrarModal = () => {
+    const guardarUbicacion = (ubicacion) => {
+        console.log("ubicacion", ubicacion);
+
+        //Funcion para obtener el nombre de la ubicación
+        const lat = ubicacion.latitude;
+        const lng = ubicacion.longitude;
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const lugar = data.display_name;
+                const deleg = data.address?.county || 'Delegación no disponible'; // Usar optional chaining y un valor por defecto
+            
+                console.log("lugar", lugar);
+                console.log("delegación", deleg);
+            
+                setDatosUsuario((prevDatos) => ({
+                    ...prevDatos,
+                    // Ubicacion: ubicacion,
+                    Delegacion: deleg,
+                }));
+            });
+            
+    };
+
+    const handleCerrarModal = () => {
         setShowModal(false)
     }
+
+    const handleContinuar = () => {
+        const nuevosDatos = { ...datosUsuario };
+        localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
+        console.log("Datos actualizados guardados:", nuevosDatos);
+        setTimeout(() => {
+            navigate('/home');
+        }, 300);
+    };
 
   return (
     <div>
@@ -107,7 +150,8 @@ const NotificacionesContenido = () => {
         </div>
         {showModal && 
             <PermisosUbi
-                cerrarModal={cerrarModal}
+                cerrarModal={handleCerrarModal} 
+                guardarUbicacion={guardarUbicacion}
             />
         }
     </div>

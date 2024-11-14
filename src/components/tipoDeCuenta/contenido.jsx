@@ -22,11 +22,11 @@ const TipoDeCuentaContenido = () => {
                 <h1 className='club_titulo_general d-flex flex-wrap'>
                     Escoge un tipo de cuenta para empezar
                 </h1>
-                <p>We want you to make all kinds of connections! You’ll be able to switch modes once you’re all set up.</p>
+                <p>¡Queremos que hagas todo tipo de conexiones! Podrás cambiar de modo una vez que estés todo configurado.</p>
             </div>
             <div className='club_tipo_cuenta_cont_btns d-flex justify-content-center flex-wrap'>
                 <button className='club_tipo_cuenta_btn col-12' >Empresa</button>
-                <button className='club_tipo_cuenta_btn col-12' onClick={siguientePagina}>Clubers</button>
+                <button className='club_tipo_cuenta_btn col-12' onClick={siguientePagina}>Sáficas</button>
             </div>
         </div>
         <Footer />

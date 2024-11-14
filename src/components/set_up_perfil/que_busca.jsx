@@ -42,7 +42,7 @@ const QueBusca = () => {
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
-                navigate('/notificaciones');
+                navigate('/cuanto_mides');
             }, 300);
         } else {
             console.log("No se ha seleccionado ninguna opción");
@@ -75,6 +75,7 @@ const QueBusca = () => {
                             onOptionSelect={handleOptionSelect} 
                             tituloDeLista = {tituloDeLista}
                             iconoCheck={iconoCheck} 
+                            multiselect={false}
                         />
                     </div>
                 </div>
