@@ -29,6 +29,7 @@ import CincoIntereses from './pages/set_up_perfil_pages/cinco_intereses';
 import TienesMascotas from './pages/set_up_perfil_pages/tienes_mascotas';
 import TuSignoZodiacal from './pages/set_up_perfil_pages/tu_signo_zodiacal';
 import Tushabitos from './pages/set_up_perfil_pages/tus_habitos';
+import ConfirmaCodigo from './pages/confirma_codigo';
 
 
 function App() {
@@ -58,6 +59,10 @@ function App() {
       {
         path: '/guia_de_estilos',
         element: <StyleGuide />
+      },
+      {
+        path: '/codigo_de_confirmacion',
+        element: <ConfirmaCodigo />
       },
       {
         path: '/mi_perfil',

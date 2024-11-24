@@ -36,7 +36,7 @@ export const ContenidoHome = () => {
     ];
 
   return (
-    <div>
+    <div id='clubHome'>
       <div className="club_contenedor_tres_secciones club_contenedor container-lg">
           <div className="club_contenido_top club_cont_info">
             <TopBarClub />

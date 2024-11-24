@@ -113,7 +113,7 @@ const TinderLikeCarouselV2 = () => {
           </TinderCard>
 
           {/* Nombre y Datos de la Persona */}
-          <div className="col-12">
+          <div className="col-12 club_carrucel_datos_persona">
             <h3 className="col-12">
               {profiles[currentIndex].name.first} {profiles[currentIndex].name.last}
             </h3>

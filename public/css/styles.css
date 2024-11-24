@@ -2,6 +2,9 @@
 
 :root {
     --color-background-negro: #000000;
+    --color-background-blanco: #ffffff;
+    --color-primario-oro: #BC8D40;
+    --color-primario-naranja: #FF9D5F;
     /* Colores violeta */
     --color-primario-violeta-01: #FFC1E5;
     --color-primario-violeta-02: #FC9ED5;
@@ -53,8 +56,8 @@
 } */
 
 body {
-    background-color: var(--color-background-negro);
-    color: var(--color-neutral-blanco-06);
+    background-color: var(--color-background-blanco);
+    color: var(--color-background-negro);
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -95,6 +98,12 @@ p {
 
 .club_padding_top_26 {
     padding-top: 26px;
+}
+
+/* Colores de fondo oro  */
+
+.club_bg_oro {
+    background-color: var(--color-primario-oro);
 }
 
 /* Colores de fondo violeta  */
@@ -205,8 +214,16 @@ p {
 
 /* Colores de letra neutros */
 
+.club_color_fuente_negro {
+    color: var(--color-background-negro) !important;
+}
+
 .club_color_fuente_blanco {
     color: var(--color-neutral-blanco-06) !important;
+}
+
+.club_color_fuente_oro {
+    color: var(--color-primario-oro) !important;
 }
 
 .club_color_fuente_gris_01 {
@@ -426,6 +443,12 @@ p {
     color: var(--color-neutral-gris-02) !important;
 }
 
+.club_btn_borde_oro {
+    background: transparent !important;
+    border: 1px solid var(--color-primario-oro) !important;
+    color: var(--color-background-negro) !important;
+}
+
 .club_btn_borde_violeta {
     background: transparent !important;
     border: 1px solid var(--color-primario-violeta-08) !important;
@@ -563,7 +586,7 @@ p {
     font-weight: 400;
     line-height: 24px;
     text-align: left;
-    border-bottom: 4px solid var(--color-primario-violeta-07);
+    /* border-bottom: 4px solid var(--color-primario-violeta-07); */
 }
 
 .club_input_campo:focus {
@@ -630,7 +653,7 @@ p {
     height: 56px;
     display: flex;
     align-items: center;
-    background-color: var(--color-primario-violeta-07);
+    background-color: var(--color-primario-violeta-05);
     padding: 16px 24px;
     position: fixed;
     top: 0%;
@@ -657,7 +680,7 @@ p {
 /* Estilos para la barra de navegacion */
 
 .club_nav_bar {
-    background: var(--color-primario-violeta-12);
+    background: var(--color-primario-violeta-05);
     width: 100%;
     height: 98px;
     position: fixed;
@@ -672,7 +695,7 @@ p {
     justify-content: space-around;
     padding: 16px 24;
     height: 98px;
-    color: var(--color-primario-violeta-07);
+    color: var(--color-neutral-blanco-06);
 }
 
 .club_nav_opcion_icono {
@@ -703,9 +726,9 @@ p {
 .club_nav_opcion_icono.active div {
     width: 48px;
     height: 48px;
-    background: var(--color-primario-violeta-07);
+    background: var(--color-primario-naranja);
     border-radius: 50%;
-    box-shadow: 0 0 0 4px var(--color-background-negro);
+    box-shadow: 0 0 0 4px var(--color-neutral-blanco-06);
     /* Borde con color blanco (del fondo del body) */
 }
 
@@ -1040,7 +1063,7 @@ p {
 }
 
 .club_bienvenida_btns .club_btn_full_general {
-    color: var(--color-neutral-blanco-06) !important;
+    color: var(--color-neutral-blanco-06);
 }
 
 .club_bienbenida_bandera_img {
@@ -1082,7 +1105,7 @@ p {
 }
 
 .club_tipo_cuenta_footer p {
-    color: var(--color-neutral-blanco-06) !important;
+    /* color: var(--color-neutral-blanco-06) !important; */
     text-align: center;
 }
 
@@ -1093,12 +1116,7 @@ p {
 }
 
 .club_onboarding_info {
-    /* width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start; */
-    margin-top: 50px;
+    margin-bottom: 40px;
     flex-grow: 1;
 }
 
@@ -1107,7 +1125,7 @@ p {
     font-size: 22px;
     font-weight: 400;
     line-height: 33px;
-    margin-bottom: 50px;
+    margin-bottom: 24px;
 }
 
 .club_onboarding_info p {
@@ -1140,7 +1158,7 @@ p {
 }
 
 .club_onboarding_bullet.active {
-    background-color: var(--color-primario-violeta-08);
+    background-color: var(--color-primario-oro);
 }
 
 /* Estilos para el tipo de cuenta */
@@ -1241,7 +1259,7 @@ p {
 }
 
 .club_modal .modal-content {
-    background-color: var(--color-neutral-gris-01);
+    background-color: var(--color-background-blanco);
 }
 
 /* Estilos para Creacion de cuenta */
@@ -1251,6 +1269,18 @@ p {
     width: 100%;
     color: var(--color-background-negro);
     background-color: var(--color-neutral-blanco-06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    border-radius: 100px;
+}
+
+.club_btn_negro {
+    height: 50px;
+    width: 100%;
+    color: var(--color-neutral-blanco-06);
+    background-color: var(--color-background-negro);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1283,6 +1313,7 @@ p {
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
+    color: var(--color-neutral-blanco-06);
 }
 
 .club_cont_barra .club_barra_progreso {
@@ -1290,7 +1321,7 @@ p {
 }
 
 #clubDatosPersonales .club_progreso.active {
-    background-color: var(--color-primario-violeta-07);
+    background-color: var(--color-primario-oro);
 }
 
 .club_input,
@@ -1298,11 +1329,14 @@ p {
     margin-bottom: 15px;
 }
 
-.club_input_icon_der,
 .club_input_label,
-#clubDatosPersonales .club_input_icon_der,
 #clubDatosPersonales .club_input_label {
-    color: var(--color-neutral-blanco-06);
+    color: var(--color-background-negro);
+}
+
+.club_input_icon_der,
+#clubDatosPersonales .club_input_icon_der {
+    color: var(--color-background-blanco);
 }
 
 .club_input_campo,
@@ -2003,6 +2037,47 @@ input[type="file"] {
 
 #perfilUsuario .club_cont_barra {
     background-color: transparent !important;
+}
+
+.club_carrucel_datos_persona {
+    color: var(--color-background-negro);
+}
+
+/* Estilos para el componente de codigo de celilar  */
+
+.club_cont_info_codigo {
+    margin-top: 80px;
+    display: flex;
+}
+
+.club_txt_titulo {
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 19.36px;
+    letter-spacing: 0.005em;
+    text-align: center;
+}
+
+.club_cont_inputs_codigo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#clubCodigoVerify .club_input_codigo {
+    width: 48px;
+    height: 48px;
+    padding: 12px 16px 12px 16px;
+    gap: 8px;
+    border-radius: 12px;
+    border: 1px solid #C5C6CC !important;
+    text-align: center;
+}
+
+#clubCodigoVerify .club_input_codigo:focus {
+    border: 1px solid var(--color-primario-oro) !important;
+    color: var(--color-primario-oro);
+    box-shadow: 0 0 3px var(--color-primario-oro);
 }
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 

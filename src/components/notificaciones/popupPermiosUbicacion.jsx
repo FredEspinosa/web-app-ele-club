@@ -60,7 +60,7 @@ const PermisosUbi = ({ cerrarModal, guardarUbicacion }) => {
             </div>
             <div className="modal-footer">
               <button className="btn club_btn club_btn_borde_gris club_color_fuente_gris_01" onClick={handleCancelar}>Cancelar</button>
-              <button className="btn club_btn club_bg_violeta_08 club_color_fuente_blanco" onClick={handleAceptar}>Aceptar</button>
+              <button className="btn club_btn club_bg_oro club_color_fuente_blanco" onClick={handleAceptar}>Aceptar</button>
             </div>
           </div>
         </div>

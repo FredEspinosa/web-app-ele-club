@@ -9,6 +9,10 @@ import ImgChats from '../../assets/images/onboarding/Chats.png';
 import ImgPerfil from '../../assets/images/onboarding/Perfil.png';
 import ImgClubers from '../../assets/images/onboarding/Clubers.png';
 import ImgEventos from '../../assets/images/onboarding/Eventos.png'
+import Bienvenida01 from '../../assets/images/bienvenida/bienveida_01.jpg'
+import Bienvenida02 from '../../assets/images/bienvenida/bienveida_02.jpg'
+import Bienvenida03 from '../../assets/images/bienvenida/bienveida_03.jpg'
+
 
 const ContenidoBienvenida = () => {
     const navigate = useNavigate();
@@ -18,6 +22,7 @@ const ContenidoBienvenida = () => {
     const [showPerfil, setShowPerfil] = useState (false);
     const [showClubers, setShowClubers] = useState (false);
     const [showEventos, setShowEventos] = useState (false);
+    const [showFooter, setShowFooter] = useState (false);
     const [activeOption, setActiveOption] = useState('');
     let pasoActual = ''
 
@@ -35,6 +40,7 @@ const ContenidoBienvenida = () => {
                     setShowPerfil(false)
                     setShowClubers(false)
                     setShowEventos(false)
+                    setShowFooter(true)
                     break;
                 case 'Chats':
                     setShowNav(true)
@@ -43,6 +49,7 @@ const ContenidoBienvenida = () => {
                     setShowPerfil(false)
                     setShowClubers(false)
                     setShowEventos(false)
+                    setShowFooter(false)
                     break;
                 case 'Perfil':
                     setShowNav(true)
@@ -51,6 +58,7 @@ const ContenidoBienvenida = () => {
                     setShowPerfil(true)
                     setShowClubers(false)
                     setShowEventos(false)
+                    setShowFooter(false)
                     break;
                 case 'Clubers':
                     setShowNav(true)
@@ -59,6 +67,7 @@ const ContenidoBienvenida = () => {
                     setShowPerfil(false)
                     setShowClubers(true)
                     setShowEventos(false)
+                    setShowFooter(false)
                     break;
                 case 'Eventos':
                     setShowNav(true)
@@ -67,6 +76,7 @@ const ContenidoBienvenida = () => {
                     setShowPerfil(false)
                     setShowClubers(false)
                     setShowEventos(true)
+                    setShowFooter(false)
                     break;
                 default:
                     break;
@@ -86,6 +96,7 @@ const ContenidoBienvenida = () => {
             setShowPerfil(false)
             setShowClubers(false)
             setShowEventos(false)
+            setShowFooter(false)
             break;
         case 'Chats':
             pasoActual = 'Perfil'
@@ -95,6 +106,7 @@ const ContenidoBienvenida = () => {
             setShowPerfil(true)
             setShowClubers(false)
             setShowEventos(false)
+            setShowFooter(false)
             break;
         case 'ChatsBack':
             pasoActual = 'Bienvenida'
@@ -104,6 +116,7 @@ const ContenidoBienvenida = () => {
             setShowPerfil(false)
             setShowClubers(false)
             setShowEventos(false)
+            setShowFooter(false)
             break;
         case 'Perfil':
             pasoActual = 'Clubers'
@@ -113,6 +126,7 @@ const ContenidoBienvenida = () => {
             setShowPerfil(false)
             setShowClubers(true)
             setShowEventos(false)
+            setShowFooter(false)
             break;
         case 'PerfilBack':
             pasoActual = 'Chats'
@@ -122,6 +136,7 @@ const ContenidoBienvenida = () => {
             setShowPerfil(false)
             setShowClubers(false)
             setShowEventos(false)
+            setShowFooter(false)
             break;
         case 'Clubers':
             pasoActual = 'Eventos'
@@ -131,6 +146,8 @@ const ContenidoBienvenida = () => {
             setShowPerfil(false)
             setShowClubers(false)
             setShowEventos(true)
+            setShowFooter(false)
+            navigate('/crear_cuenta')
             break;
         case 'ClubersBack':
             pasoActual = 'Perfil'
@@ -140,6 +157,7 @@ const ContenidoBienvenida = () => {
             setShowPerfil(true)
             setShowClubers(false)
             setShowEventos(false)
+            setShowFooter(false)
             break;
         case 'Eventos':
             pasoActual = 'Eventos'
@@ -149,7 +167,9 @@ const ContenidoBienvenida = () => {
             setShowPerfil(false)
             setShowClubers(false)
             setShowEventos(false)
-            navigate('/tipo_de_cuenta')
+            setShowFooter(false)
+            // navigate('/tipo_de_cuenta')
+            navigate('/crear_cuenta')
             break;  
         case 'EventosBack':
             pasoActual = 'Clubers'
@@ -159,6 +179,7 @@ const ContenidoBienvenida = () => {
             setShowPerfil(false)
             setShowClubers(true)
             setShowEventos(false)
+            setShowFooter(false)
             break;
         default:
             break;
@@ -167,14 +188,15 @@ const ContenidoBienvenida = () => {
     };
 
     const omitirRecorrido = () => {
-        navigate('/tipo_de_cuenta')
+        navigate('/crear_cuenta')
+        // navigate('/tipo_de_cuenta')
     }
 
   return (
     <div className='club_contenedor_full_height'>
-        {showNav && 
+        {/* {showNav && 
             <NavBienvenida handleClick={omitirRecorrido} />
-        }
+        } */}
         {showBienbenida && 
             <div className='club_contenedor container-lg club_sub_contenedor'>
                 <div className='club_bienvenida_logo active animate__animated animate__bounceInDown'>
@@ -190,94 +212,99 @@ const ContenidoBienvenida = () => {
                     </div> */}
                 </div>
                 <div className='club_cont_btns_full club_bienvenida_btns'>
-                    <button className='btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08' onClick={() => { handleClick('Bienvenida'); }}>Iniciar el recorrido</button>
-                    <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_violeta' onClick={() => { omitirRecorrido(); }}>Omitir el recorrido</button>
+                    <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Bienvenida'); }}>Iniciar el recorrido</button>
+                    <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => { omitirRecorrido(); }}>Omitir el recorrido</button>
                 </div>
             </div>
         }
         {showChats && 
-            <div className='club_contenedor container-lg club_sub_contenedor'>
-                {/* <div className='club_onboarding_img'>
-                    <img src={ImgChats} alt="Logo Club" />
-                </div> */}
-                <div className='col-12 text-center club_onboarding_info d-flex align-items-center'>
-                    <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
-                        <h1 className='col-12'>CONECTA</h1>
-                        <p className='col-12'>
-                            Copy
-                        </p>
-                    </div>
+            <div className='club_sub_contenedor'>
+                <div className='club_onboarding_img'>
+                    <img src={Bienvenida01} alt="Conoce" width={'100%'}/>
                 </div>
-                <div className='club_onboarding_bullets_cont'>
-                    <span className='club_onboarding_bullet active'></span>
-                    <span className='club_onboarding_bullet'></span>
-                    <span className='club_onboarding_bullet'></span>
-                    <span className='club_onboarding_bullet'></span>
-                </div>
-                <div className='club_cont_btns_doble club_bienvenida_btns club_bienvenida_btns'>
-                    <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_violeta' onClick={() => { handleClick('ChatsBack'); }}>Anterior</button>
+                <div className='club_contenedor container-lg'>
+                    <div className='club_onboarding_bullets_cont justify-content-start'>
+                        <span className='club_onboarding_bullet active'></span>
+                        <span className='club_onboarding_bullet'></span>
+                        <span className='club_onboarding_bullet'></span>
                     </div>
-                    <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08' onClick={() => { handleClick('Chats'); }} >Siguiente</button>
+                    <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>
+                        <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
+                            <h1 className='col-12'>CONOCE</h1>
+                            <p className='col-12'>
+                                Enamórate, has nuevas amistades o encuentren fácilmente lugares sáficos a donde ir.
+                            </p>
+                        </div>
                     </div>
+                    <div className='club_cont_btns_doble club_bienvenida_btns club_bienvenida_btns'>
+                        {/* <div className='col-5'>
+                            <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => { handleClick('ChatsBack'); }}>Anterior</button>
+                        </div> */}
+                        <div className='col-12'>
+                            <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Chats'); }} >Siguiente</button>
+                        </div>
+                    </div>
+
+                    
                 </div>
             </div>
         }
         {showPerfil && 
-            <div className='club_contenedor container-lg club_sub_contenedor'>
-                {/* <div className='club_onboarding_img'>
-                    <img src={ImgPerfil} alt="Logo Club" />
-                </div> */}
-                <div className='col-12 text-center club_onboarding_info d-flex align-items-center'>
-                    <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
-                        <h1 className='col-12'>DESCUBRE</h1>
-                        <p className='col-12'>
-                            Copy
-                        </p>
-                    </div>
+            <div className='club_sub_contenedor'>
+                <div className='club_onboarding_img'>
+                    <img src={Bienvenida02} alt="Conecta" width={'100%'} />
                 </div>
-                <div className='club_onboarding_bullets_cont'>
-                    <span className='club_onboarding_bullet active'></span>
-                    <span className='club_onboarding_bullet active'></span>
-                    <span className='club_onboarding_bullet'></span>
-                    <span className='club_onboarding_bullet'></span>
-                </div>
-                <div className='club_cont_btns_doble club_bienvenida_btns'>
-                    <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_violeta' onClick={() => { handleClick('PerfilBack'); }}>Anterior</button>
+                <div className='club_contenedor container-lg'>
+                    <div className='club_onboarding_bullets_cont justify-content-start'>
+                        <span className='club_onboarding_bullet active'></span>
+                        <span className='club_onboarding_bullet active'></span>
+                        <span className='club_onboarding_bullet'></span>
                     </div>
-                    <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08' onClick={() => { handleClick('Perfil'); }} >Siguiente</button>
+                    <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>
+                        <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
+                            <h1 className='col-12'>CONECTA</h1>
+                            <p className='col-12'>
+                                Enamórate, has nuevas amistades o encuentren fácilmente lugares sáficos a donde ir.
+                            </p>
+                        </div>
+                    </div>
+                    <div className='club_cont_btns_doble club_bienvenida_btns'>
+                        <div className='col-5'>
+                            <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => { handleClick('PerfilBack'); }}>Anterior</button>
+                        </div>
+                        <div className='col-5'>
+                            <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Perfil'); }} >Siguiente</button>
+                        </div>
                     </div>
                 </div>
             </div>
         }
         {showClubers && 
-            <div className='club_contenedor container-lg club_sub_contenedor'>
-                {/* <div className='club_onboarding_img'>
-                    <img src={ImgClubers} alt="Logo Club" />
-                </div> */}
-                <div className='col-12 text-center club_onboarding_info d-flex align-items-center'>
-                    <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
-                        <h1 className='col-12'>HANGUEA</h1>
-                        <p className='col-12'>
-                            Copy
-                        </p>
-                    </div>
+            <div className='club_sub_contenedor'>
+                <div className='club_onboarding_img'>
+                    <img src={Bienvenida03} alt="Logo Club" width={'100%'} />
                 </div>
-                <div className='club_onboarding_bullets_cont'>
-                    <span className='club_onboarding_bullet active'></span>
-                    <span className='club_onboarding_bullet active'></span>
-                    <span className='club_onboarding_bullet active'></span>
-                    <span className='club_onboarding_bullet'></span>
-                </div>
-                <div className='club_cont_btns_doble club_bienvenida_btns'>
-                    <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_violeta' onClick={() => { handleClick('ClubersBack'); }}>Anterior</button>
+                <div className='club_contenedor container-lg'>
+                    <div className='club_onboarding_bullets_cont justify-content-start'>
+                        <span className='club_onboarding_bullet active'></span>
+                        <span className='club_onboarding_bullet active'></span>
+                        <span className='club_onboarding_bullet active'></span>
                     </div>
-                    <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08' onClick={() => { handleClick('Clubers'); }} >Siguiente</button>
+                    <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>
+                        <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
+                            <h1 className='col-12'>DESCUBRE</h1>
+                            <p className='col-12'>
+                                Enamórate, has nuevas amistades o encuentren fácilmente lugares sáficos a donde ir.
+                            </p>
+                        </div>
+                    </div>
+                    <div className='club_cont_btns_doble club_bienvenida_btns'>
+                        <div className='col-5'>
+                            <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => { handleClick('ClubersBack'); }}>Anterior</button>
+                        </div>
+                        <div className='col-5'>
+                            <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Clubers'); }} >Siguiente</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -304,15 +331,17 @@ const ContenidoBienvenida = () => {
                 </div>
                 <div className='club_cont_btns_doble club_bienvenida_btns'>
                     <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_violeta' onClick={() => { handleClick('EventosBack'); }}>Anterior</button>
+                        <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => { handleClick('EventosBack'); }}>Anterior</button>
                     </div>
                     <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08' onClick={() => { handleClick('Eventos'); }} >Siguiente</button>
+                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Eventos'); }} >Siguiente</button>
                     </div>
                 </div>
             </div>
         }
-        <Footer/>
+        {showFooter &&
+            <Footer/>
+        }
     </div>
   )
 }

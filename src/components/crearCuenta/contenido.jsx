@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from './footer';
 import LogoClubTopBarBig from '../../assets/images/LCLUB_LOGO_BIG.png';
-import { IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { limpiarTodoLocalStorage } from '../../services/data';
 import InputTelefono from '../inputs/input_telefono';
 import { paises } from '../../services/paises';
@@ -67,12 +67,12 @@ const CrearCuentaContenido = () => {
             case 'Crear':
                 pasoActual = 'Continuar';
                 setShowCrearCuenta(false);
-                setShowInicioSesion(false);
-                setShowIngresaNumTel(true);
+                setShowInicioSesion(true);
+                setShowIngresaNumTel(false);
                 break;
             case 'Continuar':
                 localStorage.setItem("datosUsuario", JSON.stringify(formData));
-                navigate('/datos_personales');
+                navigate('/codigo_de_confirmacion');
                 break;
             case 'Atras':
                 pasoActual = 'Crear'
@@ -122,7 +122,7 @@ const CrearCuentaContenido = () => {
             placeholder: '55 23422 5235',
             iconStart: false,
             iconNameStart: '',
-            iconEnd: true,
+            iconEnd: false,
             iconNameEnd: <IoIosArrowForward className='club_input_icon_der' size={24} />,
             help: false
         },
@@ -140,8 +140,8 @@ const CrearCuentaContenido = () => {
                         </div>
                         <div className='club_cont_info_grow_1 d-flex align-items-center'>
                             <div className='club_crear_cuenta_cont_btns col-12'>
-                                <button className='btn club_btn_neutro' onClick={() => handleClick('Crear')}>Crear Cuenta</button>
-                                <button className='btn club_btn_neutro' onClick={() => handleClick('InicioSesion')}>Iniciar Sesión</button>
+                                <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => handleClick('Crear')}>Crear Cuenta</button>
+                                <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => handleClick('InicioSesion')}>Iniciar Sesión</button>
                             </div>
                         </div>
                         <Footer />
@@ -150,6 +150,7 @@ const CrearCuentaContenido = () => {
                 {showIngresaNumTel && (
                     <div id='clubCrearCuentaTel' className='club_contenedor container-lg club_sub_contenedor'>
                         <div className='club_crear_cuenta_btn_top'>
+                            <IoIosArrowBack size={24} />
                             <span onClick={() => handleClick('Atras')}>Atrás</span>
                         </div>
                         <div className='club_cont_info_grow_1'>
@@ -179,7 +180,7 @@ const CrearCuentaContenido = () => {
                             </div>
                         </div>
                         <div className='club_cont_btns_full club_notificaciones_btns'>
-                            <button className='btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08' onClick={() => handleClick('Continuar')}>Continuar</button>
+                            <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => handleClick('Continuar')}>Continuar</button>
                         </div>
                     </div>
                 )}
@@ -192,9 +193,9 @@ const CrearCuentaContenido = () => {
                         </div>
                         <div className='club_cont_info_grow_1 d-flex align-items-center'>
                             <div className='club_crear_cuenta_cont_btns col-12'>
-                                <button className='btn club_btn_neutro' >Continuar con Google</button>
-                                <button className='btn club_btn_neutro' >Continuar con Facebook</button>
-                                <button className='btn club_btn_neutro' onClick={() => handleClick('ContinuarCelular')}>Continuar con celular</button>
+                                <button className='btn club_btn_negro' >Continuar con Google</button>
+                                <button className='btn club_btn_negro' >Continuar con Facebook</button>
+                                <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarCelular')}>Continuar con celular</button>
                             </div>
                         </div>
                         <Footer />

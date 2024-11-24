@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { IoClose, IoMenu, IoSearch } from 'react-icons/io5'
-import LogoClubTopBar from '../../assets/images/LCLUB_LOGO_BIG.png'; // Importa la imagen como una URL
+import LogoClubTopBar from '../../assets/images/Helena_LOGO.png'; // Importa la imagen como una URL
 
 export const TopBarClub = () => {
 

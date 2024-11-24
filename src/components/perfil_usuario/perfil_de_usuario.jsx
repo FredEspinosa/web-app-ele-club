@@ -227,7 +227,7 @@ const UserProfile = () => {
                 </div> */}
                 <div className="club_cont_btns_full club_notificaciones_btns">
                     <button
-                        className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
+                        className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
                         // onClick={() => handleContinuar()}
                     >
                         Suscibirse
@@ -304,7 +304,7 @@ const UserProfile = () => {
                         <div className="club_cont_btns_full club_notificaciones_btns">
                             <button
                                 type="submit"
-                                className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
+                                className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
                                 onClick={handleEditToggle}
                             >
                                 Editar información personal
@@ -324,7 +324,7 @@ const UserProfile = () => {
                 <div className="club_cont_btns_full club_notificaciones_btns">
                     <button
                         type="submit"
-                        className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
+                        className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
                         style={{marginBottom:'120px'}}
                         onClick={() => {setEditaPerfil(true)}}
                     >

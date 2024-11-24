@@ -12,7 +12,7 @@ const Mascota = () => {
 
     const opciones = ['Perros', 'Gatos', 'Muchos Gatos', 'Otras mascotas', 'Me encantan pero no tengo', 'No me gustan las mascotas'];
     const tituloDeLista = 'Tienes mascotas?'
-    const iconoCheck = <FaCheck size={24} style={{color:'#CA4794'}} />
+    const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (value) => {
       setSelectedValue(value);
@@ -85,13 +85,13 @@ const Mascota = () => {
                 </div>
                 <div className="club_cont_btns_full club_notificaciones_btns">
                     <button
-                        className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
+                        className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
                         onClick={() => handleContinuar()}
                     >
                         Continuar
                     </button>
                     <button
-                        className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_violeta club_color_fuente_violeta_07"
+                        className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro club_color_fuente_oro"
                         onClick={() => handleOmitir()}
                     >
                         Completar después

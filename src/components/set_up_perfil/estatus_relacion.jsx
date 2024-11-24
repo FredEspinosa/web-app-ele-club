@@ -12,7 +12,7 @@ const EstatusDeRelacion = () => {
 
     const opciones = ['Soltera', 'En pareja', 'Casada', 'Divorciada', 'En Citas', 'Prefiero no decir'];
     const tituloDeLista = 'Cual es tu estatus de relación?'
-    const iconoCheck = <FaCheck size={24} style={{color:'#CA4794'}} />
+    const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (value) => {
       setSelectedValue(value);
@@ -75,13 +75,13 @@ const EstatusDeRelacion = () => {
                             onOptionSelect={handleOptionSelect} 
                             tituloDeLista = {tituloDeLista}
                             iconoCheck={iconoCheck} 
-                            multiselect={false}
+                            multiselect={true}
                         />
                     </div>
                 </div>
                 <div className="club_cont_btns_full club_notificaciones_btns">
                     <button
-                    className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_08"
+                    className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
                     onClick={() => handleContinuar()}
                     >
                     Continuar
