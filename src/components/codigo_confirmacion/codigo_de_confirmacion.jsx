@@ -6,7 +6,7 @@ import InputCodigo from "./input_codigo";
 const CodigoValidacion = ({ avanzarPagina }) => {
   const navigate = useNavigate();
   const [datosUsuario, setDatosUsuario] = useState({});
-  const [codigoCorrecto, setCodigoCorrecto] = useState("5432");
+  const [codigoCorrecto, setCodigoCorrecto] = useState("0000");
   const [codigoIngresado, setCodigoIngresado] = useState(""); // Cambia este estado
   const [mensaje, setMensaje] = useState("");
   const [reenviado, setReenviado] = useState(false);
@@ -20,6 +20,7 @@ const CodigoValidacion = ({ avanzarPagina }) => {
       if (parsedDatos?.Telefono) {
         const numeroTel = parsedDatos.CodigoPais + parsedDatos.Telefono;
         setTelUsuario(numeroTel);
+        alert(`Tu código de teléfon es: ${codigoCorrecto}`);
       } else {
         console.log("No se encontró el dato 'Telefono'.");
       }
@@ -45,6 +46,7 @@ const CodigoValidacion = ({ avanzarPagina }) => {
     setReenviado(true);
     setTimeout(() => setReenviado(false), 2000);
     console.log("Nuevo código reenviado:", nuevoCodigo);
+    alert(`Tu código de teléfon es: ${nuevoCodigo}`);
   };
 
   return (
@@ -83,7 +85,7 @@ const CodigoValidacion = ({ avanzarPagina }) => {
               Continuar
             </button>
           </div>
-          {mensaje && <p>{mensaje}</p>}
+          {/* {mensaje && <p>{mensaje}</p>} */}
         </div>
       </div>
     </div>

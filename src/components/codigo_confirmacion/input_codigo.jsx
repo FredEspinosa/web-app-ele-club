@@ -1,8 +1,9 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const InputCodigo = ({ setCodigo }) => {
   const [codigo, setCodigoState] = useState(["", "", "", ""]);
+  const inputsRef = useRef([]); // Crear referencias para los inputs
 
   useEffect(() => {
     if (setCodigo) {
@@ -13,51 +14,37 @@ const InputCodigo = ({ setCodigo }) => {
 
   const manejadorCodigo = (e, position) => {
     const valor = e.target.value;
-  
-    if (/^\d$/.test(valor)) { // Solo aceptar un dígito
+    if (/^\d$/.test(valor)) {
       const nuevoCodigo = [...codigo];
       nuevoCodigo[position] = valor;
       setCodigoState(nuevoCodigo);
-  
-      // Mover el foco al siguiente input
-      const inputs = document.querySelectorAll(".input_code");
-      if (inputs.length > position + 1) {
-        inputs[position + 1].focus();
+
+      // Mover el foco al siguiente input si existe
+      if (position < 3) {
+        inputsRef.current[position + 1]?.focus();
       }
     }
   };
 
-  const manejadorFocusCodigo = (e, position) => {
-    const inputs = document.querySelectorAll(".club_input_codigo");
-    if (position >= 0 && position < inputs.length && inputs[position]) {
-      const nuevoCodigo = [...codigo];
-      nuevoCodigo[position] = ""; // Borra el valor del estado
-      setCodigoState(nuevoCodigo);
-      inputs[position].value = ""; // Borra visualmente el input
-    } else {
-      console.error("El índice está fuera de rango o el input no existe.");
-    }
-  };
-
-  const manejadorPasteCode = (e, position) => {
+  const manejadorPasteCode = (e) => {
     e.preventDefault();
     const paste = e.clipboardData.getData("text").replace(/\D/g, ""); // Solo números
-    const inputs = document.querySelectorAll(".input_code");
     const nuevoCodigo = [...codigo];
-  
+
     for (let i = 0; i < paste.length; i++) {
-      if (position + i < inputs.length) {
-        nuevoCodigo[position + i] = paste[i];
-        inputs[position + i].value = paste[i];
+      if (i < 4) {
+        nuevoCodigo[i] = paste[i];
+        if (inputsRef.current[i]) {
+          inputsRef.current[i].value = paste[i]; // Actualizar visualmente
+        }
       }
     }
-  
+
     setCodigoState(nuevoCodigo);
-  
-    // Mueve el foco al siguiente input
-    if (position + paste.length < inputs.length) {
-      inputs[position + paste.length].focus();
-    }
+
+    // Mover el foco al último input completado
+    const lastIndex = Math.min(paste.length - 1, 3);
+    inputsRef.current[lastIndex]?.focus();
   };
 
   return (
@@ -66,9 +53,9 @@ const InputCodigo = ({ setCodigo }) => {
         {codigo.map((_, index) => (
           <input
             key={index}
+            ref={(el) => (inputsRef.current[index] = el)} // Asignar referencia
             className="club_input_codigo"
-            onPaste={(e) => manejadorPasteCode(e, index)}
-            onFocus={(e) => manejadorFocusCodigo(e, index)}
+            onPaste={manejadorPasteCode}
             onChange={(e) => manejadorCodigo(e, index)}
             type="tel"
             maxLength={1}

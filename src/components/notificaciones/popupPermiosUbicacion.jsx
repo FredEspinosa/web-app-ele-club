@@ -47,12 +47,12 @@ const PermisosUbi = ({ cerrarModal, guardarUbicacion }) => {
           <div className="modal-content ">
             <div className="modal-header">
               <h5 className="modal-title club_titulo_3_size_20" id="exampleModalLabel">
-                Permitir acceso a tu ubicación
+                Aceptas que “Helena” use tu ubicación?
               </h5>
               <button type="button" className="btn-close club_color_fuente_blanco" onClick={cerrarModal}></button>
             </div>
             <div className="modal-body club_txt_body">
-              <p>¿Te gustaría compartir tu ubicación actual para obtener servicios personalizados?</p>
+              <p>Usamos tu ubicación para determinar si estás en una zona de cobertura y poder mostrar matches y amigas cercanas.</p>
               {error && <p>{error}</p>}
               {location && (
                 <p>Tu ubicación actual es: Latitud: {location.latitude}, Longitud: {location.longitude}</p>
