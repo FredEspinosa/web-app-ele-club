@@ -5,14 +5,14 @@ import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
 
-const Mascota = () => {
+const TePercibes = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
 
-    const opciones = ['Perros', 'Gatos', 'Otras mascotas', 'Me encantan pero no tengo', 'No me gustan las mascotas'];
-    const tituloDeLista = 'Tienes mascotas?'
+    const opciones = ['Fem', 'Masc', 'Tomfem'];
+    const tituloDeLista = 'Cómo te percibes?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (value) => {
@@ -21,11 +21,7 @@ const Mascota = () => {
     };
 
     const handleRegresar = () => {
-        navigate('/tus_intereses')
-    }
-
-    const handleOmitir = () => {
-        navigate('/notificaciones')
+        navigate('/identidad_sexual')
     }
 
     useEffect(() => {
@@ -41,13 +37,13 @@ const Mascota = () => {
         if (selectedValue) {
             const nuevosDatos = {
                 ...datosUsuario, // Mantén los datos actuales
-                Mascotas: selectedValue // Agrega la nueva opción seleccionada
+                Percibes: selectedValue // Agrega la nueva opción seleccionada
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
-                navigate('/signo_zodiacal');
+                navigate('/identidad_de_genero');
             }, 300);
         } else {
             console.log("No se ha seleccionado ninguna opción");
@@ -87,10 +83,10 @@ const Mascota = () => {
                 </div>
                 <div className="club_cont_btns_full club_notificaciones_btns">
                     <button
-                        className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
-                        onClick={() => handleContinuar()}
+                    className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
+                    onClick={() => handleContinuar()}
                     >
-                        Continuar
+                    Continuar
                     </button>
                 </div>
             </div>
@@ -99,4 +95,4 @@ const Mascota = () => {
   )
 }
 
-export default Mascota
+export default TePercibes

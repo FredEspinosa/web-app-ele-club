@@ -15,7 +15,7 @@ const PerfilConfig = () => {
 
 
   const redirectHome = () => {
-    navigate('/mi_perfil')
+    navigate('/home')
   }
  
   return (

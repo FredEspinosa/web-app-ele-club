@@ -26,8 +26,8 @@ export const ContenidoHome = () => {
             type: 'text',
             name: 'Colonia',
             label: 'Colonia',
-            placeholder: 'Alvaro Obregón',
-            iconStart: true,
+            placeholder: 'Álvaro Obregón',
+            iconStart: false,
             iconNameStart: <IoSearch className="club_input_icon_izq" size={24} />,
             iconEnd: true,
             iconNameEnd: <FiFilter className="club_input_icon_der" size={24} />,
@@ -36,7 +36,7 @@ export const ContenidoHome = () => {
     ];
 
   return (
-    <div id='clubHome'>
+    <div id='homeHelena'>
       <div className="club_contenedor_tres_secciones club_contenedor container-lg">
           <div className="club_contenido_top club_cont_info">
             <TopBarClub />

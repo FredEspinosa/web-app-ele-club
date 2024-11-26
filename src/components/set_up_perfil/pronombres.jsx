@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const Pronombres = () => {
 
@@ -10,7 +11,7 @@ const Pronombres = () => {
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
 
-    const opciones = ['Ella/ella', 'Él/ella', 'Ella/elle', 'Prefiero no decir'];
+    const opciones = ['Ella', 'Ella/él', 'Ella/elle'];
     const tituloDeLista = 'Cuál es tu pronombre?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -54,6 +55,7 @@ const Pronombres = () => {
         <div className="club_contenedor_full_height" id="clubDatosPersonales">
             <div className="club_contenedor container-lg club_sub_contenedor">
                 <div className="club_crear_cuenta_btn_top">
+                    <IoIosArrowBack size={24}/>
                     <span onClick={() => handleRegresar()}>Atrás</span>
                 </div>
                 <div className="club_cont_info_grow_1">

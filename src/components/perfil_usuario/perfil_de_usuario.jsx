@@ -14,6 +14,7 @@ import SlidePrueba4 from "../../assets/images/imgs_slide/imagen_prueba_4.png";
 import { MdOutlineEditNote } from "react-icons/md";
 import { IoHeartOutline } from "react-icons/io5";
 import NavBar from "../nav_bar/navBar";
+import { FaArrowLeft, FaCamera } from "react-icons/fa";
 
 const UserProfile = () => {
     const navigate = useNavigate();
@@ -107,26 +108,29 @@ const UserProfile = () => {
   return (
     <div id="perfilUsuario">
         <div className='club_perfil_barra'>
-            <div className='col-12 d-flex club_contenedor club_bg_violeta_07'>
+            <div className='col-12 d-flex club_contenedor club_bg_blanco'>
                 <div className='col-3 d-flex align-items-center justify-content-start'>
-                    <button className='btn d-flex align-items-center club_color_fuente_blanco club_config_btn_back'
+                    <button className='btn d-flex align-items-center club_color_fuente_negro club_config_btn_back'
                         onClick={ redirectBack }
                     >
-                    <IoIosArrowBack size={24} className='club_color_fuente_blanco' />
-                        Volver
+                        { topBarTitle === 'Editar perfil' ?
+                            <FaArrowLeft size={14} className='club_color_fuente_negro' />
+                            :
+                            <IoIosSettings size={24} className='club_color_fuente_negro' />
+                        }
                     </button>
                 </div>
                 <div className='col-6 d-flex align-items-center justify-content-center'>
-                    <h1 className='club_titulo_config club_color_fuente_blanco'>{topBarTitle}</h1>
+                    <h1 className='club_titulo_config club_color_fuente_negro'>{topBarTitle}</h1>
                 </div>
                 <div className='col-3 d-flex align-items-center justify-content-end'>
-                    {editaPerfil &&
-                        <button className='btn d-flex align-items-center club_color_fuente_blanco club_config_btn_back'
+                    {/* {editaPerfil &&
+                        <button className='btn d-flex align-items-center club_color_fuente_negro club_config_btn_back'
                             onClick={redirectSettings}
                         >
-                        <IoIosSettings size={24} className='club_color_fuente_blanco' />
+                        <IoIosSettings size={24} className='club_color_fuente_negro' />
                         </button>
-                    }
+                    } */}
                 </div>
             </div>
         </div>
@@ -134,34 +138,29 @@ const UserProfile = () => {
         {editaPerfil ?
         // <div>
             <div className='club_contenedor club_margin_bar_40 container-lg'>
-
-                <div className='col-12 d-flex club_contenedor' style={{paddingTop:'5%', paddingBottom:'3%'}}>
-                    <div className='col-3 d-flex align-items-center justify-content-start'>
-                        <button className='btn d-flex align-items-center club_color_fuente_blanco club_config_btn_back'
-                            onClick={ redirectBack }
-                        >
-                            <IoHeartOutline size={30} className='club_color_fuente_blanco' />
-                        </button>
-                    </div>
-                <div className='col-6 d-flex align-items-center justify-content-center'>
-                    <h1 className='club_titulo_config club_color_fuente_blanco'>Álvaro Obregón</h1>
-                </div>
+                {/* <div className='col-12 d-flex club_contenedor' style={{paddingTop:'5%', paddingBottom:'3%'}}>
                     <div className='col-3 d-flex align-items-center justify-content-end'>
-                        <button className='btn d-flex align-items-center club_color_fuente_blanco club_config_btn_back'
+                        <button className='btn d-flex align-items-center club_color_fuente_negro club_config_btn_back'
                             onClick={() => {setEditaPerfil(false); setTopBarTitle('Editar perfil')}}
                         >
-                            <MdOutlineEditNote size={30} className='club_color_fuente_blanco' />
+                            <MdOutlineEditNote size={30} className='club_color_fuente_negro' />
                         </button>
                     </div>
-                </div>
+                </div> */}
 
                 <div className='col-12 d-flex club_contenedor club_no_wrap_desk'>
                     <div className="club_cont_perfil_foto">
                         <div className="club_cont_perfil_img">
                             <img src={profilePicture} alt="" srcSet="Imagen de Perfil" />
+                            <FaCamera 
+                                className="club_btn_edit_foto_perfil" 
+                                size={24}
+                                style={{top:'15%'}}
+                                onClick={() => {setEditaPerfil(false); setTopBarTitle('Editar perfil')}}
+                            />
                         </div>
                         <div className="col-12 d-flex justify-content-center">
-                            <h1 className="club_texto_sombreado_blanco">¡Hola {dataUser.Nombres}!</h1>
+                            <h1 className="club_texto_sombreado_negro">¡Hola {dataUser.Nombres}!</h1>
                         </div>
                     </div>
                     {/* <div className='club_perfil_cont_fotos'>
@@ -174,11 +173,11 @@ const UserProfile = () => {
                     </div> */}
 
                     <div className="club_cont_barra">
-                        <span>Completa tu perfil <span>{perfilProgress}</span></span>
+                        <span className="club_color_fuente_negro">Completa tu perfil <span>{perfilProgress}</span></span>
                         <div className='club_barra_progreso'>
-                            <div className='club_progreso active'></div>
-                            <div className='club_progreso active'></div>
-                            <div className='club_progreso active animate__animated animate__bounceIn'></div>
+                            <div className='club_progreso club_bg_oro active'></div>
+                            <div className='club_progreso club_bg_oro active'></div>
+                            <div className='club_progreso club_bg_oro active animate__animated animate__bounceIn'></div>
                             <div className='club_progreso'></div>
                         </div>
                     </div>
@@ -193,45 +192,51 @@ const UserProfile = () => {
                         <span className="club_txt_caption w-100">{dataUser.Delegacion ? dataUser.Delegacion : 'CDMX'}</span>
                     </div>
                 </div>
-                <div className="club_cont_data_perfil">
-                    <h3 className="club_txt_titular">Acerca de mi</h3>
-                    <div className="d-flex flex-wrap">
-                        <span className="club_txt_caption w-100">{dataUser.Busca}</span>
+                <div className="club_info_intereses_contenedor">
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Acerca de mi</h3>
+                        <div className="d-flex flex-wrap">
+                            <span className="club_txt_caption w-100">{dataUser.Bio ? dataUser.Bio : 'Amante de los animales y la naturaleza, sporty spice, healthy lifestyle!'}</span>
+                        </div>
                     </div>
-                </div>
-                <div className="club_cont_data_perfil">
-                    <h3 className="club_txt_titular">Identidad de género</h3>
-                    <div className="d-flex flex-wrap">
-                        <span className="club_txt_caption w-100">{dataUser.IdentidadDeGenero}</span>
-                    </div>
-                </div>
 
-                <div className="club_cont_data_perfil">
-                    <h3 className="club_txt_titular">Identidad sexual</h3>
-                    <div className="d-flex flex-wrap">
-                        <span className="club_txt_caption w-100">{dataUser.IdentidadSexual}</span>
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Estoy buscando</h3>
+                        <div className="">
+                            <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.Busca}</span>
+                        </div>
+                    </div>
+
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Identidad de género</h3>
+                        <div className="">
+                            <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.IdentidadDeGenero}</span>
+                        </div>
+                    </div>
+
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Identidad sexual</h3>
+                        <div className="">
+                            <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.IdentidadSexual}</span>
+                        </div>
+                    </div>
+
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Identidad sexual</h3>
+                        <div className="">
+                            <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.Percibes}</span>
+                        </div>
                     </div>
                 </div>
-                
-
                 <br />
                 <br />
-
-                {/* <div className='col-12 d-flex club_contenedor flex-wrap'>
-                    <div className="club_perfil_pensamiento">
-                        <h3 className="club_perfil_pensamiento_titulo club_texto_sombreado_blanco">¿Qué piensas?</h3>
+                <div className='club_cont_btns_doble club_bienvenida_btns'>
+                    <div className='col-5'>
+                        <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => {setEditaPerfil(false); setTopBarTitle('Editar perfil')}}>Editar perfil</button>
                     </div>
-                    <div className="club_perfil_pensamiento_texto">
-                        <p className="">{dataUser.Bio ? dataUser.Bio : 'Soy hermosa'}</p>
+                    <div className='col-5'>
+                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' >Suscribirse</button>
                     </div>
-                </div> */}
-                <div className="club_cont_btns_full club_notificaciones_btns">
-                    <button
-                        className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
-                        // onClick={() => handleContinuar()}
-                    >
-                        Suscibirse
-                    </button>
                 </div>
 
                 <br />
@@ -284,14 +289,62 @@ const UserProfile = () => {
                     onEdit={handleProfilePictureChange}
                 />
                 <div className="club_info_personal_perfil">
-                    <u className="club_lista_ul">
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Acerca de mi</h3>
+                        <div className="d-flex flex-wrap">
+                            <span className="club_txt_caption w-100">{dataUser.Bio ? dataUser.Bio : 'Amante de los animales y la naturaleza, sporty spice, healthy lifestyle!'}</span>
+                        </div>
+                    </div>
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Estoy buscando</h3>
+                        <div className="">
+                            <span className="club_txt_caption w-100 ">{dataUser.Busca}</span>
+                        </div>
+                    </div>
+
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Identidad de género</h3>
+                        <div className="">
+                            <span className="club_txt_caption w-100 ">{dataUser.IdentidadDeGenero}</span>
+                        </div>
+                    </div>
+
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Identidad sexual</h3>
+                        <div className="">
+                            <span className="club_txt_caption w-100 ">{dataUser.IdentidadSexual}</span>
+                        </div>
+                    </div>
+
+                    <div className="club_cont_data_perfil">
+                        <h3 className="club_txt_titular">Identidad sexual</h3>
+                        <div className="">
+                            <span className="club_txt_caption w-100 ">{dataUser.Percibes}</span>
+                        </div>
+                    </div>
+
+                    {/* Muestra toda la data en contenedores de div como los de arriba */}
+                    {/* <div className="club_cont_data_perfil">
+                    {dataUser &&
+                        Object.entries(dataUser).map(([key, value]) => (
+                            <div key={key}>
+                                <h3 className="club_txt_titular">{key}</h3>
+                                <div className="d-flex flex-wrap">
+                                    <span className="club_txt_caption w-100 ">{value}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div> */}
+
+                    {/* Muestra toda la data en un listado */}
+                    {/* <u className="club_lista_ul">
                     {dataUser &&
                         Object.entries(dataUser).map(([key, value]) => (
                         <li className="club_lista_li club_contenedor_settings club_contenedor_bg_borde_gris club_margin_bar_40 d-flex justify-content-between" key={key}>
                             <strong>{key}:</strong> {value}
                         </li>
                         ))}
-                    </u>
+                    </u> */}
                 </div>
                 {isEditing ? (
                     <EditProfileForm dataUser={dataUser} onSave={handleSaveProfile} cancelEdit={cancelEdit} />
@@ -317,6 +370,7 @@ const UserProfile = () => {
                     onPhotoUpload={(newPhoto) => setDataUser({...dataUser, FotosCarrucel: [...dataUser.FotosCarrucel, newPhoto]})} 
                     addPhoto={addPhoto}
                     userPhotos={userPhotos}
+                    textoTitulo={'Agregar Fotos'}
                 />
 
                 <br/>

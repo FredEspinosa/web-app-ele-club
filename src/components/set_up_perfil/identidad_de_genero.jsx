@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const IdentidadGenero = () => {
 
@@ -54,6 +55,7 @@ const IdentidadGenero = () => {
         <div className="club_contenedor_full_height" id="clubDatosPersonales">
             <div className="club_contenedor container-lg club_sub_contenedor">
                 <div className="club_crear_cuenta_btn_top">
+                    <IoIosArrowBack size={24}/>
                     <span onClick={() => handleRegresar()}>Atrás</span>
                 </div>
                 <div className="club_cont_info_grow_1">

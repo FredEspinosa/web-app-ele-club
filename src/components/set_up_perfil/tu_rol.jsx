@@ -1,18 +1,18 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import OpcionesCheck from '../inputs/opciones_check';
 import { IoIosArrowBack } from 'react-icons/io';
 
-const Mascota = () => {
+const TuRol = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
 
-    const opciones = ['Perros', 'Gatos', 'Otras mascotas', 'Me encantan pero no tengo', 'No me gustan las mascotas'];
-    const tituloDeLista = 'Tienes mascotas?'
+    const opciones = ['Activa', 'Pasiva', 'Versátil'];
+    const tituloDeLista = 'Cuál es tu rol?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (value) => {
@@ -21,11 +21,7 @@ const Mascota = () => {
     };
 
     const handleRegresar = () => {
-        navigate('/tus_intereses')
-    }
-
-    const handleOmitir = () => {
-        navigate('/notificaciones')
+        navigate('/que_buscas')
     }
 
     useEffect(() => {
@@ -41,13 +37,13 @@ const Mascota = () => {
         if (selectedValue) {
             const nuevosDatos = {
                 ...datosUsuario, // Mantén los datos actuales
-                Mascotas: selectedValue // Agrega la nueva opción seleccionada
+                Rol: selectedValue // Agrega la nueva opción seleccionada
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
-                navigate('/signo_zodiacal');
+                navigate('/cuanto_mides');
             }, 300);
         } else {
             console.log("No se ha seleccionado ninguna opción");
@@ -68,9 +64,9 @@ const Mascota = () => {
                         <span>Completa tu perfil</span>
                         <div className='club_barra_progreso'>
                             <div className='club_progreso active'></div>
+                            <div className='club_progreso active'></div>
+                            <div className='club_progreso active'></div>
                             <div className='club_progreso active animate__animated animate__bounceIn'></div>
-                            <div className='club_progreso'></div>
-                            <div className='club_progreso'></div>
                         </div>
                     </div>
                     </div>
@@ -87,10 +83,10 @@ const Mascota = () => {
                 </div>
                 <div className="club_cont_btns_full club_notificaciones_btns">
                     <button
-                        className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
-                        onClick={() => handleContinuar()}
+                    className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
+                    onClick={() => handleContinuar()}
                     >
-                        Continuar
+                    Continuar
                     </button>
                 </div>
             </div>
@@ -99,4 +95,4 @@ const Mascota = () => {
   )
 }
 
-export default Mascota
+export default TuRol

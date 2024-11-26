@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const IdentidadSexual = () => {
 
@@ -10,7 +11,7 @@ const IdentidadSexual = () => {
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
 
-    const opciones = ['Lesbiana', 'Bisexual', 'Queer', 'Sáfica'];
+    const opciones = ['Lesbiana', 'Bisexual','Heterocuriosa', 'Pansexual', 'Demisexual', 'Sáfica'];
     const tituloDeLista = 'Cual es tu identidad sexual?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -42,7 +43,7 @@ const IdentidadSexual = () => {
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
-                navigate('/identidad_de_genero');
+                navigate('/como_te_percibes');
             }, 300);
         } else {
             console.log("No se ha seleccionado ninguna opción");
@@ -54,6 +55,7 @@ const IdentidadSexual = () => {
         <div className="club_contenedor_full_height" id="clubDatosPersonales">
             <div className="club_contenedor container-lg club_sub_contenedor">
                 <div className="club_crear_cuenta_btn_top">
+                    <IoIosArrowBack size={24}/>
                     <span onClick={() => handleRegresar()}>Atrás</span>
                 </div>
                 <div className="club_cont_info_grow_1">

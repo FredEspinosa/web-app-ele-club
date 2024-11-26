@@ -39,7 +39,9 @@
     --color-neutral-gris-03: #98989A;
     --color-neutral-gris-04: #CAC9C9;
     --color-neutral-gris-05: #F0F0F0;
+    --color-neutral-gris-06: #F7F7F7;
     --color-neutral-blanco-06: #FFFFFF;
+    --color-neutral-azul-01: #EAF2FF;
     /* Colores de alertas */
     --color-alerta-verde: #007D00;
     --color-alerta-naranja: #FF9E00;
@@ -104,6 +106,12 @@ p {
 
 .club_bg_oro {
     background-color: var(--color-primario-oro);
+}
+
+/* Colores de fondo blanco  */
+
+.club_bg_blanco {
+    background-color: var(--color-background-blanco);
 }
 
 /* Colores de fondo violeta  */
@@ -517,7 +525,7 @@ p {
 }
 
 .club_progreso.active {
-    background-color: var(--color-secundario-menta-07);
+    background-color: var(--color-primario-oro);
 }
 
 /* Estilos para los inputs */
@@ -653,7 +661,7 @@ p {
     height: 56px;
     display: flex;
     align-items: center;
-    background-color: var(--color-primario-violeta-05);
+    background-color: var(--color-background-negro);
     padding: 16px 24px;
     position: fixed;
     top: 0%;
@@ -680,7 +688,7 @@ p {
 /* Estilos para la barra de navegacion */
 
 .club_nav_bar {
-    background: var(--color-primario-violeta-05);
+    background: var(--color-background-negro);
     width: 100%;
     height: 98px;
     position: fixed;
@@ -726,7 +734,7 @@ p {
 .club_nav_opcion_icono.active div {
     width: 48px;
     height: 48px;
-    background: var(--color-primario-naranja);
+    background: var(--color-primario-violeta-05);
     border-radius: 50%;
     box-shadow: 0 0 0 4px var(--color-neutral-blanco-06);
     /* Borde con color blanco (del fondo del body) */
@@ -758,23 +766,11 @@ p {
 
 /* Estilos para carrucel */
 
-/* .club_contenedor_diamante {
-    width: 100%;
-    height: 100%;
-    max-width: 371px;
-    max-height: 416px;
-    min-width: 371px;
-    min-height: 416px;
-    clip-path: polygon(20% 0, 80% 0, 100% 30%, 50% 100%, 0 30%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-} */
-
 .club_contenedor_diamante {
     width: 100%;
     height: 82%;
-    clip-path: polygon(20% 0, 80% 0, 100% 30%, 50% 100%, 0 30%);
+    /* clip-path: polygon(20% 0, 80% 0, 100% 30%, 50% 100%, 0 30%); */
+    clip-path: polygon(20% 0, 80% 0, 115% 30%, 50% 100%, -15% 30%);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -807,6 +803,8 @@ p {
     top: 28%;
     left: 0%;
     z-index: inherit;
+    color: var(--color-neutral-gris-02);
+    opacity: 0.7;
 }
 
 .club_swiper_corazon {
@@ -1151,7 +1149,7 @@ p {
 
 .club_onboarding_bullet {
     border-radius: 50%;
-    background-color: #F7F7F7;
+    background-color: var(--color-neutral-gris-06);
     width: 8px;
     height: 8px;
     margin: 0px 4px;
@@ -1537,13 +1535,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #clubHome .input-dinamico .club_input_campo,
 #clubHome .input-dinamico .club_input_campo:focus {
     color: var(--color-neutral-gris-02) !important;
-    background-color: var(--color-neutral-gris-01) !important;
-    border-bottom: 4px solid var(--color-primario-violeta-07);
+    background-color: var(--color-background-blanco) !important;
+    border-bottom: 4px solid var(--color-primario-violeta-05);
 }
 
 #clubHome .input-dinamico .club_input_icon_der,
 #clubHome .input-dinamico .club_input_icon_izq {
-    color: var(--color-neutral-blanco-06);
+    color: var(--color-neutral-gris-02);
 }
 
 /* #clubHome .club_contenedor_diamante, */
@@ -1560,7 +1558,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 41%;
     transform: translateY(-50%);
 }
-
 
 
 .card {
@@ -1747,16 +1744,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .club_cont_perfil_img {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     display: flex;
     border-radius: 50%;
+    border: 2px solid var(--color-background-negro);
     background-color: var(--color-neutral-gris-04);
     overflow: hidden;
     margin: 7% 0px;
-    -webkit-box-shadow: 0px 0px 57px 2px rgba(167, 10, 102, 1);
+    /* -webkit-box-shadow: 0px 0px 57px 2px rgba(167, 10, 102, 1);
     -moz-box-shadow: 0px 0px 57px 2px rgba(167, 10, 102, 1);
-    box-shadow: 0px 0px 57px 2px rgba(167, 10, 102, 1);
+    box-shadow: 0px 0px 57px 2px rgba(167, 10, 102, 1); */
 }
 
 .club_cont_perfil_img img {
@@ -1783,9 +1781,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .club_btn_edit_foto_perfil {
     position: absolute;
     transform: translate(50%, 50%);
-    top: 16%;
-    left: 56%;
-    color: var(--color-primario-violeta-07);
+    top: 22%;
+    left: 52%;
+    color: var(--color-neutral-gris-06);
 }
 
 .club_no_wrap_desk {
@@ -1998,7 +1996,7 @@ input[type="file"] {
 
 .club_texto_sombreado_negro {
     line-height: 1.1;
-    text-shadow: 0 0 10px var(--color-background-negro);
+    /* text-shadow: 0 0 10px var(--color-background-negro); */
     color: var(--color-background-negro);
 }
 
@@ -2078,6 +2076,71 @@ input[type="file"] {
     border: 1px solid var(--color-primario-oro) !important;
     color: var(--color-primario-oro);
     box-shadow: 0 0 3px var(--color-primario-oro);
+}
+
+.club_navbar {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, .6);
+    color: var(--color-background-negro);
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.club_navbar_cont { 
+    width: 247px;
+    border-radius: 0px 16px 16px 0px;
+    background-color: var(--color-background-blanco);
+}
+
+.club_navbar_list {
+    list-style: none;
+}
+
+.club_navbar_list li {
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-align: start;
+}
+
+.club_navbar_list li:hover {
+    background-color: #555;
+}
+
+.club_info_intereses_contenedor {
+    background-color: var(--color-neutral-gris-06);
+    padding: 24px 16px 24px 16px;
+    border-radius: 16px;
+}
+
+.club_texto_capsula {
+    padding: 5px 10px;
+    border-radius: 12px;
+    background-color: var(--color-neutral-azul-01);
+    color: var(--color-primario-oro);
+}
+
+.club_cont_data_perfil > .club_txt_titular {
+    margin-bottom: 10px;
+}
+
+.club_info_personal_perfil {
+    padding: 15px 54px;
+}
+
+#perfilUsuario .club_titulo_config {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: left;
 }
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 

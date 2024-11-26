@@ -30,6 +30,9 @@ import TienesMascotas from './pages/set_up_perfil_pages/tienes_mascotas';
 import TuSignoZodiacal from './pages/set_up_perfil_pages/tu_signo_zodiacal';
 import Tushabitos from './pages/set_up_perfil_pages/tus_habitos';
 import ConfirmaCodigo from './pages/confirma_codigo';
+import PrimeraFoto from './pages/set_up_perfil_pages/primeras_fotos';
+import ComoTePercibes from './pages/set_up_perfil_pages/como_te_percibes';
+import CualEsTuRol from './pages/set_up_perfil_pages/cual_es_tu_rol';
 
 
 function App() {
@@ -77,12 +80,20 @@ function App() {
         element: <DatosPersonalesPerfil />
       },
       {
+        path: '/primeras_fotos',
+        element: <PrimeraFoto />
+      },
+      {
         path: '/pronombres',
         element: <PronombresPage />
       },
       {
         path: '/identidad_sexual',
         element: <IdentidadSexualPage />
+      },
+      {
+        path: '/como_te_percibes',
+        element: <ComoTePercibes />
       },
       {
         path: '/identidad_de_genero',
@@ -95,6 +106,10 @@ function App() {
       {
         path: '/que_buscas',
         element: <QueBuscaPage />
+      },
+      {
+        path: '/tu_rol',
+        element: <CualEsTuRol />
       },
       {
         path: '/cuanto_mides',

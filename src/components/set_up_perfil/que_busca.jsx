@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const QueBusca = () => {
 
@@ -10,7 +11,7 @@ const QueBusca = () => {
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
 
-    const opciones = ['Citas', 'Relación Monógama', 'Relación Poliamorosa', 'Algo Casual', 'Nuevas Amigas', 'Prefiero no decir'];
+    const opciones = ['Citas', 'Relación Monógama', 'Relación Abierta', 'Algo Casual', 'Hacer Amigas'];
     const tituloDeLista = 'Qué estás buscando?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -42,7 +43,7 @@ const QueBusca = () => {
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
-                navigate('/cuanto_mides');
+                navigate('/tu_rol');
             }, 300);
         } else {
             console.log("No se ha seleccionado ninguna opción");
@@ -54,6 +55,7 @@ const QueBusca = () => {
         <div className="club_contenedor_full_height" id="clubDatosPersonales">
             <div className="club_contenedor container-lg club_sub_contenedor">
                 <div className="club_crear_cuenta_btn_top">
+                    <IoIosArrowBack size={24}/>
                     <span onClick={() => handleRegresar()}>Atrás</span>
                 </div>
                 <div className="club_cont_info_grow_1">

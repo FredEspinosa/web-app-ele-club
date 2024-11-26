@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaCamera } from "react-icons/fa";
 
 const ProfilePicture = ({ src, onEdit }) => {
   const handleFileChange = (event) => {
@@ -24,7 +24,7 @@ const ProfilePicture = ({ src, onEdit }) => {
                 <div className="col-12 d-flex justify-content-center flex-wrap">
                     <div className="club_cont_perfil_img">
                         <img src={src} alt="Perfil" srcSet="Imagen de Perfil" onClick={() => document.getElementById("fileInput").click()} />
-                        <FaEdit className="club_btn_edit_foto_perfil" onClick={() => document.getElementById("fileInput").click()} size={30}/>
+                        <FaCamera className="club_btn_edit_foto_perfil" onClick={() => document.getElementById("fileInput").click()} size={24}/>
                     </div>
                 </div>
             </div>

@@ -154,7 +154,7 @@ const NotificacionesContenido = () => {
                     </div>
                     <FooterDinamico 
                         textoFooter={      
-                            <p>Al continuar, aceptas a nuestros <b>términos y condiciones</b> y a la <br /> <b>política de privacidad</b>. LClove® 2024</p>
+                            <p>Al continuar, aceptas a nuestros <b>términos y condiciones</b> y a la <br /> <b>política de privacidad</b>. HelenaSafica® 2024</p>
                         }
                     />
                 </div>

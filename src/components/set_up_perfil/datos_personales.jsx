@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import InputDinamico from "../inputs/inputsDinamico";
 import { useNavigate } from "react-router-dom";
 import { IoCalendarNumberOutline } from "react-icons/io5";
+import { IoIosArrowBack } from "react-icons/io";
 
 const DatosPersonales = () => {
     const formRef = useRef(null);
@@ -88,7 +89,7 @@ const DatosPersonales = () => {
         localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
         console.log("Datos actualizados guardados:", nuevosDatos);
         setTimeout(() => {
-            navigate('/pronombres');
+            navigate('/primeras_fotos');
         }, 300);
     };
 
@@ -97,12 +98,13 @@ const DatosPersonales = () => {
             <div className="club_contenedor_full_height" id="clubDatosPersonales">
                 <div className="club_contenedor container-lg club_sub_contenedor">
                     <div className="club_crear_cuenta_btn_top">
+                        <IoIosArrowBack size={24}/>
                         <span onClick={() => handleRegresar()}>Atrás</span>
                     </div>
                     <div className="club_cont_info_grow_1">
                         <div className="col-12 d-flex justify-content-start">
                             <div className="club_cont_barra">
-                                <span>Completa tu perfil</span>
+                                <span className="club_color_fuente_blanco">Completa tu perfil</span>
                                 <div className='club_barra_progreso'>
                                     <div className='club_progreso active animate__animated animate__bounceIn'></div>
                                     <div className='club_progreso'></div>

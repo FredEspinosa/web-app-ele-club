@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const Habitos = () => {
 
@@ -10,7 +11,7 @@ const Habitos = () => {
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
 
-    const opciones = ['Si', 'No', 'Social', 'De la verde', 'Prefiero no decir'];
+    const opciones = ['Cigarros', 'Vape', 'Weed', 'No'];
     const tituloDeLista = 'Fumas?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -58,6 +59,7 @@ const Habitos = () => {
         <div className="club_contenedor_full_height" id="clubDatosPersonales">
             <div className="club_contenedor container-lg club_sub_contenedor">
                 <div className="club_crear_cuenta_btn_top">
+                    <IoIosArrowBack size={24}/>
                     <span onClick={() => handleRegresar()}>Atrás</span>
                 </div>
                 <div className="club_cont_info_grow_1">
@@ -89,12 +91,6 @@ const Habitos = () => {
                         onClick={() => handleContinuar()}
                     >
                         Continuar
-                    </button>
-                    <button
-                        className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro club_color_fuente_oro"
-                        onClick={() => handleOmitir()}
-                    >
-                        Completar después
                     </button>
                 </div>
             </div>

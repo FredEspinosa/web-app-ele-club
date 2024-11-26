@@ -3,12 +3,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import InputDinamico from '../inputs/inputsDinamico';
 import { IoIosArrowBack } from 'react-icons/io';
+import PhotoGallery from '../perfil_usuario/galeria_de_fotos';
 
-const Estatura = () => {
+const PrimerasFotos = () => {
 
     const formRef = useRef(null); // Crea la referencia al formulario
     const navigate = useNavigate();
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [userPhotos, setUserPhotos] = useState([]);
 
     useEffect(() => {
         // Obtener los datos guardados del localStorage al cargar el componente
@@ -46,7 +48,7 @@ const Estatura = () => {
     ];
 
     const handleRegresar = () => {
-        navigate('/que_buscas')
+        navigate('/datos_personales')
     }
 
     const handleOmitir = () => {
@@ -63,7 +65,7 @@ const Estatura = () => {
           localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
           console.log("Datos actualizados guardados:", nuevosDatos);
           setTimeout(() => {
-              navigate('/tus_intereses');
+              navigate('/pronombres');
           }, 300);
       } else {
         console.log("No se ha seleccionado ninguna opción");
@@ -73,6 +75,11 @@ const Estatura = () => {
         // console.log(JSON.parse(datosGuardados));
         
     }
+
+    // Función para añadir una nueva imagen
+    const addPhoto = (newPhoto) => {
+        setUserPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
+    };
 
   return (
     <div>
@@ -95,18 +102,13 @@ const Estatura = () => {
                     </div>
                     </div>
                     <div className="col-12 club_margin_top_56">
-                        <form ref={formRef}>
-                            {" "}
-                            {/* Agrega la referencia al formulario */}
-                            {campos.map((campo, index) => (
-                            <InputDinamico
-                                key={index}
-                                config={campo}
-                                value={formData[campo.name] || ""}
-                                onChange={handleInputChange}
-                            />
-                        ))}
-                </form>
+                    <PhotoGallery 
+                        // photos={dataUser.FotosCarrucel} 
+                        // onPhotoUpload={(newPhoto) => setDataUser({...dataUser, FotosCarrucel: [...dataUser.FotosCarrucel, newPhoto]})} 
+                        addPhoto={addPhoto}
+                        userPhotos={userPhotos}
+                        textoTitulo={'Agrega tus primeras 2 fotos'}
+                    />
                     </div>
                 </div>
                 <div className="club_cont_btns_full club_notificaciones_btns">
@@ -123,4 +125,4 @@ const Estatura = () => {
   )
 }
 
-export default Estatura
+export default PrimerasFotos
