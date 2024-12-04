@@ -2,15 +2,26 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputCodigo from "./input_codigo";
+import { obtenerCodigo, validaCodigoToken } from "../../services/api";
+import Loader from "../loader/loader";
+import ModalAlertas from "../alertas/modal_alert";
 
 const CodigoValidacion = ({ avanzarPagina }) => {
   const navigate = useNavigate();
   const [datosUsuario, setDatosUsuario] = useState({});
   const [codigoCorrecto, setCodigoCorrecto] = useState("0000");
   const [codigoIngresado, setCodigoIngresado] = useState(""); // Cambia este estado
-  const [mensaje, setMensaje] = useState("");
   const [reenviado, setReenviado] = useState(false);
   const [telUsuario, setTelUsuario] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  // Mensajes de modal
+  const [tituloModal, setTituloModal] = useState("");
+  const [mensajeModal, setMensajeModal] = useState("");
+  const [showBtnCancel, setShowBtnCancel] = useState(true);
+  const [textoBtnCancel, setTextoBtnCancel] = useState("");
+  const [showBtnAcept, setShowBtnAcept] = useState(true);
+  const [textoBtnAcept, setTextoBtnAcept] = useState("");
 
   useEffect(() => {
     const datosGuardados = localStorage.getItem("datosUsuario");
@@ -20,7 +31,7 @@ const CodigoValidacion = ({ avanzarPagina }) => {
       if (parsedDatos?.Telefono) {
         const numeroTel = parsedDatos.CodigoPais + parsedDatos.Telefono;
         setTelUsuario(numeroTel);
-        alert(`Tu código de teléfon es: ${codigoCorrecto}`);
+        consultaTuCodigo(numeroTel)
       } else {
         console.log("No se encontró el dato 'Telefono'.");
       }
@@ -29,25 +40,82 @@ const CodigoValidacion = ({ avanzarPagina }) => {
     }
   }, []);
 
+  const consultaTuCodigo = async (numeroTel) => {
+    setShowLoader(true)
+    try {
+      const data = await obtenerCodigo(numeroTel);
+      console.log("data", data);
+      if (!data.code) {
+        setShowLoader(false);
+        setCodigoCorrecto(data.code)
+      } else {
+        console.log("ocurrio un error ☠️");
+      }
+    } catch (err) {
+      console.log(err);
+      setShowLoader(false);
+      // setShowAlert(true);
+      // setTituloModal('Ocurrio un error ☠️')
+      // setMensajeModal(<p>No se pudo enviar el código. <br /> Por favor intenta pedir un código nuevo</p>)
+      // setShowBtnCancel(true)
+      // setTextoBtnCancel('Cerrar')
+      // setShowBtnAcept(false)
+      // setTextoBtnAcept('Aceptar')
+    }
+  };
+
+  const confirmarCodigo = async (telUsuario, codigoIngresado) => {
+    console.log("parametros funcion", telUsuario, codigoIngresado);
+    setShowLoader(true);
+    try {
+      const data = await validaCodigoToken(telUsuario, codigoIngresado);
+      console.log("data", data);
+      if (data.accessToken) {
+        setShowLoader(false)
+        setCodigoCorrecto(data.code)
+        // localStorage.setItem('AccessToken', data.accessToken);
+        sessionStorage.setItem('AccessToken', data.accessToken);
+        navigate("/datos_personales");
+      } else {
+        console.log("ocurrio un error ☠️");
+        
+      }
+    } catch (err) {
+      console.log(err);
+      setShowLoader(false);
+      // setShowAlert(true);
+      // setTituloModal('Ocurrio un error ☠️')
+      // setMensajeModal(<p>Error de autenticación</p>)
+      // setShowBtnCancel(true)
+      // setTextoBtnCancel('Cerrar')
+      // setShowBtnAcept(false)
+      // setTextoBtnAcept('Aceptar')
+    }
+};
+
   // Validar el código
   const validarCodigo = () => {
-    if (codigoIngresado === codigoCorrecto) {
-      setMensaje("Código correcto. Avanzando...");
-      navigate("/datos_personales");
+    console.log("clic en validarCodigo");
+    if (codigoIngresado) {
+      console.log("Código correcto. Avanzando...");
+      confirmarCodigo(telUsuario, codigoIngresado)
     } else {
-      setMensaje("El código es incorrecto. Inténtalo nuevamente.");
+      console.log("Ocurrio un error ☠️");
+      // setShowAlert(true)
+      // setTituloModal('Ocurrio un error')
+      // setMensajeModal(<p>El código es incorrecto. Inténtalo nuevamente. ☠️</p>);
     }
   };
 
   // Generar un nuevo código
   const reenviarCodigo = () => {
-    const nuevoCodigo = Math.floor(1000 + Math.random() * 9000).toString();
-    setCodigoCorrecto(nuevoCodigo);
-    setReenviado(true);
-    setTimeout(() => setReenviado(false), 2000);
-    console.log("Nuevo código reenviado:", nuevoCodigo);
-    alert(`Tu código de teléfon es: ${nuevoCodigo}`);
+    console.log("telUsuario", telUsuario);
+    consultaTuCodigo(telUsuario)
   };
+
+  const handleCerrarModal = () => {
+    showAlert(false)
+}
 
   return (
     <div>
@@ -88,6 +156,18 @@ const CodigoValidacion = ({ avanzarPagina }) => {
           {/* {mensaje && <p>{mensaje}</p>} */}
         </div>
       </div>
+      {(showLoader && <Loader /> )}
+      {(showAlert && 
+        <ModalAlertas 
+          cerrarModal={handleCerrarModal}
+          tituloModal={tituloModal}
+          mensajeModal={mensajeModal}
+          btnCancelar={true}
+          btnMsjCancelar={textoBtnCancel}
+          btnAceptar={true}
+          btnMsjAceptar={textoBtnAcept}
+        /> 
+      )}
     </div>
   );
 };
