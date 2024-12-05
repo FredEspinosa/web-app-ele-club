@@ -40,7 +40,7 @@ function App() {
   const router = createBrowserRouter(
     [
       {
-        path: '/inicio',
+        path: '/',
         element: <Splash />
       },
       {

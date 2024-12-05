@@ -25,7 +25,8 @@
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.26.1",
     "react-tinder-card": "^1.6.4",
-    "swiper": "^11.1.12"
+    "swiper": "^11.1.12",
+    "vite-plugin-pwa": "^0.21.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
