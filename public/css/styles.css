@@ -2093,7 +2093,7 @@ input[type="file"] {
     justify-content: flex-start;
 }
 
-.club_navbar_cont { 
+.club_navbar_cont {
     width: 247px;
     border-radius: 0px 16px 16px 0px;
     background-color: var(--color-background-blanco);
@@ -2128,7 +2128,7 @@ input[type="file"] {
     color: var(--color-primario-oro);
 }
 
-.club_cont_data_perfil > .club_txt_titular {
+.club_cont_data_perfil>.club_txt_titular {
     margin-bottom: 10px;
 }
 
@@ -2198,6 +2198,102 @@ input[type="file"] {
         box-shadow: 0 2.5em 0 0
     }
 }
+
+/* Estilos para los cards de suscribete */
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.image-section {
+    position: relative;
+}
+
+.background-image {
+    width: 100%;
+    height: auto;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+.overlay-text h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.overlay-text p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.subscription-section {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 10px;
+}
+
+.plan {
+    text-align: center;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    width: 31%;
+    /* height: 100px; */
+}
+
+.plan-title {
+    font-size: 20px;
+    font-weight: regular;
+}
+
+.plan-price {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.plan-price span {
+    font-size: 11px;
+    color: #bbb;
+}
+
+.continue-button {
+    display: block;
+    background-color: #d4af37;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 20px auto;
+    text-transform: uppercase;
+}
+
+.continue-button:hover {
+    background-color: #c39530;
+}
+
+.footer-text {
+    font-size: 12px;
+    color: #666;
+    margin: 10px 20px 20px;
+}
+
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 
 No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bootstrap  */

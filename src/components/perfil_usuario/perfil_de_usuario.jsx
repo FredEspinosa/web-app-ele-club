@@ -105,6 +105,10 @@ const UserProfile = () => {
         console.log("topBar", topBarTitle);
     }, [topBarTitle]);
 
+    const goSuscribe = () => {
+        navigate('/suscripcion')
+    }
+
   return (
     <div id="perfilUsuario">
         <div className='club_perfil_barra'>
@@ -235,7 +239,7 @@ const UserProfile = () => {
                         <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => {setEditaPerfil(false); setTopBarTitle('Editar perfil')}}>Editar perfil</button>
                     </div>
                     <div className='col-5'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' >Suscribirse</button>
+                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={goSuscribe}>Suscribirse</button>
                     </div>
                 </div>
 

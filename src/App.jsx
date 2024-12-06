@@ -33,6 +33,7 @@ import ConfirmaCodigo from './pages/confirma_codigo';
 import PrimeraFoto from './pages/set_up_perfil_pages/primeras_fotos';
 import ComoTePercibes from './pages/set_up_perfil_pages/como_te_percibes';
 import CualEsTuRol from './pages/set_up_perfil_pages/cual_es_tu_rol';
+import Suscribete from './pages/suscribete';
 
 
 function App() {
@@ -142,6 +143,10 @@ function App() {
       {
         path: '/chatbox',
         element: <Chats />
+      },
+      {
+        path: '/suscripcion',
+        element: <Suscribete />
       },
     ]
   )
