@@ -4,14 +4,18 @@ import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check';
 import { IoIosArrowBack } from 'react-icons/io';
+import { getSexualIdentity } from '../../services/api';
+import Loader from '../loader/loader';
 
 const IdentidadSexual = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [showLoader, setShowLoader] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
-    const opciones = ['Lesbiana', 'Bisexual','Heterocuriosa', 'Pansexual', 'Demisexual', 'Sáfica'];
+    // const opciones = ['Lesbiana', 'Bisexual','Heterocuriosa', 'Pansexual', 'Demisexual', 'Sáfica'];
     const tituloDeLista = 'Cual es tu identidad sexual?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -30,8 +34,26 @@ const IdentidadSexual = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+
+        listSexualIdentity();
     }, []);
-    
+
+    const listSexualIdentity = async () => {
+        setShowLoader(true)
+        try {
+          const data = await getSexualIdentity();
+          console.log("data", data);
+          if (!data.code) {
+            setShowLoader(false);
+            setOpciones(data.map(item => item.name))
+          } else {
+            console.log("ocurrio un error ☠️");
+          }
+        } catch (err) {
+          console.log(err);
+          setShowLoader(false);
+        }
+    };
 
     const handleContinuar = () => {
         if (selectedValue) {
@@ -71,7 +93,6 @@ const IdentidadSexual = () => {
                     </div>
                     </div>
                     <div className="col-12 club_margin_top_56">
-                        {/* <p>Opción seleccionada: {selectedValue}</p> */}
                         <OpcionesCheck 
                             opciones={opciones} 
                             onOptionSelect={handleOptionSelect} 
@@ -91,6 +112,7 @@ const IdentidadSexual = () => {
                 </div>
             </div>
         </div>
+        {(showLoader && <Loader /> )}
     </div>
   )
 }

@@ -770,7 +770,7 @@ p {
     width: 100%;
     height: 82%;
     /* clip-path: polygon(20% 0, 80% 0, 100% 30%, 50% 100%, 0 30%); */
-    clip-path: polygon(20% 0, 80% 0, 115% 30%, 50% 100%, -15% 30%);
+    /* clip-path: polygon(20% 0, 80% 0, 115% 30%, 50% 100%, -15% 30%); */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2309,19 +2309,6 @@ No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bo
     .club_tipo_cuenta_cont_btns {
         margin-top: 10px;
     }
-
-    /* .club_contenedor_diamante {
-        width: 100%;
-        height: 100%;
-        max-width: 255px;
-        max-height: 300px;
-        min-width: 255px;
-        min-height: 300px;
-        clip-path: polygon(20% 0, 80% 0, 100% 30%, 50% 100%, 0 30%);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    } */
 
     .club_contenedor_diamante {
         width: 76vw;

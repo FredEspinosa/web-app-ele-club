@@ -3,12 +3,16 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import InputDinamico from '../inputs/inputsDinamico';
 import { IoIosArrowBack } from 'react-icons/io';
+import { getInterest } from '../../services/api';
+import Loader from '../loader/loader';
 
 const Intereses = () => {
 
     const formRef = useRef(null); // Crea la referencia al formulario
     const navigate = useNavigate();
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [showLoader, setShowLoader] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
     useEffect(() => {
         // Obtener los datos guardados del localStorage al cargar el componente
@@ -16,7 +20,40 @@ const Intereses = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+        listInterest()
     }, []);
+
+    const listInterest = async () => {
+        setShowLoader(true);
+        try {
+            const data = await getInterest();
+            if (!data.code) {
+                // Agregar una propiedad `selected` para rastrear el estado de selección
+                const opcionesConSeleccion = data.map(item => ({
+                    ...item,
+                    selected: false
+                }));
+                setOpciones(opcionesConSeleccion);
+                setShowLoader(false);
+            } else {
+                console.log('Ocurrió un error ☠️');
+            }
+        } catch (err) {
+            console.log(err);
+            setShowLoader(false);
+        }
+    };
+
+    const handleCheckboxChange = (id) => {
+        const nuevasOpciones = opciones.map(item => 
+            item.id === id ? { ...item, selected: !item.selected } : item
+        );
+        setOpciones(nuevasOpciones);
+
+        // Actualizar el estado con las opciones seleccionadas
+        const seleccionados = nuevasOpciones.filter(item => item.selected).map(item => item.name);
+        setFormData(seleccionados);
+    };
 
     const [formData, setFormData] = useState({
         Intereses: '',
@@ -29,22 +66,6 @@ const Intereses = () => {
         });
     };
 
-    // Valores a los campos type, name, label, options, placeholder, iconStart, iconNameStart, iconEnd, iconNameEnd , help
-
-    const campos = [
-        {
-            type: 'textArea',
-            name: 'Intereses',
-            label: 'Escoge 5 intereses para tu perfil',
-            placeholder: 'Escoge 5 intereses para tu perfil',
-            iconStart: false,
-            iconNameStart:'',
-            iconEnd: false,
-            iconNameEnd: '',
-            help: false
-        }
-    ];
-
     const handleRegresar = () => {
         navigate('/cuanto_mides')
     }
@@ -54,25 +75,20 @@ const Intereses = () => {
     }
 
     const handleContinuar = () => {
-      if (formData) {
-          const nuevosDatos = {
-              ...datosUsuario, // Mantén los datos actuales
-              Intereses: formData.Intereses,
-          };
-          // Guarda los nuevos datos en el localStorage
-          localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
-          console.log("Datos actualizados guardados:", nuevosDatos);
-          setTimeout(() => {
-              navigate('/tienes_mascotas');
-          }, 300);
-      } else {
-        console.log("No se ha seleccionado ninguna opción");
-      }
-        // localStorage.setItem("datosUsuario", JSON.stringify(formData));
-        // const datosGuardados = localStorage.getItem("datosUsuario");
-        // console.log(JSON.parse(datosGuardados));
-        
-    }
+        if (formData.length > 0) {
+            const nuevosDatos = {
+                ...datosUsuario,
+                Intereses: formData, // Guardar las opciones seleccionadas
+            };
+            localStorage.setItem('datosUsuario', JSON.stringify(nuevosDatos));
+            console.log('Datos actualizados guardados:', nuevosDatos);
+            setTimeout(() => {
+                navigate('/tienes_mascotas');
+            }, 300);
+        } else {
+            console.log('No se ha seleccionado ninguna opción');
+        }
+    };
 
   return (
     <div>
@@ -95,18 +111,18 @@ const Intereses = () => {
                     </div>
                     </div>
                     <div className="col-12 club_margin_top_56">
-                        <form ref={formRef}>
-                            {" "}
-                            {/* Agrega la referencia al formulario */}
-                            {campos.map((campo, index) => (
-                            <InputDinamico
-                                key={index}
-                                config={campo}
-                                value={formData[campo.name] || ""}
-                                onChange={handleInputChange}
-                            />
-                        ))}
-                </form>
+                            {opciones.map((item) => (
+                                <div key={item.id}>
+                                    <label className="club_txt_caption w-100 club_texto_capsula">
+                                        <input
+                                            type="checkbox"
+                                            checked={item.selected}
+                                            onChange={() => handleCheckboxChange(item.id)}
+                                        />
+                                        {item.name}
+                                    </label>
+                                </div>
+                            ))}
                     </div>
                 </div>
                 <div className="club_cont_btns_full club_notificaciones_btns">
@@ -119,6 +135,7 @@ const Intereses = () => {
                 </div>
             </div>
         </div>
+        {(showLoader && <Loader /> )}
     </div>
   )
 }

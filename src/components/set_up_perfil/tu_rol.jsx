@@ -4,14 +4,18 @@ import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check';
 import { IoIosArrowBack } from 'react-icons/io';
+import Loader from '../loader/loader';
+import { getRole } from '../../services/api';
 
 const TuRol = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [showLoader, setShowLoader] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
-    const opciones = ['Activa', 'Pasiva', 'Versátil'];
+    // const opciones = ['Activa', 'Pasiva', 'Versátil'];
     const tituloDeLista = 'Cuál es tu rol?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -30,7 +34,25 @@ const TuRol = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+        listRole()
     }, []);
+
+    const listRole = async () => {
+        setShowLoader(true)
+        try {
+          const data = await getRole();
+          console.log("data", data);
+          if (!data.code) {
+            setShowLoader(false);
+            setOpciones(data.map(item => item.name))
+          } else {
+            console.log("ocurrio un error ☠️");
+          }
+        } catch (err) {
+          console.log(err);
+          setShowLoader(false);
+        }
+    };
     
 
     const handleContinuar = () => {
@@ -91,6 +113,7 @@ const TuRol = () => {
                 </div>
             </div>
         </div>
+        {(showLoader && <Loader /> )}
     </div>
   )
 }

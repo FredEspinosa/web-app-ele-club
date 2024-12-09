@@ -4,14 +4,18 @@ import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check';
 import { IoIosArrowBack } from 'react-icons/io';
+import { getGender } from '../../services/api';
+import Loader from '../loader/loader';
 
 const IdentidadGenero = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [showLoader, setShowLoader] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
-    const opciones = ['Mujer', 'No-Binarie', 'Gender Fluid', 'Mujer Trans'];
+    // const opciones = ['Mujer', 'No-Binarie', 'Gender Fluid', 'Mujer Trans'];
     const tituloDeLista = 'Cual es tu identidad de género?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -30,8 +34,26 @@ const IdentidadGenero = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+
+        listGenders()
     }, []);
-    
+
+    const listGenders = async () => {
+        setShowLoader(true)
+        try {
+          const data = await getGender();
+          console.log("data", data);
+          if (!data.code) {
+            setShowLoader(false);
+            setOpciones(data.map(item => item.name))
+          } else {
+            console.log("ocurrio un error ☠️");
+          }
+        } catch (err) {
+          console.log(err);
+          setShowLoader(false);
+        }
+    };    
 
     const handleContinuar = () => {
         if (selectedValue) {
@@ -91,6 +113,7 @@ const IdentidadGenero = () => {
                 </div>
             </div>
         </div>
+        {(showLoader && <Loader /> )}
     </div>
   )
 }

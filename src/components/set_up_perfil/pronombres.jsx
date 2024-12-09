@@ -4,14 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
+import { getPronouns } from '../../services/api';
+import Loader from '../loader/loader';
 
 const Pronombres = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [showLoader, setShowLoader] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
-    const opciones = ['Ella', 'Ella/él', 'Ella/elle'];
+    // const opciones = ['Ella', 'Ella/él', 'Ella/elle'];
     const tituloDeLista = 'Cuál es tu pronombre?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -30,9 +34,27 @@ const Pronombres = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
-    }, []);
-    
 
+        listPronouns()
+    }, []);
+
+    const listPronouns = async () => {
+        setShowLoader(true)
+        try {
+          const data = await getPronouns();
+          console.log("data", data);
+          if (!data.code) {
+            setShowLoader(false);
+            setOpciones(data.map(item => item.name))
+          } else {
+            console.log("ocurrio un error ☠️");
+          }
+        } catch (err) {
+          console.log(err);
+          setShowLoader(false);
+        }
+    };
+    
     const handleContinuar = () => {
         if (selectedValue) {
             const nuevosDatos = {
@@ -91,6 +113,7 @@ const Pronombres = () => {
                 </div>
             </div>
         </div>
+        {(showLoader && <Loader /> )}
     </div>
   )
 }

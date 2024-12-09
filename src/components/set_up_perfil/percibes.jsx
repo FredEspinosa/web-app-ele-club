@@ -4,14 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
+import { getPerception } from '../../services/api';
+import Loader from '../loader/loader';
 
 const TePercibes = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [showLoader, setShowLoader] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
-    const opciones = ['Fem', 'Masc', 'Tomfem'];
+    // const opciones = ['Fem', 'Masc', 'Tomfem'];
     const tituloDeLista = 'Cómo te percibes?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -30,8 +34,26 @@ const TePercibes = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+
+        listPerception()
     }, []);
     
+    const listPerception = async () => {
+        setShowLoader(true)
+        try {
+          const data = await getPerception();
+          console.log("data", data);
+          if (!data.code) {
+            setShowLoader(false);
+            setOpciones(data.map(item => item.name))
+          } else {
+            console.log("ocurrio un error ☠️");
+          }
+        } catch (err) {
+          console.log(err);
+          setShowLoader(false);
+        }
+    };
 
     const handleContinuar = () => {
         if (selectedValue) {
@@ -91,6 +113,7 @@ const TePercibes = () => {
                 </div>
             </div>
         </div>
+        {(showLoader && <Loader /> )}
     </div>
   )
 }

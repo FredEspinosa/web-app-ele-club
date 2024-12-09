@@ -4,14 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
+import Loader from '../loader/loader';
+import { getZodiac } from '../../services/api';
 
 const SignoZodiaco = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [showLoader, setShowLoader] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
-    const opciones = ['Capri', 'Acuario', 'Picis', 'Sagi', 'Escorpio', 'Libra', 'Virgo', 'Leo', 'Cáncer', 'Géminis', 'Tauro', 'Aries'];
+    // const opciones = ['Capri', 'Acuario', 'Picis', 'Sagi', 'Escorpio', 'Libra', 'Virgo', 'Leo', 'Cáncer', 'Géminis', 'Tauro', 'Aries'];
     const tituloDeLista = 'Cuál es tu signo zodiacal?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -34,8 +38,25 @@ const SignoZodiaco = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+        listZodiac()
     }, []);
-    
+
+    const listZodiac = async () => {
+        setShowLoader(true)
+        try {
+          const data = await getZodiac();
+          console.log("data", data);
+          if (!data.code) {
+            setShowLoader(false);
+            setOpciones(data.map(item => item.name))
+          } else {
+            console.log("ocurrio un error ☠️");
+          }
+        } catch (err) {
+          console.log(err);
+          setShowLoader(false);
+        }
+    };
 
     const handleContinuar = () => {
         if (selectedValue) {
@@ -95,6 +116,7 @@ const SignoZodiaco = () => {
                 </div>
             </div>
         </div>
+        {(showLoader && <Loader /> )}
     </div>
   )
 }

@@ -97,7 +97,7 @@ const NotificacionesContenido = () => {
             {showBienvenida &&
                 <div className='club_contenedor container-lg club_sub_contenedor'>
                     <div className='club_cont_info active animate__animated animate__bounceInDown club_notific_info'>
-                        <img src={LogoClubTopBarBig} alt="Logo Club" />
+                        <img className='w-100' src={LogoClubTopBarBig} alt="Logo Club" />
                     </div>
                     <div className='club_cont_info_grow_1'>
                         <div className='col-12'>
@@ -116,7 +116,7 @@ const NotificacionesContenido = () => {
             {showPermisoUbi &&
                 <div className='club_contenedor container-lg club_sub_contenedor'>
                     <div className='club_cont_info active animate__animated animate__bounceInDown club_notific_info'>
-                        <img src={LogoClubTopBarBig} alt="Logo Club" />
+                        <img className='w-100' src={LogoClubTopBarBig} alt="Logo Club" />
                     </div>
                     <div className='club_cont_info_grow_1'>
                         <div className='col-12'>
@@ -137,7 +137,7 @@ const NotificacionesContenido = () => {
             {showAceptar &&
                 <div className='club_contenedor container-lg club_sub_contenedor'>
                     <div className='club_cont_info active animate__animated animate__bounceInDown club_notific_info'>
-                        <img src={LogoClubTopBarBig} alt="Logo Club" />
+                        <img className='w-100' src={LogoClubTopBarBig} alt="Logo Club" />
                     </div>
                     <div className='club_cont_info_grow_1'>
                         <div className='col-12'>
@@ -163,7 +163,7 @@ const NotificacionesContenido = () => {
             {showReglas &&
                 <div className='club_contenedor container-lg club_sub_contenedor'>
                     <div className='club_cont_info active animate__animated animate__bounceInDown club_notific_info'>
-                        <img src={LogoClubTopBarBig} alt="Logo Club" />
+                        <img className='w-100' src={LogoClubTopBarBig} alt="Logo Club" />
                     </div>
                     <div className='club_cont_info_grow_1'>
                         <div className='col-12'>

@@ -230,9 +230,9 @@ const ContenidoBienvenida = () => {
                     </div>
                     <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>
                         <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
-                            <h1 className='col-12'>CONOCE</h1>
+                            <h1 className='col-12'>FASE 1</h1>
                             <p className='col-12'>
-                                Enamórate, has nuevas amistades o encuentren fácilmente lugares sáficos a donde ir.
+                                En esta primera fase, puedes ligar haciendo match con otras personas o bien mandarles friend request para platicar con ellas.
                             </p>
                         </div>
                     </div>
@@ -262,10 +262,9 @@ const ContenidoBienvenida = () => {
                     </div>
                     <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>
                         <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
-                            <h1 className='col-12'>CONECTA</h1>
+                            <h1 className='col-12'>FASE 1</h1>
                             <p className='col-12'>
-                                Enamórate, has nuevas amistades o encuentren fácilmente lugares sáficos a donde ir.
-                            </p>
+                                Haz nuevas relaciones, vínculos y amistades gracias a los foros abiertos para platicar con otras personas que tengan los mismos intereses o afinidades que tú. Podrás crear tu grupo de chat o bien entrar a los ya creados por la misma comunidad.                            </p>
                         </div>
                     </div>
                     <div className='club_cont_btns_doble club_bienvenida_btns'>
@@ -292,10 +291,9 @@ const ContenidoBienvenida = () => {
                     </div>
                     <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>
                         <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
-                            <h1 className='col-12'>DESCUBRE</h1>
+                            <h1 className='col-12'>FASE 2</h1>
                             <p className='col-12'>
-                                Enamórate, has nuevas amistades o encuentren fácilmente lugares sáficos a donde ir.
-                            </p>
+                                En esta segunda fase podrás encontrar diversos lugares, planes o actividades que hacer según tus gustos y necesidades. Todo esto podrá será publicado por la misma comunidad de Helena’s.                            </p>
                         </div>
                     </div>
                     <div className='club_cont_btns_doble club_bienvenida_btns'>

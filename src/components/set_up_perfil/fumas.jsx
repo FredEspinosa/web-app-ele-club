@@ -4,14 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
+import { getSmoke } from '../../services/api';
+import Loader from '../loader/loader';
 
 const Habitos = () => {
 
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState(null);
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [showLoader, setShowLoader] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
-    const opciones = ['Cigarros', 'Vape', 'Weed', 'No'];
+    // const opciones = ['Cigarros', 'Vape', 'Weed', 'No'];
     const tituloDeLista = 'Fumas?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -34,8 +38,25 @@ const Habitos = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+        listSmoke()
     }, []);
-    
+
+    const listSmoke = async () => {
+        setShowLoader(true)
+        try {
+          const data = await getSmoke();
+          console.log("data", data);
+          if (!data.code) {
+            setShowLoader(false);
+            setOpciones(data.map(item => item.name))
+          } else {
+            console.log("ocurrio un error ☠️");
+          }
+        } catch (err) {
+          console.log(err);
+          setShowLoader(false);
+        }
+    };
 
     const handleContinuar = () => {
         if (selectedValue) {
@@ -95,6 +116,7 @@ const Habitos = () => {
                 </div>
             </div>
         </div>
+        {(showLoader && <Loader /> )}
     </div>
   )
 }
