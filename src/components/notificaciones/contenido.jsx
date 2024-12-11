@@ -4,6 +4,7 @@ import LogoClubTopBarBig from '../../assets/images/LCLUB_LOGO_BIG.png'; // Impor
 import { useNavigate } from 'react-router-dom';
 import PermisosUbi from './popupPermiosUbicacion';
 import FooterDinamico from '../footer/footer_dinamico';
+import Welcome from '../../assets/images/notificaciones/welcome.jpg'
 
 const NotificacionesContenido = () => {
 
@@ -44,10 +45,14 @@ const NotificacionesContenido = () => {
             break;
         case 'Continuar':
             setShowReglas(true);
-            handleContinuar()
+            setShowDiviertete(false)
+            break;
+        case 'Entrar':
+            setShowReglas(false);
+            setShowDiviertete(true)        
             break;
         case 'Acepto':
-            navigate('/home')
+            handleContinuar()
             break;
         default:
             break;
@@ -210,7 +215,7 @@ const NotificacionesContenido = () => {
                         </div>
                     </div>
                     <div className='club_cont_btns_full club_notificaciones_btns'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' disabled={!isChecked} onClick={() => { handleClick('Acepto'); }}>Acepto</button>
+                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' disabled={!isChecked} onClick={() => { handleClick('Entrar'); }}>Acepto</button>
                     </div>
                 </div>
             }
@@ -218,27 +223,20 @@ const NotificacionesContenido = () => {
             {showDiviertete &&
                 <div className='club_sub_contenedor'>
                     <div className='club_onboarding_img'>
-                        <img src={Bienvenida03} alt="Logo Club" width={'100%'} />
+                        <img src={Welcome} alt="Logo Club" width={'100%'} />
                     </div>
                     <div className='club_contenedor container-lg'>
-                        <div className='club_onboarding_bullets_cont justify-content-start'>
-                            <span className='club_onboarding_bullet active'></span>
-                            <span className='club_onboarding_bullet active'></span>
-                            <span className='club_onboarding_bullet active'></span>
-                        </div>
                         <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>
                             <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
-                                <h1 className='col-12'>FASE 2</h1>
+                                <h1 className='col-12 club_txt_titulo text-start' style={{marginTop:'20px'}}>DIVIERTETE</h1>
                                 <p className='col-12'>
-                                    En esta segunda fase podrás encontrar diversos lugares, planes o actividades que hacer según tus gustos y necesidades. Todo esto podrá será publicado por la misma comunidad de Helena’s.                            </p>
+                                    Esta es la última regla y la más importante de todas 
+                                </p>
                             </div>
                         </div>
-                        <div className='club_cont_btns_doble club_bienvenida_btns'>
-                            <div className='col-5'>
-                                <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => { handleClick('ClubersBack'); }}>Anterior</button>
-                            </div>
-                            <div className='col-5'>
-                                <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Clubers'); }} >Siguiente</button>
+                        <div className='club_cont_btns_doble club_bienvenida_btns club_bienvenida_btns'>
+                            <div className='col-12'>
+                                <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Acepto'); }} >Entrar</button>
                             </div>
                         </div>
                     </div>
