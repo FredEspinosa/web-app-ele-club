@@ -34,6 +34,7 @@ import PrimeraFoto from './pages/set_up_perfil_pages/primeras_fotos';
 import ComoTePercibes from './pages/set_up_perfil_pages/como_te_percibes';
 import CualEsTuRol from './pages/set_up_perfil_pages/cual_es_tu_rol';
 import Suscribete from './pages/suscribete';
+import PerfilOtraPersona from './components/perfil_de_otra_persona/perfil_otra_persona';
 
 
 function App() {
@@ -147,6 +148,10 @@ function App() {
       {
         path: '/suscripcion',
         element: <Suscribete />
+      },
+      {
+        path: '/perfil_otra_persona',
+        element: <PerfilOtraPersona />
       },
     ]
   )

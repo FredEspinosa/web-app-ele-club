@@ -15,6 +15,8 @@ const NotificacionesContenido = () => {
     const [showModal, setShowModal] = useState (false);
     const [datosUsuario, setDatosUsuario] = useState({});
     const [showReglas, setShowReglas] = useState (false);
+    const [showDiviertete, setShowDiviertete] = useState (false);
+    const [isChecked, setIsChecked] = useState(false);
 
     useEffect(() => {
         const datosGuardados = localStorage.getItem("datosUsuario");
@@ -91,6 +93,10 @@ const NotificacionesContenido = () => {
         }, 300);
     };
 
+    const handleCheckboxChange = (event) => {
+        setIsChecked(event.target.checked);
+    };
+
   return (
     <div>
         <div className='club_contenedor_full_height'>
@@ -137,7 +143,7 @@ const NotificacionesContenido = () => {
             {showAceptar &&
                 <div className='club_contenedor container-lg club_sub_contenedor'>
                     <div className='club_cont_info active animate__animated animate__bounceInDown club_notific_info'>
-                        <img className='w-100' src={LogoClubTopBarBig} alt="Logo Club" />
+                        <img className='w-100' src={LogoClubTopBarBig} alt="Logo Club"/>
                     </div>
                     <div className='club_cont_info_grow_1'>
                         <div className='col-12'>
@@ -162,36 +168,79 @@ const NotificacionesContenido = () => {
 
             {showReglas &&
                 <div className='club_contenedor container-lg club_sub_contenedor'>
-                    <div className='club_cont_info active animate__animated animate__bounceInDown club_notific_info'>
-                        <img className='w-100' src={LogoClubTopBarBig} alt="Logo Club" />
+                    <div className='club_cont_info active animate__animated animate__bounceInDown club_notific_info_2'>
+                        <img className='w-100' src={LogoClubTopBarBig} alt="Logo Club" style={{maxWidth:'240px'}} />
                     </div>
                     <div className='club_cont_info_grow_1'>
                         <div className='col-12'>
-                            <h1 className='club_titulo_2_size_22 club_font_regular text-center'>¡Te damos la bienvenida a las Reglas de Convivencia!</h1>
+                            <h1 className='club_titulo_2_size_22 club_font_regular text-center'>¡Reglas de Convivencia!</h1>
                         </div>
                         <div className='col-12'>
                             <p className='club_notificaciones_txt'>
-                            Si, tenemos reglas.
-                            <br />
-                            <br />
-                            Se amable y respetuosa.
-                            <br />
-                            <br />
-                            No se puede vender ni ofrecer ningún tipo de servicio de emprendimiento, de cacharte haciéndolo serás expulsada de Helena.
-                            <br />
-                            <br />
-                            Se borrarán los chats que infrinjan nuestras <b className='club_color_fuente_oro'>Reglas de Comunidad</b> y suspenderemos la cuenta a quienes no sigan las reglas.
-                            <br />
-                            <br />
-                            Gracias por estar aquí!
-                            <br />
-                            <br />
-                            El equipo de Helena.
+                                Queremos que Helena sea un espacio cómodo y seguro para todas así que al ser parte de esta comunidad te comprometes a cumplir las siguientes reglas:
                             </p>
+                            <p className='club_notificaciones_txt text-start'>
+                                No seas bully o uses lenguaje ofensivo ni por raza, religion, cultura, género o identidad.
+                            </p>
+                            <hr />
+                            <p className='club_notificaciones_txt text-start'>
+                                Respeta la privacidad, Recuerda que tus conversaciones son confidenciales. lo que pasa en Helena se queda en Helena                             
+                            </p>
+                            <hr />
+                            <p className='club_notificaciones_txt text-start'>
+                                No te pongas a vender u ofrecer servicios, además de que es incomodisimo, esta app no es para eso bb
+                            </p>
+                            <hr />
+                            <p className='club_notificaciones_txt text-start'>
+                                Se respetuosa, ayudanos a fomentar un entorno agradable en el que nos tratemos cool. No hate y no Pasivo agresividad
+                            </p>
+                            <hr />
+                            <div className="club_checkbox_wrapper_1">
+                                <input 
+                                    id="aceptoReglas"
+                                    className="club_check_style"
+                                    type="checkbox"
+                                    aria-hidden="true"
+                                    checked={isChecked}
+                                    onChange={handleCheckboxChange} 
+                                />
+                                <label htmlFor="aceptoReglas">Acepto todas las reglas de convivencia</label>
+                            </div>
+                            <br />
                         </div>
                     </div>
                     <div className='club_cont_btns_full club_notificaciones_btns'>
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Acepto'); }}>Acepto</button>
+                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' disabled={!isChecked} onClick={() => { handleClick('Acepto'); }}>Acepto</button>
+                    </div>
+                </div>
+            }
+
+            {showDiviertete &&
+                <div className='club_sub_contenedor'>
+                    <div className='club_onboarding_img'>
+                        <img src={Bienvenida03} alt="Logo Club" width={'100%'} />
+                    </div>
+                    <div className='club_contenedor container-lg'>
+                        <div className='club_onboarding_bullets_cont justify-content-start'>
+                            <span className='club_onboarding_bullet active'></span>
+                            <span className='club_onboarding_bullet active'></span>
+                            <span className='club_onboarding_bullet active'></span>
+                        </div>
+                        <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>
+                            <div className='d-flex flex-wrap align-items-center justify-content-center w-100'>
+                                <h1 className='col-12'>FASE 2</h1>
+                                <p className='col-12'>
+                                    En esta segunda fase podrás encontrar diversos lugares, planes o actividades que hacer según tus gustos y necesidades. Todo esto podrá será publicado por la misma comunidad de Helena’s.                            </p>
+                            </div>
+                        </div>
+                        <div className='club_cont_btns_doble club_bienvenida_btns'>
+                            <div className='col-5'>
+                                <button className='btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro' onClick={() => { handleClick('ClubersBack'); }}>Anterior</button>
+                            </div>
+                            <div className='col-5'>
+                                <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Clubers'); }} >Siguiente</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             }

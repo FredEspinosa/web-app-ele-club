@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import InputDinamico from '../inputs/inputsDinamico';
 import { IoIosArrowBack } from 'react-icons/io';
 import { getInterest } from '../../services/api';
 import Loader from '../loader/loader';
@@ -27,6 +26,8 @@ const Intereses = () => {
         setShowLoader(true);
         try {
             const data = await getInterest();
+            console.log(data);
+            
             if (!data.code) {
                 // Agregar una propiedad `selected` para rastrear el estado de selección
                 const opcionesConSeleccion = data.map(item => ({
@@ -100,21 +101,25 @@ const Intereses = () => {
                 </div>
                 <div className="club_cont_info_grow_1">
                     <div className="col-12 d-flex justify-content-start">
-                    <div className="club_cont_barra">
-                        <span>Completa tu perfil</span>
-                        <div className='club_barra_progreso'>
-                            <div className='club_progreso active'></div>
-                            <div className='club_progreso active'></div>
-                            <div className='club_progreso active animate__animated animate__bounceIn'></div>
-                            <div className='club_progreso'></div>
+                        <div className="club_cont_barra">
+                            <span>Completa tu perfil</span>
+                            <div className='club_barra_progreso'>
+                                <div className='club_progreso active'></div>
+                                <div className='club_progreso active'></div>
+                                <div className='club_progreso active animate__animated animate__bounceIn'></div>
+                                <div className='club_progreso'></div>
+                            </div>
                         </div>
                     </div>
+                    <div style={{margin:'20px 0px'}}>
+                        <p>Escoge mínimo 5 intereses para tu perfil</p>
                     </div>
-                    <div className="col-12 club_margin_top_56">
+                    <div className="col-12 club_intereses_bg_negro">
                             {opciones.map((item) => (
                                 <div key={item.id}>
-                                    <label className="club_txt_caption w-100 club_texto_capsula">
+                                    <label className={item.selected? 'club_txt_caption club_texto_capsula cap_active': 'club_txt_caption club_texto_capsula'}>
                                         <input
+                                            className='btn-check'
                                             type="checkbox"
                                             checked={item.selected}
                                             onChange={() => handleCheckboxChange(item.id)}

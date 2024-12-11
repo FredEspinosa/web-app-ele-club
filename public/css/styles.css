@@ -846,6 +846,58 @@ p {
     display: none;
 }
 
+/* Estilos para la parte de Perfil ELLA */
+
+.club_status-verified {
+    padding: 10px;
+    color: var(--color-primario-violeta-05);
+}
+
+.club_location-profile {
+    color: var(--color-neutral-gris-02);
+}
+
+.club_about-me h2 {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--color-neutral-gris-01);
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.club_preferences {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--color-neutral-gris-01);
+    margin-bottom: 330px;
+    margin-top: 100px;
+    text-align: left;
+}
+
+.club_identity-h1 {
+    font-size: 16px;
+    color: var(--color-primario-menta-12);
+    margin-bottom: 5px;
+}
+
+.club_identity-h2 {
+    font-size: 16px;
+    color: var(--color-primario-menta-12);
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.club_tag {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    background: #f3f3f3;
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--color-primario-violeta-06);
+    margin-bottom: 30px;
+}
+
 /* Estilos para la parte de Perfil */
 
 .club_contenedor_settings {
@@ -1566,7 +1618,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 400px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 10px 30px var(--color-primario-oro);
     overflow: hidden;
     text-align: center;
 }
@@ -2124,8 +2176,16 @@ input[type="file"] {
 .club_texto_capsula {
     padding: 5px 10px;
     border-radius: 12px;
-    background-color: var(--color-neutral-azul-01);
+    background-color: var(--color-neutral-blanco-06);
     color: var(--color-primario-oro);
+    margin: 5px;
+}
+
+.cap_active {
+    padding: 5px 10px;
+    border-radius: 12px;
+    background-color: var(--color-primario-oro);
+    color: var(--color-neutral-blanco-06);
 }
 
 .club_cont_data_perfil>.club_txt_titular {
@@ -2292,6 +2352,114 @@ input[type="file"] {
     font-size: 12px;
     color: #666;
     margin: 10px 20px 20px;
+}
+
+.club_intereses_bg_negro {
+    background-color: var(--color-neutral-gris-01);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Estilos checkbox */
+
+.club_checkbox_wrapper_1 *,
+.club_checkbox_wrapper_1 ::after,
+.club_checkbox_wrapper_1 ::before {
+    box-sizing: border-box;
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style {
+    margin: 0;
+    width: 0;
+    height: 0;
+    display: inline;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style+label:before {
+    content: "";
+    display: inline-block;
+    vertical-align: top;
+    height: 1.15em;
+    width: 1.15em;
+    margin-right: 0.6em;
+    color: rgba(0, 0, 0, 0.275);
+    border: solid 0.06em;
+    box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em inset, 0 0 0 0.07em transparent inset;
+    border-radius: 0.2em;
+    background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xml:space="preserve" fill="white" viewBox="0 0 9 9"><rect x="0" y="4.3" transform="matrix(-0.707 -0.7072 0.7072 -0.707 0.5891 10.4702)" width="4.3" height="1.6" /><rect x="2.2" y="2.9" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 12.1877 2.9833)" width="6.1" height="1.7" /></svg>') no-repeat center, white;
+    background-size: 0;
+    will-change: color, border, background, background-size, box-shadow;
+    transform: translate3d(0, 0, 0);
+    transition: color 0.1s, border 0.1s, background 0.15s, box-shadow 0.1s;
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:enabled:active+label:before,
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:enabled+label:active:before {
+    box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em transparent inset, 0 0 0 0.07em var(--color-primario-oro) inset;
+    background-color: var(--color-background-blanco);
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:checked+label:before {
+    background-color: var(--color-primario-oro);
+    background-size: 0.75em;
+    color: rgba(0, 0, 0, 0.075);
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:checked:enabled:active+label:before,
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:checked:enabled+label:active:before {
+    background-color: var(--color-primario-oro);
+    color: rgba(0, 0, 0, 0.275);
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:focus+label:before {
+    box-shadow: 0 0 3px var(--color-primario-oro);
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:focus:active+label:before,
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:focus+label:active:before {
+    box-shadow: 0 0 3px var(--color-primario-oro);
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style:disabled+label:before {
+    opacity: 0.5;
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style.dark+label:before {
+    color: rgba(255, 255, 255, 0.275);
+    background-color: #222;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xml:space="preserve" fill="rgba(34, 34, 34, 0.999)" viewBox="0 0 9 9"><rect x="0" y="4.3" transform="matrix(-0.707 -0.7072 0.7072 -0.707 0.5891 10.4702)" width="4.3" height="1.6" /><rect x="2.2" y="2.9" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 12.1877 2.9833)" width="6.1" height="1.7" /></svg>');
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style.dark:enabled:active+label:before,
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style.dark:enabled+label:active:before {
+    background-color: #444;
+    box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em transparent inset, 0 0 0 0.07em rgba(255, 255, 255, 0.1) inset;
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style.dark:checked+label:before {
+    background-color: #a97035;
+    color: rgba(255, 255, 255, 0.075);
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style.dark:checked:enabled:active+label:before,
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style.dark:checked:enabled+label:active:before {
+    background-color: #c68035;
+    color: rgba(0, 0, 0, 0.275);
+}
+
+.club_checkbox_wrapper_1 [type=checkbox].club_check_style+label {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#clubNotifications .club_notific_info_2 {
+    margin-top: 28px;
 }
 
 
