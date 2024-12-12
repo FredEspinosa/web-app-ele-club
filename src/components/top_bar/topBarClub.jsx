@@ -70,19 +70,22 @@ export const TopBarClub = () => {
                 >
                     <IoClose 
                         size={24}
-                        className='club_color_fuente_negro' 
+                        className='club_color_fuente_gris_01' 
                     />
                 </button>
                 </div>
                 <div className='col-12'>
                     <img src={LogoClubTopBar} alt="Logo Club" style={{ maxWidth: '80px' }} />
                 </div>
-                <ul className="club_navbar_list">
-                    <li onClick={() => goToSection('/')}>Inicio</li>
+                <ul className="club_navbar_list club_color_fuente_gris_01">
+                    <li onClick={() => goToSection('/home')}>Inicio</li>
                     <li onClick={() => goToSection('/alertas')}>Alertas</li>
-                    <li onClick={() => goToSection('/chats')}>Chats</li>
-                    <li onClick={() => goToSection('/perfil')}>Perfil</li>
-                    <li onClick={() => goToSection('/configuracion')}>Configuración</li>
+                    <li onClick={() => goToSection('/chatbox')}>Chats</li>
+                    <li onClick={() => goToSection('/alertas')}>Matches</li>
+                    <li onClick={() => goToSection('/alertas')}>Likes</li>
+                    <li onClick={() => goToSection('/alertas')}>Amigas</li>
+                    <li onClick={() => goToSection('/mi_perfil')}>Perfil</li>
+                    <li onClick={() => goToSection('/configuracion')}>Ajustes</li>
                 </ul>
 
             </div>

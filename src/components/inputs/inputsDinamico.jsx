@@ -4,8 +4,6 @@ import React from 'react';
 const InputDinamico = ({ config, value, onChange }) => {
     const { type, name, label, options, placeholder, iconStart, iconNameStart, iconEnd, iconNameEnd, help, msjHelp, disabled } = config;
 
-    console.log(disabled);
-    
     return (
         <div className="input-dinamico">            
             {type === 'select' ? (

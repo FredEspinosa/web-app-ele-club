@@ -25,7 +25,7 @@ const Pronombres = () => {
     };
 
     const handleRegresar = () => {
-        navigate('/datos_personales')
+        navigate('/primeras_fotos')
     }
 
     useEffect(() => {

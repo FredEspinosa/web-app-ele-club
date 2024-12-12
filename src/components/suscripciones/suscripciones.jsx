@@ -58,9 +58,8 @@ const Suscripciones = () => {
                 </div>
             </div>
             <FooterDinamico 
-                textoFooter={      
-                    <p>La suscripción Gold es auto-renovada que te da acceso a distintas funcionalidades dentro de la app de <b>HelenaSáfica®</b>.</p>
-                }
+                textoFooter={<p>La suscripción Gold es auto-renovada que te da acceso a distintas funcionalidades dentro de la app de <b>HelenaSáfica®</b>.</p>}
+                redirectLink={false}
             />
         </div>
     </div>

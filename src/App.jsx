@@ -36,6 +36,8 @@ import CualEsTuRol from './pages/set_up_perfil_pages/cual_es_tu_rol';
 import Suscribete from './pages/suscribete';
 import PerfilOtraPersona from './components/perfil_de_otra_persona/perfil_otra_persona';
 import InformacionDeCuenta from './pages/informacion_de_cuenta';
+import AlertasPagina from './pages/alertas_pagina';
+import LikesPage from './pages/likes_page';
 
 
 function App() {
@@ -157,6 +159,14 @@ function App() {
       {
         path: '/informacion_de_la_cuenta',
         element: <InformacionDeCuenta />
+      },
+      {
+        path: '/alertas',
+        element: <AlertasPagina />
+      },
+      {
+        path: '/likes',
+        element: <LikesPage />
       },
     ]
   )

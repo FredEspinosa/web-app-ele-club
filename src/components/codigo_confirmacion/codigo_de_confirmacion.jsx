@@ -5,6 +5,7 @@ import InputCodigo from "./input_codigo";
 import { obtenerCodigo, validaCodigoToken } from "../../services/api";
 import Loader from "../loader/loader";
 import ModalAlertas from "../alertas/modal_alert";
+import AlertSuscribe from "../alertas/alert_suscribete";
 
 const CodigoValidacion = ({ avanzarPagina }) => {
   const navigate = useNavigate();
@@ -54,9 +55,9 @@ const CodigoValidacion = ({ avanzarPagina }) => {
     } catch (err) {
       console.log(err);
       setShowLoader(false);
-      // setShowAlert(true);
+      setShowAlert(true);
       // setTituloModal('Ocurrio un error ☠️')
-      // setMensajeModal(<p>No se pudo enviar el código. <br /> Por favor intenta pedir un código nuevo</p>)
+      setMensajeModal(<p>¡Lo sentimos! ocurrio un problema al enviar el código, <b>intenta nuevamente</b>.</p>)
       // setShowBtnCancel(true)
       // setTextoBtnCancel('Cerrar')
       // setShowBtnAcept(false)
@@ -78,18 +79,13 @@ const CodigoValidacion = ({ avanzarPagina }) => {
         navigate("/datos_personales");
       } else {
         console.log("ocurrio un error ☠️");
-        
       }
     } catch (err) {
       console.log(err);
       setShowLoader(false);
-      // setShowAlert(true);
-      // setTituloModal('Ocurrio un error ☠️')
-      // setMensajeModal(<p>Error de autenticación</p>)
-      // setShowBtnCancel(true)
-      // setTextoBtnCancel('Cerrar')
-      // setShowBtnAcept(false)
-      // setTextoBtnAcept('Aceptar')
+      setShowLoader(false);
+      setShowAlert(true);
+      setMensajeModal(<p>Código incorrecto, <b>intenta nuevamente</b>.</p>)
     }
 };
 
@@ -113,9 +109,9 @@ const CodigoValidacion = ({ avanzarPagina }) => {
     consultaTuCodigo(telUsuario)
   };
 
-  const handleCerrarModal = () => {
-    showAlert(false)
-}
+  const closeModal = () => {
+    setShowAlert(false)
+  }
 
   return (
     <div>
@@ -158,15 +154,22 @@ const CodigoValidacion = ({ avanzarPagina }) => {
       </div>
       {(showLoader && <Loader /> )}
       {(showAlert && 
-        <ModalAlertas 
-          cerrarModal={handleCerrarModal}
-          tituloModal={tituloModal}
+        <AlertSuscribe 
           mensajeModal={mensajeModal}
-          btnCancelar={true}
-          btnMsjCancelar={textoBtnCancel}
           btnAceptar={true}
-          btnMsjAceptar={textoBtnAcept}
-        /> 
+          btnMsjButtom={'CERRAR'}
+          handleOnclick={closeModal}
+          bgColorButton={'club_bg_oro'}
+        />
+        // <ModalAlertas 
+        //   cerrarModal={handleCerrarModal}
+        //   tituloModal={tituloModal}
+        //   mensajeModal={mensajeModal}
+        //   btnCancelar={true}
+        //   btnMsjCancelar={textoBtnCancel}
+        //   btnAceptar={true}
+        //   btnMsjAceptar={textoBtnAcept}
+        // /> 
       )}
     </div>
   );

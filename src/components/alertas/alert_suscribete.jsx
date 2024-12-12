@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 
-const AlertSuscribe = ({ cerrarModal, tituloModal, mensajeModal, btnCancelar, btnMsjCancelar, btnAceptar, btnMsjButtom, handleSuscribe }) => {
+const AlertSuscribe = ({ cerrarModal, mensajeModal, btnAceptar, btnMsjButtom, handleOnclick, bgColorButton }) => {
   const [isVisible, setIsVisible] = useState(true); // Controla la visibilidad del popup
 
   const handleAceptar = () => {
@@ -28,7 +28,7 @@ const AlertSuscribe = ({ cerrarModal, tituloModal, mensajeModal, btnCancelar, bt
                     </div>
                     <div className="modal-footer">
                         {btnAceptar && 
-                            <button className="btn club_btn club_btn_full club_btn_full_general club_bg_violeta_05" onClick={handleSuscribe}>{btnMsjButtom}</button>
+                            <button className={`btn club_btn club_btn_full club_btn_full_general ${bgColorButton}`} onClick={handleOnclick}>{btnMsjButtom}</button>
                         }
                     </div>
                 </div>

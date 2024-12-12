@@ -61,7 +61,9 @@ export const ContenidoHome = () => {
                 </div>
           </div>
           <div className="club_contenido_bottom club_cont_info">
-            <NavBar />
+            <NavBar 
+              currentPage={'Inicio'}
+            />
           </div>
       </div>
     </div>

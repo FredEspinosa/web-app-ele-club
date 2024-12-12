@@ -113,7 +113,8 @@ const PerfilOtraPersona = () => {
                     mensajeModal={<p>¿Quieres tener todas las funciones de manera ilimitada?</p>}
                     btnAceptar={true}
                     btnMsjButtom={'SUSCRIBETE'}
-                    handleSuscribe={goToSuscribe}
+                    handleOnclick={goToSuscribe}
+                    bgColorButton={'club_bg_violeta_05'}
                 />
             }
         </div>

@@ -38,6 +38,8 @@ const Habitos = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+        console.log("datos guardados", datosGuardados);
+        
         listSmoke()
     }, []);
 

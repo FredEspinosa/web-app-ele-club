@@ -163,9 +163,8 @@ const NotificacionesContenido = () => {
                         <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => { handleClick('Aceptar'); }}>Continuar</button>
                     </div>
                     <FooterDinamico 
-                        textoFooter={      
-                            <p>Al continuar, aceptas a nuestros <b>términos y condiciones</b> y a la <br /> <b>política de privacidad</b>. HelenaSafica® 2024</p>
-                        }
+                        textoFooter={<p>Al continuar, aceptas a nuestros <b>términos y condiciones</b> y a la <br /> <b>política de privacidad</b>. HelenaSafica® 2024</p>}
+                        redirectLink={true}
                     />
                 </div>
             }

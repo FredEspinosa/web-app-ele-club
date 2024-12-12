@@ -114,6 +114,12 @@ p {
     background-color: var(--color-background-blanco);
 }
 
+/* Colores de fondo negro  */
+
+.club_bg_negro {
+    background-color: var(--color-background-negro);
+}
+
 /* Colores de fondo violeta  */
 .club_bg_violeta_01 {
     background-color: var(--color-primario-violeta-01);
@@ -693,7 +699,7 @@ p {
     height: 98px;
     position: fixed;
     bottom: 0;
-    z-index: 2;
+    z-index: 1;
 }
 
 .club_nav_opciones {
@@ -918,7 +924,6 @@ p {
     height: 40px;
     position: fixed;
     top: 0%;
-    background-color: var(--color-background-negro);
     width: 100%;
     display: flex;
     z-index: 2;
@@ -2145,7 +2150,7 @@ input[type="file"] {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(255, 255, 255, .6);
+    /* background-color: rgba(255, 255, 255, .6); */
     color: var(--color-background-negro);
     display: flex;
     justify-content: center;
@@ -2157,7 +2162,8 @@ input[type="file"] {
 .club_navbar_cont {
     width: 247px;
     border-radius: 0px 16px 16px 0px;
-    background-color: var(--color-background-blanco);
+    /* background-color: var(--color-background-blanco); */
+    background-color: rgba(255, 255, 255, .8);
 }
 
 .club_navbar_list {
@@ -2166,6 +2172,7 @@ input[type="file"] {
 
 .club_navbar_list li {
     cursor: pointer;
+    margin-top: 20px;
     padding: 10px 15px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -2525,6 +2532,110 @@ input[type="file"] {
     margin-right: 10px;
 }
 
+/* Estilos para la barra de botones dinamicos */
+
+.club_nav_btn_dynamic {
+    width: 100%;
+    background: var(--color-neutral-azul-01);
+    border-radius: 15px;
+    padding: 0px 5px;
+    height: 39px;
+    display: flex;
+    align-items: center
+}
+
+.club_nav_btn_dynamic_btn {
+    background-color: transparent;
+    color: #71727A;
+    height: 31px;
+}
+
+.club_nav_btn_dynamic_btn.active {
+    background-color: var(--color-primario-oro);
+    color: var(--color-neutral-blanco-06);
+    border-radius: 15px;
+}
+
+/* Estilos para las anclas */
+
+.club_links {
+    text-decoration: none;
+}
+
+#chatsBox .club_contenido_top.club_cont_info > div {
+    width: 100%;
+    display: contents;
+}
+
+/* Estilos para seccion de likes */
+
+.club_content {
+    display: flex;
+    width: 375px;
+    height: 500px;
+    padding: 24px;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    border-radius: 16px;
+    background: var(--color-neutral-gris-06, #F7F7F7);
+    /* Dropdown Shadow */
+    box-shadow: 0px 4px 11px 0px rgba(151, 151, 151, 0.25);
+}
+
+.club_icon-container {
+    width: 80px;
+    height: 80px;
+    margin-top: 100px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.club_message-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0 10px 0;
+    color: var(--color-neutral-gris-01);
+}
+
+club_onboarding_info p {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    z-index: 2;
+}
+
+.club_message-description {
+    font-size: 14px;
+    color: var(--color-neutral-gris-01);
+    margin: 0 20px 20px;
+    text-align: center;
+}
+
+.club_action-button {
+    background-color: var(--color-primario-oro);
+    color: var(--color-neutral-blanco-06);
+    border: none;
+    font-size: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    width: 217px;
+    height: 40px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.club_icon_card_no_notifications {
+    width: 85px;
+    height: 85px;
+    color: var(--color-primario-oro);
+}
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 
 No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bootstrap  */

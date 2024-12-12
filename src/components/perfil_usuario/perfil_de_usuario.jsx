@@ -392,7 +392,9 @@ const UserProfile = () => {
             </div>
         // </div>
         }
-        <NavBar />
+        <NavBar 
+            currentPage={"Perfil"}
+        />
     </div>
   );
 };

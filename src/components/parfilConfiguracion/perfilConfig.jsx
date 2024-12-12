@@ -26,11 +26,15 @@ const PerfilConfig = () => {
   return (
     <div id='setupPerfil'>
       <HeaderConfiguration 
+        isBtnLeft={true}
         handleOnclick={redirectHome}
         iconAction={<IoIosArrowBack />}
         txtButton={'Volver'}
         nameHeader={'Configuración'}
         sizeF={'20px'}
+        isBtnRear={false}
+        bgColorBar={'club_bg_negro'} 
+        textColor={'club_color_fuente_blanco'}
       />
 
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris club_margin_bar_40'>
