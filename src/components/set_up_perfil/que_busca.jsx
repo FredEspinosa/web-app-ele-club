@@ -86,8 +86,8 @@ const QueBusca = () => {
                         <div className='club_barra_progreso'>
                             <div className='club_progreso active'></div>
                             <div className='club_progreso active'></div>
-                            <div className='club_progreso active'></div>
                             <div className='club_progreso active animate__animated animate__bounceIn'></div>
+                            <div className='club_progreso'></div>
                         </div>
                     </div>
                     </div>

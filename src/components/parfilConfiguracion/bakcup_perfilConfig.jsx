@@ -5,7 +5,6 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import { PiWarningCircle } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
 import IOSSwitch from '../inputs/switch'
-import HeaderConfiguration from '../headers/header_configuration'
 
 const PerfilConfig = () => {
 
@@ -18,25 +17,27 @@ const PerfilConfig = () => {
   const redirectHome = () => {
     navigate('/home')
   }
-  
-  const redirectInfoAcount = () => {
-    navigate('/informacion_de_la_cuenta')
-  }
  
   return (
-    <div id='setupPerfil'>
-      <HeaderConfiguration 
-        handleOnclick={redirectHome}
-        iconAction={<IoIosArrowBack />}
-        txtButton={'Volver'}
-        nameHeader={'Configuración'}
-        sizeF={'20px'}
-      />
+    <div>
+      <div className='club_contenedor_settings club_configuración_barra'>
+        <div className='col-12 d-flex'>
+          <div className='col-5 d-flex align-items-center justify-content-start'>
+            <button className='btn d-flex align-items-center club_color_fuente_blanco club_config_btn_back'
+              onClick={ redirectHome }
+            >
+              <IoIosArrowBack />
+              Volver
+            </button>
+          </div>
+          <div className='col-7 d-flex align-items-center'>
+            <h1 className='club_titulo_config'>Configuración</h1>
+          </div>
+        </div>
+      </div>
 
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris club_margin_bar_40'>
-        <div className='d-flex col-12 align-items-center'
-          onClick={redirectInfoAcount}
-        >
+        <div className='d-flex col-12 align-items-center'>
           <div className='col-11'>
             <p className='club_config_parrafo'>Información de la cuenta</p>
           </div>

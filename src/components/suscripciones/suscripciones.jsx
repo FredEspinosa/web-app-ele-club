@@ -1,16 +1,30 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
-import SuscripcionImg from '../../assets/images/suscripcion/suscripcion-1.jpg' 
+import React, { useState } from 'react'
+import SuscripcionImg1 from '../../assets/images/suscripcion/suscripcion-1.jpg' 
+import SuscripcionImg2 from '../../assets/images/suscripcion/suscripcion-2.jpg' 
+import SuscripcionImg3 from '../../assets/images/suscripcion/suscripcion-3.jpg' 
 import FooterDinamico from '../footer/footer_dinamico'
+import CarruselPerfilUsuario from '../swiper/carrusel_perfil_usuario'
 
 const Suscripciones = () => {
 
+    const [imagesSuscription, setImagesSuscription] = useState([
+        SuscripcionImg1,
+        SuscripcionImg2,
+        SuscripcionImg3
+    ])
+
   return (
-    <div>
+    <div id='Suscriptions'>
         <div className="club_contenedor_full_height">
             <div className='club_sub_contenedor'>
                 <div className='club_onboarding_img'>
-                    <img src={SuscripcionImg} alt="Subscription" width={'100%'}/>
+                    <CarruselPerfilUsuario
+                        userPhotos={imagesSuscription}
+                        infoPerfil={false}
+                        autoPlaySlide={true}
+                        autoplayInterval={4000}
+                    />
                 </div>
                 <div className='club_contenedor container-lg'>
                     <div className='col-12 text-start club_onboarding_info d-flex align-items-center'>

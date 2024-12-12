@@ -205,7 +205,7 @@ const ContenidoBienvenida = () => {
                 <div className='col-12 text-center club_bienvenida_info club_cont_info_grow_1'>
                     <h1 className='col-12'>¡Te damos la bienvenida a <br />Helena!</h1>
                     <p className='col-12'>
-                        Este mundo mágico esta hecho para mujeres sáficas como tú, que quieren conocer el amor, crear un nuevo grupito de amigas y sobre todo estar informadas de los próximos planes, solo para mujeres.
+                        Una aplicación 100% Mexicana hecha para mujeres sáficas.                    
                     </p>
                     {/* <div className='club_bienbenida_bandera_img'>
                         <img src={FlagBienvenida} alt="" />

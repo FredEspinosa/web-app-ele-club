@@ -857,6 +857,10 @@ p {
     color: var(--color-neutral-gris-02);
 }
 
+#profileOtherPerson .club_onboarding_info h1 {
+    margin-bottom: 0;
+}
+
 .club_about-me h2 {
     font-size: 18px;
     font-weight: 300;
@@ -869,8 +873,8 @@ p {
     font-size: 16px;
     font-weight: 300;
     color: var(--color-neutral-gris-01);
-    margin-bottom: 330px;
-    margin-top: 100px;
+    /* margin-bottom: 330px; */
+    margin-top: 25px;
     text-align: left;
 }
 
@@ -878,6 +882,11 @@ p {
     font-size: 16px;
     color: var(--color-primario-menta-12);
     margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.club_identity_icon_container {
+    margin-bottom: 24px;
 }
 
 .club_identity-h2 {
@@ -920,7 +929,7 @@ p {
 }
 
 .club_contenedor_bg_borde_gris {
-    background-color: var(--color-neutral-gris-01);
+    background-color: var(--color-background-negro);
     border-top: 1px solid var(--color-neutral-gris-03);
     border-bottom: 1px solid var(--color-neutral-gris-03);
 }
@@ -1725,7 +1734,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .club_carrusel_perfil .swiper-pagination-bullet-active {
-    background: #007bff;
+    background: var(--color-primario-oro);
     /* Color cuando está activo */
 }
 
@@ -2460,6 +2469,60 @@ input[type="file"] {
 
 #clubNotifications .club_notific_info_2 {
     margin-top: 28px;
+}
+
+.club_btn_close_float {
+    position: absolute;
+    z-index: 2;
+    margin: 5%;
+}
+
+.club_modal_suscribe .modal-content  {
+    background-color: var(--color-neutral-gris-01);
+    color: var(--color-neutral-blanco-06);
+    border: 2px solid var(--color-primario-oro);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.01em;
+    text-align: center;
+    border-radius: 20px;
+    padding: 0 5px;
+}
+
+.club_modal_suscribe .modal-footer {
+    border-top: none;
+    padding-top: 0;
+}
+
+.club_modal_suscribe .club_txt_body_suscribe {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.01em;
+    text-align: center;    
+}
+
+/* Estilos carrucel de suscripciones  */
+
+#Suscriptions .club_carrusel_perfil .club_perfil_fotos_img {
+    border-radius: 0px;
+}
+
+#Suscriptions .club_carrusel_perfil .club_perfil_fotos_swiper {
+    height: 488px;
+}
+
+/* Actualizacion de estilos para el configurador de perfil */
+
+#setupPerfil {
+    background-color: var(--color-background-negro);
+    color: var(--color-neutral-blanco-06);
+}
+
+#setupPerfil .club_contenedor_settings {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 

@@ -27,11 +27,12 @@ export const ContenidoHome = () => {
             name: 'Colonia',
             label: 'Colonia',
             placeholder: 'Álvaro Obregón',
+            disabled: true,
             iconStart: false,
             iconNameStart: <IoSearch className="club_input_icon_izq" size={24} />,
             iconEnd: true,
             iconNameEnd: <FiFilter className="club_input_icon_der" size={24} />,
-            help: false
+            help: false,
         },
     ];
 

@@ -2,8 +2,10 @@
 import React from 'react';
 
 const InputDinamico = ({ config, value, onChange }) => {
-    const { type, name, label, options, placeholder, iconStart, iconNameStart, iconEnd, iconNameEnd, help, msjHelp } = config;
+    const { type, name, label, options, placeholder, iconStart, iconNameStart, iconEnd, iconNameEnd, help, msjHelp, disabled } = config;
 
+    console.log(disabled);
+    
     return (
         <div className="input-dinamico">            
             {type === 'select' ? (
@@ -12,7 +14,7 @@ const InputDinamico = ({ config, value, onChange }) => {
                         {label && <label className='club_input_label' htmlFor={name}>{label}</label>}
                         <div className='club_input_contenedor'>
                             {iconStart && <div>{iconNameStart}</div> }
-                            <select className='club_input_campo' id={name} name={name} value={value} onChange={onChange}>
+                            <select className='club_input_campo' id={name} name={name} value={value} onChange={onChange} disabled={disabled}>
                                 {options.map((option, index) => (
                                     <option key={index} value={option.value}>
                                         {option.label}
@@ -35,6 +37,7 @@ const InputDinamico = ({ config, value, onChange }) => {
                                 value={value}
                                 onChange={onChange}
                                 placeholder={placeholder}
+                                disabled={disabled}
                             />
                         </div>
                         {help && <span className='club_input_span'>{msjHelp}</span>}
@@ -52,7 +55,9 @@ const InputDinamico = ({ config, value, onChange }) => {
                                 name={name}
                                 value={value}
                                 onChange={onChange}
-                                placeholder={placeholder}/>
+                                placeholder={placeholder}
+                                disabled={disabled}
+                                />
                             {iconEnd && <div>{iconNameEnd}</div> }
                             {/* <IoIosArrowForward className='club_input_icon_der' size={24} /> */}
                         </div>

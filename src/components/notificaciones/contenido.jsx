@@ -135,8 +135,7 @@ const NotificacionesContenido = () => {
                         </div>
                         <div className='col-12'>
                             <p className='club_notificaciones_txt'>
-                                Conoce mujeres y enterate de eventos cercanos.
-                                Tu ubicación nos permite mostrarte coincidencias y amigas en tu cerca de tu área.
+                                Al continuar, aceptas que tienes más de 18 años y que quieres una experiencia personalizada de anuncios.
                             </p>
                         </div>
                     </div>

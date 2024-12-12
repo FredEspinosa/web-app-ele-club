@@ -4,13 +4,16 @@ import TinderCard from "react-tinder-card";
 import axios from "axios";
 import { IoHeartCircleSharp } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
 
 const TinderLikeCarouselV2 = () => {
+  const navigate = useNavigate()
   const [profiles, setProfiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0); // Para manejar la imagen actual
   const [animacionBtnLike, setAnimacionBtnLike] = useState ('');
   const [animacionBtnDislike, setAnimacionBtnDislike] = useState ('');
+  const [imageProfile, setImageProfile] = useState ('');
 
   const totalImages = 3; // Número total de imágenes (large, medium, thumbnail)
 
@@ -28,6 +31,17 @@ const TinderLikeCarouselV2 = () => {
   useEffect(() => {
     fetchProfiles(); // Llama a la función cuando el componente se monta
   }, []);
+
+  useEffect(() => {
+    if (profiles[currentIndex]?.picture) {
+      const imageOptions = [
+        profiles[currentIndex]?.picture.large,
+        profiles[currentIndex]?.picture.medium,
+        profiles[currentIndex]?.picture.thumbnail,
+      ];
+      setImageProfile(imageOptions);
+    }
+  }, [currentIndex, profiles]);
 
   const handleLike = () => {
     console.log("Me gusta", profiles[currentIndex].name.first);
@@ -58,12 +72,7 @@ const TinderLikeCarouselV2 = () => {
   };
 
   const getProfileImage = () => {
-    const imageOptions = [
-      profiles[currentIndex]?.picture.large,
-      profiles[currentIndex]?.picture.medium,
-      profiles[currentIndex]?.picture.thumbnail,
-    ];
-    return imageOptions[imageIndex];
+    return imageProfile[imageIndex];
   };
 
   const handleSwipe = (direction) => {
@@ -73,6 +82,17 @@ const TinderLikeCarouselV2 = () => {
       handleLike();
     }
   };
+
+  const goPersonProfile = () => {
+    navigate(
+      '/perfil_otra_persona',
+      { state: { 
+        profileImages: imageProfile, 
+        nameProfile: profiles[currentIndex].name.first + profiles[currentIndex].name.last,
+        age: profiles[currentIndex].dob.age
+      } }
+    )
+  }
 
   return (
     <div className="club_cont_tinder_swipe">
@@ -114,7 +134,7 @@ const TinderLikeCarouselV2 = () => {
 
           {/* Nombre y Datos de la Persona */}
           <div className="col-12 club_carrucel_datos_persona">
-            <h3 className="col-12">
+            <h3 className="col-12" onClick={goPersonProfile}>
               {profiles[currentIndex].name.first} {profiles[currentIndex].name.last}
             </h3>
             <p className="col-12">

@@ -7,6 +7,7 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { limpiarTodoLocalStorage } from '../../services/data';
 import InputTelefono from '../inputs/input_telefono';
 import { paises } from '../../services/paises';
+import FooterDinamico from '../footer/footer_dinamico';
 
 const CrearCuentaContenido = () => {
     const navigate = useNavigate();
@@ -144,7 +145,10 @@ const CrearCuentaContenido = () => {
                                 <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={() => handleClick('InicioSesion')}>Iniciar Sesión</button>
                             </div>
                         </div>
-                        <Footer />
+                        {/* <Footer /> */}
+                        <FooterDinamico 
+                            textoFooter={<p>Al continuar, aceptas a nuestros <b>términos y condiciones</b> y a la <br /> <b>política de privacidad</b>. HelenaSafica® 2024</p>}
+                        />
                     </div>
                 )}
                 {showIngresaNumTel && (
@@ -193,12 +197,14 @@ const CrearCuentaContenido = () => {
                         </div>
                         <div className='club_cont_info_grow_1 d-flex align-items-center'>
                             <div className='club_crear_cuenta_cont_btns col-12'>
-                                <button className='btn club_btn_negro' >Continuar con Google</button>
-                                <button className='btn club_btn_negro' >Continuar con Facebook</button>
+                                {/* <button className='btn club_btn_negro' >Continuar con Google</button>
+                                <button className='btn club_btn_negro' >Continuar con Facebook</button> */}
                                 <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarCelular')}>Continuar con celular</button>
                             </div>
                         </div>
-                        <Footer />
+                        <FooterDinamico 
+                            textoFooter={<p>Al continuar, aceptas a nuestros <b>términos y condiciones</b> y a la <br /> <b>política de privacidad</b>. HelenaSafica® 2024</p>}
+                        />
                     </div>
                 )}
             </div>
