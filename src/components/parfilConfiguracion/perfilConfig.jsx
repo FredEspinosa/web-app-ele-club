@@ -6,6 +6,7 @@ import { PiWarningCircle } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
 import IOSSwitch from '../inputs/switch'
 import HeaderConfiguration from '../headers/header_configuration'
+import NavBar from '../nav_bar/navBar'
 
 const PerfilConfig = () => {
 
@@ -21,6 +22,10 @@ const PerfilConfig = () => {
   
   const redirectInfoAcount = () => {
     navigate('/informacion_de_la_cuenta')
+  }
+
+  const closeSesion = () => {
+    navigate('/crear_cuenta')
   }
  
   return (
@@ -431,13 +436,19 @@ const PerfilConfig = () => {
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
         <div className='d-flex col-12 align-items-center justify-content-center'>
           <div className='col-6 d-flex justify-content-center'>
-            <button className='btn club_btn_padding_0 club_config_btn_arrow'>
+            <button className='btn club_btn_padding_0 club_config_btn_arrow'
+              onClick={closeSesion}
+            >
               Cerrar sesión
             </button>
           </div>
         </div>
       </div>
 
+      <NavBar
+            currentPage={'config'}
+            // onOptionSelect={handleOptionSelect}
+        />
     </div>
   )
 }

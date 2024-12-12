@@ -13,9 +13,9 @@ const ChatsContent = ({handleOnClick}) => {
                             <BsChatSquareDotsFill className='club_icon_card_no_notifications' size={85} />
                         </div>
                     </div>
-                    <h2 className="club_message-title">No tienes solicitudes de amigas</h2>
+                    <h2 className="club_message-title">No tienes chats todavía</h2>
                     <p className="club_message-description">
-                        Cada vez que alguien te mande solicitud aparecerá aquí.
+                        Ve a inicio para likear perfiles - una vez que te regresen el like se volverá match y podrás chatear aquí!
                     </p>
                     <button className="club_action-button" onClick={handleOnClick}>Ir a Inicio</button>
                 </div>

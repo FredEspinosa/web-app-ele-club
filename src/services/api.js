@@ -20,6 +20,7 @@ const endpoints = {
     zodiacs: `${hostApi}Zodiac`,
     smoke: `${hostApi}Smoke`,
     suscription: `${hostApi}Suscription`,
+    profileData: `${hostApi}Profile/Me`,
 }
 
 export const obtenerImagenPerfil = () => {

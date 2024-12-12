@@ -7,15 +7,19 @@ import NavBar from "../nav_bar/navBar";
 import MatchesContent from "../matches/matches_content";
 import FriendsContent from "../friends/friends_content";
 import LikesContent from "../likes/likes_content";
+import AlertsContent from "./alerts_content";
 
 const AlertsTemplate = () => {
   const navigate = useNavigate();
   const [vista, setVista] = useState(""); // Vista inicial
   const [vistaActual, setVistaActual] = useState(""); // Vista inicial
 
-  // useEffect(() => {
-  //   console.log("Opción seleccionada:", vistaActual);
-  // }, [vistaActual])
+  useEffect(() => {
+    console.log("Opción seleccionada:", vista);
+    if (vista === 'likes') {
+      navigate('/likes')
+    }
+  }, [vista])
   
   const redirectBack = () => {
     navigate("/home");
@@ -30,6 +34,9 @@ const AlertsTemplate = () => {
   const handleButtonClick = (evento) => {
     setVista(evento); // Actualizar la vista activa
     console.log("Vista activa:", evento); // Debug
+    // if (vista === 'likes') {
+    //   navigate('/likes')
+    // }
   };
 
   const handleOptionSelect = (selectedOption) => {
@@ -59,13 +66,14 @@ const AlertsTemplate = () => {
           />
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
+            {vista === "" && <AlertsContent handleOnClick={redirectBack} />}
             {vista === "likes" && <LikesContent handleOnClick={redirectBack} />}
             {vista === "matches" && <MatchesContent handleOnClick={redirectBack} />}
             {vista === "friends" && <FriendsContent handleOnClick={redirectBack} />}
           </div>
         </div>
         <NavBar
-            currentPage={'Alerts'}
+            currentPage={'Alertas'}
             onOptionSelect={handleOptionSelect}
         />
       </div>
