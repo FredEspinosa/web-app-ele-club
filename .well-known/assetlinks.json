@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.helenasafica.helena",
+        "sha256_cert_fingerprints": ["BF:C2:5F:98:6D:2C:E3:4B:60:A2:45:1E:53:87:F5:3E:7C:D0:15:63:5F:A0:B2:68:DD:48:0E:09:34:0C:63:27"]
+      }
+    }]
