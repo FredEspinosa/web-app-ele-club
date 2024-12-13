@@ -921,7 +921,8 @@ p {
 
 .club_configuración_barra,
 .club_perfil_barra {
-    height: 40px;
+    height: auto;
+    min-height: 40px;
     position: fixed;
     top: 0%;
     width: 100%;
@@ -2484,7 +2485,7 @@ input[type="file"] {
     margin: 5%;
 }
 
-.club_modal_suscribe .modal-content  {
+.club_modal_suscribe .modal-content {
     background-color: var(--color-neutral-gris-01);
     color: var(--color-neutral-blanco-06);
     border: 2px solid var(--color-primario-oro);
@@ -2507,7 +2508,7 @@ input[type="file"] {
     font-weight: 400;
     line-height: 16px;
     letter-spacing: 0.01em;
-    text-align: center;    
+    text-align: center;
 }
 
 /* Estilos carrucel de suscripciones  */
@@ -2525,6 +2526,7 @@ input[type="file"] {
 #setupPerfil {
     background-color: var(--color-background-negro);
     color: var(--color-neutral-blanco-06);
+    height: 100vh;
 }
 
 #setupPerfil .club_contenedor_settings {
@@ -2562,7 +2564,7 @@ input[type="file"] {
     text-decoration: none;
 }
 
-#chatsBox .club_contenido_top.club_cont_info > div {
+#chatsBox .club_contenido_top.club_cont_info>div {
     width: 100%;
     display: contents;
 }
@@ -2635,6 +2637,36 @@ club_onboarding_info p {
     width: 85px;
     height: 85px;
     color: var(--color-primario-oro);
+}
+
+/* Estilos de alerta estatica */
+
+/* #setupPerfil {
+    margin-top: 40px;
+} */
+
+#setupPerfil .club_configuración_barra {
+    padding: 0px 10px;
+}
+
+#setupPerfil .club_titulo_config {
+    line-height: 25px;
+}
+
+.club_alert_static {
+    display: block;
+    position: static;
+    width: 100%;
+    height: 100%;
+    padding: 10px 0;
+}
+
+.club_center_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+    text-align: center;
 }
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 

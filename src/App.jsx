@@ -38,6 +38,11 @@ import PerfilOtraPersona from './components/perfil_de_otra_persona/perfil_otra_p
 import InformacionDeCuenta from './pages/informacion_de_cuenta';
 import AlertasPagina from './pages/alertas_pagina';
 import LikesPage from './pages/likes_page';
+import PrivacitySecurityPage from './pages/config_pages/privacity_security_page';
+import SupportPage from './pages/config_pages/tech_support_page';
+import TermsConditionsPage from './pages/config_pages/terms_conditions_page';
+import PrivacyPoliciesPage from './pages/config_pages/privacy_policies_page';
+import AboutPage from './pages/config_pages/about_page';
 
 
 function App() {
@@ -167,6 +172,26 @@ function App() {
       {
         path: '/likes',
         element: <LikesPage />
+      },
+      {
+        path: '/privacidad_y_seguridad',
+        element: <PrivacitySecurityPage />
+      },
+      {
+        path: '/soporte_tecnico',
+        element: <SupportPage />
+      },
+      {
+        path: '/terminos_y_condiciones',
+        element: <TermsConditionsPage />
+      },
+      {
+        path: '/politica_de_privacidad',
+        element: <PrivacyPoliciesPage />
+      },
+      {
+        path: '/acerca_de',
+        element: <AboutPage />
       },
     ]
   )

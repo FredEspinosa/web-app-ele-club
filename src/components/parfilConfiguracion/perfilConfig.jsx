@@ -1,12 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react'
 import { AiOutlineSafetyCertificate } from 'react-icons/ai'
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import { IoIosArrowBack, IoIosArrowForward, IoMdCheckmark } from 'react-icons/io'
 import { PiWarningCircle } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
 import IOSSwitch from '../inputs/switch'
 import HeaderConfiguration from '../headers/header_configuration'
 import NavBar from '../nav_bar/navBar'
+import AlertSuscribeStatic from '../alertas/alert_suscribete_static'
+import { FaArrowLeft } from 'react-icons/fa'
 
 const PerfilConfig = () => {
 
@@ -19,32 +21,46 @@ const PerfilConfig = () => {
   const redirectHome = () => {
     navigate('/home')
   }
-  
-  const redirectInfoAcount = () => {
-    navigate('/informacion_de_la_cuenta')
-  }
 
   const closeSesion = () => {
     navigate('/crear_cuenta')
   }
+
+  const goToSuscribe = () => {
+    navigate('/suscripcion')
+  }
+
+  const goToSection = (route) => {
+    navigate(route);
+  };
  
   return (
     <div id='setupPerfil'>
       <HeaderConfiguration 
         isBtnLeft={true}
         handleOnclick={redirectHome}
-        iconAction={<IoIosArrowBack />}
-        txtButton={'Volver'}
-        nameHeader={'Configuración'}
+        iconAction={<FaArrowLeft />}
+        txtButton={''}
+        nameHeader={<span>Configuración</span>}
         sizeF={'20px'}
         isBtnRear={false}
         bgColorBar={'club_bg_negro'} 
         textColor={'club_color_fuente_blanco'}
       />
 
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris club_margin_bar_40'>
+      <div className='club_margin_bar_40'>
+        <AlertSuscribeStatic
+          mensajeModal={<p>¿Quieres tener todas las funciones de manera ilimitada?</p>}
+          btnAceptar={true}
+          btnMsjButtom={'SUSCRIBETE'}
+          handleOnclick={goToSuscribe}
+          bgColorButton={'club_bg_violeta_05'}
+        />
+      </div>
+
+      <div className='club_contenedor_settings club_contenedor_bg_borde_gris' style={{borderTop:'none'}}>
         <div className='d-flex col-12 align-items-center'
-          onClick={redirectInfoAcount}
+          onClick={() => goToSection('/informacion_de_la_cuenta')}
         >
           <div className='col-11'>
             <p className='club_config_parrafo'>Información de la cuenta</p>
@@ -58,9 +74,11 @@ const PerfilConfig = () => {
       </div>
 
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={() => goToSection('/suscripcion')}
+        >
           <div className='col-11'>
-            <p className='club_config_parrafo'>Cuentas conectadas</p>
+            <p className='club_config_parrafo'>Suscripción</p>
           </div>
           <div className='col-1 d-flex justify-content-center'>
             <button className='btn club_btn_padding_0 club_config_btn_arrow'>
@@ -71,24 +89,39 @@ const PerfilConfig = () => {
       </div>
 
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center club_config_verifica_perfil'>
-          <div className='col-11 d-flex align-items-center'>
-            <PiWarningCircle className='club_config_perfil_icon_warning' size={20} />
-            <p className='club_config_parrafo'>Verificar perfil</p>
+        <div className='d-flex col-12 align-items-center'
+          onClick={() => goToSection('/privacidad_y_seguridad')}
+        >
+          <div className='col-11'>
+            <p className='club_config_parrafo'>Privacidad y Seguridad</p>
           </div>
           <div className='col-1 d-flex justify-content-center'>
             <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-              <AiOutlineSafetyCertificate className='club_config_perfil_icon_safe' size={20} />
+              <IoIosArrowForward size={20} />
             </button>
           </div>
         </div>
       </div>
 
-      <br />
-      <br />
+      {/* <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={redirectInfoAcount}
+        >
+          <div className='col-11'>
+            <p className='club_config_parrafo club_color_fuente_oro'>Verificar Perfil</p>
+          </div>
+          <div className='col-1 d-flex justify-content-center'>
+            <button className='btn club_btn_padding_0 club_config_btn_arrow'>
+            <IoMdCheckmark className="club_color_fuente_violeta_05" size={24} />
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={redirectInfoAcount}
+        >
           <div className='col-11'>
             <p className='club_config_parrafo'>Filtros</p>
           </div>
@@ -99,10 +132,13 @@ const PerfilConfig = () => {
           </div>
         </div>
       </div>
+
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={redirectInfoAcount}
+        >
           <div className='col-11'>
-            <p className='club_config_parrafo'>Créditos de Thirst Mode</p>
+            <p className='club_config_parrafo'>Perfiles valorados</p>
           </div>
           <div className='col-1 d-flex justify-content-center'>
             <button className='btn club_btn_padding_0 club_config_btn_arrow'>
@@ -111,8 +147,11 @@ const PerfilConfig = () => {
           </div>
         </div>
       </div>
+
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={redirectInfoAcount}
+        >
           <div className='col-11'>
             <p className='club_config_parrafo'>Perfiles bloqueados</p>
           </div>
@@ -124,13 +163,12 @@ const PerfilConfig = () => {
         </div>
       </div>
 
-      <br />
-      <br />
-
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={redirectInfoAcount}
+        >
           <div className='col-11'>
-            <p className='club_config_parrafo'>Suscribirse a HER Premium</p>
+            <p className='club_config_parrafo'>Ubicación</p>
           </div>
           <div className='col-1 d-flex justify-content-center'>
             <button className='btn club_btn_padding_0 club_config_btn_arrow'>
@@ -140,214 +178,12 @@ const PerfilConfig = () => {
         </div>
       </div>
 
-      <br />
-      <br />
-
-      <div className='club_contenedor_settings'>
-        <p  style={{marginBottom:'0px'}}><b>Configuración Premium</b></p>
-      </div>
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris club_padding_right_0 club_padding_top_0 club_padding_bottom_0'>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Filtros Premium</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs club_no_border_bottom'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Cambiar ubicación</p>
-              <br />
-              <p className='club_config_parrafo club_color_fuente_gris_03'>
-                Ubicación actual: {ubicacionPerfil}
-              </p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_color_fuente_gris_03'>
-                Cambiar
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <br />
-      <br />
-
-      <div className='club_contenedor_settings'>
-        <p  style={{marginBottom:'0px'}}><b>Visibilidad</b></p>
-      </div>
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris club_padding_right_0 club_padding_top_0 club_padding_bottom_0'>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-          <div className='col-12'>
-              <p className='club_config_parrafo'>Incógnito <span className='club_bg_premium'>Premium</span></p>
-          </div>
-          <br />
-          </div>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-9'>
-              <p className='club_config_parrafo club_color_fuente_gris_03'>
-                Otras personas no pueden verte hasta que les des Me gusta o
-                las agregues como amigas primero
-              </p>
-            </div>
-            <div className='col-3 d-flex justify-content-end' style={{paddingRight:'5px'}}>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-          <div className='col-12'>
-              <p className='club_config_parrafo'>Sapphic Mode</p>
-          </div>
-          <br />
-          </div>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-9'>
-              <p className='club_config_parrafo club_color_fuente_gris_03'>
-                Solo verás y serás visto por mujeres queer, personas
-                no binarias, no conformes con su género y trans
-              </p>
-            </div>
-            <div className='col-3 d-flex justify-content-end' style={{paddingRight:'5px'}}>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <br />
-      <br />
-
-      <div className='club_contenedor_settings'>
-        <p  style={{marginBottom:'0px'}}><b>Funciones Premium</b></p>
-      </div>
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris club_padding_right_0 club_padding_top_0 club_padding_bottom_0'>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Experiencia sin publicidad</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Deslizamientos ilimitados</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Ver a quién le gustas</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Retroceder perfiles</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Ver quién está en línea</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Leer recibos</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Cerca</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='club_sub_contenedor_serttigs club_no_border_bottom'>
-          <div className='d-flex col-12 align-items-center'>
-            <div className='col-10'>
-              <p className='club_config_parrafo'>Visualizaciones</p>
-            </div>
-            <div className='col-2 d-flex justify-content-center'>
-              <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-                <IOSSwitch />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <br />
-      <br />
-
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={redirectInfoAcount}
+        >
           <div className='col-11'>
-            <p className='club_config_parrafo'>Restaurar compra</p>
-          </div>
-          <div className='col-1 d-flex justify-content-center'></div>
-        </div>
-      </div>
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
-          <div className='col-11'>
-            <p className='club_config_parrafo'>Apoya a nuestra comunidad 🏳️‍🌈 </p>
+            <p className='club_config_parrafo'>Suscripción</p>
           </div>
           <div className='col-1 d-flex justify-content-center'>
             <button className='btn club_btn_padding_0 club_config_btn_arrow'>
@@ -357,26 +193,12 @@ const PerfilConfig = () => {
         </div>
       </div>
 
-      <br />
-      <br />
-
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center club_config_verifica_perfil'>
-          <div className='col-11 d-flex align-items-center'>
-            <PiWarningCircle className='club_config_perfil_icon_warning' size={20} />
-            <p className='club_config_parrafo'>Configuración de notificaciones push</p>
-          </div>
-          <div className='col-1 d-flex justify-content-center'>
-            <button className='btn club_btn_padding_0 club_config_btn_arrow'>
-              <IoIosArrowForward size={20} />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={redirectInfoAcount}
+        >
           <div className='col-11'>
-            <p className='club_config_parrafo'>Opciones de privacidad</p>
+            <p className='club_config_parrafo'>Privacidad y Seguridad</p>
           </div>
           <div className='col-1 d-flex justify-content-center'>
             <button className='btn club_btn_padding_0 club_config_btn_arrow'>
@@ -386,13 +208,12 @@ const PerfilConfig = () => {
         </div>
       </div>
 
-      <br />
-      <br />
-
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
+        <div className='d-flex col-12 align-items-center'
+          onClick={redirectInfoAcount}
+        >
           <div className='col-11'>
-            <p className='club_config_parrafo'>Apoyo</p>
+            <p className='club_config_parrafo'>Alertas</p>
           </div>
           <div className='col-1 d-flex justify-content-center'>
             <button className='btn club_btn_padding_0 club_config_btn_arrow'>
@@ -400,40 +221,9 @@ const PerfilConfig = () => {
             </button>
           </div>
         </div>
-      </div>
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
-          <div className='col-10'>
-            <p className='club_config_parrafo'>Idioma</p>
-          </div>
-          <div className='col-2 d-flex justify-content-center'>
-            <p className='club_config_parrafo club_color_fuente_gris_03'>
-              {idioma}
-            </p>
-          </div>
-        </div>
-      </div>
+      </div> */}
 
-      <br />
-      <br />
-
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
-        <div className='d-flex col-12 align-items-center'>
-          <div className='col-10'>
-            <p className='club_config_parrafo'>Nombre de usuario</p>
-          </div>
-          <div className='col-2 d-flex justify-content-center'>
-            <p className='club_config_parrafo club_color_fuente_gris_03'>
-              {userName}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <br />
-      <br />
-
-      <div className='club_contenedor_settings club_contenedor_bg_borde_gris'>
+      <div className='club_contenedor_settings club_contenedor_bg_borde_gris' style={{borderBottom:'none'}}>
         <div className='d-flex col-12 align-items-center justify-content-center'>
           <div className='col-6 d-flex justify-content-center'>
             <button className='btn club_btn_padding_0 club_config_btn_arrow'

@@ -17,7 +17,7 @@ const HeaderConfiguration = ({isBtnLeft, handleOnclick, iconAction, txtButton, n
           }
           </div>
           <div className='col-6 d-flex align-items-center justify-content-center'>
-            <h1 className={`club_titulo_config ${textColor}`} style={{fontSize:`${sizeF}`}}>{nameHeader}</h1>
+            <h1 className={`club_titulo_config text-center ${textColor}`} style={{fontSize:`${sizeF}`}}>{nameHeader}</h1>
           </div>
           <div className='col-3 d-flex align-items-center justify-content-end'>
             {isBtnRear &&
