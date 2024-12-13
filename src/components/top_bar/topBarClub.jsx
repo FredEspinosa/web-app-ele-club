@@ -80,9 +80,9 @@ export const TopBarClub = () => {
                 <ul className="club_navbar_list club_color_fuente_gris_01">
                     <li onClick={() => goToSection('/home')}>Inicio</li>
                     <li onClick={() => goToSection('/alertas')}>Alertas</li>
-                    <li onClick={() => goToSection('/chatbox')}>Chats</li>
+                    <li onClick={() => goToSection('/chats')}>Chats</li>
                     <li onClick={() => goToSection('/alertas')}>Matches</li>
-                    <li onClick={() => goToSection('/alertas')}>Likes</li>
+                    <li onClick={() => goToSection('/likes')}>Likes</li>
                     <li onClick={() => goToSection('/alertas')}>Amigas</li>
                     <li onClick={() => goToSection('/mi_perfil')}>Perfil</li>
                     <li onClick={() => goToSection('/configuracion')}>Ajustes</li>
