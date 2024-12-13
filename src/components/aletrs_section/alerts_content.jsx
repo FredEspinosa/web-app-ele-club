@@ -2,7 +2,7 @@
 import React from 'react'
 import { IoHeartCircleOutline } from 'react-icons/io5'
 
-const AlertsContent = () => {
+const AlertsContent = ({handleOnClick}) => {
   return (
     <div>
         <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
@@ -17,7 +17,7 @@ const AlertsContent = () => {
                     <p className="club_message-description">
                         Ve a inicio para likear perfiles - una vez que te regresen el like se volverá match y podrás verlo aquí!
                     </p>
-                    <button className="club_action-button">Ir a Inicio</button>
+                    <button className="club_action-button" onClick={handleOnClick}>Ir a Inicio</button>
                 </div>
             </div>
         </div>
