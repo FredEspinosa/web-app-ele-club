@@ -10,17 +10,17 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
     console.log("dataUser edit perfil", dataUser);
     
   const [formData, setFormData] = useState({
-    Apellidos: dataUser.Apellidos,
-    Busca: dataUser.Busca,
-    CodigoPais: dataUser.CodigoPais,
-    Correo: dataUser.Correo,
-    EstatusRelacion: dataUser.EstatusRelacion,
-    FechaNacimiento: dataUser.FechaNacimiento,
-    IdentidadDeGenero: dataUser.IdentidadDeGenero,
-    IdentidadSexual: dataUser.IdentidadSexual,
-    Nombres: dataUser.Nombres,
-    Pronombre: dataUser.Pronombre,
-    Telefono: dataUser.Telefono,
+    lastName: dataUser.lastName,
+    lookingFors: dataUser.lookingFors,
+    codeCountry: dataUser.codeCountry,
+    email: dataUser.email,
+    relationshipStatus: dataUser.relationshipStatus,
+    birthDate: dataUser.birthDate,
+    genders: dataUser.genders,
+    sexualIdentities: dataUser.sexualIdentities,
+    name: dataUser.name,
+    pronouns: dataUser.pronouns,
+    phoneNumber: dataUser.phoneNumber,
   });
 
   const handleChange = (e) => {
@@ -38,7 +38,7 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
   const campos = [
     {
         type: 'text',
-        name: 'Nombres',
+        name: 'name',
         label: 'Cuál es tu nombre?',
         placeholder: 'Nombre',
         iconStart: false,
@@ -49,7 +49,7 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
     },
     {
         type: 'text',
-        name: 'Apellidos',
+        name: 'lastName',
         label: 'Cuál es tu apellido?',
         placeholder: 'Apellido',
         iconStart: false,
@@ -60,7 +60,7 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
     },
     {
         type: 'text',
-        name: 'FechaNacimiento',
+        name: 'birthDate',
         label: 'Cuando cumples años?',
         placeholder: 'Fecha de nacimiento',
         iconStart: false,
@@ -71,9 +71,9 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
     },
     {
         type: 'email',
-        name: 'Correo',
-        label: 'Cuál es tu Correo?',
-        placeholder: 'Correo electrónico',
+        name: 'email',
+        label: 'Cuál es tu email?',
+        placeholder: 'email electrónico',
         iconStart: false,
         iconNameStart:'',
         iconEnd: false,
@@ -94,7 +94,7 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
   const campoTel = [
     {
         type: 'tel',
-        name: 'Telefono',
+        name: 'phoneNumber',
         label: 'Teléfono',
         placeholder: '55 23422 5235',
         iconStart: false,
@@ -108,7 +108,7 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
   const handleCountryChange = (e) => {
     setFormData({
         ...formData,
-        CodigoPais: e.target.value
+        codeCountry: e.target.value
     });
   };
 
@@ -134,7 +134,7 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
                         onChange={handleChange}
                         paises={paises}
                         onCountryChange={handleCountryChange}
-                        codigoPais={formData.CodigoPais}
+                        codeCountry={formData.codeCountry}
                     />
                 ))}
                 {campoText.map((campo, index) => (

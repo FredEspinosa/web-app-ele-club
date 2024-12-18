@@ -18,14 +18,16 @@ const DatosPersonales = () => {
     }, []);
 
     const [formData, setFormData] = useState({
-        Nombres: '',
-        Apellidos: '',
-        FechaNacimiento: '',
-        Correo: '',
-        Edad: ''  // Agrega el campo Edad al estado inicial
+        name: '',
+        lastName: '',
+        birthDate: '',
+        email: '',
+        age: ''  // Agrega el campo Edad al estado inicial
     });
 
     const calcularEdad = (fechaNacimiento) => {
+        console.log("fechaNacimiento", fechaNacimiento);
+        
         const hoy = new Date();
         const fechaNac = new Date(fechaNacimiento);
         let edad = hoy.getFullYear() - fechaNac.getFullYear();
@@ -36,36 +38,52 @@ const DatosPersonales = () => {
         return edad;
     };
 
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     // Verifica si es el campo de FechaNacimiento para calcular la edad
+    //     let nuevosDatos = { ...formData, [name]: value };
+    //     if (name === "birthDate") {
+    //         const edad = calcularEdad(value);
+    //         nuevosDatos = { ...nuevosDatos, age: edad };
+    //     }
+    //     setFormData(nuevosDatos);
+    // };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        
-        // Verifica si es el campo de FechaNacimiento para calcular la edad
-        let nuevosDatos = { ...formData, [name]: value };
-        
-        if (name === "FechaNacimiento") {
+        let nuevosDatos = { ...formData };
+    
+        if (name === "birthDate" && value) {
             const edad = calcularEdad(value);
-            nuevosDatos = { ...nuevosDatos, Edad: edad };
+            nuevosDatos = { ...nuevosDatos, age: edad };
+    
+            // Mantener la fecha en formato ISO
+            const isoDate = new Date(value).toISOString();
+            nuevosDatos = { ...nuevosDatos, [name]: isoDate };
+        } else {
+            nuevosDatos = { ...nuevosDatos, [name]: value };
         }
-        
+    
         setFormData(nuevosDatos);
     };
+       
 
     const campos = [
         {
             type: 'text',
-            name: 'Nombres',
+            name: 'name',
             label: 'Cuál es tu nombre?',
             placeholder: 'Nombre',
         },
         {
             type: 'text',
-            name: 'Apellidos',
+            name: 'lastName',
             label: 'Cuál es tu apellido?',
             placeholder: 'Apellido',
         },
         {
             type: 'date',
-            name: 'FechaNacimiento',
+            name: 'birthDate',
             label: 'Cuando cumples años?',
             placeholder: 'dd/mm/aaaa',
             max: new Date().toISOString().split("T")[0],  // Establece la fecha máxima como el día de hoy
@@ -74,7 +92,7 @@ const DatosPersonales = () => {
         },
         {
             type: 'email',
-            name: 'Correo',
+            name: 'email',
             label: 'Cuál es tu Correo?',
             placeholder: 'Correo electrónico',
         },

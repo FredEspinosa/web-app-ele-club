@@ -19,9 +19,9 @@ const TePercibes = () => {
     const tituloDeLista = 'Cómo te percibes?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
-    const handleOptionSelect = (value) => {
-      setSelectedValue(value);
-      console.log('Opción seleccionada:', value); // Aquí recibes la opción seleccionada
+    const handleOptionSelect = (idOrIds) => {
+        setSelectedValue(idOrIds); // Almacena el ID o array de IDs
+        console.log('Opción seleccionada:', idOrIds);
     };
 
     const handleRegresar = () => {
@@ -45,7 +45,7 @@ const TePercibes = () => {
           console.log("data", data);
           if (!data.code) {
             setShowLoader(false);
-            setOpciones(data.map(item => item.name))
+            setOpciones(data.map(item => ({ id: item.id, name: item.name })));
           } else {
             console.log("ocurrio un error ☠️");
           }
@@ -59,7 +59,7 @@ const TePercibes = () => {
         if (selectedValue) {
             const nuevosDatos = {
                 ...datosUsuario, // Mantén los datos actuales
-                Percibes: selectedValue // Agrega la nueva opción seleccionada
+                perceptions: selectedValue // Agrega la nueva opción seleccionada
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));

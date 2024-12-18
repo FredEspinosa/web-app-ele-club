@@ -19,10 +19,10 @@ const TuRol = () => {
     const tituloDeLista = 'Cuál es tu rol?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
-    const handleOptionSelect = (value) => {
-      setSelectedValue(value);
-      console.log('Opción seleccionada:', value); // Aquí recibes la opción seleccionada
-    };
+    const handleOptionSelect = (idOrIds) => {
+        setSelectedValue(idOrIds); // Almacena el ID o array de IDs
+        console.log('Opción seleccionada:', idOrIds);
+    };    
 
     const handleRegresar = () => {
         navigate('/que_buscas')
@@ -44,7 +44,7 @@ const TuRol = () => {
           console.log("data", data);
           if (!data.code) {
             setShowLoader(false);
-            setOpciones(data.map(item => item.name))
+            setOpciones(data.map(item => ({ id: item.id, name: item.name })));
           } else {
             console.log("ocurrio un error ☠️");
           }
@@ -59,7 +59,7 @@ const TuRol = () => {
         if (selectedValue) {
             const nuevosDatos = {
                 ...datosUsuario, // Mantén los datos actuales
-                Rol: selectedValue // Agrega la nueva opción seleccionada
+                roles: selectedValue // Agrega la nueva opción seleccionada
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));

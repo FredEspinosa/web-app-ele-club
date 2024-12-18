@@ -15,13 +15,15 @@ const CrearCuentaContenido = () => {
     const [showCrearCuenta, setShowCrearCuenta] = useState(true);
     const [showInicioSesion, setShowInicioSesion] = useState(false);
     const [showIngresaNumTel, setShowIngresaNumTel] = useState(false);
+    const [selectedCountry, setSelectedCountry] = useState(paises[0]); // País por defecto
+
     let pasoActual = ''
 
     const formRef = useRef(null); // Crea la referencia al formulario
 
     const [formData, setFormData] = useState({
-        Telefono: '', 
-        CodigoPais: '+52',
+        phoneNumber: '', 
+        codeCountry: '+52',
     });
 
     useEffect(() => {
@@ -99,26 +101,53 @@ const CrearCuentaContenido = () => {
         localStorage.setItem('MostrarPaso', pasoActual);
     };
 
+    // const handleInputChange = (e) => {
+    //     setFormData({
+    //         ...formData,
+    //         [e.target.name]: e.target.value
+    //     });
+    // };
+
+    // const handleCountryChange = (e) => {
+    //     setFormData({
+    //         ...formData,
+    //         CodigoPais: e.target.value
+    //     });
+    // };
+
     const handleInputChange = (e) => {
+        const newNumber = e.target.value;
+        const matchingCountries = paises.filter(pais => newNumber.startsWith(pais.codigo));
+        
+        if (matchingCountries.length === 1) {
+            setSelectedCountry(matchingCountries[0]);
+        }
+        
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [e.target.name]: newNumber,
         });
     };
 
     const handleCountryChange = (e) => {
-        setFormData({
-            ...formData,
-            CodigoPais: e.target.value
-        });
-    };
+        const selectedCode = e.target.value; // Obtiene el prefijo telefónico
+        const selectedCountry = paises.find((pais) => pais.codigo === selectedCode); // Busca por 'codigo'
+    
+        if (selectedCountry) {
+            setFormData({
+                ...formData,
+                codeCountry: selectedCountry.codigo, // Actualiza el prefijo telefónico
+            });
+            setSelectedCountry(selectedCountry); // Actualiza el país seleccionado
+        }
+    };    
 
     // Valores a los campos type, name, label, options, placeholder, iconStart, iconNameStart, iconEnd, iconNameEnd , help
 
     const campos = [
         {
             type: 'tel',
-            name: 'Telefono',
+            name: 'phoneNumber',
             label: 'Teléfono',
             placeholder: '55 23422 5235',
             iconStart: false,
@@ -178,7 +207,7 @@ const CrearCuentaContenido = () => {
                                             onChange={handleInputChange}
                                             paises={paises}
                                             onCountryChange={handleCountryChange}
-                                            codigoPais={formData.CodigoPais}
+                                            codigoPais={formData.codeCountry}
                                         />
                                     ))}
                                 </form>

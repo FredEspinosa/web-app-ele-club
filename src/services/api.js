@@ -21,6 +21,9 @@ const endpoints = {
     smoke: `${hostApi}Smoke`,
     suscription: `${hostApi}Suscription`,
     profileData: `${hostApi}Profile/Me`,
+    userPhotoGet: `${hostApi}UserPhoto`,
+    userUpdatePreferences: `${hostApi}UserPreferences/Update`,
+    userMeProfile: `${hostApi}Profile/Me`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -312,3 +315,65 @@ export const getSuscription = async () => {
         throw error;
     }
 }
+
+// Get UserPhoto
+export const getUserPhoto = async (imgB64) => {
+    const dataImg = encodeURIComponent(imgB64); // Asegúrate de codificar el base64
+
+    let config = {
+        method: 'GET',
+        url: `${endpoints.userPhotoGet}?base64=${dataImg}`,  // Concatenar el base64 a la URL
+        headers: { 
+            'Accept': 'text/plain',
+        },
+    };
+
+    try {
+        const response = await axios.request(config);
+        return response.data;
+    } catch (error) {
+        console.error("Error en getUserPhoto:", error);
+        throw error;
+    }
+};
+
+// Get userPreferencesUpdate
+export const userPreferencesUpdate = async (dataUser) => {
+    let config = {
+        method: "PUT",
+        url: endpoints.userUpdatePreferences,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+        },
+        data: dataUser,
+    };
+
+    try {
+        const response = await axios.request(config);
+        return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get Profile/Me
+export const userProfileMe = async () => {
+    let config = {
+        method: "GET",
+        url: endpoints.userMeProfile,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+        }
+    };
+
+    try {
+        const response = await axios.request(config);
+        return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};

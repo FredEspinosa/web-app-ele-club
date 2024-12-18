@@ -19,7 +19,7 @@ const Estatura = () => {
     }, []);
 
     const [formData, setFormData] = useState({
-        Estatura: '',
+        height: '',
     });
 
     const handleInputChange = (e) => {
@@ -33,8 +33,8 @@ const Estatura = () => {
 
     const campos = [
         {
-            type: 'text',
-            name: 'Estatura',
+            type: 'number',
+            name: 'height',
             label: 'Cuánto mides?',
             placeholder: '165 cm',
             iconStart: false,
@@ -57,7 +57,7 @@ const Estatura = () => {
       if (formData) {
           const nuevosDatos = {
               ...datosUsuario, // Mantén los datos actuales
-              Estatura: formData.Estatura,
+              height: formData.height,
           };
           // Guarda los nuevos datos en el localStorage
           localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));

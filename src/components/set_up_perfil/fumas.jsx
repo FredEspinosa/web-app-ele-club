@@ -6,6 +6,8 @@ import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
 import { getSmoke } from '../../services/api';
 import Loader from '../loader/loader';
+import { enviarDatosUsuario } from '../../services/data';
+import AlertSuscribe from '../alertas/alert_suscribete';
 
 const Habitos = () => {
 
@@ -14,15 +16,17 @@ const Habitos = () => {
     const [datosUsuario, setDatosUsuario] = useState({});
     const [showLoader, setShowLoader] = useState(false);
     const [opciones, setOpciones] = useState([]);
+    const [showAlert, setShowAlert] = useState(false);
+    const [mensajeModal, setMensajeModal] = useState("");
 
     // const opciones = ['Cigarros', 'Vape', 'Weed', 'No'];
     const tituloDeLista = 'Fumas?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
-    const handleOptionSelect = (value) => {
-      setSelectedValue(value);
-      console.log('Opción seleccionada:', value); // Aquí recibes la opción seleccionada
-    };
+    const handleOptionSelect = (idOrIds) => {
+        setSelectedValue(idOrIds); // Almacena el ID o array de IDs
+        console.log('Opción seleccionada:', idOrIds);
+    };    
 
     const handleRegresar = () => {
         navigate('/signo_zodiacal')
@@ -48,7 +52,7 @@ const Habitos = () => {
           console.log("data", data);
           if (!data.code) {
             setShowLoader(false);
-            setOpciones(data.map(item => item.name))
+            setOpciones(data.map(item => ({ id: item.id, name: item.name })));
           } else {
             console.log("ocurrio un error ☠️");
           }
@@ -62,17 +66,45 @@ const Habitos = () => {
         if (selectedValue) {
             const nuevosDatos = {
                 ...datosUsuario, // Mantén los datos actuales
-                Fumas: selectedValue // Agrega la nueva opción seleccionada
+                smokes: selectedValue // Agrega la nueva opción seleccionada
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
+                // sendDataUserInfo()
                 navigate('/notificaciones');
             }, 300);
         } else {
             console.log("No se ha seleccionado ninguna opción");
         }
+    }
+
+    const sendDataUserInfo = async () => {
+        setShowLoader(true); // Mostrar el loader al inicio
+        try {
+            // Llamada a la función de envío
+            const response = await enviarDatosUsuario();
+            // Validar la respuesta
+            if (response?.code === 200) { // Ajusta según el código esperado por tu API
+                console.log("Datos enviados correctamente:", response);
+                navigate('/notificaciones');
+            } else {
+                console.error("Ocurrió un error en la API:", response);
+            }
+        } catch (err) {
+            console.error("Error al enviar datos del usuario:", err);
+            setShowAlert(true);
+            setMensajeModal(<p>¡Lo sentimos! ocurrio un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>)
+        } finally {
+            setShowLoader(false); // Asegurarse de ocultar el loader siempre
+            setShowAlert(true);
+            setMensajeModal(<p>¡Lo sentimos! ocurrio un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>)
+        }
+    };    
+
+    const closeModal = () => {
+        setShowAlert(false)
     }
 
   return (
@@ -117,6 +149,15 @@ const Habitos = () => {
             </div>
         </div>
         {(showLoader && <Loader /> )}
+        {(showAlert && 
+            <AlertSuscribe 
+            mensajeModal={mensajeModal}
+            btnAceptar={true}
+            btnMsjButtom={'CERRAR'}
+            handleOnclick={closeModal}
+            bgColorButton={'club_bg_oro'}
+            />
+        )}
     </div>
   )
 }

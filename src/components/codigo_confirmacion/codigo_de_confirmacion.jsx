@@ -29,8 +29,8 @@ const CodigoValidacion = ({ avanzarPagina }) => {
     if (datosGuardados) {
       const parsedDatos = JSON.parse(datosGuardados);
       setDatosUsuario(parsedDatos);
-      if (parsedDatos?.Telefono) {
-        const numeroTel = parsedDatos.CodigoPais + parsedDatos.Telefono;
+      if (parsedDatos?.phoneNumber) {
+        const numeroTel = parsedDatos.codeCountry + parsedDatos.phoneNumber;
         setTelUsuario(numeroTel);
         consultaTuCodigo(numeroTel)
       } else {

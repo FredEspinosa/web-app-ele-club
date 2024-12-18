@@ -1,17 +1,20 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
-
 const InputDinamico = ({ config, value, onChange }) => {
     const { type, name, label, options, placeholder, iconStart, iconNameStart, iconEnd, iconNameEnd, help, msjHelp, disabled } = config;
 
+    const getFormattedDate = (isoDate) => {
+        if (!isoDate) return "";
+        return isoDate.split("T")[0];  // Convierte la fecha ISO a formato YYYY-MM-DD
+    };
+
     return (
-        <div className="input-dinamico">            
+        <div className="input-dinamico">
             {type === 'select' ? (
                 <div>
                     <div className='club_input'>
                         {label && <label className='club_input_label' htmlFor={name}>{label}</label>}
                         <div className='club_input_contenedor'>
-                            {iconStart && <div>{iconNameStart}</div> }
+                            {iconStart && <div>{iconNameStart}</div>}
                             <select className='club_input_campo' id={name} name={name} value={value} onChange={onChange} disabled={disabled}>
                                 {options.map((option, index) => (
                                     <option key={index} value={option.value}>
@@ -19,7 +22,28 @@ const InputDinamico = ({ config, value, onChange }) => {
                                     </option>
                                 ))}
                             </select>
-                            {iconEnd && <div>{iconNameEnd}</div> }
+                            {iconEnd && <div>{iconNameEnd}</div>}
+                        </div>
+                        {help && <span className='club_input_span'>{msjHelp}</span>}
+                    </div>
+                </div>
+            ) : type === 'date' ? (
+                <div>
+                    <div className='club_input'>
+                        {label && <label className='club_input_label' htmlFor={name}>{label}</label>}
+                        <div className='club_input_contenedor'>
+                            {iconStart && <div>{iconNameStart}</div>}
+                            <input
+                                className='club_input_campo'
+                                type="date"
+                                id={name}
+                                name={name}
+                                value={getFormattedDate(value)}  // Muestra el valor en formato YYYY-MM-DD
+                                onChange={onChange}
+                                placeholder={placeholder}
+                                disabled={disabled}
+                            />
+                            {iconEnd && <div>{iconNameEnd}</div>}
                         </div>
                         {help && <span className='club_input_span'>{msjHelp}</span>}
                     </div>
@@ -46,8 +70,9 @@ const InputDinamico = ({ config, value, onChange }) => {
                     <div className='club_input'>
                         {label && <label className='club_input_label' htmlFor={name}>{label}</label>}
                         <div className='club_input_contenedor'>
-                            {iconStart && <div>{iconNameStart}</div> }
-                            <input className='club_input_campo' 
+                            {iconStart && <div>{iconNameStart}</div>}
+                            <input
+                                className='club_input_campo'
                                 type={type}
                                 id={name}
                                 name={name}
@@ -55,9 +80,8 @@ const InputDinamico = ({ config, value, onChange }) => {
                                 onChange={onChange}
                                 placeholder={placeholder}
                                 disabled={disabled}
-                                />
-                            {iconEnd && <div>{iconNameEnd}</div> }
-                            {/* <IoIosArrowForward className='club_input_icon_der' size={24} /> */}
+                            />
+                            {iconEnd && <div>{iconNameEnd}</div>}
                         </div>
                         {help && <span className='club_input_span'>{msjHelp}</span>}
                     </div>
@@ -68,6 +92,7 @@ const InputDinamico = ({ config, value, onChange }) => {
 };
 
 export default InputDinamico;
+
 
 // Explicación del código:
 // Props del componente InputDinamico:

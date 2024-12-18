@@ -23,17 +23,17 @@ const UserProfile = () => {
     const [topBarTitle, setTopBarTitle] = useState('Mi perfil');
     const [perfilProgress, setPerfilProgress]= useState('65%')
     const [dataUser, setDataUser] = useState({
-        Apellidos: "",
+        lastName: "",
         Busca: "",
-        CodigoPais: "",
-        Correo: "",
+        codeCountry: "",
+        email: "",
         Delegacion:"",
-        Edad:"",
-        Estatura:"",
-        EstatusRelacion: "",
-        FechaNacimiento: "",
-        Fumas:"",
-        IdentidadDeGenero: "",
+        age:"",
+        height:"",
+        relationshipStatus: "",
+        birthDate: "",
+        smokes:"",
+        genders: "",
         IdentidadSexual: "",
         Intereses:"",
         Mascotas:[],
@@ -65,6 +65,15 @@ const UserProfile = () => {
             setDataUser(datosUsuario);
         }
     }, []);
+
+    useEffect(() => {
+        // Verifica si dataUser tiene FotosCarrucel y establece el primer elemento como la imagen de perfil
+        if (dataUser?.FotosCarrucel && dataUser.FotosCarrucel.length > 0) {
+            setProfilePicture(dataUser.FotosCarrucel[0]);
+        } else {
+            setProfilePicture(PerfilDefault); // Imagen predeterminada
+        }
+    }, [dataUser]); // Ejecuta el efecto cuando dataUser cambie
 
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
@@ -164,7 +173,7 @@ const UserProfile = () => {
                             />
                         </div>
                         <div className="col-12 d-flex justify-content-center">
-                            <h1 className="club_texto_sombreado_negro">¡Hola {dataUser.Nombres}!</h1>
+                            <h1 className="club_texto_sombreado_negro">¡Hola {dataUser.name}!</h1>
                         </div>
                     </div>
                     {/* <div className='club_perfil_cont_fotos'>
@@ -190,7 +199,7 @@ const UserProfile = () => {
                 <br />
 
                 <div className="club_cont_data_perfil">
-                    <h3 className="club_txt_titular">{dataUser.Edad} años</h3>
+                    <h3 className="club_txt_titular">{dataUser.age} años</h3>
                     <div className="d-flex flex-wrap">
                         <span className="club_txt_caption w-100">{dataUser.Pronombre}</span>
                         <span className="club_txt_caption w-100">{dataUser.Delegacion ? dataUser.Delegacion : 'CDMX'}</span>
@@ -214,7 +223,7 @@ const UserProfile = () => {
                     <div className="club_cont_data_perfil">
                         <h3 className="club_txt_titular">Identidad de género</h3>
                         <div className="">
-                            <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.IdentidadDeGenero}</span>
+                            <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.genders}</span>
                         </div>
                     </div>
 

@@ -19,9 +19,9 @@ const Pronombres = () => {
     const tituloDeLista = 'Cuál es tu pronombre?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
-    const handleOptionSelect = (value) => {
-      setSelectedValue(value);
-      console.log('Opción seleccionada:', value); // Aquí recibes la opción seleccionada
+    const handleOptionSelect = (idOrIds) => {
+        setSelectedValue(idOrIds); // Almacena el ID o array de IDs
+        console.log('Opción seleccionada:', idOrIds);
     };
 
     const handleRegresar = () => {
@@ -44,8 +44,9 @@ const Pronombres = () => {
           const data = await getPronouns();
           console.log("data", data);
           if (!data.code) {
+            setOpciones(data.map(item => ({ id: item.id, name: item.name }))); // Guardar id y name
             setShowLoader(false);
-            setOpciones(data.map(item => item.name))
+            // setOpciones(data.map(item => item.name))
           } else {
             console.log("ocurrio un error ☠️");
           }
@@ -57,9 +58,11 @@ const Pronombres = () => {
     
     const handleContinuar = () => {
         if (selectedValue) {
+            console.log("selectedValue", selectedValue);
+            
             const nuevosDatos = {
                 ...datosUsuario, // Mantén los datos actuales
-                Pronombre: selectedValue // Agrega la nueva opción seleccionada
+                pronouns: selectedValue // Agrega la nueva opción seleccionada
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
