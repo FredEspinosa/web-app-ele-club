@@ -48,7 +48,7 @@ const InputDinamico = ({ config, value, onChange }) => {
                         {help && <span className='club_input_span'>{msjHelp}</span>}
                     </div>
                 </div>
-            ) : type === '' ? (
+            ) : type === 'textArea' ? (
                 <div>
                     <div className='club_input'>
                         {label && <label className='club_input_label' htmlFor={name}>{label}</label>}

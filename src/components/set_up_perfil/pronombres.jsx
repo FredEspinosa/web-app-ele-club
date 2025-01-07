@@ -19,9 +19,9 @@ const Pronombres = () => {
     const tituloDeLista = 'Cuál es tu pronombre?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
-    const handleOptionSelect = (idOrIds) => {
-        setSelectedValue(idOrIds); // Almacena el ID o array de IDs
-        console.log('Opción seleccionada:', idOrIds);
+    const handleOptionSelect = (selectedOptions) => {
+        setSelectedValue(selectedOptions); // Puede ser un objeto o un array de objetos
+        console.log('Opciones seleccionadas:', selectedOptions);
     };
 
     const handleRegresar = () => {
@@ -57,13 +57,16 @@ const Pronombres = () => {
     };
     
     const handleContinuar = () => {
-        if (selectedValue) {
+        if (selectedValue && selectedValue.length > 0) {
             console.log("selectedValue", selectedValue);
-            
+    
             const nuevosDatos = {
-                ...datosUsuario, // Mantén los datos actuales
-                pronouns: selectedValue // Agrega la nueva opción seleccionada
+                ...datosUsuario,
+                pronouns: Array.isArray(selectedValue) 
+                    ? selectedValue.map(item => ({ id: item.id, name: item.name })) 
+                    : { id: selectedValue.id, name: selectedValue.name }
             };
+    
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
@@ -73,7 +76,7 @@ const Pronombres = () => {
         } else {
             console.log("No se ha seleccionado ninguna opción");
         }
-    }
+    };    
 
   return (
     <div>
@@ -96,7 +99,6 @@ const Pronombres = () => {
                     </div>
                     </div>
                     <div className="col-12 club_margin_top_56">
-                        {/* <p>Opción seleccionada: {selectedValue}</p> */}
                         <OpcionesCheck 
                             opciones={opciones} 
                             onOptionSelect={handleOptionSelect} 

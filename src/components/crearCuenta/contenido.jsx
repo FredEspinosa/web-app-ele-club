@@ -85,6 +85,7 @@ const CrearCuentaContenido = () => {
                 break;
             case 'InicioSesion':
                 pasoActual = 'ContinuarCelular'
+                localStorage.setItem("isLogin", true);
                 setShowInicioSesion(true);
                 setShowCrearCuenta(false);
                 setShowIngresaNumTel(false);

@@ -19,9 +19,9 @@ const EstatusDeRelacion = () => {
     const tituloDeLista = 'Cual es tu estatus de relación?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
-    const handleOptionSelect = (idOrIds) => {
-        setSelectedValue(idOrIds); // Almacena el ID o array de IDs
-        console.log('Opción seleccionada:', idOrIds);
+    const handleOptionSelect = (selectedOptions) => {
+        setSelectedValue(selectedOptions); // Puede ser un objeto o un array de objetos
+        console.log('Opciones seleccionadas:', selectedOptions);
     };    
 
     const handleRegresar = () => {
@@ -55,10 +55,13 @@ const EstatusDeRelacion = () => {
     };
 
     const handleContinuar = () => {
-        if (selectedValue) {
+        if (selectedValue && selectedValue.length > 0) {
+            console.log("selectedValue", selectedValue);
             const nuevosDatos = {
-                ...datosUsuario, // Mantén los datos actuales
-                relationshipStatus: selectedValue // Agrega la nueva opción seleccionada
+                ...datosUsuario,
+                relationshipStatus: Array.isArray(selectedValue) 
+                    ? selectedValue.map(item => ({ id: item.id, name: item.name })) 
+                    : { id: selectedValue.id, name: selectedValue.name }
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));

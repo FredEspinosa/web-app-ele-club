@@ -23,7 +23,7 @@ const ProfilePicture = ({ src, onEdit }) => {
                 </div>
                 <div className="col-12 d-flex justify-content-center flex-wrap">
                     <div className="club_cont_perfil_img">
-                        <img src={src} alt="Perfil" srcSet="Imagen de Perfil" onClick={() => document.getElementById("fileInput").click()} />
+                        <img src={`data:image/jpeg;base64,${src}`} alt="Perfil" srcSet="Imagen de Perfil" onClick={() => document.getElementById("fileInput").click()} />
                         <FaCamera className="club_btn_edit_foto_perfil" onClick={() => document.getElementById("fileInput").click()} size={24}/>
                     </div>
                 </div>

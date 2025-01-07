@@ -19,9 +19,9 @@ const IdentidadSexual = () => {
     const tituloDeLista = 'Cual es tu identidad sexual?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
-    const handleOptionSelect = (idOrIds) => {
-        setSelectedValue(idOrIds); // Almacena el ID o array de IDs
-        console.log('Opción seleccionada:', idOrIds);
+    const handleOptionSelect = (selectedOptions) => {
+        setSelectedValue(selectedOptions); // Puede ser un objeto o un array de objetos
+        console.log('Opciones seleccionadas:', selectedOptions);
     };
 
     const handleRegresar = () => {
@@ -56,11 +56,15 @@ const IdentidadSexual = () => {
     };
 
     const handleContinuar = () => {
-        if (selectedValue) {
-            const nuevosDatos = {
-                ...datosUsuario, // Mantén los datos actuales
-                sexualIdentities: selectedValue // Agrega la nueva opción seleccionada
-            };
+        if (selectedValue && selectedValue.length > 0) {
+                console.log("selectedValue", selectedValue);
+        
+                const nuevosDatos = {
+                    ...datosUsuario,
+                    sexualIdentities: Array.isArray(selectedValue) 
+                        ? selectedValue.map(item => ({ id: item.id, name: item.name })) 
+                        : { id: selectedValue.id, name: selectedValue.name }
+                };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);

@@ -22,8 +22,13 @@ const endpoints = {
     suscription: `${hostApi}Suscription`,
     profileData: `${hostApi}Profile/Me`,
     userPhotoGet: `${hostApi}UserPhoto`,
+    userAddPreferences: `${hostApi}UserPreferences/Add`,
     userUpdatePreferences: `${hostApi}UserPreferences/Update`,
     userMeProfile: `${hostApi}Profile/Me`,
+    userIdProfile: `${hostApi}Profile`,
+    suscriptionUser: `${hostApi}UserSuscription`, // *
+    googleLogin: `${hostApi}Login/Google`, // *
+    addUbication: `${hostApi}UserLocation/Add`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -337,16 +342,119 @@ export const getUserPhoto = async (imgB64) => {
     }
 };
 
+// Get userPreferencesUpdate UserPreferences/Add
+export const userPreferencesAdd = async (dataUser, tokenSesion) => {
+    let config = {
+        method: "POST",
+        url: endpoints.userAddPreferences,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        data: dataUser,
+    };
+
+    try {
+        const response = await axios.request(config);
+        console.log("response api", response);
+        
+        return response; // Devuelve la respuesta completa
+    } catch (error) {
+        console.error("Error en userPreferencesAdd:", error);
+        throw error;
+    }
+};
+
 // Get userPreferencesUpdate
-export const userPreferencesUpdate = async (dataUser) => {
+export const userPreferencesUpdate = async (dataUser, tokenSesion) => {
+    console.log("tokenSesion userPreferencesUpdate", tokenSesion);
+    
     let config = {
         method: "PUT",
         url: endpoints.userUpdatePreferences,
         headers: {
             Accept: "text/plain",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
         },
         data: dataUser,
+    };
+
+    try {
+        const response = await axios.request(config);
+        console.log("Respuesta de la API:", response); // Verifica el contenido de response        
+        return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get Profile/Me
+export const userProfileMe = async (tokenSesion) => {
+    let config = {
+        method: "GET",
+        url: endpoints.userMeProfile,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        }
+    };
+
+    try {
+        const response = await axios.request(config);
+        console.log("userProfileMe", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get Profile
+export const profileUserID = async (tokenSesion, idUser) => {
+    console.log("idUser", idUser);
+    
+    let config = {
+        method: "GET",
+        url: endpoints.userIdProfile,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        params: {
+            'userId': idUser,
+        },
+    };
+
+    try {
+        const response = await axios.request(config);
+        console.log("profileUserID", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get UserSuscription
+export const userSuscription = async (tokenSesion) => {
+    let config = {
+        method: "POST",
+        url: endpoints.suscriptionUser,
+        Authorization: `Bearer ${tokenSesion}`,
+        headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+        },
+        data: {
+            "suscriptionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "stripeTransactionId": "string",
+            "stripeStatus": "string"
+        }
     };
 
     try {
@@ -358,20 +466,50 @@ export const userPreferencesUpdate = async (dataUser) => {
     }
 };
 
-// Get Profile/Me
-export const userProfileMe = async () => {
+// Get GoogleLogin
+export const loginGoogle = async (tokenSesion) => {
     let config = {
-        method: "GET",
-        url: endpoints.userMeProfile,
+        method: "POST",
+        url: endpoints.suscriptionUser,
+        Authorization: `Bearer ${tokenSesion}`,
         headers: {
-            Accept: "text/plain",
+            Accept: "*/*",
             "Content-Type": "application/json",
+        },
+        data: {
+            "googleToken": "string"
         }
     };
 
     try {
         const response = await axios.request(config);
         return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get GoogleLogin
+export const ubicationAdd = async (tokenSesion, ubicacion ) => {
+
+    let config = {
+        method: "POST",
+        url: endpoints.addUbication,
+        Authorization: `Bearer ${tokenSesion}`,
+        headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+        },
+        data: {
+            "latitude": ubicacion.latitude,
+            "longitude": ubicacion.longitude
+        }
+    };
+
+    try {
+        const response = await axios.request(config);        
+        return response;;
     } catch (error) {
         console.error("Error en userPreferencesUpdate:", error);
         throw error;

@@ -19,10 +19,10 @@ const SignoZodiaco = () => {
     const tituloDeLista = 'Cuál es tu signo zodiacal?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
-    const handleOptionSelect = (idOrIds) => {
-        setSelectedValue(idOrIds); // Almacena el ID o array de IDs
-        console.log('Opción seleccionada:', idOrIds);
-    };    
+    const handleOptionSelect = (selectedOptions) => {
+        setSelectedValue(selectedOptions); // Puede ser un objeto o un array de objetos
+        console.log('Opciones seleccionadas:', selectedOptions);
+    };     
 
     const handleRegresar = () => {
         navigate('/tienes_mascotas')
@@ -62,7 +62,7 @@ const SignoZodiaco = () => {
         if (selectedValue) {
             const nuevosDatos = {
                 ...datosUsuario, // Mantén los datos actuales
-                zodiacs: selectedValue // Agrega la nueva opción seleccionada
+                zodiacs: { id: selectedValue.id, name: selectedValue.name } // Agrega la nueva opción seleccionada
             };
             // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));

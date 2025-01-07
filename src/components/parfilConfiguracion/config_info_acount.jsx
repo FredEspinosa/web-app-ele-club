@@ -9,27 +9,28 @@ const ConfigInfoAcount = () => {
 
   const navigate = useNavigate();
   const [dataUser, setDataUser] = useState({
-    Apellidos: "",
-    Busca: "",
-    CodigoPais: "",
-    Correo: "",
-    Delegacion:"",
-    Edad:"",
-    Estatura:"",
-    EstatusRelacion: "",
-    FechaNacimiento: "",
-    Fumas:"",
-    IdentidadDeGenero: "",
-    IdentidadSexual: "",
-    Intereses:"",
-    Mascotas:[],
-    Nombres: "",
-    Pronombre: "",
-    SignoZodiacal:"",
-    Telefono: "",
-    FotoPerfil: "",
-    FotosCarrucel: [],
-    Bio:"",
+    lastName: "",
+    lookingFors: "",
+    codeCountry: "",
+    email: "",
+    delegation:"",
+    age:"",
+    height:"",
+    relationshipStatus: "",
+    birthDate: "",
+    smokes:"",
+    genders: "",
+    sexualIdentities: "",
+    interests:"",
+    pets:"",
+    name: "",
+    pronouns: "",
+    zodiacs:"",
+    perceptions:"",
+    phoneNumber: "",
+    photoProfile: "",
+    FotosCarrucel: "",
+    aboutMe:"",
 })
 
   useEffect(() => {
@@ -67,7 +68,7 @@ const ConfigInfoAcount = () => {
             <p className='club_config_parrafo'>Nombre</p>
           </div>
           <div className='col-6 d-flex justify-content-end'>
-            <p className='club_config_parrafo'>{dataUser?.Nombres ? dataUser?.Nombres : ''}</p>
+            <p className='club_config_parrafo'>{dataUser?.name ? dataUser?.name : ''}</p>
           </div>
         </div>
       </div>
@@ -77,7 +78,7 @@ const ConfigInfoAcount = () => {
             <p className='club_config_parrafo'>Edad</p>
           </div>
           <div className='col-6 d-flex justify-content-end'>
-            <p className='club_config_parrafo'>{dataUser?.Edad ? dataUser?.Edad : ''}</p>
+            <p className='club_config_parrafo'>{dataUser?.age ? dataUser?.age : ''}</p>
           </div>
         </div>
       </div>
@@ -87,7 +88,7 @@ const ConfigInfoAcount = () => {
             <p className='club_config_parrafo'>Correo electrónico</p>
           </div>
           <div className='col-6 d-flex justify-content-end'>
-            <p className='club_config_parrafo'>{dataUser?.Correo ? dataUser?.Correo : ''}</p>
+            <p className='club_config_parrafo'>{dataUser?.email ? dataUser?.email : ''}</p>
           </div>
         </div>
       </div>
@@ -107,7 +108,7 @@ const ConfigInfoAcount = () => {
             <p className='club_config_parrafo'>Número de Celular</p>
           </div>
           <div className='col-6 d-flex justify-content-end'>
-            <p className='club_config_parrafo'>{dataUser?.Telefono ? dataUser?.Telefono : ''}</p>
+            <p className='club_config_parrafo'>{dataUser?.phoneNumber ? dataUser?.phoneNumber : ''}</p>
           </div>
         </div>
       </div>

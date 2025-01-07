@@ -74,9 +74,17 @@ const CodigoValidacion = ({ avanzarPagina }) => {
       if (data.accessToken) {
         setShowLoader(false)
         setCodigoCorrecto(data.code)
-        // localStorage.setItem('AccessToken', data.accessToken);
         sessionStorage.setItem('AccessToken', data.accessToken);
-        navigate("/datos_personales");
+        const loginTrue = localStorage.getItem('isLogin');
+        if (loginTrue) {
+          setTimeout(() => {
+            navigate("/home");
+          }, 300);
+        } else {
+          setTimeout(() => {
+            navigate("/datos_personales");
+          }, 300);
+        }
       } else {
         console.log("ocurrio un error ☠️");
       }

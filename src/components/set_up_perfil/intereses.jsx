@@ -1,12 +1,11 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { getInterest } from '../../services/api';
 import Loader from '../loader/loader';
 
 const Intereses = () => {
-    const formRef = useRef(null); // Crea la referencia al formulario
     const navigate = useNavigate();
     const [datosUsuario, setDatosUsuario] = useState({});
     const [showLoader, setShowLoader] = useState(false);
@@ -51,8 +50,8 @@ const Intereses = () => {
         // Actualizar el estado con las opciones seleccionadas
         const seleccionados = nuevasOpciones
             .filter(item => item.selected)
-            .map(item => ({ id: item.id }));
-            // .map(item => ({ id: item.id, name: item.name })); // En caso que se necesiten ambos datos
+            // .map(item => ({ id: item.id }));
+            .map(item => ({ id: item.id, name: item.name })); // En caso que se necesiten ambos datos
         setFormData(seleccionados);
     };
 

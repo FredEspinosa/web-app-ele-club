@@ -3,18 +3,18 @@ import React from "react";
 import { MdOutlineAdd } from "react-icons/md";
 
 const PhotoGallery = ({ addPhoto, userPhotos, textoTitulo }) => {
+
   const handlePhotoUpload = (event) => {
     const files = Array.from(event.target.files);
 
     // Convertir cada archivo a base64 y agregarlo
     files.forEach((file) => {
       const reader = new FileReader();
-
       reader.onload = () => {
         const base64 = reader.result; // Contenido en base64
-        addPhoto(base64); // Pasar la imagen al padre
+        const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, ""); // Quitar el prefijo
+        addPhoto(cleanBase64); // Pasar la imagen al padre
       };
-
       reader.readAsDataURL(file); // Iniciar la lectura en base64
     });
   };
@@ -47,7 +47,7 @@ const PhotoGallery = ({ addPhoto, userPhotos, textoTitulo }) => {
         {userPhotos.map((photo, index) => (
           <img
             key={index}
-            src={photo}
+            src={`data:image/jpeg;base64,${photo}`}
             alt={`thumbnail-${index}`}
             className="thumbnail"
             style={{ width: "50px", height: "50px", margin: "5px" }}

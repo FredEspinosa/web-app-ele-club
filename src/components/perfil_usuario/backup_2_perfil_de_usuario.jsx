@@ -15,9 +15,6 @@ import { MdOutlineEditNote } from "react-icons/md";
 import { IoHeartOutline } from "react-icons/io5";
 import NavBar from "../nav_bar/navBar";
 import { FaArrowLeft, FaCamera } from "react-icons/fa";
-import Loader from "../loader/loader";
-import AlertSuscribe from "../alertas/alert_suscribete";
-import { enviarDatosUsuario } from "../../services/data";
 
 const UserProfile = () => {
     const navigate = useNavigate();
@@ -25,11 +22,6 @@ const UserProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [topBarTitle, setTopBarTitle] = useState('Mi perfil');
     const [perfilProgress, setPerfilProgress]= useState('65%')
-    const [datosUsuario, setDatosUsuario] = useState({});
-    const [showLoader, setShowLoader] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const [mensajeModal, setMensajeModal] = useState("");
-    const [tokenSesionStorage, setTokenSesionStorage] = useState("");
     const [dataUser, setDataUser] = useState({
         lastName: "",
         lookingFors: "",
@@ -60,16 +52,23 @@ const UserProfile = () => {
         const storedPhotos = localStorage.getItem("FotosCarrucel");
         return storedPhotos ? JSON.parse(storedPhotos) : []; // Si no hay fotos guardadas, inicia con un arreglo vacío
     });
+    // const [userPhotos, setUserPhotos] = useState([
+    //     // Inicializa con algunas imágenes si deseas
+    //     SlidePrueba1,
+    //     SlidePrueba2,
+    //     SlidePrueba3,
+    //     SlidePrueba4,
+    // ]);
+    // const infoSeleccionadsPerfil = [
+    //     "Edad", 
+    //     "Pronombre", 
+    //     "Delegación",
+    // ]; // Hace un filtrado de los campos que quiero mostrar
     
     useEffect(() => {
         const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
         if (datosUsuario) {
             setDataUser(datosUsuario);
-        }
-        const tokenStorage = sessionStorage.getItem("AccessToken");
-        if (tokenStorage) {
-            console.log("tokenStorage usse", tokenStorage);
-            setTokenSesionStorage(tokenStorage)
         }
     }, []);
 
@@ -105,6 +104,10 @@ const UserProfile = () => {
         }
     }
 
+    const redirectSettings = () => {
+        navigate('/configuracion')
+    }
+
     const handleProfilePictureChange = (newImageUrl) => {
         setProfilePicture(newImageUrl); // Actualiza la imagen de perfil
     };
@@ -119,48 +122,6 @@ const UserProfile = () => {
 
     const goSuscribe = () => {
         navigate('/suscripcion')
-    }
-
-    const handleUpdateInfo = () => {
-        const nuevosDatos = { ...datosUsuario, ...dataUser };
-        localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
-        console.log("Datos actualizados guardados:", nuevosDatos);
-        setTimeout(() => {
-            updateDataUserInfo()
-        }, 300);
-    };
-
-    const updateDataUserInfo = async () => {
-        setShowLoader(true); // Mostrar el loader al inicio
-        const type = 'update'
-        try {
-            const tokenSesion = tokenSesionStorage;  
-            console.log("tokenSesion", tokenSesion);
-              
-            const response = await enviarDatosUsuario(tokenSesion, type);
-            console.log("response", response);
-    
-            // Validar la respuesta
-            if (response?.status === 200) { // Ajusta según el código esperado por tu API
-                console.log("Datos enviados correctamente:", response);
-                // navigate('/notificaciones');
-                setMensajeModal(<p>Información actualizada <b>correctamente</b>.</p>);
-            } else {
-                console.error("Ocurrió un error en la API:", response);
-            }
-        } catch (err) {
-            console.error("Error al enviar datos del usuario:", err);
-            setShowAlert(true);
-            setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
-        } finally {
-            setShowLoader(false); // Asegurarse de ocultar el loader siempre
-            setShowAlert(true);
-            setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
-        }
-    }; 
-
-    const closeModal = () => {
-        setShowAlert(false)
     }
 
   return (
@@ -181,12 +142,31 @@ const UserProfile = () => {
                 <div className='col-6 d-flex align-items-center justify-content-center'>
                     <h1 className='club_titulo_config club_color_fuente_negro'>{topBarTitle}</h1>
                 </div>
-                <div className='col-3 d-flex align-items-center justify-content-end'></div>
+                <div className='col-3 d-flex align-items-center justify-content-end'>
+                    {/* {editaPerfil &&
+                        <button className='btn d-flex align-items-center club_color_fuente_negro club_config_btn_back'
+                            onClick={redirectSettings}
+                        >
+                        <IoIosSettings size={24} className='club_color_fuente_negro' />
+                        </button>
+                    } */}
+                </div>
             </div>
         </div>
         
         {editaPerfil ?
+        // <div>
             <div className='club_contenedor club_margin_bar_40 container-lg'>
+                {/* <div className='col-12 d-flex club_contenedor' style={{paddingTop:'5%', paddingBottom:'3%'}}>
+                    <div className='col-3 d-flex align-items-center justify-content-end'>
+                        <button className='btn d-flex align-items-center club_color_fuente_negro club_config_btn_back'
+                            onClick={() => {setEditaPerfil(false); setTopBarTitle('Editar perfil')}}
+                        >
+                            <MdOutlineEditNote size={30} className='club_color_fuente_negro' />
+                        </button>
+                    </div>
+                </div> */}
+
                 <div className='col-12 d-flex club_contenedor club_no_wrap_desk'>
                     <div className="club_cont_perfil_foto">
                         <div className="club_cont_perfil_img">
@@ -202,6 +182,14 @@ const UserProfile = () => {
                             <h1 className="club_texto_sombreado_negro">¡Hola {dataUser.name}!</h1>
                         </div>
                     </div>
+                    {/* <div className='club_perfil_cont_fotos'>
+                        <CarruselPerfilUsuario
+                            setNombres={dataUser.Nombres}
+                            setEdad={'24'}
+                            setPronombres={dataUser.Pronombre}
+                            userPhotos={userPhotos}
+                        />
+                    </div> */}
 
                     <div className="club_cont_barra">
                         <span className="club_color_fuente_negro">Completa tu perfil <span>{perfilProgress}</span></span>
@@ -224,11 +212,13 @@ const UserProfile = () => {
                             <span className="club_txt_caption w-100">{item.name}</span>
                         </li>
                     ))}
+                        {/* <span className="club_txt_caption w-100">{dataUser.pronouns.name}</span> */}
                     {Array.isArray(dataUser.delegation) && dataUser.delegation?.map((item, index) => (
                         <li className="club_no_decoration_list club_list_separation" key={index}>
                             <span className="club_txt_caption w-100">{item.name}</span>
                         </li>
                     ))}
+                        {/* <span className="club_txt_caption w-100">{dataUser.delegation ? dataUser.delegation : 'CDMX'}</span> */}
                     </div>
                 </div>
                 <div className="club_info_intereses_contenedor">
@@ -241,37 +231,41 @@ const UserProfile = () => {
 
                     <div className="club_cont_data_perfil">
                         <h3 className="club_txt_titular">Estoy buscando</h3>
-                        <div className="d-flex flex-wrap">
+                        <div className="d-flex">
                         {Array.isArray(dataUser.lookingFors) && dataUser.lookingFors?.map((item, index) => (
                             <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.name}</span></li>
                         ))}
+                            {/* <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.lookingFors}</span> */}
                         </div>
                     </div>
 
                     <div className="club_cont_data_perfil">
                         <h3 className="club_txt_titular">Identidad de género</h3>
-                        <div className="d-flex flex-wrap">
+                        <div className="d-flex">
                         {Array.isArray(dataUser.genders) && dataUser.genders?.map((item, index) => (
                             <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.name}</span></li>
                         ))}
+                            {/* <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.genders}</span> */}
                         </div>
                     </div>
 
                     <div className="club_cont_data_perfil">
                         <h3 className="club_txt_titular">Identidad sexual</h3>
-                        <div className="d-flex flex-wrap">
+                        <div className="d-flex">
                         {Array.isArray(dataUser.sexualIdentities) && dataUser.sexualIdentities?.map((item, index) => (
                             <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.name}</span></li>
                         ))}
+                            {/* <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.sexualIdentities}</span> */}
                         </div>
                     </div>
 
                     <div className="club_cont_data_perfil">
-                        <h3 className="club_txt_titular">Percepción sexual</h3>
-                        <div className="d-flex flex-wrap">
+                        <h3 className="club_txt_titular">Identidad sexual</h3>
+                        <div className="d-flex">
                         {Array.isArray(dataUser.perceptions) && dataUser.perceptions?.map((item, index) => (
                             <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.name}</span></li>
                         ))}
+                            {/* <span className="club_txt_caption w-100 club_texto_capsula">{dataUser.perceptions}</span> */}
                         </div>
                     </div>
                 </div>
@@ -289,6 +283,42 @@ const UserProfile = () => {
                 <br />
                 <br />
 
+                {/* <div className='col-12 d-flex flex-wrap club_contenedor flex-wrap'>
+                    <div className="club_perfil_pensamiento">
+                        <h3 className="club_perfil_pensamiento_titulo club_texto_sombreado_blanco">Mis preferencias</h3>
+                    </div>
+                    <div className="col-12 d-flex">
+                        <div className="col-4">
+                            <div className={`club_perfil_preferencias ${animPreferencias}`}>
+                                <p>{dataUser.EstatusRelacion}</p>
+                            </div>
+                        </div>
+                        <div className="col-4">
+                            <div className={`club_perfil_preferencias ${animPreferencias}`}>
+                                <p>{dataUser.genders}</p>
+                            </div>
+                        </div>
+                        <div className="col-4">
+                            <div className={`club_perfil_preferencias ${animPreferencias}`}>
+                                <p>{dataUser.sexualIdentities}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 d-flex">
+                        <div className="col-6">
+                            <div className={`club_perfil_preferencias ${animPreferencias}`}>
+                                <p>{dataUser.lookingFors}</p>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className={`club_perfil_preferencias ${animPreferencias}`}>
+                                <p>{dataUser.Pronombre}</p>
+                            </div>
+                        </div>
+                        <div className="col-4"></div>
+                    </div>
+                </div> */}
+
                 <br />
                 <br />
 
@@ -299,9 +329,6 @@ const UserProfile = () => {
                     src={profilePicture} 
                     onEdit={handleProfilePictureChange}
                 />
-                {isEditing ? (
-                <div></div>
-                ) : (
                 <div className="club_info_personal_perfil">
                     <div className="club_cont_data_perfil">
                         <h3 className="club_txt_titular">Acerca de mi</h3>
@@ -311,46 +338,75 @@ const UserProfile = () => {
                     </div>
                     <div className="club_cont_data_perfil">
                         <h3 className="club_txt_titular">Estoy buscando</h3>
-                        <div className="d-flex flex-wrap">
+                        <div className="d-flex">
                         {Array.isArray(dataUser.lookingFors) && dataUser.lookingFors?.map((item, index) => (
                             <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.name}</span></li>
                         ))}
+                            {/* <span className="club_txt_caption w-100 ">{dataUser.lookingFors}</span> */}
                         </div>
                     </div>
 
                     <div className="club_cont_data_perfil">
                         <h3 className="club_txt_titular">Identidad de género</h3>
-                        <div className="d-flex flex-wrap">
+                        <div className="d-flex">
                         {Array.isArray(dataUser.genders) && dataUser.genders?.map((item, index) => (
                             <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.name}</span></li>
                         ))}
+                            {/* <span className="club_txt_caption w-100 ">{dataUser.genders}</span> */}
                         </div>
                     </div>
 
                     <div className="club_cont_data_perfil">
                         <h3 className="club_txt_titular">Identidad sexual</h3>
-                        <div className="d-flex flex-wrap">
+                        <div className="d-flex">
                         {Array.isArray(dataUser.sexualIdentities) && dataUser.sexualIdentities?.map((item, index) => (
                             <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.name}</span></li>
                         ))}
+                            {/* <span className="club_txt_caption w-100 ">{dataUser.sexualIdentities}</span> */}
                         </div>
                     </div>
 
                     <div className="club_cont_data_perfil">
-                        <h3 className="club_txt_titular">Percepción sexual</h3>
-                        <div className="d-flex flex-wrap">
+                        <h3 className="club_txt_titular">Identidad sexual</h3>
+                        <div className="d-flex">
                         {Array.isArray(dataUser.perceptions) && dataUser.perceptions?.map((item, index) => (
                             <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.name}</span></li>
                         ))}
+                            {/* <span className="club_txt_caption w-100 ">{dataUser.perceptions}</span> */}
                         </div>
                     </div>
+
+                    {/* Muestra toda la data en contenedores de div como los de arriba */}
+                    {/* <div className="club_cont_data_perfil">
+                    {dataUser &&
+                        Object.entries(dataUser).map(([key, value]) => (
+                            <div key={key}>
+                                <h3 className="club_txt_titular">{key}</h3>
+                                <div className="d-flex flex-wrap">
+                                    <span className="club_txt_caption w-100 ">{value}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div> */}
+
+                    {/* Muestra toda la data en un listado */}
+                    {/* <u className="club_lista_ul">
+                    {dataUser &&
+                        Object.entries(dataUser).map(([key, value]) => (
+                        <li className="club_lista_li club_contenedor_settings club_contenedor_bg_borde_gris club_margin_bar_40 d-flex justify-content-between" key={key}>
+                            <strong>{key}:</strong> {value}
+                        </li>
+                        ))}
+                    </u> */}
                 </div>
-                )}
                 {isEditing ? (
                     <EditProfileForm dataUser={dataUser} onSave={handleSaveProfile} cancelEdit={cancelEdit} />
                 ) : (
                     <div>
                         <br />
+                        {/* <h2>{dataUser.Nombres}</h2>
+                        <p>{dataUser.aboutMe}</p> */}
+                        {/* <button onClick={handleEditToggle}>Editar Perfil</button> */}
                         <div className="club_cont_btns_full club_notificaciones_btns">
                             <button
                                 type="submit"
@@ -377,26 +433,17 @@ const UserProfile = () => {
                         type="submit"
                         className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
                         style={{marginBottom:'120px'}}
-                        onClick={() => {setEditaPerfil(true); handleUpdateInfo()}}
+                        onClick={() => {setEditaPerfil(true)}}
                     >
                         Actualizar Información
                     </button>
                 </div>
             </div>
+        // </div>
         }
         <NavBar 
             currentPage={"Perfil"}
         />
-        {(showLoader && <Loader /> )}
-        {(showAlert && 
-            <AlertSuscribe 
-            mensajeModal={mensajeModal}
-            btnAceptar={true}
-            btnMsjButtom={'CERRAR'}
-            handleOnclick={closeModal}
-            bgColorButton={'club_bg_oro'}
-            />
-        )}
     </div>
   );
 };

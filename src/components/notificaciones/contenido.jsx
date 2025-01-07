@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import PermisosUbi from './popupPermiosUbicacion';
 import FooterDinamico from '../footer/footer_dinamico';
 import Welcome from '../../assets/images/notificaciones/welcome.jpg'
+import { ubicationAdd } from '../../services/api';
+import Loader from '../loader/loader';
 
 const NotificacionesContenido = () => {
 
@@ -18,11 +20,20 @@ const NotificacionesContenido = () => {
     const [showReglas, setShowReglas] = useState (false);
     const [showDiviertete, setShowDiviertete] = useState (false);
     const [isChecked, setIsChecked] = useState(false);
+    const [tokenSesionStorage, setTokenSesionStorage] = useState("");
+    const [showLoader, setShowLoader] = useState(false);
 
     useEffect(() => {
         const datosGuardados = localStorage.getItem("datosUsuario");
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados));
+        }
+
+        // Si no hay datos en el localStorage, obtenemos el token y llamamos a la API
+        const tokenStorage = sessionStorage.getItem("AccessToken");
+        if (tokenStorage) {
+            console.log("tokenStorage usse", tokenStorage);
+            setTokenSesionStorage(tokenStorage)
         }
     }, []);
 
@@ -67,6 +78,10 @@ const NotificacionesContenido = () => {
         const lng = ubicacion.longitude;
         const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
 
+        if (ubicacion) {
+            ubicationAddService(ubicacion)
+        }
+
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -78,11 +93,30 @@ const NotificacionesContenido = () => {
             
                 setDatosUsuario((prevDatos) => ({
                     ...prevDatos,
-                    // Ubicacion: ubicacion,
-                    Delegacion: deleg,
+                    delegation: deleg,
                 }));
             });
             
+    };
+
+    const ubicationAddService = async (ubicacion) => {
+        setShowLoader(true)
+        try {
+          const response = await ubicationAdd(tokenSesionStorage, ubicacion);
+          console.log("response ubicationAdd", response);
+          if (response?.status === 200) {
+            setShowLoader(false);
+            setDatosUsuario((prevDatos) => ({
+                ...prevDatos,
+                location: ubicacion,
+            }));
+          } else {
+            console.log("ocurrio un error ☠️");
+          }
+        } catch (err) {
+          console.log(err);
+          setShowLoader(false);
+        }
     };
 
     const handleCerrarModal = () => {
@@ -240,6 +274,7 @@ const NotificacionesContenido = () => {
                     </div>
                 </div>
             }
+            {(showLoader && <Loader /> )}
         </div>
         {showModal && 
             <PermisosUbi

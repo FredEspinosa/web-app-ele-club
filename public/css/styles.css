@@ -2100,6 +2100,11 @@ input[type="file"] {
     margin-bottom: 0px;
 }
 
+.club_cont_data_perfil li {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
 #perfilUsuario .club_cont_barra {
     background-color: transparent !important;
 }
@@ -2667,6 +2672,18 @@ club_onboarding_info p {
     align-items: center;
     height: 95vh;
     text-align: center;
+}
+
+.club_no_decoration_list {
+    list-style: none !important;
+}
+
+.club_list_separation {
+    margin-left: 5px;
+}
+
+.club_list_separation:first-child {
+    margin-left: 0px;
 }
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 

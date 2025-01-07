@@ -3,6 +3,16 @@ import React from 'react'
 
 const TextAreaDinamico = ({ config, value, onChange }) => {
     const { name, label, placeholder, help, msjHelp } = config;
+
+    //  Ejemplo de uso
+    // const campoText = [ 
+    //   {
+    //       name: 'aboutMe',
+    //       label: 'Expresa un pensamiento',
+    //       placeholder: 'Amante de los animales y la naturaleza, sporty spice, healthy lifestyle!',
+    //       help: false
+    //   },
+    // ];
   return (
     <div>
         <div>

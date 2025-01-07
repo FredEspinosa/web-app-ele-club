@@ -18,6 +18,7 @@ const Habitos = () => {
     const [opciones, setOpciones] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
     const [mensajeModal, setMensajeModal] = useState("");
+    const [tokenSesionStorage, setTokenSesionStorage] = useState("");
 
     // const opciones = ['Cigarros', 'Vape', 'Weed', 'No'];
     const tituloDeLista = 'Fumas?'
@@ -42,6 +43,13 @@ const Habitos = () => {
         if (datosGuardados) {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
+
+        const tokenStorage = sessionStorage.getItem("AccessToken")
+        if (tokenStorage) {
+            console.log("tokenStorage usse", tokenStorage);
+            setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
+        }
+
         listSmoke()
     }, []);
 
@@ -72,8 +80,8 @@ const Habitos = () => {
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
-                // sendDataUserInfo()
-                navigate('/notificaciones');
+                sendDataUserInfo()
+                // navigate('/notificaciones');
             }, 300);
         } else {
             console.log("No se ha seleccionado ninguna opción");
@@ -83,10 +91,14 @@ const Habitos = () => {
     const sendDataUserInfo = async () => {
         setShowLoader(true); // Mostrar el loader al inicio
         try {
-            // Llamada a la función de envío
-            const response = await enviarDatosUsuario();
+            const tokenSesion = tokenSesionStorage;
+            console.log("tokenSesion", tokenSesion);
+    
+            const response = await enviarDatosUsuario(tokenSesion);
+            console.log("response", response);
+    
             // Validar la respuesta
-            if (response?.code === 200) { // Ajusta según el código esperado por tu API
+            if (response?.status === 200) { // Ajusta según el código esperado por tu API
                 console.log("Datos enviados correctamente:", response);
                 navigate('/notificaciones');
             } else {
@@ -95,13 +107,13 @@ const Habitos = () => {
         } catch (err) {
             console.error("Error al enviar datos del usuario:", err);
             setShowAlert(true);
-            setMensajeModal(<p>¡Lo sentimos! ocurrio un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>)
+            setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
         } finally {
             setShowLoader(false); // Asegurarse de ocultar el loader siempre
             setShowAlert(true);
-            setMensajeModal(<p>¡Lo sentimos! ocurrio un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>)
+            setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
         }
-    };    
+    };        
 
     const closeModal = () => {
         setShowAlert(false)
