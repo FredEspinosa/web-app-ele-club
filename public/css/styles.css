@@ -2353,6 +2353,13 @@ input[type="file"] {
     color: #bbb;
 }
 
+.plan.selected {
+    border: 2px solid var(--color-primario-violeta-05); /* O el color que prefieras */
+    /* -webkit-box-shadow: -1px 0px 23px 0px rgba(255,158,0,0.81);
+    -moz-box-shadow: -1px 0px 23px 0px rgba(255,158,0,0.81);
+    box-shadow: -1px 0px 23px 0px rgba(255,158,0,0.81); */
+}
+
 .continue-button {
     display: block;
     background-color: #d4af37;
@@ -2684,6 +2691,10 @@ club_onboarding_info p {
 
 .club_list_separation:first-child {
     margin-left: 0px;
+}
+
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+    background-color: var(--color-neutral-gris-04) !important;
 }
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 

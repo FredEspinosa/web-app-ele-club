@@ -515,3 +515,24 @@ export const ubicationAdd = async (tokenSesion, ubicacion ) => {
         throw error;
     }
 };
+
+// Get ClientSecret for Stripe
+export const getClientSecret = async (priceId) => {
+    console.log("Api priceId", priceId);
+    const config = {
+        method: 'POST',
+        url: 'http://localhost:3001/create-payment-intent', // Asegúrate de que la URL sea correcta
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: { priceId }, // Usar data en lugar de body para axios
+    };
+  
+    try {
+        const response = await axios.request(config);
+        return response.data.clientSecret; // Devuelve el clientSecret
+    } catch (error) {
+        console.error('Error al obtener el clientSecret:', error);
+        throw error;
+    }
+};

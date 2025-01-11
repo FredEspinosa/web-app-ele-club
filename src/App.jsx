@@ -1,4 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+// Suscripción con Stripe
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 // Estilos Globales
 // import '../public/css/styles.css'
 // import './assets/css/styles.css'
@@ -43,9 +46,20 @@ import SupportPage from './pages/config_pages/tech_support_page';
 import TermsConditionsPage from './pages/config_pages/terms_conditions_page';
 import PrivacyPoliciesPage from './pages/config_pages/privacy_policies_page';
 import AboutPage from './pages/config_pages/about_page';
+import PaymentForm from './components/form_stripe/payment_form';
+import ThankyouPage from './pages/thankyou_page';
 
 
 function App() {
+
+  // const stripePromise = loadStripe('tu-public-key-de-stripe');
+
+  // const options = {
+  //   // passing the client secret obtained in step 3
+  //   clientSecret: '{{CLIENT_SECRET}}',
+  //   // Fully customizable with appearance API.
+  //   appearance: {/*...*/},
+  // };
 
   const router = createBrowserRouter(
     [
@@ -155,7 +169,11 @@ function App() {
       },
       {
         path: '/suscripcion',
-        element: <Suscribete />
+        element: (
+          // <Elements stripe={stripePromise} options={options}>
+            <Suscribete />
+          // </Elements>
+        ),
       },
       {
         path: '/perfil_otra_persona',
@@ -193,6 +211,14 @@ function App() {
         path: '/acerca_de',
         element: <AboutPage />
       },
+      {
+        path: '/pago',
+        element: <PaymentForm />
+      },
+      {
+        path: '/gracias',
+        element: <ThankyouPage />
+      }
     ]
   )
 
