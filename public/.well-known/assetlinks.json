@@ -1,8 +1,15 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "com.helenasafica.helena",
-        "sha256_cert_fingerprints": ["BF:C2:5F:98:6D:2C:E3:4B:60:A2:45:1E:53:87:F5:3E:7C:D0:15:63:5F:A0:B2:68:DD:48:0E:09:34:0C:63:27"]
-      }
-    }]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.helenasafica.helena",
+      "sha256_cert_fingerprints": [
+        "BF:C2:5F:98:6D:2C:E3:4B:60:A2:45:1E:53:87:F5:3E:7C:D0:15:63:5F:A0:B2:68:DD:48:0E:09:34:0C:63:27",
+        "F0:DB:15:A6:12:CF:7F:D6:1C:F1:DA:35:40:30:A2:05:5D:5A:EB:D0:68:B5:98:8B:AE:B2:5F:AC:6E:00:1B:18"
+      ]
+    }
+  }
+]
