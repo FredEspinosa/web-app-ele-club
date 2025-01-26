@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import NavBarDinamicButtons from '../nav_bar/navBarDinamicButtons';
 import ChatsContent from './chats_content';
 import HeaderConfiguration from '../headers/header_configuration';
+import Loader from '../loader/loader';
+import { conversationGetAll } from '../../services/api';
 
 const ChatBox = () => {
 
@@ -17,11 +19,47 @@ const ChatBox = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [vista, setVista] = useState("chatsPrivados"); // Vista inicial
   const [vistaActual, setVistaActual] = useState(""); // Vista inicial
-  
+  const [showLoader, setShowLoader] = useState(false);
+  const [tokenSesionStorage, setTokenSesionStorage] = useState("");
+
   const listaBotones = [
     { texto: "Chats Privados", evento: "chatsPrivados" },
     { texto: "Sala de Chats", evento: "salaDeChats" },
   ];
+
+  useEffect(() => {
+    const tokenStorage = sessionStorage.getItem("AccessToken");
+    if (tokenStorage && !tokenSesionStorage) {
+      setTokenSesionStorage(tokenStorage);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (tokenSesionStorage) {
+      conversationsAll()
+    }
+  }, [tokenSesionStorage])
+  
+
+  const conversationsAll = async () => {
+    setShowLoader(true)
+    try {
+      const tokenSesion = tokenSesionStorage;  
+      console.log("tokenSesion conversationsAll", tokenSesion);
+
+      const data = await conversationGetAll(tokenSesion);
+      console.log("data", data);
+      if (!data.code) {
+        setShowLoader(false);
+        // setOpciones(data.map(item => ({ id: item.id, name: item.name })));
+      } else {
+        console.log("ocurrio un error ☠️");
+      }
+    } catch (err) {
+      console.log(err);
+      setShowLoader(false);
+    }
+  };
 
   useEffect(() => {
     const q = query(collection(db, 'messages'), orderBy('timestamp'));
@@ -60,6 +98,7 @@ const ChatBox = () => {
 
   return (
     // <div className="club_contenedor_full_height">
+    <div>
       <div id='chatsBox' className="club_contenedor_tres_secciones club_contenedor container-lg">
         <div className="club_contenido_top club_cont_info">
           <HeaderConfiguration
@@ -85,25 +124,25 @@ const ChatBox = () => {
             {vista === "salaDeChats" && <ChatsContent handleOnClick={redirectBack} />}
           </div>
           {/* <div className="message-list">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`message ${msg.sender === auth.currentUser.uid ? 'my-message' : 'other-message'}`}>
-                {msg.text}
-              </div>
-            ))}
-          </div>
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Escribe un mensaje..."
-          />
-          <button onClick={sendMessage}>Enviar</button> */}
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`message ${msg.sender === auth.currentUser.uid ? 'my-message' : 'other-message'}`}>
+                  {msg.text}
+                </div>
+              ))}
+            </div>
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Escribe un mensaje..."
+            />
+            <button onClick={sendMessage}>Enviar</button> */}
         </div>
         <div className="club_contenido_bottom club_cont_info">
           <NavBar currentPage={"Chats"} />
         </div>
-        {(showAlert && 
-          <AlertSuscribe 
+        {(showAlert &&
+          <AlertSuscribe
             mensajeModal={<p>¿Quieres tener todas las funciones de manera ilimitada?</p>}
             btnAceptar={true}
             btnMsjButtom={'SUSCRIBETE'}
@@ -112,6 +151,8 @@ const ChatBox = () => {
           />
         )}
       </div>
+      {(showLoader && <Loader /> )}
+    </div>
     // </div>
   );
 };

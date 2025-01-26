@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
-import { getSmoke } from '../../services/api';
+import { getSmoke, userProfileMe } from '../../services/api';
 import Loader from '../loader/loader';
 import { enviarDatosUsuario } from '../../services/data';
 import AlertSuscribe from '../alertas/alert_suscribete';
@@ -90,16 +90,18 @@ const Habitos = () => {
 
     const sendDataUserInfo = async () => {
         setShowLoader(true); // Mostrar el loader al inicio
+        const type = ''
         try {
             const tokenSesion = tokenSesionStorage;
             console.log("tokenSesion", tokenSesion);
     
-            const response = await enviarDatosUsuario(tokenSesion);
+            const response = await enviarDatosUsuario(tokenSesion, type);
             console.log("response", response);
     
             // Validar la respuesta
             if (response?.status === 200) { // Ajusta según el código esperado por tu API
                 console.log("Datos enviados correctamente:", response);
+                // getDataProfileMe(tokenSesion)
                 navigate('/notificaciones');
             } else {
                 console.error("Ocurrió un error en la API:", response);
@@ -114,6 +116,30 @@ const Habitos = () => {
             setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
         }
     };        
+
+    // const getDataProfileMe = async (tokenSesion) => {
+    //     setShowLoader(true); // Mostrar el loader al inicio
+    //     try {
+    //         console.log("Iniciando llamada a userProfileMe con token:", tokenSesion);
+    
+    //         const response = await userProfileMe(tokenSesion);
+    //         console.log("Respuesta de la API:", response);
+    
+    //         if (response?.status === 200 && response.userProfile) {
+    //             console.log("Datos obtenidos correctamente:", response.userProfile);
+    //             const idUser = response.userProfile.userId;
+    //             localStorage.setItem("userId", idUser);
+    //             navigate('/notificaciones');
+    //         } else {
+    //             console.error("La API devolvió un estado no esperado o falta información:", response);
+    //         }
+    //     } catch (err) {
+    //         console.error("Error al obtener datos del perfil:", err);
+    //         // Mostrar alerta al usuario si es necesario
+    //     } finally {
+    //         setShowLoader(false); // Ocultar el loader
+    //     }
+    // };    
 
     const closeModal = () => {
         setShowAlert(false)

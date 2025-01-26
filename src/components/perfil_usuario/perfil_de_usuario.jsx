@@ -30,6 +30,7 @@ const UserProfile = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [mensajeModal, setMensajeModal] = useState("");
     const [tokenSesionStorage, setTokenSesionStorage] = useState("");
+    const [perfilAge, setPerfilAge] = useState("");
     const [dataUser, setDataUser] = useState({
         lastName: "",
         lookingFors: "",
@@ -74,6 +75,11 @@ const UserProfile = () => {
     }, []);
 
     useEffect(() => {
+        if (dataUser.birthDate) {
+            const edad = calcularEdad(dataUser.birthDate);
+            console.log(`La edad es: ${edad} años`);
+            setPerfilAge(edad)
+        }
         // Verifica si dataUser tiene FotosCarrucel y establece el primer elemento como la imagen de perfil
         if (dataUser?.FotosCarrucel && dataUser.FotosCarrucel.length > 0) {
             setProfilePicture(dataUser.FotosCarrucel[0]);
@@ -163,6 +169,24 @@ const UserProfile = () => {
         setShowAlert(false)
     }
 
+    const calcularEdad = (fechaNacimiento) => {
+        const hoy = new Date(); // Fecha actual
+        const fechaNac = new Date(fechaNacimiento); // Convierte el string a fecha
+        let edad = hoy.getFullYear() - fechaNac.getFullYear(); // Diferencia de años
+      
+        // Ajusta si el cumpleaños aún no ha pasado este año
+        const mesActual = hoy.getMonth();
+        const diaActual = hoy.getDate();
+        const mesNacimiento = fechaNac.getMonth();
+        const diaNacimiento = fechaNac.getDate();
+      
+        if (mesActual < mesNacimiento || (mesActual === mesNacimiento && diaActual < diaNacimiento)) {
+          edad--;
+        }
+      
+        return edad;
+    };
+
   return (
     <div id="perfilUsuario">
         <div className='club_perfil_barra'>
@@ -190,7 +214,16 @@ const UserProfile = () => {
                 <div className='col-12 d-flex club_contenedor club_no_wrap_desk'>
                     <div className="club_cont_perfil_foto">
                         <div className="club_cont_perfil_img">
-                            <img src={`data:image/jpeg;base64,${profilePicture}`} alt="" srcSet="Imagen de Perfil" />
+                            <img 
+                                src={
+                                    dataUser?.userPhotos?.length > 0 
+                                      ? dataUser.userPhotos[0].photo 
+                                      : `data:image/jpeg;base64,${profilePicture}`
+                                } 
+                                alt="Imagen de Perfil" 
+                                srcSet="Imagen de Perfil" 
+                            />
+                            {/* <img src={`data:image/jpeg;base64,${profilePicture}`} alt="" srcSet="Imagen de Perfil" /> */}
                             <FaCamera 
                                 className="club_btn_edit_foto_perfil" 
                                 size={24}
@@ -199,7 +232,7 @@ const UserProfile = () => {
                             />
                         </div>
                         <div className="col-12 d-flex justify-content-center">
-                            <h1 className="club_texto_sombreado_negro">¡Hola {dataUser.name}!</h1>
+                            <h1 className="club_texto_sombreado_negro text-center">¡Hola {dataUser.name}!</h1>
                         </div>
                     </div>
 
@@ -217,7 +250,7 @@ const UserProfile = () => {
                 <br />
 
                 <div className="club_cont_data_perfil">
-                    <h3 className="club_txt_titular">{dataUser.age} años</h3>
+                    <h3 className="club_txt_titular">{perfilAge} años</h3>
                     <div className="d-flex flex-wrap">
                     {Array.isArray(dataUser.pronouns) && dataUser.pronouns?.map((item, index) => (
                         <li className="club_no_decoration_list club_list_separation" key={index}>
@@ -243,7 +276,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Estoy buscando</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.lookingFors) && dataUser.lookingFors?.map((item, index) => (
-                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.name}</span></li>
+                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.lookingFor.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -252,7 +285,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Identidad de género</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.genders) && dataUser.genders?.map((item, index) => (
-                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.name}</span></li>
+                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.gender.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -261,7 +294,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Identidad sexual</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.sexualIdentities) && dataUser.sexualIdentities?.map((item, index) => (
-                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.name}</span></li>
+                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.sexualIdentity.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -270,7 +303,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Percepción sexual</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.perceptions) && dataUser.perceptions?.map((item, index) => (
-                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.name}</span></li>
+                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.perception.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -313,7 +346,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Estoy buscando</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.lookingFors) && dataUser.lookingFors?.map((item, index) => (
-                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.name}</span></li>
+                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.lookingFor.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -322,7 +355,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Identidad de género</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.genders) && dataUser.genders?.map((item, index) => (
-                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.name}</span></li>
+                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.gender.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -331,7 +364,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Identidad sexual</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.sexualIdentities) && dataUser.sexualIdentities?.map((item, index) => (
-                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.name}</span></li>
+                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.sexualIdentity.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -340,7 +373,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Percepción sexual</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.perceptions) && dataUser.perceptions?.map((item, index) => (
-                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.name}</span></li>
+                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.perception.name}</span></li>
                         ))}
                         </div>
                     </div>

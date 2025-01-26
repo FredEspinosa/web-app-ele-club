@@ -29,6 +29,10 @@ const endpoints = {
     suscriptionUser: `${hostApi}UserSuscription`, // *
     googleLogin: `${hostApi}Login/Google`, // *
     addUbication: `${hostApi}UserLocation/Add`,
+    getAllConverations: `${hostApi}Conversation/GetAll`,
+    createConverations: `${hostApi}Conversation/Create`,
+    feedLocation: `${hostApi}Feed`,
+    sendMessage: `${hostApi}Message/Send`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -73,6 +77,7 @@ export const validaCodigoToken = async (telUsuario, codigoIngresado) => {
     let data = {
         'phoneNumber' : telUsuario,
         'code' : codigoIngresado,
+        'skip': true,
     }
 
     let config = {
@@ -344,6 +349,8 @@ export const getUserPhoto = async (imgB64) => {
 
 // Get userPreferencesUpdate UserPreferences/Add
 export const userPreferencesAdd = async (dataUser, tokenSesion) => {
+    console.log("data user userPreferencesAdd", dataUser);
+    console.log("tokenSesion userPreferencesAdd", tokenSesion);
     let config = {
         method: "POST",
         url: endpoints.userAddPreferences,
@@ -445,10 +452,10 @@ export const userSuscription = async (tokenSesion) => {
     let config = {
         method: "POST",
         url: endpoints.suscriptionUser,
-        Authorization: `Bearer ${tokenSesion}`,
         headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
         },
         data: {
             "suscriptionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -471,10 +478,10 @@ export const loginGoogle = async (tokenSesion) => {
     let config = {
         method: "POST",
         url: endpoints.suscriptionUser,
-        Authorization: `Bearer ${tokenSesion}`,
         headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
         },
         data: {
             "googleToken": "string"
@@ -492,14 +499,13 @@ export const loginGoogle = async (tokenSesion) => {
 
 // Get GoogleLogin
 export const ubicationAdd = async (tokenSesion, ubicacion ) => {
-
     let config = {
         method: "POST",
         url: endpoints.addUbication,
-        Authorization: `Bearer ${tokenSesion}`,
         headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
         },
         data: {
             "latitude": ubicacion.latitude,
@@ -533,6 +539,135 @@ export const getClientSecret = async (priceId) => {
         return response.data.clientSecret; // Devuelve el clientSecret
     } catch (error) {
         console.error('Error al obtener el clientSecret:', error);
+        throw error;
+    }
+};
+
+export const getGoogleSecretLogin = async (token) => {
+
+    const config = {
+        method: 'POST',
+        url: 'http://localhost:3001/crear_cuenta', // Asegúrate de que la URL sea correcta
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: { token }, // Usar data en lugar de body para axios
+    };
+  
+    try {
+        const response = await axios.request(config);
+        return response.data.clientSecret; // Devuelve el clientSecret
+    } catch (error) {
+        console.error('Error al obtener el clientSecret:', error);
+        throw error;
+    }
+};
+
+// Chats Conversation/GetAll
+export const conversationGetAll = async (tokenSesion) => {
+    console.log("api tokenSesion", tokenSesion);
+    
+    let config = {
+        method: "GET",
+        url: endpoints.getAllConverations,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        }
+    };
+
+    try {
+        const response = await axios.request(config);
+        console.log("userProfileMe", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get ConversationCreate
+export const conversationCreate = async (tokenSesion, data ) => {
+    // Enviar la siguiente infrormacion en la data:
+    // {
+    //     "isGroup": true,
+    //     "name": "string",
+    //     "category": "string",
+    //     "membersIds": [
+    //       "string"
+    //     ]
+    // }
+    let config = {
+        method: "POST",
+        url: endpoints.createConverations,
+        headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        data: data
+    };
+
+    try {
+        const response = await axios.request(config);        
+        return response;;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get ConversationCreate
+export const locationFeed = async (tokenSesion, data ) => {
+// Enviar la siguiente infrormacion en la data:
+    // {
+    //     "latitude": 0,
+    //     "longitude": 0
+    // }
+    let config = {
+        method: "GET",
+        url: endpoints.feedLocation,
+        headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        data: data
+    };
+
+    try {
+        const response = await axios.request(config);        
+        return response;;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get MessageSend
+export const messageSend = async (tokenSesion, data ) => {
+// Enviar la siguiente infrormacion en la data:
+// {
+//     "conversationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+//     "content": "string"
+//   }
+    let config = {
+        method: "GET",
+        url: endpoints.sendMessage,
+        headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        data: data
+    };
+
+    try {
+        const response = await axios.request(config);        
+        return response;;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
         throw error;
     }
 };

@@ -43,11 +43,15 @@ export const enviarDatosUsuario = async (tokenSesion, type) => {
 
     // Enviar los datos
     try {
+        console.log("entra a try");
+        
         if (type === 'update') {
             const respuesta = await userPreferencesUpdate(datosTransformados, tokenSesion);
             console.log("Respuesta del servidor update:", respuesta);
             return respuesta; // Devuelve la respuesta
         } else {
+            console.log("entro al else datos transformados");
+            
             const respuesta = await userPreferencesAdd(datosTransformados, tokenSesion);
             console.log("Respuesta del servidor add:", respuesta);
             return respuesta; // Devuelve la respuesta

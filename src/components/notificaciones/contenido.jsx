@@ -37,6 +37,10 @@ const NotificacionesContenido = () => {
         }
     }, []);
 
+    useEffect(() => {
+        console.log("Update tokenSesionStorage");
+    }, [tokenSesionStorage])
+
     // Función que actualiza la opción activa
     const handleClick = (option) => {
         setActiveOption(option);
@@ -100,11 +104,13 @@ const NotificacionesContenido = () => {
     };
 
     const ubicationAddService = async (ubicacion) => {
+        console.log("ubicacion ubicationAddService", ubicacion);
+        
         setShowLoader(true)
         try {
           const response = await ubicationAdd(tokenSesionStorage, ubicacion);
           console.log("response ubicationAdd", response);
-          if (response?.status === 200) {
+          if (response?.isSuccess) {
             setShowLoader(false);
             setDatosUsuario((prevDatos) => ({
                 ...prevDatos,

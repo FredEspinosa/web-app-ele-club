@@ -8,6 +8,10 @@ import { limpiarTodoLocalStorage } from '../../services/data';
 import InputTelefono from '../inputs/input_telefono';
 import { paises } from '../../services/paises';
 import FooterDinamico from '../footer/footer_dinamico';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { getGoogleSecretLogin } from '../../services/api';
+
+const CLIENT_ID = '30011618273-nh5igt93a24bu2juthi2e6hsbt6c9vfc.apps.googleusercontent.com';
 
 const CrearCuentaContenido = () => {
     const navigate = useNavigate();
@@ -16,6 +20,7 @@ const CrearCuentaContenido = () => {
     const [showInicioSesion, setShowInicioSesion] = useState(false);
     const [showIngresaNumTel, setShowIngresaNumTel] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState(paises[0]); // País por defecto
+    const [isloginGoogle, setIsloginGoogle] = useState(false); // País por defecto 
 
     let pasoActual = ''
 
@@ -29,7 +34,22 @@ const CrearCuentaContenido = () => {
     useEffect(() => {
         limpiarTodoLocalStorage();
     }, [])
-    
+
+    const handleLoginSuccess = async (credentialResponse) => {
+        const token = JSON.stringify(credentialResponse.credential);
+        try {
+            const response = await getGoogleSecretLogin(token);
+            if (response) {
+                console.log("response ok", response);
+                // const data = await response.json();
+                // console.log('Usuario autenticado:', data.user);
+            } else {
+                console.error('Error en la autenticación');
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }
+    };
 
     useEffect(() => {
         const savedStep = localStorage.getItem('MostrarPaso');
@@ -228,8 +248,15 @@ const CrearCuentaContenido = () => {
                         </div>
                         <div className='club_cont_info_grow_1 d-flex align-items-center'>
                             <div className='club_crear_cuenta_cont_btns col-12'>
-                                {/* <button className='btn club_btn_negro' >Continuar con Google</button>
-                                <button className='btn club_btn_negro' >Continuar con Facebook</button> */}
+                                <div style={{marginBottom:'3%'}}>
+                                    <GoogleOAuthProvider clientId={CLIENT_ID}>
+                                        <div className="club_crear_cuenta_cont_btns">
+                                            <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.error('Login Failed')} useOneTap />
+                                        </div>
+                                    </GoogleOAuthProvider>
+                                </div>
+                                {/* <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarConGoogle')}>Continuar con Google</button> */}
+                                {/*  <button className='btn club_btn_negro' >Continuar con Facebook</button> */}
                                 <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarCelular')}>Continuar con celular</button>
                             </div>
                         </div>

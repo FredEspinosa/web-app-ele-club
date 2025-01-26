@@ -11,6 +11,7 @@ import { profileUserID, userProfileMe } from "../../services/api";
 export const ContenidoHome = () => {
   const formRef = useRef(null); // Crea la referencia al formulario
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
   const [dataUser, setDataUser] = useState({
     lastName: "",
     lookingFors: "",
@@ -64,88 +65,52 @@ export const ContenidoHome = () => {
 
   useEffect(() => {
     const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
-    if (datosUsuario) {
-      // Si hay datos en el localStorage, actualizamos el estado
-      const typeLogin = localStorage.getItem("isLogin");
-      if (typeLogin) {
-        console.log("typeLogin", typeLogin);
-        const tokenStorage = sessionStorage.getItem("AccessToken");
-        if (tokenStorage) {
-          console.log("tokenStorage usse", tokenStorage);
-          setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
-          getDataProfileMe(tokenStorage);
-        }
-      } else {
-        setDataUser(datosUsuario);
-      }
+    const typeLogin = localStorage.getItem("isLogin");
+    const tokenStorage = sessionStorage.getItem("AccessToken");
+  
+    if (tokenStorage) {
+      console.log("Token encontrado:", tokenStorage);
+      // Siempre priorizamos la API si hay un token disponible
+      getDataProfileMe(tokenStorage);
+    } else if (datosUsuario) {
+      console.log("Cargando datos del localStorage");
+      setDataUser(datosUsuario);
     } else {
-      // Si no hay datos en el localStorage, obtenemos el token y llamamos a la API
-      const tokenStorage = sessionStorage.getItem("AccessToken");
-      if (tokenStorage) {
-        console.log("tokenStorage usse", tokenStorage);
-        setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
-        getDataProfileMe(tokenStorage);
-      }
+      console.log("No se encontró información válida en el almacenamiento");
     }
   }, []);
-
+  
   const getDataProfileMe = async (tokenStorage) => {
-    // setShowLoader(true); // Mostrar el loader al inicio
+    setShowLoader(true)
     try {
-      // const tokenSesion = tokenSesionStorage;
-      // console.log("tokenSesion", tokenSesion);
-
+      console.log("Iniciando petición a userProfileMe con token:", tokenStorage);
       const response = await userProfileMe(tokenStorage);
-      console.log("response", response.userProfile);
-
-      // ******* Codigo provicional
-      const idUser = response.userProfile.userId
-      localStorage.setItem("userId", idUser);
-      getProfile(tokenStorage, idUser)
-      //********* */
-
-      if (response?.status === 200 && response.userProfile) {
-        // Ajusta según el código esperado por tu API
-        console.log("Datos obtenidos correctamente:", response);
-        // setDataUser(response.userProfile);
-        // localStorage.setItem("datosUsuario",JSON.stringify(response.userProfile));
-        const idUser = response.userProfile.userId
+      console.log("response getDataProfileMe home", response);
+      
+      if (response?.isSuccess && response.userProfile) {
+        const userProfile = response.userProfile;
+        console.log("Datos obtenidos correctamente:", userProfile);
+  
+        // Actualiza el estado y guarda los datos en localStorage
+        setDataUser(userProfile);
+        localStorage.setItem("datosUsuario", JSON.stringify(userProfile));
+  
+        // Si necesitas el userId, también puedes guardarlo aquí
+        const idUser = userProfile.userId;
         localStorage.setItem("userId", idUser);
-        if (!idUser) {
-          getProfile(tokenStorage, idUser)
-        }
       } else {
-        console.error("Ocurrió un error en la API:", response);
+        console.error("Error: Respuesta inesperada de la API:", response);
       }
     } catch (err) {
-      console.error("Error al enviar datos del usuario:", err);
-      // setShowAlert(true);
-      // setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
-    } finally {
-      // setShowLoader(false); // Asegurarse de ocultar el loader siempre
-      // setShowAlert(true);
-      // setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
+      setShowLoader(false)
+      console.error("Error al obtener los datos del perfil:", err);
     }
   };
-
-  const getProfile = async (tokenStorage, idUser) => {
-    // setShowLoader(true)
-    try {
-      const data = await profileUserID(tokenStorage, idUser);
-      console.log("data", data);
-      if (!data.userProfile) {
-        // setShowLoader(false);
-        // setOpciones(data.map(item => ({ id: item.id, name: item.name })));
-        setDataUser(data.userProfile);
-        localStorage.setItem("datosUsuario",JSON.stringify(data.userProfile));
-      } else {
-        console.log("ocurrio un error ☠️");
-      }
-    } catch (err) {
-      console.log(err);
-      // setShowLoader(false);
-    }
-};
+  
+  useEffect(() => {
+    // Actualiza isLoading cuando los datos estén listos
+    setShowLoader(false);
+  }, [dataUser]);
 
   return (
     <div id="homeHelena">
@@ -175,6 +140,7 @@ export const ContenidoHome = () => {
           <NavBar currentPage={"Inicio"} />
         </div>
       </div>
+      {(showLoader && <Loader /> )}
     </div>
   );
 };
