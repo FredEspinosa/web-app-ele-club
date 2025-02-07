@@ -1,15 +1,13 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import InputDinamico from '../inputs/inputsDinamico';
 import { IoIosArrowBack } from 'react-icons/io';
 import PhotoGallery from '../perfil_usuario/galeria_de_fotos';
 
 const PrimerasFotos = () => {
-    const formRef = useRef(null); // Crea la referencia al formulario
     const navigate = useNavigate();
     const [datosUsuario, setDatosUsuario] = useState({});
-    const [userPhotos, setUserPhotos] = useState([]);
+    const [userPhotosNew, setUserPhotosNew] = useState([]);
   
     useEffect(() => {
       // Obtener los datos guardados del localStorage al cargar el componente
@@ -20,22 +18,15 @@ const PrimerasFotos = () => {
     }, []);
   
     const [formData, setFormData] = useState({
-        FotosCarrucel: "",
+      userPhotos: "",
     });
-  
-    const handleInputChange = (e) => {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-      });
-    };
   
     // Función para añadir una nueva imagen
     const addPhoto = (base64Photo) => {
-      setUserPhotos((prevPhotos) => [...prevPhotos, base64Photo]);
+      setUserPhotosNew((prevPhotos) => [...prevPhotos, base64Photo]);
       setDatosUsuario((prevDatos) => ({
         ...prevDatos,
-        FotosCarrucel: [...(prevDatos.FotosCarrucel || []), base64Photo], // Agrega las fotos
+        userPhotos: [...(prevDatos.userPhotos || []), base64Photo], // Agrega las fotos
       }));
     };
   
@@ -51,8 +42,8 @@ const PrimerasFotos = () => {
       if (formData) {
         const nuevosDatos = {
           ...datosUsuario, // Mantén los datos actuales
-          userPhotos: formData.userPhotos,
-          FotosCarrucel: userPhotos, // Agrega las fotos al guardar
+          userPhotosNew: formData.userPhotosNew,
+          userPhotos: userPhotosNew, // Agrega las fotos al guardar
         };
         // Guarda los nuevos datos en el localStorage
         localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
@@ -64,20 +55,6 @@ const PrimerasFotos = () => {
         console.log("No se ha seleccionado ninguna opción");
       }
     };
-  
-    const campos = [
-      {
-        type: "text",
-        name: "userPhotos",
-        label: "Cuánto mides?",
-        placeholder: "165 cm",
-        iconStart: false,
-        iconNameStart: "",
-        iconEnd: false,
-        iconNameEnd: "",
-        help: false,
-      },
-    ];
   
     return (
       <div>
@@ -102,7 +79,7 @@ const PrimerasFotos = () => {
               <div className="col-12 club_margin_top_56">
                 <PhotoGallery
                   addPhoto={addPhoto}
-                  userPhotos={userPhotos}
+                  userPhotosNew={userPhotosNew}
                   textoTitulo={"Agrega tus primeras 2 fotos"}
                 />
               </div>

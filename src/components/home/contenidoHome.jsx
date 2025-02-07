@@ -6,12 +6,16 @@ import InputDinamico from "../inputs/inputsDinamico";
 import { IoSearch } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
 import TinderLikeCarouselV2 from "../swiper/v2_tinder-swiper";
-import { profileUserID, userProfileMe } from "../../services/api";
+import { userProfileMe } from "../../services/api";
+import Loader from "../loader/loader";
+import AlertSuscribe from "../alertas/alert_suscribete";
 
 export const ContenidoHome = () => {
   const formRef = useRef(null); // Crea la referencia al formulario
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
   const [showLoader, setShowLoader] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [mensajeModal, setMensajeModal] = useState("");
   const [dataUser, setDataUser] = useState({
     lastName: "",
     lookingFors: "",
@@ -65,52 +69,58 @@ export const ContenidoHome = () => {
 
   useEffect(() => {
     const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
-    const typeLogin = localStorage.getItem("isLogin");
+    // const typeLogin = localStorage.getItem("isLogin");
     const tokenStorage = sessionStorage.getItem("AccessToken");
-  
+
     if (tokenStorage) {
-      console.log("Token encontrado:", tokenStorage);
+      setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
       // Siempre priorizamos la API si hay un token disponible
       getDataProfileMe(tokenStorage);
     } else if (datosUsuario) {
-      console.log("Cargando datos del localStorage");
       setDataUser(datosUsuario);
     } else {
       console.log("No se encontró información válida en el almacenamiento");
     }
   }, []);
-  
+
   const getDataProfileMe = async (tokenStorage) => {
     setShowLoader(true)
     try {
-      console.log("Iniciando petición a userProfileMe con token:", tokenStorage);
       const response = await userProfileMe(tokenStorage);
-      console.log("response getDataProfileMe home", response);
-      
+
       if (response?.isSuccess && response.userProfile) {
         const userProfile = response.userProfile;
         console.log("Datos obtenidos correctamente:", userProfile);
-  
+
         // Actualiza el estado y guarda los datos en localStorage
         setDataUser(userProfile);
         localStorage.setItem("datosUsuario", JSON.stringify(userProfile));
-  
+
         // Si necesitas el userId, también puedes guardarlo aquí
         const idUser = userProfile.userId;
         localStorage.setItem("userId", idUser);
       } else {
         console.error("Error: Respuesta inesperada de la API:", response);
+        setShowLoader(false); // Asegurarse de ocultar el loader siempre
+        setShowAlert(true);
+        setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
       }
     } catch (err) {
-      setShowLoader(false)
       console.error("Error al obtener los datos del perfil:", err);
+      setShowLoader(false); // Asegurarse de ocultar el loader siempre
+      setShowAlert(true);
+      setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
     }
   };
-  
+
   useEffect(() => {
     // Actualiza isLoading cuando los datos estén listos
     setShowLoader(false);
   }, [dataUser]);
+
+  const closeModal = () => {
+    setShowAlert(false)
+  }
 
   return (
     <div id="homeHelena">
@@ -133,14 +143,23 @@ export const ContenidoHome = () => {
                 ))}
               </form>
             </div>
-            <TinderLikeCarouselV2 />
+            <TinderLikeCarouselV2 token={tokenSesionStorage} />
           </div>
         </div>
         <div className="club_contenido_bottom club_cont_info">
           <NavBar currentPage={"Inicio"} />
         </div>
       </div>
-      {(showLoader && <Loader /> )}
+      {(showLoader && <Loader />)}
+      {(showAlert &&
+        <AlertSuscribe
+          mensajeModal={mensajeModal}
+          btnAceptar={true}
+          btnMsjButtom={'CERRAR'}
+          handleOnclick={closeModal}
+          bgColorButton={'club_bg_oro'}
+        />
+      )}
     </div>
   );
 };

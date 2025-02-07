@@ -105,7 +105,6 @@ const NotificacionesContenido = () => {
 
     const ubicationAddService = async (ubicacion) => {
         console.log("ubicacion ubicationAddService", ubicacion);
-        
         setShowLoader(true)
         try {
           const response = await ubicationAdd(tokenSesionStorage, ubicacion);
@@ -118,6 +117,7 @@ const NotificacionesContenido = () => {
             }));
           } else {
             console.log("ocurrio un error ☠️");
+            setShowLoader(false);
           }
         } catch (err) {
           console.log(err);

@@ -8,8 +8,10 @@ export const limpiarTodoLocalStorage = () => {
 }
 
 // Data del local storage
-export const enviarDatosUsuario = async (tokenSesion, type) => {
+export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
     console.log("type", type);
+    console.log("dataUser data", dataUser);
+    
     // Obtener los datos desde el localStorage
     const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
     if (!datosUsuario) {
@@ -30,7 +32,7 @@ export const enviarDatosUsuario = async (tokenSesion, type) => {
         interests: datosUsuario.interests?.map((item) => item.id) || [],
         zodiacs: datosUsuario.zodiacs?.id ? [datosUsuario.zodiacs.id] : [], // Solo el ID
         smokes: datosUsuario.smokes?.map((item) => item.id) || [],
-        userPhotos: datosUsuario.FotosCarrucel || [], // Supongo que ya son URLs
+        userPhotos: datosUsuario.userPhotos || [], // Supongo que ya son URLs
         name: datosUsuario.name || "",
         lastName: datosUsuario.lastName || "",
         email: datosUsuario.email || "",

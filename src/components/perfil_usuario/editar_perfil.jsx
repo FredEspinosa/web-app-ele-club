@@ -16,8 +16,18 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
   const [opcionesPerception, setOpcionesPerception] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
   const [formData, setFormData] = useState({
-    // codeCountry: dataUser.codeCountry,
-    // phoneNumber: dataUser.phoneNumber,
+    userId: dataUser.userId,
+    userName: dataUser.userName,
+    name: dataUser.name,
+    lastName: dataUser.lastName,
+    email: dataUser.email,
+    phone: dataUser.phone,
+    birthDate: dataUser.birthDate,
+    height: dataUser.height,
+    aboutMe: dataUser.aboutMe,
+    match: dataUser.match,
+    friend: dataUser.friend,
+    friendRequest: dataUser.friendRequest,
     genders: dataUser.genders,
     lookingFors: dataUser.lookingFors,
     perceptions: dataUser.perceptions,
@@ -29,21 +39,21 @@ const EditProfileForm = ({ user, onSave, dataUser, cancelEdit }) => {
     interests: dataUser.interests,
     zodiacs: dataUser.zodiacs,
     smokes: dataUser.smokes,
-    userPhotos: dataUser.FotosCarrucel,
-    name: dataUser.name,
-    lastName: dataUser.lastName,
-    email: dataUser.email,
-    birthDate: dataUser.birthDate,
-    height: dataUser.height,
-    aboutMe: dataUser.aboutMe,
+    userPhotos: dataUser.userPhotos[0].photo,
+    delegation: dataUser.delegation,
+    age: dataUser.age,
+    phoneNumber: dataUser.phoneNumber,
+    photoProfile: dataUser.photoProfile,
   });
   const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   const [datosUsuario, setDatosUsuario] = useState({});
 
   useEffect(() => {
     const datosGuardados = localStorage.getItem("datosUsuario");
+    console.log("Editar perfil datosGuardados", datosGuardados);
+    
     if (datosGuardados) {
-        setDatosUsuario(JSON.parse(datosGuardados));
+        setDatosUsuario(JSON.parse(datosGuardados));        
     }
   }, []);
 
@@ -254,59 +264,6 @@ const listPerception = async () => {
       </div>
       {(showLoader && <Loader /> )}
     </div>
-
-    // <form onSubmit={handleSubmit}>
-    //     <div className="col-12 club_margin_top_56">
-    //         <form>
-    //             {" "}
-    //             {/* Agrega la referencia al formulario */}
-    //             {campos.map((campo, index) => (
-    //                 <InputDinamico
-    //                     key={index}
-    //                     config={campo}
-    //                     value={formData[campo.name] || ""}
-    //                     onChange={handleChange}
-    //                 />
-    //             ))}
-    //             {/* {campoTel.map((campo, index) => (
-    //                 <InputTelefono
-    //                     key={index}
-    //                     config={campo}
-    //                     value={formData[campo.name] || ''}
-    //                     onChange={handleChange}
-    //                     paises={paises}
-    //                     onCountryChange={handleCountryChange}
-    //                     codeCountry={formData.codeCountry}
-    //                 />
-    //             ))}
-    //             {campoText.map((campo, index) => (
-    //                 <TextAreaDinamico
-    //                     key={index}
-    //                     config={campo}
-    //                     value={formData[campo.name] || ""}
-    //                     onChange={handleChange}
-    //                 />
-    //             ))} */}
-    //         </form>
-    //     </div>
-    //     <br />
-    //     <div className="club_cont_btns_full club_notificaciones_btns">
-    //         <button
-    //             type="submit"
-    //             className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
-    //         >
-    //           Guardar
-    //         </button>
-    //     </div>
-    //     <div className="club_cont_btns_full club_notificaciones_btns">
-    //         <button
-    //             className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
-    //             onClick={cancelEdit}
-    //         >
-    //           Cancelar
-    //         </button>
-    //     </div>
-    // </form>
   );
 };
 

@@ -32,33 +32,39 @@ const UserProfile = () => {
     const [tokenSesionStorage, setTokenSesionStorage] = useState("");
     const [perfilAge, setPerfilAge] = useState("");
     const [dataUser, setDataUser] = useState({
+        userId: "",
+        userName: "",
+        name: "",
         lastName: "",
-        lookingFors: "",
-        codeCountry: "",
         email: "",
+        phone: "",
+        birthDate: "",
+        height: "",
+        aboutMe: "",
+        match: "",
+        friend: "",
+        friendRequest: "",
+        genders: "",
+        lookingFors: "",
+        perceptions: "",
+        pronouns: "",
+        relationshipStatus: "",
+        sexualIdentities: "",
+        pets: "",
+        roles: "",
+        interests: "",
+        zodiacs: "",
+        smokes: "",
+        userPhotos: "",
         delegation:"",
         age:"",
-        height:"",
-        relationshipStatus: "",
-        birthDate: "",
-        smokes:"",
-        genders: "",
-        sexualIdentities: "",
-        interests:"",
-        pets:"",
-        name: "",
-        pronouns: "",
-        zodiacs:"",
-        perceptions:"",
         phoneNumber: "",
         photoProfile: "",
-        FotosCarrucel: "",
-        aboutMe:"",
     })
     const [profilePicture, setProfilePicture] = useState(PerfilDefault); // Inicializa con una imagen predeterminada
-    const [userPhotos, setUserPhotos] = useState(() => {
+    const [userPhotosNew, setUserPhotosNew] = useState(() => {
         // Obtener fotos del localStorage
-        const storedPhotos = localStorage.getItem("FotosCarrucel");
+        const storedPhotos = localStorage.getItem("userPhotos");
         return storedPhotos ? JSON.parse(storedPhotos) : []; // Si no hay fotos guardadas, inicia con un arreglo vacío
     });
     
@@ -69,7 +75,6 @@ const UserProfile = () => {
         }
         const tokenStorage = sessionStorage.getItem("AccessToken");
         if (tokenStorage) {
-            console.log("tokenStorage usse", tokenStorage);
             setTokenSesionStorage(tokenStorage)
         }
     }, []);
@@ -81,9 +86,9 @@ const UserProfile = () => {
             setPerfilAge(edad)
         }
         // Verifica si dataUser tiene FotosCarrucel y establece el primer elemento como la imagen de perfil
-        if (dataUser?.FotosCarrucel && dataUser.FotosCarrucel.length > 0) {
-            setProfilePicture(dataUser.FotosCarrucel[0]);
-        } else {
+        if (dataUser?.userPhotos && dataUser.userPhotos.length > 0) {
+            setProfilePicture(dataUser.userPhotos[0].photo );
+        } else{
             setProfilePicture(PerfilDefault); // Imagen predeterminada
         }
     }, [dataUser]); // Ejecuta el efecto cuando dataUser cambie
@@ -99,7 +104,7 @@ const UserProfile = () => {
     
     // Función para añadir una nueva imagen
     const addPhoto = (newPhoto) => {
-        setUserPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
+        setUserPhotosNew((prevPhotos) => [...prevPhotos, newPhoto]);
     };
 
     const redirectBack = () => {
@@ -112,6 +117,7 @@ const UserProfile = () => {
     }
 
     const handleProfilePictureChange = (newImageUrl) => {
+        // console.log("newImageUrl", newImageUrl);
         setProfilePicture(newImageUrl); // Actualiza la imagen de perfil
     };
 
@@ -130,7 +136,7 @@ const UserProfile = () => {
     const handleUpdateInfo = () => {
         const nuevosDatos = { ...datosUsuario, ...dataUser };
         localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
-        console.log("Datos actualizados guardados:", nuevosDatos);
+        // console.log("Datos actualizados guardados:", nuevosDatos);
         setTimeout(() => {
             updateDataUserInfo()
         }, 300);
@@ -138,12 +144,10 @@ const UserProfile = () => {
 
     const updateDataUserInfo = async () => {
         setShowLoader(true); // Mostrar el loader al inicio
-        const type = 'update'
+        const type = 'update'        
         try {
-            const tokenSesion = tokenSesionStorage;  
-            console.log("tokenSesion", tokenSesion);
-              
-            const response = await enviarDatosUsuario(tokenSesion, type);
+            const tokenSesion = tokenSesionStorage;                
+            const response = await enviarDatosUsuario(tokenSesion, type, dataUser);
             console.log("response", response);
     
             // Validar la respuesta
@@ -216,9 +220,7 @@ const UserProfile = () => {
                         <div className="club_cont_perfil_img">
                             <img 
                                 src={
-                                    dataUser?.userPhotos?.length > 0 
-                                      ? dataUser.userPhotos[0].photo 
-                                      : `data:image/jpeg;base64,${profilePicture}`
+                                    dataUser?.userPhotos?.length > 0 ? dataUser.userPhotos[0].photo : `data:image/jpeg;base64,${profilePicture}`
                                 } 
                                 alt="Imagen de Perfil" 
                                 srcSet="Imagen de Perfil" 
@@ -276,7 +278,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Estoy buscando</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.lookingFors) && dataUser.lookingFors?.map((item, index) => (
-                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.lookingFor.name}</span></li>
+                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.lookingFor ? item.lookingFor.name : item.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -285,7 +287,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Identidad de género</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.genders) && dataUser.genders?.map((item, index) => (
-                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.gender.name}</span></li>
+                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.gender ? item.gender.name : item.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -294,7 +296,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Identidad sexual</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.sexualIdentities) && dataUser.sexualIdentities?.map((item, index) => (
-                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.sexualIdentity.name}</span></li>
+                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.sexualIdentity ? item.sexualIdentity.name : item.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -303,7 +305,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Percepción sexual</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.perceptions) && dataUser.perceptions?.map((item, index) => (
-                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.perception.name}</span></li>
+                            <li className="club_no_decoration_list" key={index}><span className="club_txt_caption w-100 club_texto_capsula">{item.perception ? item.perception.name : item.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -346,7 +348,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Estoy buscando</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.lookingFors) && dataUser.lookingFors?.map((item, index) => (
-                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.lookingFor.name}</span></li>
+                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.lookingFor ? item.lookingFor.name : item.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -355,7 +357,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Identidad de género</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.genders) && dataUser.genders?.map((item, index) => (
-                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.gender.name}</span></li>
+                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.gender ? item.gender.name : item.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -364,7 +366,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Identidad sexual</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.sexualIdentities) && dataUser.sexualIdentities?.map((item, index) => (
-                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.sexualIdentity.name}</span></li>
+                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.sexualIdentity ? item.sexualIdentity.name : item.name }</span></li>
                         ))}
                         </div>
                     </div>
@@ -373,7 +375,7 @@ const UserProfile = () => {
                         <h3 className="club_txt_titular">Percepción sexual</h3>
                         <div className="d-flex flex-wrap">
                         {Array.isArray(dataUser.perceptions) && dataUser.perceptions?.map((item, index) => (
-                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.perception.name}</span></li>
+                            <li className="club_no_decoration_list club_list_separation" key={index}><span className="club_txt_caption w-100">{item.perception ? item.perception.name : item.name}</span></li>
                         ))}
                         </div>
                     </div>
@@ -396,12 +398,19 @@ const UserProfile = () => {
                     </div>
                 )}
                 <PhotoGallery 
+                    photos={dataUser.userPhotos} 
+                    onPhotoUpload={(newPhoto) => setDataUser({...dataUser, userPhotos: [...dataUser.userPhotos, newPhoto]})} 
+                    addPhoto={addPhoto}
+                    userPhotosNew={userPhotosNew}
+                    textoTitulo={'Agregar Fotos'}
+                />
+                {/* <PhotoGallery 
                     photos={dataUser.FotosCarrucel} 
                     onPhotoUpload={(newPhoto) => setDataUser({...dataUser, FotosCarrucel: [...dataUser.FotosCarrucel, newPhoto]})} 
                     addPhoto={addPhoto}
-                    userPhotos={userPhotos}
+                    userPhotosNew={userPhotosNew}
                     textoTitulo={'Agregar Fotos'}
-                />
+                /> */}
 
                 <br/>
                 <br />

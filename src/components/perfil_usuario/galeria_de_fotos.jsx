@@ -2,7 +2,7 @@
 import React from "react";
 import { MdOutlineAdd } from "react-icons/md";
 
-const PhotoGallery = ({ addPhoto, userPhotos, textoTitulo }) => {
+const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo }) => {
 
   const handlePhotoUpload = (event) => {
     const files = Array.from(event.target.files);
@@ -44,7 +44,7 @@ const PhotoGallery = ({ addPhoto, userPhotos, textoTitulo }) => {
         </div>
       </div>
       <div className="thumbnail-container">
-        {userPhotos.map((photo, index) => (
+        {userPhotosNew.map((photo, index) => (
           <img
             key={index}
             src={`data:image/jpeg;base64,${photo}`}
@@ -59,3 +59,4 @@ const PhotoGallery = ({ addPhoto, userPhotos, textoTitulo }) => {
 };
 
 export default PhotoGallery;
+

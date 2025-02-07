@@ -782,7 +782,8 @@ p {
     justify-content: center;
     align-items: center;
     max-width: 100vw;
-    max-height: 100vh;
+    /* max-height: 100vh; */
+    max-height: 60vh;
     background-color: #343434;
 }
 

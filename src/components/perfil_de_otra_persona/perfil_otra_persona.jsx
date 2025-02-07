@@ -5,6 +5,7 @@ import CarruselPerfilUsuario from '../swiper/carrusel_perfil_usuario';
 import { IoMdCheckmark, IoMdHeartEmpty } from 'react-icons/io';
 import { IoClose, IoHeart } from 'react-icons/io5';
 import AlertSuscribe from '../alertas/alert_suscribete';
+import { likeSend } from '../../services/api';
 
 const PerfilOtraPersona = () => {
 
@@ -16,6 +17,14 @@ const PerfilOtraPersona = () => {
     const profileImages = location.state?.profileImages || [];
     const nameProfile = location.state?.nameProfile || '';
     const age = location.state?.age|| '';
+    const aboutMe = location.state?.aboutMe || '';
+    const lookingFors = location.state?.lookingFors || '';
+    const genders = location.state?.genders || '';
+    const sexualIdentities = location.state?.sexualIdentities || '';
+    const perceptions = location.state?.perceptions || '';
+    const relationshipStatus = location.state?.relationshipStatus || '';
+    const tokenSesionStorage = location.state?.tokenSesion || '';
+    const likedUserId = location.state.likedUserId || '';
 
     const toggleIcon = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -27,6 +36,34 @@ const PerfilOtraPersona = () => {
 
     const goToSuscribe = () => {
         navigate('/suscripcion')
+    }
+
+    const sendLikeProfile = async (liked) => {
+        const data = {
+            "likedUserId": likedUserId,
+            "liked": liked
+        }
+        try {
+            const tokenSesion = tokenSesionStorage;
+            const response = await likeSend(tokenSesion, data);
+            console.log("response", response);
+
+            // Validar la respuesta
+            if (response?.isSuccess === true) { // Ajusta según el código esperado por tu API
+                console.log("Datos enviados correctamente:", response);
+                // getDataProfileMe(tokenSesion)
+            } else {
+                console.error("Ocurrió un error en la API:", response);
+            }
+        } catch (err) {
+            console.error("Error al enviar datos del usuario:", err);
+            // setShowAlert(true);
+            // setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
+        } finally {
+            // setShowLoader(false); // Asegurarse de ocultar el loader siempre
+            // setShowAlert(true);
+            //setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
+        }
     }
 
     return (
@@ -59,9 +96,9 @@ const PerfilOtraPersona = () => {
                                     </div>
                                     <div className='col-2 d-flex justify-content-end' onClick={toggleIcon}>
                                         {isMenuOpen ?
-                                            <IoHeart className="club_identity-h1 club_color_fuente_violeta_05" size={24} />
+                                            <IoHeart className="club_identity-h1 club_color_fuente_violeta_05" size={24} onClick={()=> {sendLikeProfile(false)}} />
                                             :
-                                            <IoMdHeartEmpty className="club_identity-h1" size={24}/> 
+                                            <IoMdHeartEmpty className="club_identity-h1" size={24} onClick={()=> {sendLikeProfile(true)}}/> 
                                         }
                                     </div>
                                 </div>
@@ -71,26 +108,43 @@ const PerfilOtraPersona = () => {
                                     </div>
                                     <div className='col-2'></div>
                                 </div>
-                                <section className="club_about-me">
+                                <section className="club_about-me col-12">
                                     <h2 className='club_identity-h2'>Acerca de mí</h2>
-                                    <p>
-                                        The perfect T-shirt for when you want to feel comfortable but still stylish. Amazing for all occasions. 
-                                        Made of 100% cotton fabric in four colours. Its modern style gives a lighter look to the outfit. Perfect for the warmest days.
-                                    </p>
+
+                                    { aboutMe ? 
+                                        <p className='col-12'>{aboutMe}</p> 
+                                        :
+                                        <p className='col-12'>
+                                            The perfect T-shirt for when you want to feel comfortable but still stylish. Amazing for all occasions. 
+                                            Made of 100% cotton fabric in four colours. Its modern style gives a lighter look to the outfit. Perfect for the warmest days. 
+                                        </p>
+                                    }
                                 </section>
-                                <section className="club_preferences">
+                                <section className="club_preferences col-12">
                                     <h2 className="club_identity-h2">Estoy buscando</h2>
-                                    <span className="club_tag">Citas</span>
-                                    <span className="club_tag">Hacer amigas</span>
+                                    {Array.isArray(lookingFors) && lookingFors.map((item, index) => (
+                                        <span className="club_tag" key={index}>{item.lookingFor?.name || item.name}</span>
+                                    ))}
 
                                     <h2 className="club_identity-h2">Identidad de Género</h2>
-                                    <span className="club_tag">Mujer</span>
-                                
+                                    {Array.isArray(genders) && genders.map((item, index) => (
+                                        <span className="club_tag" key={index}>{item.gender?.name || item.name}</span>
+                                    ))}
+
                                     <h2 className="club_identity-h2">Identidad Sexual</h2>
-                                    <span className="club_tag">Lesbiana</span>
-                                
+                                    {Array.isArray(sexualIdentities) && sexualIdentities.map((item, index) => (
+                                        <span className="club_tag" key={index}>{item.sexualIdentity?.name || item.name}</span>
+                                    ))}
+
                                     <h2 className="club_identity-h2">Apariencia</h2>
-                                    <span className="club_tag">FEM</span>
+                                    {Array.isArray(perceptions) && perceptions.map((item, index) => (
+                                        <span className="club_tag" key={index}>{item.perception?.name || item.name}</span>
+                                    ))}
+
+                                    <h2 className="club_identity-h2">Estado de Relación</h2>
+                                    {Array.isArray(relationshipStatus) && relationshipStatus.map((item, index) => (
+                                        <span className="club_tag" key={index}>{item.relationshipStatus?.name || "Sin estado"}</span>
+                                    ))}
                                 </section>
                             
                             </div>

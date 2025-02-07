@@ -33,6 +33,8 @@ const endpoints = {
     createConverations: `${hostApi}Conversation/Create`,
     feedLocation: `${hostApi}Feed`,
     sendMessage: `${hostApi}Message/Send`,
+    sendInviteFriend: `${hostApi}Friends/Invite`,
+    sendLike: `${hostApi}Likes/Send`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -564,9 +566,7 @@ export const getGoogleSecretLogin = async (token) => {
 };
 
 // Chats Conversation/GetAll
-export const conversationGetAll = async (tokenSesion) => {
-    console.log("api tokenSesion", tokenSesion);
-    
+export const conversationGetAll = async (tokenSesion) => {    
     let config = {
         method: "GET",
         url: endpoints.getAllConverations,
@@ -577,6 +577,81 @@ export const conversationGetAll = async (tokenSesion) => {
         }
     };
 
+    try {
+        const response = await axios.request(config);
+        console.log("userProfileMe", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get FEED
+export const locationFeed = async (tokenSesion, data ) => {
+    let config = {
+        method: "POST",
+        url: endpoints.feedLocation,
+        headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        data: {
+            feedRequest: {  // Enviar dentro del campo 'feedRequest'
+                latitude: data.latitude,
+                longitude: data.longitude,
+            }
+        }
+    };
+    try {
+        const response = await axios.request(config);        
+        return response;;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get Friends/Invite
+export const friendsInvite = async (tokenSesion, toUserId) => {
+    let config = {
+        method: "GET",
+        url: `${endpoints.userMeProfile/toUserId}`,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        }
+    };
+    console.log("config friendsInvite", config);
+    
+    try {
+        const response = await axios.request(config);
+        console.log("userProfileMe", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error en userPreferencesUpdate:", error);
+        throw error;
+    }
+};
+
+// Get Like/Send
+export const likeSend = async (tokenSesion, data) => {    
+    let config = {
+        method: "POST",
+        url: endpoints.sendLike,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        data:
+            {
+                "likedUserId": data.likedUserId,
+                "liked": data.liked,
+            }
+    };    
     try {
         const response = await axios.request(config);
         console.log("userProfileMe", response);
@@ -601,33 +676,6 @@ export const conversationCreate = async (tokenSesion, data ) => {
     let config = {
         method: "POST",
         url: endpoints.createConverations,
-        headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenSesion}`,
-        },
-        data: data
-    };
-
-    try {
-        const response = await axios.request(config);        
-        return response;;
-    } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
-        throw error;
-    }
-};
-
-// Get ConversationCreate
-export const locationFeed = async (tokenSesion, data ) => {
-// Enviar la siguiente infrormacion en la data:
-    // {
-    //     "latitude": 0,
-    //     "longitude": 0
-    // }
-    let config = {
-        method: "GET",
-        url: endpoints.feedLocation,
         headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
