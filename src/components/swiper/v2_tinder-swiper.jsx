@@ -6,6 +6,7 @@ import { TiDelete } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { likeSend, locationFeed } from "../../services/api";
 import AlertSuscribe from "../alertas/alert_suscribete";
+import Loader from "../loader/loader";
 
 const TinderLikeCarouselV2 = () => {
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ const TinderLikeCarouselV2 = () => {
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeModal, setMensajeModal] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
 
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
@@ -44,6 +46,8 @@ const TinderLikeCarouselV2 = () => {
         (error) => {
           console.error("Error obteniendo la ubicación:", error);
           setError(error.message);
+          setShowAlert(true);
+          setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
         }
       );
     } else {
@@ -52,20 +56,20 @@ const TinderLikeCarouselV2 = () => {
   }
 
   const sendLocationToServer = async (tokenStorage, location) => {
+    setShowLoader(true)
     try {
       const tokenSesion = tokenStorage;
       const response = await locationFeed(tokenSesion, location)
       
-      // Validar la respuesta
-      if (response?.status === 200) { // Ajusta según el código esperado por tu API
-        // console.log("Feed Datos enviados correctamente:", response.data.result);
-        // setProfiles(response.data.result);
+      if (response?.status === 200) {
         const result = response.data?.result;
         if (Array.isArray(result) && result.length > 0) {
           console.log("Feed Datos enviados correctamente:", result);
+          setShowLoader(false); // Asegurarse de ocultar el loader siempre
           setProfiles(result);
         } else {
             console.warn("La API respondió con éxito, pero no hay datos disponibles.");
+            setShowLoader(false); // Asegurarse de ocultar el loader siempre
             setShowAlert(true);
             setMensajeModal(<p>¡Lo sentimos! no hay nada más que mostrar.</p>);
         }
@@ -76,6 +80,7 @@ const TinderLikeCarouselV2 = () => {
       }
     } catch (error) {
       console.error("Error al enviar datos del usuario:", error);
+      setShowLoader(false); // Asegurarse de ocultar el loader siempre
       setShowAlert(true);
       setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
     }
@@ -97,7 +102,7 @@ const TinderLikeCarouselV2 = () => {
   }, [currentIndex, profiles]);
 
   const handleLike = () => {
-    console.log("Me gusta", profiles[currentIndex].name);
+    // console.log("Me gusta", profiles[currentIndex].name);
     setAnimacionBtnLike('animate__flip');    // Activa la animación
     let user = profiles[currentIndex].userId
     let liked = true
@@ -260,6 +265,7 @@ const TinderLikeCarouselV2 = () => {
             bgColorButton={'club_bg_oro'}
             />
       )}
+      {(showLoader && <Loader />)}
     </div>
   );
 };

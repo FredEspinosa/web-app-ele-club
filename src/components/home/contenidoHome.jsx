@@ -89,6 +89,7 @@ export const ContenidoHome = () => {
       const response = await userProfileMe(tokenStorage);
 
       if (response?.isSuccess && response.userProfile) {
+        setShowLoader(false); // Asegurarse de ocultar el loader siempre
         const userProfile = response.userProfile;
         console.log("Datos obtenidos correctamente:", userProfile);
 
@@ -113,10 +114,10 @@ export const ContenidoHome = () => {
     }
   };
 
-  useEffect(() => {
-    // Actualiza isLoading cuando los datos estén listos
-    setShowLoader(false);
-  }, [dataUser]);
+  // useEffect(() => {
+  //   // Actualiza isLoading cuando los datos estén listos
+  //   setShowLoader(false);
+  // }, [dataUser]);
 
   const closeModal = () => {
     setShowAlert(false)

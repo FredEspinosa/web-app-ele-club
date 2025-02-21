@@ -33,8 +33,10 @@ const endpoints = {
     createConverations: `${hostApi}Conversation/Create`,
     feedLocation: `${hostApi}Feed`,
     sendMessage: `${hostApi}Message/Send`,
-    sendInviteFriend: `${hostApi}Friends/Invite`,
     sendLike: `${hostApi}Likes/Send`,
+    sendInviteFriend: `${hostApi}Friends/Invite`,
+    friendsMe: `${hostApi}Friends/MyFriends`,
+    requestsFriends: `${hostApi}Friends/Requests`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -70,7 +72,7 @@ export const obtenerCodigo = async (numeroTel) => {
         const response = await axios.request(config);
         return response.data; // Devuelve la data de la respuesta
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en obtenerCodigo:", error);
         throw error; // Lanza el error para manejarlo en el nivel superior
     }
 } 
@@ -95,7 +97,7 @@ export const validaCodigoToken = async (telUsuario, codigoIngresado) => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en validaCodigoToken:", error);
         throw error;
     }
 }
@@ -114,7 +116,7 @@ export const getPronouns = async () => {
         const response = await axios.request(config);
         return response.data; // Devuelve la data de la respuesta
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Pronouns:", error);
         throw error; // Lanza el error para manejarlo en el nivel superior
     }
 } 
@@ -133,7 +135,7 @@ export const getSexualIdentity = async () => {
         const response = await axios.request(config);
         return response.data; // Devuelve la data de la respuesta
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en SexualIdentity:", error);
         throw error; // Lanza el error para manejarlo en el nivel superior
     }
 } 
@@ -152,12 +154,12 @@ export const getPerception = async () => {
         const response = await axios.request(config);
         return response.data; // Devuelve la data de la respuesta
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Perception:", error);
         throw error; // Lanza el error para manejarlo en el nivel superior
     }
 } 
 
-// Get 
+// Get Gender
 export const getGender = async () => {
       
     let config = {
@@ -171,7 +173,7 @@ export const getGender = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Gender:", error);
         throw error;
     }
 }
@@ -190,7 +192,7 @@ export const getRelationshipStatus = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en RelationshipStatus:", error);
         throw error;
     }
 }
@@ -209,7 +211,7 @@ export const getLookingFor = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en LookingFor:", error);
         throw error;
     }
 }
@@ -228,7 +230,7 @@ export const getRole = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Role:", error);
         throw error;
     }
 }
@@ -247,7 +249,7 @@ export const getInterest = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Interest:", error);
         throw error;
     }
 }
@@ -266,7 +268,7 @@ export const getPet = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Pet:", error);
         throw error;
     }
 }
@@ -285,7 +287,7 @@ export const getZodiac = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Zodiac:", error);
         throw error;
     }
 }
@@ -304,7 +306,7 @@ export const getSmoke = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Smoke:", error);
         throw error;
     }
 }
@@ -323,7 +325,7 @@ export const getSuscription = async () => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en sendData:", error);
+        console.error("Error en Suscription:", error);
         throw error;
     }
 }
@@ -380,7 +382,7 @@ export const userPreferencesUpdate = async (dataUser, tokenSesion) => {
     console.log("tokenSesion userPreferencesUpdate", tokenSesion);
     
     let config = {
-        method: "PUT",
+        method: "POST",
         url: endpoints.userUpdatePreferences,
         headers: {
             Accept: "text/plain",
@@ -417,7 +419,7 @@ export const userProfileMe = async (tokenSesion) => {
         console.log("userProfileMe", response);
         return response.data;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en Profile/Me:", error);
         throw error;
     }
 };
@@ -444,7 +446,7 @@ export const profileUserID = async (tokenSesion, idUser) => {
         console.log("profileUserID", response);
         return response.data;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en profileUserID:", error);
         throw error;
     }
 };
@@ -470,7 +472,7 @@ export const userSuscription = async (tokenSesion) => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en UserSuscription:", error);
         throw error;
     }
 };
@@ -494,12 +496,12 @@ export const loginGoogle = async (tokenSesion) => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en GoogleLogin:", error);
         throw error;
     }
 };
 
-// Get GoogleLogin
+// Get ubicationAdd
 export const ubicationAdd = async (tokenSesion, ubicacion ) => {
     let config = {
         method: "POST",
@@ -519,7 +521,7 @@ export const ubicationAdd = async (tokenSesion, ubicacion ) => {
         const response = await axios.request(config);        
         return response;;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en ubicationAdd:", error);
         throw error;
     }
 };
@@ -560,7 +562,7 @@ export const getGoogleSecretLogin = async (token) => {
         const response = await axios.request(config);
         return response.data.clientSecret; // Devuelve el clientSecret
     } catch (error) {
-        console.error('Error al obtener el clientSecret:', error);
+        console.error('Error al obtener el getGoogleSecretLogin:', error);
         throw error;
     }
 };
@@ -582,7 +584,7 @@ export const conversationGetAll = async (tokenSesion) => {
         console.log("userProfileMe", response);
         return response.data;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en conversationGetAll:", error);
         throw error;
     }
 };
@@ -608,30 +610,7 @@ export const locationFeed = async (tokenSesion, data ) => {
         const response = await axios.request(config);        
         return response;;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
-        throw error;
-    }
-};
-
-// Get Friends/Invite
-export const friendsInvite = async (tokenSesion, toUserId) => {
-    let config = {
-        method: "GET",
-        url: `${endpoints.userMeProfile/toUserId}`,
-        headers: {
-            Accept: "text/plain",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenSesion}`,
-        }
-    };
-    console.log("config friendsInvite", config);
-    
-    try {
-        const response = await axios.request(config);
-        console.log("userProfileMe", response);
-        return response.data;
-    } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en FEED:", error);
         throw error;
     }
 };
@@ -657,22 +636,13 @@ export const likeSend = async (tokenSesion, data) => {
         console.log("userProfileMe", response);
         return response.data;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en Like/Send", error);
         throw error;
     }
 };
 
 // Get ConversationCreate
 export const conversationCreate = async (tokenSesion, data ) => {
-    // Enviar la siguiente infrormacion en la data:
-    // {
-    //     "isGroup": true,
-    //     "name": "string",
-    //     "category": "string",
-    //     "membersIds": [
-    //       "string"
-    //     ]
-    // }
     let config = {
         method: "POST",
         url: endpoints.createConverations,
@@ -686,22 +656,17 @@ export const conversationCreate = async (tokenSesion, data ) => {
 
     try {
         const response = await axios.request(config);        
-        return response;;
+        return response;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en ConversationCreate:", error);
         throw error;
     }
 };
 
 // Get MessageSend
 export const messageSend = async (tokenSesion, data ) => {
-// Enviar la siguiente infrormacion en la data:
-// {
-//     "conversationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//     "content": "string"
-//   }
     let config = {
-        method: "GET",
+        method: "POST",
         url: endpoints.sendMessage,
         headers: {
             Accept: "*/*",
@@ -713,9 +678,70 @@ export const messageSend = async (tokenSesion, data ) => {
 
     try {
         const response = await axios.request(config);        
+        return response;
+    } catch (error) {
+        console.error("Error en MessageSend:", error);
+        throw error;
+    }
+};
+
+// Get Friends/Invite 
+export const friendsInvite = async (tokenSesion, toUserId) => {
+    let config = {
+        method: "POST",
+        url: endpoints.sendInviteFriend + "/" + toUserId,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        }
+    };    
+    try {
+        const response = await axios.request(config);
+        return response.data;
+    } catch (error) {
+        console.error("Error en Friends/Invite:", error);
+        throw error;
+    }
+};
+
+// Get MyFriends
+export const myFriends = async (tokenSesion ) => {
+    let config = {
+        method: "GET",
+        url: endpoints.friendsMe,
+        headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+    };
+    try {
+        const response = await axios.request(config);        
         return response;;
     } catch (error) {
-        console.error("Error en userPreferencesUpdate:", error);
+        console.error("Error en Get MyFriends:", error);
+        throw error;
+    }
+};
+
+// Get Friends/Requests
+export const friendsRequests = async (tokenSesion) => {    
+    let config = {
+        method: "GET",
+        url: endpoints.requestsFriends,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        }
+    };    
+    try {
+        const response = await axios.request(config);
+        console.log("friendsRequests", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error en Friends/Requests:", error);
         throw error;
     }
 };

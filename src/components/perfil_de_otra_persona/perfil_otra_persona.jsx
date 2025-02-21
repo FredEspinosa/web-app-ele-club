@@ -5,13 +5,14 @@ import CarruselPerfilUsuario from '../swiper/carrusel_perfil_usuario';
 import { IoMdCheckmark, IoMdHeartEmpty } from 'react-icons/io';
 import { IoClose, IoHeart } from 'react-icons/io5';
 import AlertSuscribe from '../alertas/alert_suscribete';
-import { likeSend } from '../../services/api';
+import { friendsInvite, likeSend } from '../../services/api';
 
 const PerfilOtraPersona = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
     const [showAlert,setShowAlert] = useState(false);
+    const [mensajeModal, setMensajeModal] = useState(false)
 
     const location = useLocation();
     const profileImages = location.state?.profileImages || [];
@@ -24,7 +25,7 @@ const PerfilOtraPersona = () => {
     const perceptions = location.state?.perceptions || '';
     const relationshipStatus = location.state?.relationshipStatus || '';
     const tokenSesionStorage = location.state?.tokenSesion || '';
-    const likedUserId = location.state.likedUserId || '';
+    const likedUserId = location.state.likedUserId || '';    
 
     const toggleIcon = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -66,6 +67,26 @@ const PerfilOtraPersona = () => {
         }
     }
 
+    const sendFriendRequest = async () => {
+        try {
+            const tokenSesion = tokenSesionStorage;
+            const response = await friendsInvite(tokenSesion, likedUserId);
+
+            if (response.status === 200) {
+                console.log("solicitud enviada correctamente");
+                setShowAlert(true);
+                setMensajeModal(<p>Tu solicitud se ha enviado correctamente.</p>);
+            } else {
+                console.log("ocurrio un error en enviar solicitud");
+            }
+            
+        } catch (error) {
+            console.log(error);
+            setShowAlert(true);
+            setMensajeModal(<p>Ocurrio un error al enviar tu solicitud.</p>);
+        }
+    }
+ 
     return (
          <div id='profileOtherPerson'>
             <div className="club_contenedor_full_height">
@@ -151,7 +172,14 @@ const PerfilOtraPersona = () => {
                         </div>
                         <div className="club_cont_btns_doble club_bienvenida_btns club_bienvenida_btns">
                             <div className="col-12">
-                                <button className="btn club_btn club_btn_full club_btn_full_general club_bg_oro" onClick={() => {setShowAlert(true)}}>Agregar a amigas</button>
+                                <button className="btn club_btn club_btn_full club_btn_full_general club_bg_oro" 
+                                    onClick={() => {
+                                        // setShowAlert(true);
+                                        sendFriendRequest ();
+                                    }}
+                                >
+                                    Agregar a amigas
+                                </button>
                             </div>
                         </div>
                         <div className="club_cont_btns_doble club_bienvenida_btns club_bienvenida_btns">
@@ -164,7 +192,7 @@ const PerfilOtraPersona = () => {
             </div>
             {showAlert &&
                 <AlertSuscribe 
-                    mensajeModal={<p>¿Quieres tener todas las funciones de manera ilimitada?</p>}
+                    mensajeModal={mensajeModal}
                     btnAceptar={true}
                     btnMsjButtom={'SUSCRIBETE'}
                     handleOnclick={goToSuscribe}

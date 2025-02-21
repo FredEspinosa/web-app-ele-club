@@ -10,6 +10,7 @@ import ChatsContent from './chats_content';
 import HeaderConfiguration from '../headers/header_configuration';
 import Loader from '../loader/loader';
 import { conversationGetAll } from '../../services/api';
+import ChatsPrivate from './chats_private';
 
 const ChatBox = () => {
 
@@ -120,8 +121,9 @@ const ChatBox = () => {
           />
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
-            {vista === "chatsPrivados" && <ChatsContent handleOnClick={redirectBack} />}
-            {vista === "salaDeChats" && <ChatsContent handleOnClick={redirectBack} />}
+            {/* {vista === "chatsPrivados" && <ChatsContent handleOnClick={redirectBack} />} */}
+            {vista === "chatsPrivados" && <ChatsPrivate handleOnClick={redirectBack} />}
+            {vista === "salaDeChats" && <ChatsContent handleOnClick={redirectBack} tokenSesionStorage={tokenSesionStorage} />}
           </div>
           {/* <div className="message-list">
               {messages.map((msg, idx) => (
