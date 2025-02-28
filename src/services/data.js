@@ -32,7 +32,7 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
         interests: datosUsuario.interests?.map((item) => item.id) || [],
         zodiacs: datosUsuario.zodiacs?.id ? [datosUsuario.zodiacs.id] : [], // Solo el ID
         smokes: datosUsuario.smokes?.map((item) => item.id) || [],
-        userPhotos: datosUsuario.userPhotos || [], // Supongo que ya son URLs
+        userPhotos: datosUsuario.userPhotos.map(item => item.photo) || [],
         name: datosUsuario.name || "",
         lastName: datosUsuario.lastName || "",
         email: datosUsuario.email || "",
