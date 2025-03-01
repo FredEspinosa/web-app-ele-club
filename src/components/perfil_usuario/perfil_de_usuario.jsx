@@ -19,6 +19,8 @@ import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
 import { enviarDatosUsuario } from "../../services/data";
 
+
+
 const UserProfile = () => {
   const navigate = useNavigate();
   const [editaPerfil, setEditaPerfil] = useState(true);
@@ -55,31 +57,14 @@ const UserProfile = () => {
     interests: "",
     zodiacs: "",
     smokes: "",
-    userPhotos: "",
+    userPhotos: [],
     delegation: "",
     age: "",
     phoneNumber: "",
     photoProfile: "",
   });
   const [profilePicture, setProfilePicture] = useState(PerfilDefault); // Inicializa con una imagen predeterminada
-  const [userPhotosNew, setUserPhotosNew] = useState(() => {
-    // Obtener fotos del localStorage
-    const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
-    const storedPhotos= datosUsuario.userPhotos
-    console.log('storedPhotos', storedPhotos);
-    
-
-
-    if (!storedPhotos) return []; // Si no hay fotos guardadas, retorna un arreglo vacío
-
-    try {
-      // Transformar los datos al formato esperado
-      return storedPhotos.map(({ userId, photo }) => ({ userId, photo }));
-    } catch (error) {
-      console.error("Error al parsear userPhotos desde localStorage:", error);
-      return [];
-    }
-  });
+  const [userPhotosNew, setUserPhotosNew] = useState([]);
 
   useEffect(() => {
     const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
@@ -160,7 +145,7 @@ const UserProfile = () => {
     const type = "update";
     try {
       const tokenSesion = tokenSesionStorage;
-      const response = await enviarDatosUsuario(tokenSesion, type, dataUser);
+      const response = await enviarDatosUsuario(tokenSesion, type, {...dataUser, userPhotos: userPhotosNew});
       console.log("response", response);
 
       // Validar la respuesta
@@ -216,6 +201,9 @@ const UserProfile = () => {
 
     return edad;
   };
+
+  console.log({dataUser});
+  
 
   return (
     <div id="perfilUsuario">

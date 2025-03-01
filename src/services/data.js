@@ -12,38 +12,28 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
     console.log("type", type);
     console.log("dataUser data", dataUser);
     
-    // Obtener los datos desde el localStorage
-    const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
-    if (!datosUsuario) {
-        console.error("No hay datos en el localStorage");
-        return;
-    }
-
-    // Transformar los datos para enviar solo IDs
     const datosTransformados = {
-        genders: datosUsuario.genders?.map((item) => item.id) || [],
-        lookingFors: datosUsuario.lookingFors?.map((item) => item.id) || [],
-        perceptions: datosUsuario.perceptions?.map((item) => item.id) || [],
-        pronouns: datosUsuario.pronouns?.map((item) => item.id) || [],
-        relationshipStatus: datosUsuario.relationshipStatus?.map((item) => item.id) || [],
-        sexualIdentities: datosUsuario.sexualIdentities?.map((item) => item.id) || [],
-        pets: datosUsuario.pets?.map((item) => item.id) || [],
-        roles: datosUsuario.roles?.map((item) => item.id) || [],
-        interests: datosUsuario.interests?.map((item) => item.id) || [],
-        zodiacs: datosUsuario.zodiacs?.id ? [datosUsuario.zodiacs.id] : [], // Solo el ID
-        smokes: datosUsuario.smokes?.map((item) => item.id) || [],
-        userPhotos: datosUsuario.userPhotos.map(item => item.photo) || [],
-        name: datosUsuario.name || "",
-        lastName: datosUsuario.lastName || "",
-        email: datosUsuario.email || "",
-        birthDate: datosUsuario.birthDate || "",
-        height: parseInt(datosUsuario.height) || 0, // Convertir a número
-        aboutMe: datosUsuario.aboutMe || "", // Por defecto "string"
+        genders: dataUser.genders?.map((item) => item.id) || [],
+        lookingFors: dataUser.lookingFors?.map((item) => item.id) || [],
+        perceptions: dataUser.perceptions?.map((item) => item.id) || [],
+        pronouns: dataUser.pronouns?.map((item) => item.id) || [],
+        relationshipStatus: dataUser.relationshipStatus?.map((item) => item.id) || [],
+        sexualIdentities: dataUser.sexualIdentities?.map((item) => item.id) || [],
+        pets: dataUser.pets?.map((item) => item.id) || [],
+        roles: dataUser.roles?.map((item) => item.id) || [],
+        interests: dataUser.interests?.map((item) => item.id) || [],
+        zodiacs: dataUser.zodiacs?.id ? [dataUser.zodiacs.id] : [], // Solo el ID
+        smokes: dataUser.smokes?.map((item) => item.id) || [],
+        userPhotos: dataUser.userPhotos || [],
+        name: dataUser.name || "",
+        lastName: dataUser.lastName || "",
+        email: dataUser.email || "",
+        birthDate: dataUser.birthDate || "",
+        height: parseInt(dataUser.height) || 0, // Convertir a número
+        aboutMe: dataUser.aboutMe || "", // Por defecto "string"
     };
-
     console.log("Datos transformados para enviar:", datosTransformados);
 
-    // Enviar los datos
     try {
         console.log("entra a try");
         

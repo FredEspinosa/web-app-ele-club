@@ -1,7 +1,7 @@
 import React from "react";
 import { MdOutlineAdd } from "react-icons/md";
 
-const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo }) => {
+const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpload }) => {
   const handlePhotoUpload = (event) => {
     const files = Array.from(event.target.files);
 
@@ -11,6 +11,7 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo }) => {
         const base64 = reader.result;
         const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, "");
         addPhoto(cleanBase64);
+
       };
       reader.readAsDataURL(file);
     });
@@ -43,10 +44,19 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo }) => {
 
       {/* Aquí renderizamos las imágenes desde el arreglo de URLs */}
       <div className="thumbnail-container">
+      {photos.map((photoObj, index) => (
+          <img
+            key={`${photoObj.userId}-${index}`}
+            src={photoObj.photo} // Accedemos a la URL de la imagen
+            alt={`thumbnail-${index}`}
+            className="thumbnail"
+            style={{ width: "50px", height: "50px", margin: "5px" }}
+          />
+        ))}
         {userPhotosNew.map((photoObj, index) => (
           <img
             key={index}
-            src={photoObj.photo} // Accedemos a la URL de la imagen
+            src={`data:image/*;base64,${photoObj}`} // Accedemos a la URL de la imagen
             alt={`thumbnail-${index}`}
             className="thumbnail"
             style={{ width: "50px", height: "50px", margin: "5px" }}
