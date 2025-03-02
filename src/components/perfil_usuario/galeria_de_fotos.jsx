@@ -1,21 +1,19 @@
-// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { MdOutlineAdd } from "react-icons/md";
 
-const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo }) => {
-
+const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpload }) => {
   const handlePhotoUpload = (event) => {
     const files = Array.from(event.target.files);
 
-    // Convertir cada archivo a base64 y agregarlo
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
-        const base64 = reader.result; // Contenido en base64
-        const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, ""); // Quitar el prefijo
-        addPhoto(cleanBase64); // Pasar la imagen al padre
+        const base64 = reader.result;
+        const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, "");
+        addPhoto(cleanBase64);
+
       };
-      reader.readAsDataURL(file); // Iniciar la lectura en base64
+      reader.readAsDataURL(file);
     });
   };
 
@@ -43,11 +41,22 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo }) => {
           />
         </div>
       </div>
+
+      {/* Aquí renderizamos las imágenes desde el arreglo de URLs */}
       <div className="thumbnail-container">
-        {userPhotosNew.map((photo, index) => (
+      {photos.map((photoObj, index) => (
+          <img
+            key={`${photoObj.userId}-${index}`}
+            src={photoObj.photo} // Accedemos a la URL de la imagen
+            alt={`thumbnail-${index}`}
+            className="thumbnail"
+            style={{ width: "50px", height: "50px", margin: "5px" }}
+          />
+        ))}
+        {userPhotosNew.map((photoObj, index) => (
           <img
             key={index}
-            src={`data:image/jpeg;base64,${photo}`}
+            src={`data:image/*;base64,${photoObj}`} // Accedemos a la URL de la imagen
             alt={`thumbnail-${index}`}
             className="thumbnail"
             style={{ width: "50px", height: "50px", margin: "5px" }}
@@ -58,5 +67,4 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo }) => {
   );
 };
 
-export default PhotoGallery;
-
+export default PhotoGallery;  

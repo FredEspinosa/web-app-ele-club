@@ -387,7 +387,7 @@ export const userPreferencesUpdate = async (dataUser, tokenSesion) => {
         method: "POST",
         url: endpoints.userUpdatePreferences,
         headers: {
-            Accept: "text/plain",
+            Accept: "*/*",
             "Content-Type": "application/json",
             Authorization: `Bearer ${tokenSesion}`,
         },
