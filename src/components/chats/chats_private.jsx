@@ -12,6 +12,20 @@ const ChatsPrivate = ({ handleOnClick }) => {
         sendMessage: '',
     });
 
+    /* Empatar estas variables con las del componente que va a enviarle en este caso el de friends */
+    // const location = useLocation();
+    // const profileImages = location.state?.profileImages || [];
+    // const nameProfile = location.state?.nameProfile || '';
+    // const age = location.state?.age|| '';
+    // const aboutMe = location.state?.aboutMe || '';
+    // const lookingFors = location.state?.lookingFors || '';
+    // const genders = location.state?.genders || '';
+    // const sexualIdentities = location.state?.sexualIdentities || '';
+    // const perceptions = location.state?.perceptions || '';
+    // const relationshipStatus = location.state?.relationshipStatus || '';
+    // const tokenSesionStorage = location.state?.tokenSesion || '';
+    // const likedUserId = location.state.likedUserId || ''; 
+
     useEffect(() => {
         const tokenStorage = sessionStorage.getItem("AccessToken");
             if (tokenStorage && !tokenSesionStorage) {

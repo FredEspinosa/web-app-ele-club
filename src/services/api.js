@@ -37,6 +37,8 @@ const endpoints = {
     sendInviteFriend: `${hostApi}Friends/Invite`,
     friendsMe: `${hostApi}Friends/MyFriends`,
     requestsFriends: `${hostApi}Friends/Requests`,
+    responseFriends: `${hostApi}Friends/ResponseRequest`,
+    matchesMe: `${hostApi}Matches/MyMatches`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -742,6 +744,56 @@ export const friendsRequests = async (tokenSesion) => {
         return response.data;
     } catch (error) {
         console.error("Error en Friends/Requests:", error);
+        throw error;
+    }
+};
+
+// Get Friends/Response
+export const friendsResponse = async (tokenSesion, friendRequestId, accept) => {    
+    console.log("accept", accept);
+    console.log("friendRequestId", friendRequestId);
+    console.log("tokenSesion", tokenSesion);
+
+    let config = {
+        method: "POST",
+        url: endpoints.responseFriends,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        data: {
+            "friendRequestId": friendRequestId,
+            "accept": accept,
+        }
+    };    
+    try {
+        const response = await axios.request(config);
+        console.log("friendsRequests", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error en Friends/Response:", error);
+        throw error;
+    }
+};
+
+// Get Matches/MyMatches`,
+export const matchesMyMatches = async (tokenSesion) => {    
+    let config = {
+        method: "GET",
+        url: endpoints.matchesMe,
+        headers: {
+            Accept: "text/plain",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        }
+    };    
+    try {
+        const response = await axios.request(config);
+        console.log("friendsRequests", response);
+        return response.data;
+    } catch (error) {
+        console.error("Error en Friends/Response:", error);
         throw error;
     }
 };

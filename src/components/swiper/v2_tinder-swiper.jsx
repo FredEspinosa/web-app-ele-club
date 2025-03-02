@@ -41,6 +41,8 @@ const TinderLikeCarouselV2 = () => {
           const { latitude, longitude } = position.coords;
           setLocation({ latitude, longitude });
           // Enviar ubicación al servicio
+          console.log("location", location);
+          
           sendLocationToServer(tokenStorage, { latitude, longitude });
         },
         (error) => {

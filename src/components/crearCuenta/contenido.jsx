@@ -9,7 +9,8 @@ import InputTelefono from '../inputs/input_telefono';
 import { paises } from '../../services/paises';
 import FooterDinamico from '../footer/footer_dinamico';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import { getGoogleSecretLogin } from '../../services/api';
+// import { getGoogleSecretLogin } from '../../services/api';
+import { jwtDecode } from "jwt-decode";
 
 const CLIENT_ID = '30011618273-nh5igt93a24bu2juthi2e6hsbt6c9vfc.apps.googleusercontent.com';
 
@@ -36,19 +37,29 @@ const CrearCuentaContenido = () => {
     }, [])
 
     const handleLoginSuccess = async (credentialResponse) => {
-        const token = JSON.stringify(credentialResponse.credential);
-        try {
-            const response = await getGoogleSecretLogin(token);
-            if (response) {
-                console.log("response ok", response);
-                // const data = await response.json();
-                // console.log('Usuario autenticado:', data.user);
-            } else {
-                console.error('Error en la autenticación');
-            }
-        } catch (error) {
-            console.error('Error en la solicitud:', error);
-        }
+
+        console.log("credentialResponse", credentialResponse);
+        
+        const decoded = jwtDecode(credentialResponse.credential);
+        console.log("Info Google decoded", decoded);
+
+        // Una vez obteniendo los datos que arroja el loguin con Google, qué se hace?
+
+        // const token = JSON.stringify(credentialResponse.credential);
+        // try {
+        //     const response = await getGoogleSecretLogin(token);
+        //     console.log("response Google login", response);
+            
+        //     if (response) {
+        //         console.log("response ok", response);
+        //         // const data = await response.json();
+        //         // console.log('Usuario autenticado:', data.user);
+        //     } else {
+        //         console.error('Error en la autenticación');
+        //     }
+        // } catch (error) {
+        //     console.error('Error en la solicitud:', error);
+        // }
     };
 
     useEffect(() => {
@@ -251,7 +262,12 @@ const CrearCuentaContenido = () => {
                                 <div style={{marginBottom:'3%'}}>
                                     <GoogleOAuthProvider clientId={CLIENT_ID}>
                                         <div className="club_crear_cuenta_cont_btns">
-                                            <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.error('Login Failed')} useOneTap />
+                                            <GoogleLogin 
+                                                onSuccess={(credentialResponse)=> { handleLoginSuccess(credentialResponse) }} 
+                                                // onSuccess={(credentialResponse) => {console.log(credentialResponse)}} 
+                                                onError={() => console.error('Login Failed')} 
+                                                useOneTap 
+                                            />
                                         </div>
                                     </GoogleOAuthProvider>
                                 </div>

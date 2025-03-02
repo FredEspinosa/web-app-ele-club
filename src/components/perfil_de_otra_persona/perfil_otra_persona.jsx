@@ -13,6 +13,7 @@ const PerfilOtraPersona = () => {
     const navigate = useNavigate();
     const [showAlert,setShowAlert] = useState(false);
     const [mensajeModal, setMensajeModal] = useState(false)
+    const [btnDisabled, setBtnDisabled] = useState(false)
 
     const location = useLocation();
     const profileImages = location.state?.profileImages || [];
@@ -68,6 +69,7 @@ const PerfilOtraPersona = () => {
     }
 
     const sendFriendRequest = async () => {
+        setBtnDisabled(true)
         try {
             const tokenSesion = tokenSesionStorage;
             const response = await friendsInvite(tokenSesion, likedUserId);
@@ -172,7 +174,7 @@ const PerfilOtraPersona = () => {
                         </div>
                         <div className="club_cont_btns_doble club_bienvenida_btns club_bienvenida_btns">
                             <div className="col-12">
-                                <button className="btn club_btn club_btn_full club_btn_full_general club_bg_oro" 
+                                <button className="btn club_btn club_btn_full club_btn_full_general club_bg_oro" disabled={btnDisabled} 
                                     onClick={() => {
                                         // setShowAlert(true);
                                         sendFriendRequest ();
