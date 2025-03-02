@@ -44,7 +44,8 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
 
       {/* Aquí renderizamos las imágenes desde el arreglo de URLs */}
       <div className="thumbnail-container">
-      {photos.map((photoObj, index) => (
+      {Array.isArray(photos) &&
+        photos?.map((photoObj, index) => (
           <img
             key={`${photoObj.userId}-${index}`}
             src={photoObj.photo} // Accedemos a la URL de la imagen
@@ -53,7 +54,8 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
             style={{ width: "50px", height: "50px", margin: "5px" }}
           />
         ))}
-        {userPhotosNew.map((photoObj, index) => (
+      {Array.isArray(photos) &&
+        userPhotosNew?.map((photoObj, index) => (
           <img
             key={index}
             src={`data:image/*;base64,${photoObj}`} // Accedemos a la URL de la imagen
