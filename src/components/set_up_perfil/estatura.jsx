@@ -9,6 +9,9 @@ const Estatura = () => {
     const formRef = useRef(null); // Crea la referencia al formulario
     const navigate = useNavigate();
     const [datosUsuario, setDatosUsuario] = useState({});
+    const [formData, setFormData] = useState({
+        height: '',
+    });
 
     useEffect(() => {
         // Obtener los datos guardados del localStorage al cargar el componente
@@ -17,10 +20,6 @@ const Estatura = () => {
             setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
         }
     }, []);
-
-    const [formData, setFormData] = useState({
-        height: '',
-    });
 
     const handleInputChange = (e) => {
         setFormData({

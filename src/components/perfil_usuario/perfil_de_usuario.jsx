@@ -4,22 +4,13 @@ import { useNavigate } from "react-router-dom";
 import ProfilePicture from "./foto_de_perfil";
 import EditProfileForm from "./editar_perfil";
 import PhotoGallery from "./galeria_de_fotos";
-import CarruselPerfilUsuario from "../swiper/carrusel_perfil_usuario";
-import { IoIosArrowBack, IoIosSettings } from "react-icons/io";
+import { IoIosSettings } from "react-icons/io";
 import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png";
-import SlidePrueba1 from "../../assets/images/imgs_slide/imagen_prueba_1.png";
-import SlidePrueba2 from "../../assets/images/imgs_slide/imagen_prueba_2.jpeg";
-import SlidePrueba3 from "../../assets/images/imgs_slide/imagen_prueba_3.png";
-import SlidePrueba4 from "../../assets/images/imgs_slide/imagen_prueba_4.png";
-import { MdOutlineEditNote } from "react-icons/md";
-import { IoHeartOutline } from "react-icons/io5";
 import NavBar from "../nav_bar/navBar";
 import { FaArrowLeft, FaCamera } from "react-icons/fa";
 import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
 import { enviarDatosUsuario } from "../../services/data";
-
-
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -85,9 +76,11 @@ const UserProfile = () => {
     }
     // Verifica si dataUser tiene FotosCarrucel y establece el primer elemento como la imagen de perfil
     if (dataUser?.userPhotos && dataUser.userPhotos.length > 0) {
-      setProfilePicture(dataUser.userPhotos[0].photo);
+      setProfilePicture(JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo);
+      console.log("IF", profilePicture);
     } else {
       setProfilePicture(PerfilDefault); // Imagen predeterminada
+      console.log("ELSE", profilePicture);
     }
   }, [dataUser]); // Ejecuta el efecto cuando dataUser cambie
 
@@ -97,7 +90,9 @@ const UserProfile = () => {
 
   const handleSaveProfile = (updatedInfo) => {
     setDataUser({ ...dataUser, ...updatedInfo });
+    console.log("on handleSaveProfile", { dataUser });
     setIsEditing(false);
+    return dataUser;
   };
 
   // Función para añadir una nueva imagen
@@ -106,6 +101,7 @@ const UserProfile = () => {
   };
 
   const redirectBack = () => {
+    setProfilePicture(JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo);
     setTopBarTitle("Mi perfil");
     if (!editaPerfil) {
       setEditaPerfil(true);
@@ -115,8 +111,10 @@ const UserProfile = () => {
   };
 
   const handleProfilePictureChange = (newImageUrl) => {
-    // console.log("newImageUrl", newImageUrl);
-    setProfilePicture(newImageUrl); // Actualiza la imagen de perfil
+    console.log({ newImageUrl });
+    if (newImageUrl) {
+      setProfilePicture(newImageUrl); // Actualiza la imagen de perfil
+    }
   };
 
   const cancelEdit = () => {
@@ -124,7 +122,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    console.log("topBar", topBarTitle);
+    // console.log("topBar", topBarTitle);
   }, [topBarTitle]);
 
   const goSuscribe = () => {
@@ -145,13 +143,13 @@ const UserProfile = () => {
     const type = "update";
     try {
       const tokenSesion = tokenSesionStorage;
-      const response = await enviarDatosUsuario(tokenSesion, type, {...dataUser, userPhotos: userPhotosNew});
-      console.log("response", response);
+      const response = await enviarDatosUsuario(tokenSesion, type, { ...dataUser, userPhotos: userPhotosNew });
+      // console.log("response", response);
 
       // Validar la respuesta
       if (response?.status === 200) {
         // Ajusta según el código esperado por tu API
-        console.log("Datos enviados correctamente:", response);
+        // console.log("Datos enviados correctamente:", response);
         // navigate('/notificaciones');
         setMensajeModal(
           <p>
@@ -202,9 +200,6 @@ const UserProfile = () => {
     return edad;
   };
 
-  console.log({dataUser});
-  
-
   return (
     <div id="perfilUsuario">
       <div className="club_perfil_barra">
@@ -230,8 +225,9 @@ const UserProfile = () => {
           <div className="col-12 d-flex club_contenedor club_no_wrap_desk">
             <div className="club_cont_perfil_foto">
               <div className="club_cont_perfil_img">
+                {/* <ProfilePicture src={profilePicture || JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo} onEdit={handleProfilePictureChange} /> */}
                 <img
-                  src={dataUser?.userPhotos?.length > 0 ? dataUser.userPhotos[0].photo : `data:image/jpeg;base64,${profilePicture}`}
+                  src={JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo || `data:image/jpeg;base64,${profilePicture}`}
                   alt="Imagen de Perfil"
                   srcSet="Imagen de Perfil"
                 />
@@ -444,8 +440,9 @@ const UserProfile = () => {
             </div>
           )}
           {isEditing ? (
-            <EditProfileForm dataUser={dataUser} onSave={handleSaveProfile} cancelEdit={cancelEdit} />
+            <EditProfileForm onSave={handleSaveProfile} dataUser={dataUser} cancelEdit={cancelEdit} />
           ) : (
+            // <EditProfileForm dataUser={dataUser} cancelEdit={cancelEdit} />
             <div>
               <br />
               <div className="club_cont_btns_full club_notificaciones_btns">
