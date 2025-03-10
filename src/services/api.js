@@ -657,7 +657,9 @@ export const conversationCreate = async (tokenSesion, data ) => {
     };
 
     try {
-        const response = await axios.request(config);        
+        const response = await axios.request(config);   
+        console.log("response conversationCreate", response);
+             
         return response;
     } catch (error) {
         console.error("Error en ConversationCreate:", error);
@@ -667,6 +669,8 @@ export const conversationCreate = async (tokenSesion, data ) => {
 
 // Get MessageSend
 export const messageSend = async (tokenSesion, data ) => {
+    console.log("data", data);
+    
     let config = {
         method: "POST",
         url: endpoints.sendMessage,

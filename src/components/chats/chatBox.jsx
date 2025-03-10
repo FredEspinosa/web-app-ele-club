@@ -4,7 +4,7 @@ import { auth, db } from '../../services/firebaseConfig';
 import { collection, addDoc, onSnapshot, query, orderBy } from 'firebase/firestore';
 import NavBar from '../nav_bar/navBar';
 import AlertSuscribe from '../alertas/alert_suscribete';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import NavBarDinamicButtons from '../nav_bar/navBarDinamicButtons';
 import ChatsContent from './chats_content';
 import HeaderConfiguration from '../headers/header_configuration';
@@ -22,6 +22,15 @@ const ChatBox = () => {
   const [vistaActual, setVistaActual] = useState(""); // Vista inicial
   const [showLoader, setShowLoader] = useState(false);
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
+
+  const location = useLocation();
+  const membersIds = location.state?.membersIds || [];
+  const photoUsers = location.state?.photoUsers || [];
+  const name = location.state?.name || [];
+
+  console.log('membersIds', membersIds) 
+  console.log('photoUsers', photoUsers)
+  console.log('name', name) 
 
   const listaBotones = [
     { texto: "Chats Privados", evento: "chatsPrivados" },

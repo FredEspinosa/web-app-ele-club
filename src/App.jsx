@@ -48,6 +48,7 @@ import PrivacyPoliciesPage from './pages/config_pages/privacy_policies_page';
 import AboutPage from './pages/config_pages/about_page';
 import PaymentForm from './components/form_stripe/payment_form';
 import ThankyouPage from './pages/thankyou_page';
+import ChatsPrivate from './components/chats/chats_private';
 
 
 function App() {
@@ -218,6 +219,10 @@ function App() {
       {
         path: '/gracias',
         element: <ThankyouPage />
+      },
+      {
+        path: '/chat_privado',
+        element: <ChatsPrivate />
       }
     ]
   )

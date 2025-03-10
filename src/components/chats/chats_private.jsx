@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { BsChatSquareDotsFill } from 'react-icons/bs';
 import InputDinamico from '../inputs/inputsDinamico';
 import { messageSend } from '../../services/api';
+import { useLocation } from 'react-router-dom';
 
 const ChatsPrivate = ({ handleOnClick }) => {
     const [chatExists, setChatExists] = useState(true);
@@ -12,19 +13,14 @@ const ChatsPrivate = ({ handleOnClick }) => {
         sendMessage: '',
     });
 
-    /* Empatar estas variables con las del componente que va a enviarle en este caso el de friends */
-    // const location = useLocation();
-    // const profileImages = location.state?.profileImages || [];
-    // const nameProfile = location.state?.nameProfile || '';
-    // const age = location.state?.age|| '';
-    // const aboutMe = location.state?.aboutMe || '';
-    // const lookingFors = location.state?.lookingFors || '';
-    // const genders = location.state?.genders || '';
-    // const sexualIdentities = location.state?.sexualIdentities || '';
-    // const perceptions = location.state?.perceptions || '';
-    // const relationshipStatus = location.state?.relationshipStatus || '';
-    // const tokenSesionStorage = location.state?.tokenSesion || '';
-    // const likedUserId = location.state.likedUserId || ''; 
+    const location = useLocation();
+    const membersIds = location.state?.membersIds || [];
+    const photoUsers = location.state?.photoUsers || [];
+    const name = location.state?.name || [];
+    
+    console.log('membersIds', membersIds) 
+    console.log('photoUsers', photoUsers)
+    console.log('name', name) 
 
     useEffect(() => {
         const tokenStorage = sessionStorage.getItem("AccessToken");
@@ -68,11 +64,11 @@ const ChatsPrivate = ({ handleOnClick }) => {
         try {
             const tokenSesion = tokenSesionStorage
             
-            const response = await messageSend(tokenSesion, { conversationId:"ee57c980-692e-48cc-842a-2251f4e17cec", content: formData.sendMessage });
+            const response = await messageSend(tokenSesion, { conversationId:membersIds, content: formData.sendMessage });
 
             console.log("response", response.data);
 
-            if (response.status === 200) {
+            if (response.isSuccess === true) {
                 console.log("Accediste al servicio de solicitudes de amigos");
 
             } else {
@@ -85,6 +81,28 @@ const ChatsPrivate = ({ handleOnClick }) => {
 
         setFormData({ sendMessage: '' }); // Limpiar input
     };
+
+    
+    
+    
+        // const sendMessageFriends = async (toUserId, perfilPhoto, nameUser, type) => {
+        //     console.log("toUserId", toUserId);
+        //     console.log("perfilPhoto", perfilPhoto);
+        //     console.log("nameUser", nameUser);
+        //     try {
+        //         // Enviar todos los states para que coincidan con los del chat, en este caso es el userId uno o varios
+        //         navigate(
+        //             '/chat_privado',
+        //             { state: { 
+        //                 membersIds: toUserId,
+        //                 photoUsers: perfilPhoto,
+        //                 name: nameUser
+        //             }}
+        //         )
+        //     } catch (error) {
+        //         console.error("Error en sendRequestFriends:", error);
+        //     }
+        // }; 
 
     return (
         <div id='chatBoxPrivate' className="chat-container">
