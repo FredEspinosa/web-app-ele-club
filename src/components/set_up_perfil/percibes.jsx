@@ -28,16 +28,6 @@ const TePercibes = () => {
         navigate('/identidad_sexual')
     }
 
-    useEffect(() => {
-        // Obtener los datos guardados del localStorage al cargar el componente
-        const datosGuardados = localStorage.getItem("datosUsuario");
-        if (datosGuardados) {
-            setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
-        }
-
-        listPerception()
-    }, []);
-    
     const listPerception = async () => {
         setShowLoader(true)
         try {
@@ -54,6 +44,17 @@ const TePercibes = () => {
           setShowLoader(false);
         }
     };
+
+    useEffect(() => {
+        // Obtener los datos guardados del localStorage al cargar el componente
+        const datosGuardados = localStorage.getItem("datosUsuario");
+        if (datosGuardados) {
+            setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
+        }
+
+        listPerception()
+    }, []);
+    
 
     const handleContinuar = () => {
         if (selectedValue && selectedValue.length > 0) {
