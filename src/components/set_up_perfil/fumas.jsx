@@ -80,7 +80,7 @@ const Habitos = () => {
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
             console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
-                sendDataUserInfo()
+                sendDataUserInfo(nuevosDatos)
                 // navigate('/notificaciones');
             }, 300);
         } else {
@@ -88,14 +88,14 @@ const Habitos = () => {
         }
     }
 
-    const sendDataUserInfo = async () => {
+    const sendDataUserInfo = async (nuevosDatos) => {
         setShowLoader(true); // Mostrar el loader al inicio
         const type = ''
         try {
             const tokenSesion = tokenSesionStorage;
             console.log("tokenSesion", tokenSesion);
     
-            const response = await enviarDatosUsuario(tokenSesion, type);
+            const response = await enviarDatosUsuario(tokenSesion, type, nuevosDatos);
             console.log("response", response);
     
             // Validar la respuesta
