@@ -1,14 +1,20 @@
-import React from "react";
+// eslint-disable-next-line no-unused-vars
+import React, { useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";
 
 const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpload }) => {
+
+const [imgPrev, setImgPrev] = useState([])
+
   const handlePhotoUpload = (event) => {
     const files = Array.from(event.target.files);
-
+    
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
         const base64 = reader.result;
+        setImgPrev(base64)
+        
         const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, "");
         addPhoto(cleanBase64);
 
@@ -48,13 +54,13 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
         photos?.map((photoObj, index) => (
           <img
             key={`${photoObj.userId}-${index}`}
-            src={photoObj.photo} // Accedemos a la URL de la imagen
+            src={photoObj? photoObj.photo : imgPrev} // Accedemos a la URL de la imagen
             alt={`thumbnail-${index}`}
             className="thumbnail"
             style={{ width: "50px", height: "50px", margin: "5px" }}
           />
         ))}
-      {Array.isArray(photos) &&
+      {Array.isArray(userPhotosNew) &&
         userPhotosNew?.map((photoObj, index) => (
           <img
             key={index}
