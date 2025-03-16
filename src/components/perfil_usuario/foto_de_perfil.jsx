@@ -3,8 +3,6 @@ import React from "react";
 import { FaCamera } from "react-icons/fa";
 
 const ProfilePicture = ({ src, onEdit }) => {
-  console.log("src", src);
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {

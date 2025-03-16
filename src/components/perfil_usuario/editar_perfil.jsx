@@ -1,15 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import InputDinamico from "../inputs/inputsDinamico";
 import OpcionesCheck from "../inputs/opciones_check";
-import { getGender, getLookingFor, getPerception, getSexualIdentity } from "../../services/api";
+import { getGender, getLookingFor, getPerception, getSexualIdentity, userProfileMe } from "../../services/api";
 import Loader from "../loader/loader";
 import { FaCheck } from "react-icons/fa";
+import { enviarDatosUsuario } from "../../services/data";
 
-const EditProfileForm = ({ onSave, dataUser, cancelEdit }) => {
-  const [showLoader, setShowLoader] = useState(false);
-  const [formData, setFormData] = useState({ ...dataUser, userPhotos: dataUser.userPhotos[0]?.photo || "" });
+const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, setMensajeModal, setShowAlert }) => {
+  const [formData, setFormData] = useState({ ...dataUser });
   const [opciones, setOpciones] = useState({ lookingFor: [], genders: [], sexualIdentity: [], perception: [] });
   const [datosUsuario, setDatosUsuario] = useState({});
+
   const iconoCheck = <FaCheck size={24} style={{ color: "#BC8D40" }} />;
 
   const fetchOptions = useCallback(async () => {
@@ -39,13 +40,52 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit }) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleOptionSelect = (selectedOptions, fieldName) => {
+    setFormData((prev) => ({ ...prev, [fieldName]: selectedOptions }));
+  };
+
+  const updateDataUserInfo = async () => {
+    setShowLoader(true);
+    const type = "update";
+    try {
+      const tokenSesion = token;
+      const response = await enviarDatosUsuario(tokenSesion, type, { ...formData });
+      if (response?.isSuccess) {
+        setShowAlert(true);
+        setMensajeModal(
+          <p>
+            Información actualizada <b>correctamente</b>.
+          </p>
+        );
+        userProfileMe(token).then((response) => {
+          if (response.isSuccess) {
+            console.log(response.userProfile);
+            localStorage.setItem('datosUsuario', JSON.stringify(response.userProfile))
+          }
+        });
+        setShowLoader(false);
+      } else {
+        console.error("Ocurrió un error en la API:", response);
+      }
+    } catch (err) {
+      console.error("Error al enviar datos del usuario:", err);
+      setShowAlert(true);
+      setMensajeModal(
+        <p>
+          ¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.
+        </p>
+      );
+    } finally {
+      setShowLoader(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave(formData);
-  };
-
-  const handleOptionSelect = (selectedOptions, fieldName) => {
-    setFormData((prev) => ({ ...prev, [fieldName]: selectedOptions }));
+    setTimeout(() => {
+      updateDataUserInfo();
+    }, 3000);
   };
 
   const campos = [
@@ -75,8 +115,9 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit }) => {
           <div className="club_cont_data_perfil" key={field}>
             <h3 className="club_txt_titular">{label}</h3>
             <OpcionesCheck
+              dataUser={dataUser}
               opciones={opciones}
-              onOptionSelect={(selectedOptions) => handleOptionSelect(selectedOptions, field)}
+              onOptionSelect={(selectedOptions) => handleOptionSelect(...selectedOptions, field)}
               tituloDeLista={label}
               iconoCheck={iconoCheck}
               multiselect={true}
@@ -98,7 +139,6 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit }) => {
           </div>
         </div>
       </form>
-      {showLoader && <Loader />}
     </div>
   );
 };

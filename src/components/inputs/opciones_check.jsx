@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
-const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, multiselect, isDropList }) => {
+const OpcionesCheck = ({opciones, onOptionSelect, tituloDeLista, iconoCheck, multiselect, isDropList }) => {
+    
     const [selectedOptions, setSelectedOptions] = useState([]); // Almacena múltiples opciones si multiselect es true
     const [newSelectedOption, setNewSelectedOption] = useState(''); // Almacena múltiples opciones si multiselect es true
     const [listDrop, setListDrop] = useState(false)
