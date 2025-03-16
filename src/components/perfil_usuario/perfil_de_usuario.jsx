@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfilePicture from "./foto_de_perfil";
 import EditProfileForm from "./editar_perfil";
@@ -7,14 +7,12 @@ import PhotoGallery from "./galeria_de_fotos";
 import { IoIosSettings } from "react-icons/io";
 import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png";
 import NavBar from "../nav_bar/navBar";
-import { FaArrowLeft, FaCamera } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
-import { enviarDatosUsuario } from "../../services/data";
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const [editaPerfil, setEditaPerfil] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [topBarTitle, setTopBarTitle] = useState("Mi perfil");
   const [perfilProgress, setPerfilProgress] = useState("65%");
@@ -24,6 +22,8 @@ const UserProfile = () => {
   const [mensajeModal, setMensajeModal] = useState("");
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
   const [perfilAge, setPerfilAge] = useState("");
+  const [profilePicture, setProfilePicture] = useState(PerfilDefault); // Inicializa con una imagen predeterminada
+  const [userPhotosNew, setUserPhotosNew] = useState([]);
   const [dataUser, setDataUser] = useState({
     userId: "",
     userName: "",
@@ -54,8 +54,14 @@ const UserProfile = () => {
     phoneNumber: "",
     photoProfile: "",
   });
-  const [profilePicture, setProfilePicture] = useState(PerfilDefault); // Inicializa con una imagen predeterminada
-  const [userPhotosNew, setUserPhotosNew] = useState([]);
+
+  const topRef = useRef(null);
+  const scrollToTop = () => {
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      window.scrollBy({ top: -500, left: 0 });
+    }, 10);
+  };
 
   useEffect(() => {
     const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
@@ -77,21 +83,19 @@ const UserProfile = () => {
     // Verifica si dataUser tiene FotosCarrucel y establece el primer elemento como la imagen de perfil
     if (dataUser?.userPhotos && dataUser.userPhotos.length > 0) {
       setProfilePicture(JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo);
-      console.log("IF", profilePicture);
     } else {
       setProfilePicture(PerfilDefault); // Imagen predeterminada
-      console.log("ELSE", profilePicture);
     }
   }, [dataUser]); // Ejecuta el efecto cuando dataUser cambie
 
-  const handleEditToggle = () => {
-    setIsEditing(!isEditing);
-  };
-
   const handleSaveProfile = (updatedInfo) => {
     setDataUser({ ...dataUser, ...updatedInfo });
+    // setDataUser(localStorage.getItem('datosUsuario'));
+    scrollToTop();
     console.log("on handleSaveProfile", { dataUser });
     setIsEditing(false);
+    setShowLoader(true)
+    setTopBarTitle("Mi perfil");
     return dataUser;
   };
 
@@ -103,8 +107,8 @@ const UserProfile = () => {
   const redirectBack = () => {
     setProfilePicture(JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo);
     setTopBarTitle("Mi perfil");
-    if (!editaPerfil) {
-      setEditaPerfil(true);
+    if (isEditing) {
+      setIsEditing(false);
     } else {
       navigate("/home");
     }
@@ -129,55 +133,6 @@ const UserProfile = () => {
     navigate("/suscripcion");
   };
 
-  const handleUpdateInfo = () => {
-    const nuevosDatos = { ...datosUsuario, ...dataUser };
-    localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
-    // console.log("Datos actualizados guardados:", nuevosDatos);
-    setTimeout(() => {
-      updateDataUserInfo();
-    }, 300);
-  };
-
-  const updateDataUserInfo = async () => {
-    setShowLoader(true); // Mostrar el loader al inicio
-    const type = "update";
-    try {
-      const tokenSesion = tokenSesionStorage;
-      const response = await enviarDatosUsuario(tokenSesion, type, { ...dataUser, userPhotos: userPhotosNew });
-      // console.log("response", response);
-
-      // Validar la respuesta
-      if (response?.status === 200) {
-        // Ajusta según el código esperado por tu API
-        // console.log("Datos enviados correctamente:", response);
-        // navigate('/notificaciones');
-        setMensajeModal(
-          <p>
-            Información actualizada <b>correctamente</b>.
-          </p>
-        );
-      } else {
-        console.error("Ocurrió un error en la API:", response);
-      }
-    } catch (err) {
-      console.error("Error al enviar datos del usuario:", err);
-      setShowAlert(true);
-      setMensajeModal(
-        <p>
-          ¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.
-        </p>
-      );
-    } finally {
-      setShowLoader(false); // Asegurarse de ocultar el loader siempre
-      setShowAlert(true);
-      setMensajeModal(
-        <p>
-          ¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.
-        </p>
-      );
-    }
-  };
-
   const closeModal = () => {
     setShowAlert(false);
   };
@@ -194,14 +149,14 @@ const UserProfile = () => {
     const diaNacimiento = fechaNac.getDate();
 
     if (mesActual < mesNacimiento || (mesActual === mesNacimiento && diaActual < diaNacimiento)) {
-      edad--;
+      edad - 1;
     }
 
     return edad;
   };
 
   return (
-    <div id="perfilUsuario">
+    <div ref={topRef} id="perfilUsuario">
       <div className="club_perfil_barra">
         <div className="col-12 d-flex club_contenedor club_bg_blanco">
           <div className="col-3 d-flex align-items-center justify-content-start">
@@ -219,34 +174,31 @@ const UserProfile = () => {
           <div className="col-3 d-flex align-items-center justify-content-end"></div>
         </div>
       </div>
-
-      {editaPerfil ? (
-        <div className="club_contenedor club_margin_bar_40 container-lg">
-          <div className="col-12 d-flex club_contenedor club_no_wrap_desk">
-            <div className="club_cont_perfil_foto">
+      <div className="club_contenedor club_margin_bar_40 container-lg">
+        <div className="col-12 d-flex club_contenedor club_no_wrap_desk">
+          <div className="club_cont_perfil_foto">
+            {!isEditing ? (
               <div className="club_cont_perfil_img">
-                {/* <ProfilePicture src={profilePicture || JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo} onEdit={handleProfilePictureChange} /> */}
                 <img
                   src={JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo || `data:image/jpeg;base64,${profilePicture}`}
                   alt="Imagen de Perfil"
                   srcSet="Imagen de Perfil"
                 />
-                {/* <img src={`data:image/jpeg;base64,${profilePicture}`} alt="" srcSet="Imagen de Perfil" /> */}
-                <FaCamera
-                  className="club_btn_edit_foto_perfil"
-                  size={24}
-                  style={{ top: "15%" }}
-                  onClick={() => {
-                    setEditaPerfil(false);
-                    setTopBarTitle("Editar perfil");
-                  }}
-                />
               </div>
-              <div className="col-12 d-flex justify-content-center">
-                <h1 className="club_texto_sombreado_negro text-center">¡Hola {dataUser.name}!</h1>
-              </div>
-            </div>
+            ) : (
+              <ProfilePicture src={profilePicture} onEdit={handleProfilePictureChange} />
+            )}
 
+            <div className="col-12 d-flex justify-content-center">
+              <h1 className="club_texto_sombreado_negro text-center">
+                ¡Hola <b>{dataUser.name}</b>!
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        {!isEditing ? (
+          <>
             <div className="club_cont_barra">
               <span className="club_color_fuente_negro">
                 Completa tu perfil <span>{perfilProgress}</span>
@@ -258,130 +210,28 @@ const UserProfile = () => {
                 <div className="club_progreso"></div>
               </div>
             </div>
-          </div>
-          <br />
-          <br />
-
-          <div className="club_cont_data_perfil">
-            <h3 className="club_txt_titular">{perfilAge} años</h3>
-            <div className="d-flex flex-wrap">
-              {Array.isArray(dataUser.pronouns) &&
-                dataUser.pronouns?.map((item, index) => (
-                  <li className="club_no_decoration_list club_list_separation" key={index}>
-                    <span className="club_txt_caption w-100">{item.name}</span>
-                  </li>
-                ))}
-              {Array.isArray(dataUser.delegation) &&
-                dataUser.delegation?.map((item, index) => (
-                  <li className="club_no_decoration_list club_list_separation" key={index}>
-                    <span className="club_txt_caption w-100">{item.name}</span>
-                  </li>
-                ))}
-            </div>
-          </div>
-          <div className="club_info_intereses_contenedor">
-            <div className="club_cont_data_perfil">
-              <h3 className="club_txt_titular">Acerca de mi</h3>
-              <div className="d-flex flex-wrap">
-                <span className="club_txt_caption w-100">
-                  {dataUser.aboutMe ? dataUser.aboutMe : "Amante de los animales y la naturaleza, sporty spice, healthy lifestyle!"}
-                </span>
-              </div>
-            </div>
+            <br />
+            <br />
 
             <div className="club_cont_data_perfil">
-              <h3 className="club_txt_titular">Estoy buscando</h3>
+              <h3 className="club_txt_titular">{perfilAge} años</h3>
               <div className="d-flex flex-wrap">
-                {Array.isArray(dataUser.lookingFors) &&
-                  dataUser.lookingFors?.map((item, index) => (
-                    <li className="club_no_decoration_list" key={index}>
-                      <span className="club_txt_caption w-100 club_texto_capsula">{item.lookingFor ? item.lookingFor.name : item.name}</span>
+                {Array.isArray(dataUser.pronouns) &&
+                  dataUser.pronouns?.map((item, index) => (
+                    <li className="club_no_decoration_list club_list_separation" key={index}>
+                      <span className="club_txt_caption w-100">{item.name}</span>
+                    </li>
+                  ))}
+                {Array.isArray(dataUser.delegation) &&
+                  dataUser.delegation?.map((item, index) => (
+                    <li className="club_no_decoration_list club_list_separation" key={index}>
+                      <span className="club_txt_caption w-100">{item.name}</span>
                     </li>
                   ))}
               </div>
             </div>
 
-            <div className="club_cont_data_perfil">
-              <h3 className="club_txt_titular">Identidad de género</h3>
-              <div className="d-flex flex-wrap">
-                {Array.isArray(dataUser.genders) &&
-                  dataUser.genders?.map((item, index) => (
-                    <li className="club_no_decoration_list" key={index}>
-                      <span className="club_txt_caption w-100 club_texto_capsula">{item.gender ? item.gender.name : item.name}</span>
-                    </li>
-                  ))}
-              </div>
-            </div>
-
-            <div className="club_cont_data_perfil">
-              <h3 className="club_txt_titular">Identidad sexual</h3>
-              <div className="d-flex flex-wrap">
-                {Array.isArray(dataUser.sexualIdentities) &&
-                  dataUser.sexualIdentities?.map((item, index) => (
-                    <li className="club_no_decoration_list" key={index}>
-                      <span className="club_txt_caption w-100 club_texto_capsula">{item.sexualIdentity ? item.sexualIdentity.name : item.name}</span>
-                    </li>
-                  ))}
-              </div>
-            </div>
-
-            <div className="club_cont_data_perfil">
-              <h3 className="club_txt_titular">Percepción sexual</h3>
-              <div className="d-flex flex-wrap">
-                {Array.isArray(dataUser.perceptions) &&
-                  dataUser.perceptions?.map((item, index) => (
-                    <li className="club_no_decoration_list" key={index}>
-                      <span className="club_txt_caption w-100 club_texto_capsula">{item.perception ? item.perception.name : item.name}</span>
-                    </li>
-                  ))}
-              </div>
-            </div>
-          </div>
-          <br />
-          <br />
-          <div className="club_cont_btns_doble club_bienvenida_btns">
-            <div className="col-5">
-              <button
-                className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro"
-                onClick={() => {
-                  setEditaPerfil(false);
-                  setTopBarTitle("Editar perfil");
-                }}
-              >
-                Editar perfil
-              </button>
-            </div>
-            <div className="col-5">
-              <button className="btn club_btn club_btn_full club_btn_full_general club_bg_oro" onClick={goSuscribe}>
-                Suscribirse
-              </button>
-            </div>
-          </div>
-
-          <PhotoGallery
-            photos={dataUser.userPhotos}
-            onPhotoUpload={(newPhoto) => setDataUser({ ...dataUser, userPhotos: [...dataUser.userPhotos, newPhoto] })}
-            addPhoto={addPhoto}
-            userPhotosNew={userPhotosNew}
-            textoTitulo={"Agregar Fotos"}
-          />
-
-          <br />
-          <br />
-
-          <br />
-          <br />
-
-          <br />
-          <br />
-        </div>
-      ) : (
-        <div className="club_contenedor club_margin_bar_40 container-lg">
-          <ProfilePicture src={profilePicture} onEdit={handleProfilePictureChange} />
-          {isEditing ? (
-            <div></div>
-          ) : (
-            <div className="club_info_personal_perfil">
+            <div className="club_info_intereses_contenedor">
               <div className="club_cont_data_perfil">
                 <h3 className="club_txt_titular">Acerca de mi</h3>
                 <div className="d-flex flex-wrap">
@@ -390,13 +240,14 @@ const UserProfile = () => {
                   </span>
                 </div>
               </div>
+
               <div className="club_cont_data_perfil">
                 <h3 className="club_txt_titular">Estoy buscando</h3>
                 <div className="d-flex flex-wrap">
                   {Array.isArray(dataUser.lookingFors) &&
                     dataUser.lookingFors?.map((item, index) => (
-                      <li className="club_no_decoration_list club_list_separation" key={index}>
-                        <span className="club_txt_caption w-100">{item.lookingFor ? item.lookingFor.name : item.name}</span>
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.lookingFor ? item.lookingFor.name : item.name}</span>
                       </li>
                     ))}
                 </div>
@@ -407,8 +258,8 @@ const UserProfile = () => {
                 <div className="d-flex flex-wrap">
                   {Array.isArray(dataUser.genders) &&
                     dataUser.genders?.map((item, index) => (
-                      <li className="club_no_decoration_list club_list_separation" key={index}>
-                        <span className="club_txt_caption w-100">{item.gender ? item.gender.name : item.name}</span>
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.gender ? item.gender.name : item.name}</span>
                       </li>
                     ))}
                 </div>
@@ -419,8 +270,8 @@ const UserProfile = () => {
                 <div className="d-flex flex-wrap">
                   {Array.isArray(dataUser.sexualIdentities) &&
                     dataUser.sexualIdentities?.map((item, index) => (
-                      <li className="club_no_decoration_list club_list_separation" key={index}>
-                        <span className="club_txt_caption w-100">{item.sexualIdentity ? item.sexualIdentity.name : item.name}</span>
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.sexualIdentity ? item.sexualIdentity.name : item.name}</span>
                       </li>
                     ))}
                 </div>
@@ -431,59 +282,55 @@ const UserProfile = () => {
                 <div className="d-flex flex-wrap">
                   {Array.isArray(dataUser.perceptions) &&
                     dataUser.perceptions?.map((item, index) => (
-                      <li className="club_no_decoration_list club_list_separation" key={index}>
-                        <span className="club_txt_caption w-100">{item.perception ? item.perception.name : item.name}</span>
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.perception ? item.perception.name : item.name}</span>
                       </li>
                     ))}
                 </div>
               </div>
             </div>
-          )}
-          {isEditing ? (
-            <EditProfileForm onSave={handleSaveProfile} dataUser={dataUser} cancelEdit={cancelEdit} />
-          ) : (
-            // <EditProfileForm dataUser={dataUser} cancelEdit={cancelEdit} />
-            <div>
-              <br />
-              <div className="club_cont_btns_full club_notificaciones_btns">
-                <button type="submit" className="btn club_btn club_btn_full club_btn_full_general club_bg_oro" onClick={handleEditToggle}>
-                  Editar información personal
+            <br />
+            <br />
+            <div className="club_cont_btns_doble club_bienvenida_btns">
+              <div className="col-5">
+                <button
+                  className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro"
+                  onClick={() => {
+                    setIsEditing(true);
+                    setTopBarTitle("Editar perfil");
+                    scrollToTop();
+                  }}
+                >
+                  Editar perfil
+                </button>
+              </div>
+              <div className="col-5">
+                <button className="btn club_btn club_btn_full club_btn_full_general club_bg_oro" onClick={goSuscribe}>
+                  Suscribirse
                 </button>
               </div>
             </div>
-          )}
-          <PhotoGallery
-            photos={dataUser.userPhotos}
-            onPhotoUpload={(newPhoto) => setDataUser({ ...dataUser, userPhotos: [...dataUser.userPhotos, newPhoto] })}
-            addPhoto={addPhoto}
-            userPhotosNew={userPhotosNew}
-            textoTitulo={"Agregar Fotos"}
+          </>
+        ) : (
+          <EditProfileForm
+            onSave={handleSaveProfile}
+            dataUser={dataUser}
+            cancelEdit={cancelEdit}
+            token={tokenSesionStorage}
+            setShowLoader={setShowLoader}
+            setMensajeModal={setMensajeModal}
+            setShowAlert={setShowAlert}
           />
-          {/* <PhotoGallery 
-                    photos={dataUser.FotosCarrucel} 
-                    onPhotoUpload={(newPhoto) => setDataUser({...dataUser, FotosCarrucel: [...dataUser.FotosCarrucel, newPhoto]})} 
-                    addPhoto={addPhoto}
-                    userPhotosNew={userPhotosNew}
-                    textoTitulo={'Agregar Fotos'}
-                /> */}
-
-          <br />
-          <br />
-          <div className="club_cont_btns_full club_notificaciones_btns">
-            <button
-              type="submit"
-              className="btn club_btn club_btn_full club_btn_full_general club_bg_oro"
-              style={{ marginBottom: "120px" }}
-              onClick={() => {
-                setEditaPerfil(true);
-                handleUpdateInfo();
-              }}
-            >
-              Actualizar Información
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
+      <PhotoGallery
+        photos={dataUser.userPhotos}
+        onPhotoUpload={(newPhoto) => setDataUser({ ...dataUser, userPhotos: [...dataUser.userPhotos, newPhoto] })}
+        addPhoto={addPhoto}
+        userPhotosNew={userPhotosNew}
+        textoTitulo={"Agregar Fotos"}
+      />
+      <div className="p-5 m-5"></div>
       <NavBar currentPage={"Perfil"} />
       {showLoader && <Loader />}
       {showAlert && (

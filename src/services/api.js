@@ -20,7 +20,6 @@ const endpoints = {
     zodiacs: `${hostApi}Zodiac`,
     smoke: `${hostApi}Smoke`,
     suscription: `${hostApi}Suscription`,
-    profileData: `${hostApi}Profile/Me`,
     userPhotoGet: `${hostApi}UserPhoto`,
     userAddPreferences: `${hostApi}UserPreferences/Add`,
     userUpdatePreferences: `${hostApi}UserPreferences/Update`,

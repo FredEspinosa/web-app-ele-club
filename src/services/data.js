@@ -3,16 +3,44 @@
 import { userPreferencesAdd, userPreferencesUpdate } from "./api";
 
 export const limpiarTodoLocalStorage = () => {
-    localStorage.clear()
-    sessionStorage.clear()
-}
+  localStorage.clear();
+  sessionStorage.clear();
+};
 
 // Data del local storage
 export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
-    console.log("type", type);
-    console.log("dataUser data", dataUser);
-    
-    const datosTransformados = {
+  console.log("type", type);
+  console.log("data.js => dataUser", dataUser);
+
+  try {
+    console.log("entra a try");
+
+    if (type === "update") {
+      const datosTransformadosUpdate = {
+        genders: dataUser.genders?.id ? [dataUser.genders.id] : [],
+        lookingFors: dataUser.lookingFors?.id ? [dataUser.lookingFors.id] : [],
+        perceptions: dataUser.perceptions?.id ? [dataUser.perceptions.id] : [],
+        pronouns: dataUser.pronouns?.map((item) => item.id) || [],
+        relationshipStatus: dataUser.relationshipStatus?.map((item) => item.id) || [],
+        sexualIdentities: dataUser.sexualIdentities?.id ? [dataUser.sexualIdentities.id] : [],
+        pets: dataUser.pets?.map((item) => item.id) || [],
+        roles: dataUser.roles?.map((item) => item.id) || [],
+        interests: dataUser.interests?.map((item) => item.id) || [],
+        zodiacs: dataUser.zodiacs?.id ? [dataUser.zodiacs.id] : [],
+        smokes: dataUser.smokes?.map((item) => item.id) || [],
+        userPhotos: [],
+        name: dataUser.name || "",
+        lastName: dataUser.lastName || "",
+        email: dataUser.email || "",
+        birthDate: dataUser.birthDate || "",
+        height: parseInt(dataUser.height) || 0,
+        aboutMe: dataUser.aboutMe || "",
+      };
+      const respuesta = await userPreferencesUpdate(datosTransformadosUpdate, tokenSesion);
+      console.log("Respuesta del servidor update:", respuesta);
+      return respuesta;
+    } else {
+      const datosTransformadosAdd = {
         genders: dataUser.genders?.map((item) => item.id) || [],
         lookingFors: dataUser.lookingFors?.map((item) => item.id) || [],
         perceptions: dataUser.perceptions?.map((item) => item.id) || [],
@@ -22,34 +50,23 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
         pets: dataUser.pets?.map((item) => item.id) || [],
         roles: dataUser.roles?.map((item) => item.id) || [],
         interests: dataUser.interests?.map((item) => item.id) || [],
-        zodiacs: dataUser.zodiacs?.id ? [dataUser.zodiacs.id] : [], // Solo el ID
+        zodiacs: dataUser.zodiacs?.id ? [dataUser.zodiacs.id] : [],
         smokes: dataUser.smokes?.map((item) => item.id) || [],
         userPhotos: dataUser.userPhotos || [],
         name: dataUser.name || "",
         lastName: dataUser.lastName || "",
         email: dataUser.email || "",
         birthDate: dataUser.birthDate || "",
-        height: parseInt(dataUser.height) || 0, // Convertir a número
-        aboutMe: dataUser.aboutMe || "", // Por defecto "string"
-    };
-    console.log("Datos transformados para enviar:", datosTransformados);
+        height: parseInt(dataUser.height) || 0,
+        aboutMe: dataUser.aboutMe || "",
+      };
+      console.log("entro al else datos transformados");
 
-    try {
-        console.log("entra a try");
-        
-        if (type === 'update') {
-            const respuesta = await userPreferencesUpdate(datosTransformados, tokenSesion);
-            console.log("Respuesta del servidor update:", respuesta);
-            return respuesta; // Devuelve la respuesta
-        } else {
-            console.log("entro al else datos transformados");
-            
-            const respuesta = await userPreferencesAdd(datosTransformados, tokenSesion);
-            console.log("Respuesta del servidor add:", respuesta);
-            return respuesta; // Devuelve la respuesta
-        }
-    } catch (error) {
-        console.error("Error al enviar los datos:", error);
+      const respuesta = await userPreferencesAdd(datosTransformadosAdd, tokenSesion);
+      console.log("Respuesta del servidor add:", respuesta);
+      return respuesta; // Devuelve la respuesta
     }
+  } catch (error) {
+    console.error("Error al enviar los datos:", error);
+  }
 };
-  
