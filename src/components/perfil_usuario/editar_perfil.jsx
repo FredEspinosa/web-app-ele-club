@@ -59,7 +59,6 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
         );
         userProfileMe(token).then((response) => {
           if (response.isSuccess) {
-            console.log(response.userProfile);
             localStorage.setItem('datosUsuario', JSON.stringify(response.userProfile))
           }
         });
