@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { BsChatSquareDotsFill } from 'react-icons/bs';
 import InputDinamico from '../inputs/inputsDinamico';
-import { messageSend } from '../../services/api';
+import { getMessage, messageSend } from '../../services/api';
 import { useLocation } from 'react-router-dom';
 
 const ChatsPrivate = ({ handleOnClick }) => {
@@ -17,16 +17,18 @@ const ChatsPrivate = ({ handleOnClick }) => {
     const membersIds = location.state?.membersIds || [];
     const photoUsers = location.state?.photoUsers || [];
     const name = location.state?.name || [];
-    
-    console.log('membersIds', membersIds) 
+    const conversationsId = location.state?.conversationsId || [];
+
+    console.log('membersIds', membersIds)
     console.log('photoUsers', photoUsers)
-    console.log('name', name) 
+    console.log('name', name)
 
     useEffect(() => {
         const tokenStorage = sessionStorage.getItem("AccessToken");
-            if (tokenStorage && !tokenSesionStorage) {
-                setTokenSesionStorage(tokenStorage);
-            }
+        if (tokenStorage && !tokenSesionStorage) {
+            setTokenSesionStorage(tokenStorage);
+            allListChats(tokenStorage)
+        }
     }, []);
 
     const campos = [
@@ -50,6 +52,27 @@ const ChatsPrivate = ({ handleOnClick }) => {
         });
     };
 
+    const allListChats = async (tokenStorage) => {
+        try {
+            const response = await getMessage(tokenStorage, conversationsId);
+            console.log("data", response.data.result);
+            if (response?.data?.result?.length > 0) {
+                const historyMessages = response?.data?.result.map(item => ({
+                    content: item.content,
+                    creationDate: item.creationDate,
+                    status: item.status
+                }))
+                console.log("Mensajes procesados:", historyMessages);
+                // Aquí puedes setearlos en un estado si lo necesitas
+                // setOpciones(messages);
+            } else {
+                console.log("ocurrio un error ☠️");
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const handleSendMessage = async () => {
         if (formData.sendMessage.trim() === '') return;
 
@@ -63,7 +86,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
 
         try {
             const tokenSesion = tokenSesionStorage
-            const response = await messageSend(tokenSesion, { conversationId:membersIds, content: formData.sendMessage });
+            const response = await messageSend(tokenSesion, { conversationId: conversationsId, content: formData.sendMessage });
             console.log("response", response.data);
 
             if (response.isSuccess === true) {
@@ -77,7 +100,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
         }
 
         setFormData({ sendMessage: '' }); // Limpiar input
-    }; 
+    };
 
     return (
         <div id='chatBoxPrivate' className="chat-container">

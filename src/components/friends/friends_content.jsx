@@ -144,13 +144,16 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
         try {
             const tokenSesion = sessionStorage.getItem("AccessToken");
             const response = await conversationCreate(tokenSesion, data);
-
-            if (response.status === 200) {
+            console.log("response sendConversation", response);
+            
+            if (response.status === 200 && response.data?.conversations?.length > 0 ) {
+                const conversationsId = response.data.conversations[0].id; 
                 navigate("/chat_privado", {
                     state: {
                         membersIds,
                         photoUsers: perfilPhoto,
                         name: nameUser,
+                        conversationsId
                     },
                 });
             } else {

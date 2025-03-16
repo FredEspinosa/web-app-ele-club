@@ -32,6 +32,7 @@ const endpoints = {
     createConverations: `${hostApi}Conversation/Create`,
     feedLocation: `${hostApi}Feed`,
     sendMessage: `${hostApi}Message/Send`,
+    messageGet: `${hostApi}Message`,
     sendLike: `${hostApi}Likes/Send`,
     sendInviteFriend: `${hostApi}Friends/Invite`,
     friendsMe: `${hostApi}Friends/MyFriends`,
@@ -688,6 +689,32 @@ export const messageSend = async (tokenSesion, data ) => {
         throw error;
     }
 };
+
+// Get Message
+export const getMessage = async( tokenSesion, conversationId ) => {
+
+    let config = {
+        method: 'GET',
+        url: endpoints.messageGet,
+        headers : {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenSesion}`,
+        },
+        params: {
+            'conversationId': conversationId,
+        },
+    };
+
+    try {
+        const response = await axios.request(config);
+        console.log('Response getMessage', response);
+        return response        
+    } catch (error) {
+        console.error("Error en MessageSend:", error);
+        throw error;
+    }
+}
 
 // Get Friends/Invite 
 export const friendsInvite = async (tokenSesion, toUserId) => {
