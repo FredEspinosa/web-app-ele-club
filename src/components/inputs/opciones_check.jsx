@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, multiselect, isDropList }) => {
     const [selectedOptions, setSelectedOptions] = useState([]); // Almacena múltiples opciones si multiselect es true
+    const [newSelectedOption, setNewSelectedOption] = useState(''); // Almacena múltiples opciones si multiselect es true
     const [listDrop, setListDrop] = useState(false)
   
     const handleOptionClick = (opcion) => {
@@ -20,7 +21,12 @@ const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, mu
             setSelectedOptions([selectedOption]);
             onOptionSelect(selectedOption); // Devuelve el objeto seleccionado al componente padre
         }
-    };  
+    }; 
+
+    useEffect(() => {
+      setNewSelectedOption(selectedOptions[0]?.name)
+    }, [selectedOptions])
+    
 
     const dropList = () => {
         setListDrop(!listDrop);
@@ -31,7 +37,7 @@ const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, mu
             {isDropList ?
             <div className='club_cont_opciones_check'>
                 <div className='col-12 d-flex'>
-                    <p className='club_titulo_opciones_check' onClick={dropList}>{tituloDeLista}</p>
+                    <p className='club_titulo_opciones_check' onClick={dropList}>{newSelectedOption ?? tituloDeLista}</p>
                     <div>
                     {listDrop ?
                         <IoIosArrowUp size={24} />
@@ -64,10 +70,11 @@ const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, mu
                 <p className='club_titulo_opciones_check'>{tituloDeLista}</p>
                 <ul className={`club_cont_lista_opciones_check`}>
                     {opciones.map((opcion) => (
+                        
                         <li
-                            className='club_lista_opciones_check'
-                            key={opcion.id}
-                            onClick={() => handleOptionClick(opcion)}
+                        className='club_lista_opciones_check'
+                        key={opcion.id}
+                        onClick={() => handleOptionClick(opcion)}
                         >
                             {opcion.name} {/* Mostrar el nombre de la opción */}
                             {selectedOptions.some(selected => selected.id === opcion.id) && (

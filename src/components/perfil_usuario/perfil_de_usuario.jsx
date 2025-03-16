@@ -442,7 +442,6 @@ const UserProfile = () => {
           {isEditing ? (
             <EditProfileForm onSave={handleSaveProfile} dataUser={dataUser} cancelEdit={cancelEdit} />
           ) : (
-            // <EditProfileForm dataUser={dataUser} cancelEdit={cancelEdit} />
             <div>
               <br />
               <div className="club_cont_btns_full club_notificaciones_btns">
@@ -452,6 +451,7 @@ const UserProfile = () => {
               </div>
             </div>
           )}
+
           <PhotoGallery
             photos={dataUser.userPhotos}
             onPhotoUpload={(newPhoto) => setDataUser({ ...dataUser, userPhotos: [...dataUser.userPhotos, newPhoto] })}
@@ -459,16 +459,9 @@ const UserProfile = () => {
             userPhotosNew={userPhotosNew}
             textoTitulo={"Agregar Fotos"}
           />
-          {/* <PhotoGallery 
-                    photos={dataUser.FotosCarrucel} 
-                    onPhotoUpload={(newPhoto) => setDataUser({...dataUser, FotosCarrucel: [...dataUser.FotosCarrucel, newPhoto]})} 
-                    addPhoto={addPhoto}
-                    userPhotosNew={userPhotosNew}
-                    textoTitulo={'Agregar Fotos'}
-                /> */}
+          <br />
+          <br />
 
-          <br />
-          <br />
           <div className="club_cont_btns_full club_notificaciones_btns">
             <button
               type="submit"

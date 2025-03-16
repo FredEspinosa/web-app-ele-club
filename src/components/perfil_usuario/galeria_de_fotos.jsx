@@ -17,34 +17,20 @@ const [imgPrev, setImgPrev] = useState([])
         
         const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, "");
         addPhoto(cleanBase64);
-
       };
       reader.readAsDataURL(file);
     });
   };
 
   return (
-    <div>
+    <div className="club_contenedor">
       <div className="club_input">
-        <label
-          className="club_input_label club_txt_footnote club_color_fuente_negro"
-          htmlFor="fotos"
-        >
-          {textoTitulo}
+        <label className="club_input_label club_txt_footnote club_color_fuente_negro" htmlFor="fotos">
+          <b>{textoTitulo}</b>
         </label>
         <div className="club_input_contenedor">
-          <input
-            className="club_input_campo"
-            type="file"
-            id="fotos"
-            name="fotos"
-            onChange={handlePhotoUpload}
-            multiple
-          />
-          <MdOutlineAdd
-            className="club_input_icon_der club_icon_add_fotos club_color_fuente_negro"
-            size={24}
-          />
+          <input className="club_input_campo" type="file" id="fotos" name="fotos" onChange={handlePhotoUpload} multiple />
+          <MdOutlineAdd className="club_input_icon_der club_icon_add_fotos club_color_fuente_negro" size={24} />
         </div>
       </div>
 
@@ -75,4 +61,4 @@ const [imgPrev, setImgPrev] = useState([])
   );
 };
 
-export default PhotoGallery;  
+export default PhotoGallery;

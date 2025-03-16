@@ -20,14 +20,10 @@ const ProfilePicture = ({ src, onEdit }) => {
     <div className="d-flex flex-wrap w-100">
       <div className="col-12 d-flex club_contenedor">
         <div className="club_cont_perfil_foto club_margin_bar_40">
-          <div className="col-12 d-flex justify-content-start text-start">
-            <span className="club_txt_footnote">Edita tu foto de perfil</span>
-          </div>
           <div className="col-12 d-flex justify-content-center flex-wrap">
             <div className="club_cont_perfil_img">
               <img
                 src={src}
-                // src={src ? src : JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo}
                 alt="Perfil"
                 // srcSet="Imagen de Perfil"
                 onClick={() => document.getElementById("fileInput").click()}
