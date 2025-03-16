@@ -1,0 +1,51 @@
+.close-icon {
+    width: 30px;
+    /* Ajusta el tamaño según sea necesario */
+    height: 30px;
+    /* Ajusta el tamaño según sea necesario */
+    background-color: black;
+    border-radius: 50%;
+    /* Hace que el fondo sea un círculo */
+    position: relative;
+    /* Necesario para posicionar la "x" correctamente */
+    display: flex;
+    /* Centra la "x" */
+    justify-content: center;
+    align-items: center;
+}
+
+.x-mark {
+    position: absolute;
+    /* Posiciona la "x" dentro del círculo */
+    width: 18px;
+    /* Ajusta el tamaño de la "x" */
+    height: 3px;
+    /* Ajusta el grosor de la "x" */
+    background-color: white;
+    /* Color de la "x" */
+    border-radius: 2px;
+    /* Redondea los extremos de la "x" */
+}
+
+/* Crea la "x" usando transformaciones */
+.x-mark::before,
+.x-mark::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    /* Ajusta el tamaño de la "x" */
+    height: 3px;
+    /* Ajusta el grosor de la "x" */
+    background-color: white;
+    border-radius: 2px;
+}
+
+.x-mark::before {
+    transform: rotate(45deg);
+    /* Rota la primera parte */
+}
+
+.x-mark::after {
+    transform: rotate(-45deg);
+    /* Rota la segunda parte */
+}

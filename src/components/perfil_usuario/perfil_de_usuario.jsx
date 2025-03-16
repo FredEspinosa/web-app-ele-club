@@ -88,15 +88,24 @@ const UserProfile = () => {
     }
   }, [dataUser]); // Ejecuta el efecto cuando dataUser cambie
 
-  const handleSaveProfile = (updatedInfo) => {
-    setDataUser({ ...dataUser, ...updatedInfo });
-    // setDataUser(localStorage.getItem('datosUsuario'));
+  // const handleSaveProfile = (updatedInfo) => {
+  //   setDataUser({ ...dataUser, ...updatedInfo });
+  //   // setDataUser(localStorage.getItem('datosUsuario'));
+  //   scrollToTop();
+  //   console.log("on handleSaveProfile", { dataUser });
+  //   setIsEditing(false);
+  //   setShowLoader(true)
+  //   setTopBarTitle("Mi perfil");
+  //   return dataUser;
+  // };
+
+  const handleSaveProfile = (updatedUser) => {
+    setDataUser(updatedUser); // Actualiza dataUser con los datos actualizados
+    localStorage.setItem("datosUsuario", JSON.stringify(updatedUser)); // Actualiza localStorage
     scrollToTop();
-    console.log("on handleSaveProfile", { dataUser });
     setIsEditing(false);
-    setShowLoader(true)
+    setShowLoader(true);
     setTopBarTitle("Mi perfil");
-    return dataUser;
   };
 
   // Función para añadir una nueva imagen

@@ -44,6 +44,41 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
     setFormData((prev) => ({ ...prev, [fieldName]: selectedOptions }));
   };
 
+  // const updateDataUserInfo = async () => {
+  //   setShowLoader(true);
+  //   const type = "update";
+  //   try {
+  //     const tokenSesion = token;
+  //     const response = await enviarDatosUsuario(tokenSesion, type, { ...formData });
+  //     if (response?.isSuccess) {
+  //       setShowAlert(true);
+  //       setMensajeModal(
+  //         <p>
+  //           Información actualizada <b>correctamente</b>.
+  //         </p>
+  //       );
+  //       userProfileMe(token).then((response) => {
+  //         if (response.isSuccess) {
+  //           localStorage.setItem('datosUsuario', JSON.stringify(response.userProfile))
+  //         }
+  //       });
+  //       setShowLoader(false);
+  //     } else {
+  //       console.error("Ocurrió un error en la API:", response);
+  //     }
+  //   } catch (err) {
+  //     console.error("Error al enviar datos del usuario:", err);
+  //     setShowAlert(true);
+  //     setMensajeModal(
+  //       <p>
+  //         ¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.
+  //       </p>
+  //     );
+  //   } finally {
+  //     setShowLoader(false);
+  //   }
+  // };
+
   const updateDataUserInfo = async () => {
     setShowLoader(true);
     const type = "update";
@@ -59,11 +94,12 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
         );
         userProfileMe(token).then((response) => {
           if (response.isSuccess) {
-            console.log(response.userProfile);
-            localStorage.setItem('datosUsuario', JSON.stringify(response.userProfile))
+            localStorage.setItem("datosUsuario", JSON.stringify(response.userProfile));
+            // Llama a la función onSave con los datos actualizados
+            onSave(response.userProfile);
+            setShowLoader(false);
           }
         });
-        setShowLoader(false);
       } else {
         console.error("Ocurrió un error en la API:", response);
       }
