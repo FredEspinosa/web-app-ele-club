@@ -57,7 +57,6 @@ const Habitos = () => {
         setShowLoader(true)
         try {
           const data = await getSmoke();
-          console.log("data", data);
           if (!data.code) {
             setShowLoader(false);
             setOpciones(data.map(item => ({ id: item.id, name: item.name })));
@@ -115,31 +114,7 @@ const Habitos = () => {
             setShowAlert(true);
             setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
         }
-    };        
-
-    // const getDataProfileMe = async (tokenSesion) => {
-    //     setShowLoader(true); // Mostrar el loader al inicio
-    //     try {
-    //         console.log("Iniciando llamada a userProfileMe con token:", tokenSesion);
-    
-    //         const response = await userProfileMe(tokenSesion);
-    //         console.log("Respuesta de la API:", response);
-    
-    //         if (response?.status === 200 && response.userProfile) {
-    //             console.log("Datos obtenidos correctamente:", response.userProfile);
-    //             const idUser = response.userProfile.userId;
-    //             localStorage.setItem("userId", idUser);
-    //             navigate('/notificaciones');
-    //         } else {
-    //             console.error("La API devolvió un estado no esperado o falta información:", response);
-    //         }
-    //     } catch (err) {
-    //         console.error("Error al obtener datos del perfil:", err);
-    //         // Mostrar alerta al usuario si es necesario
-    //     } finally {
-    //         setShowLoader(false); // Ocultar el loader
-    //     }
-    // };    
+    };  
 
     const closeModal = () => {
         setShowAlert(false)

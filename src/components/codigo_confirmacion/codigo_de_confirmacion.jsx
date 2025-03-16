@@ -95,7 +95,7 @@ const CodigoValidacion = ({ avanzarPagina }) => {
       setShowAlert(true);
       setMensajeModal(<p>Código incorrecto, <b>intenta nuevamente</b>.</p>)
     }
-};
+  };
 
   // Validar el código
   const validarCodigo = () => {
@@ -160,9 +160,9 @@ const CodigoValidacion = ({ avanzarPagina }) => {
           {/* {mensaje && <p>{mensaje}</p>} */}
         </div>
       </div>
-      {(showLoader && <Loader /> )}
-      {(showAlert && 
-        <AlertSuscribe 
+      {(showLoader && <Loader />)}
+      {(showAlert &&
+        <AlertSuscribe
           mensajeModal={mensajeModal}
           btnAceptar={true}
           btnMsjButtom={'CERRAR'}

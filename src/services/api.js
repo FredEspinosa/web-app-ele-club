@@ -480,23 +480,22 @@ export const userSuscription = async (tokenSesion) => {
 };
 
 // Get GoogleLogin
-export const loginGoogle = async (tokenSesion) => {
+export const loginGoogle = async (tokentCodeGoogle) => {
     let config = {
         method: "POST",
-        url: endpoints.suscriptionUser,
+        url: endpoints.googleLogin,
         headers: {
             Accept: "*/*",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenSesion}`,
         },
         data: {
-            "googleToken": "string"
+            "googleToken": tokentCodeGoogle
         }
     };
 
     try {
         const response = await axios.request(config);
-        return response.data;
+        return response;
     } catch (error) {
         console.error("Error en GoogleLogin:", error);
         throw error;

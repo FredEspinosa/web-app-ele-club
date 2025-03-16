@@ -1,21 +1,25 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useRef, useState } from "react";
 import InputDinamico from "../inputs/inputsDinamico";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
 
 const DatosPersonales = () => {
   const formRef = useRef(null);
+  const location = useLocation();
   const navigate = useNavigate();
   const [datosUsuario, setDatosUsuario] = useState({});
+  const nameIs = location.state?.nameIs || '';
+  const lastNameIs = location.state?.lastNameIs || '';
+  const emailIs = location.state?.emailIs || '';
   const [formData, setFormData] = useState({
-    name: "",
-    lastName: "",
+    name: location.state? nameIs : '',
+    lastName: location.state? lastNameIs : '',
     birthDate: "",
-    email: "",
+    email: location.state? emailIs : '',
     age: "",
-  });
+  }); 
 
   useEffect(() => {
     const datosGuardados = localStorage.getItem("datosUsuario");
@@ -36,17 +40,6 @@ const DatosPersonales = () => {
     }
     return edad;
   };
-
-  // const handleInputChange = (e) => {
-  //     const { name, value } = e.target;
-  //     // Verifica si es el campo de FechaNacimiento para calcular la edad
-  //     let nuevosDatos = { ...formData, [name]: value };
-  //     if (name === "birthDate") {
-  //         const edad = calcularEdad(value);
-  //         nuevosDatos = { ...nuevosDatos, age: edad };
-  //     }
-  //     setFormData(nuevosDatos);
-  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

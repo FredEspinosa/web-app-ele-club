@@ -63,14 +63,11 @@ const ChatsPrivate = ({ handleOnClick }) => {
 
         try {
             const tokenSesion = tokenSesionStorage
-            
             const response = await messageSend(tokenSesion, { conversationId:membersIds, content: formData.sendMessage });
-
             console.log("response", response.data);
 
             if (response.isSuccess === true) {
                 console.log("Accediste al servicio de solicitudes de amigos");
-
             } else {
                 console.log("No se pudo acceder al servicio");
             }
@@ -80,29 +77,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
         }
 
         setFormData({ sendMessage: '' }); // Limpiar input
-    };
-
-    
-    
-    
-        // const sendMessageFriends = async (toUserId, perfilPhoto, nameUser, type) => {
-        //     console.log("toUserId", toUserId);
-        //     console.log("perfilPhoto", perfilPhoto);
-        //     console.log("nameUser", nameUser);
-        //     try {
-        //         // Enviar todos los states para que coincidan con los del chat, en este caso es el userId uno o varios
-        //         navigate(
-        //             '/chat_privado',
-        //             { state: { 
-        //                 membersIds: toUserId,
-        //                 photoUsers: perfilPhoto,
-        //                 name: nameUser
-        //             }}
-        //         )
-        //     } catch (error) {
-        //         console.error("Error en sendRequestFriends:", error);
-        //     }
-        // }; 
+    }; 
 
     return (
         <div id='chatBoxPrivate' className="chat-container">

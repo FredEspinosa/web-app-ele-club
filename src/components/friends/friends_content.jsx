@@ -161,37 +161,6 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
         }
     };
 
-    // conversationCreate
-    // const createConversation = async (toUserId, perfilPhoto, nameUser, type, dataCategory) => {
-    //     const data = {
-    //         isGroup: type,
-    //         name: nameUser,
-    //         category: dataCategory,
-    //         membersIds: Array.isArray(toUserId) ? toUserId : [toUserId]
-    //     }
-    //     try {
-    //         const tokenSesion = sessionStorage.getItem("AccessToken");
-    //         const response = await conversationCreate(tokenSesion, data);
-
-    //         if (response.status === 200) {
-    //             console.log("Se puede enviar un mensaje");
-    //             navigate(
-    //                 '/chat_privado',
-    //                 { state: { 
-    //                     membersIds: toUserId,
-    //                     photoUsers: perfilPhoto,
-    //                     name: nameUser
-    //                 }}
-    //             )
-
-    //         } else {
-    //             console.log('Ocurrió un error al enviar tu respuesta');
-    //         }
-    //     } catch (error) {
-    //         console.error("Error en sendRequestFriends:", error);
-    //     }
-    // };
-
 
     return (
         <div>
@@ -204,11 +173,11 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                     <div className='col-12 d-flex justify-content-center flex-wrap align-items-center'>
                                         <div className='col-10 d-flex align-items-center'>
                                             <div className='club_requqest_content_photo'>
-                                                <img 
+                                                <img
                                                     className='club_cont_perfil_img'
-                                                    src={ solicitud?.fromUser?.userPhotos?.length > 0 ? solicitud.fromUser?.userPhotos[0].photo : `data:image/jpeg;base64,${PerfilDefault}`}  
-                                                    alt="" 
-                                                    srcSet="" 
+                                                    src={solicitud?.fromUser?.userPhotos?.length > 0 ? solicitud.fromUser?.userPhotos[0].photo : `data:image/jpeg;base64,${PerfilDefault}`}
+                                                    alt=""
+                                                    srcSet=""
                                                 />
                                             </div>
                                             <div>
@@ -224,9 +193,9 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                                 >
                                                     <IoClose size={20} />
                                                 </button> */}
-                                                <button 
+                                                <button
                                                     className='btn'
-                                                    onClick={()=> { sendRequestFriends(solicitud?.id, true)}}
+                                                    onClick={() => { sendRequestFriends(solicitud?.id, true) }}
                                                 >
                                                     <IoPersonAdd className='club_color_fuente_oro' size={20} />
                                                 </button>
@@ -298,102 +267,6 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                 </button>
             )}
         </div>
-        // <div>
-        //     <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
-        //         <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
-        //         {showFriends || showListFriends ? (
-        //             <div className="club_content club_scroll_y align-items-start">
-        //                 {/* NOTA No se vizualizan los datos o la parte de solicitudes  */}
-        //                 {requests.map((solicitud, index) => (
-        //                     <div key={index} className="club_new_request col-12">
-        //                         <div className='col-12 d-flex justify-content-center flex-wrap align-items-center'>
-        //                             <div className='col-10 d-flex align-items-center'>
-        //                                 <div className='club_requqest_content_photo'>
-        //                                     <img 
-        //                                         className='club_cont_perfil_img'
-        //                                         src={ solicitud?.fromUser?.userPhotos?.length > 0 ? solicitud.fromUser?.userPhotos[0].photo : `data:image/jpeg;base64,${PerfilDefault}`}  
-        //                                         alt="" 
-        //                                         srcSet="" 
-        //                                     />
-        //                                 </div>
-        //                                 <div>
-        //                                     <p className='club_friends_name '>{solicitud?.fromUser?.name || "Sin nombre"}</p>
-        //                                     <p>te mando una solicitud de amistad aceptala y empieza a chatear</p>
-        //                                 </div>
-        //                             </div>
-        //                             <div className='col-2 d-flex align-items-center justify-content-end'>
-        //                                 <div>
-        //                                     {/* <button 
-        //                                         className='btn' 
-        //                                         onClick={()=> { sendRequestFriends(solicitud?.id, false)}}
-        //                                     >
-        //                                         <IoClose size={20} />
-        //                                     </button> */}
-        //                                     <button 
-        //                                         className='btn'
-        //                                         onClick={()=> { sendRequestFriends(solicitud?.id, true)}}
-        //                                     >
-        //                                         <IoPersonAdd className='club_color_fuente_oro' size={20} />
-        //                                     </button>
-        //                                 </div>
-        //                             </div>
-        //                         </div>
-        //                     </div>
-        //                 ))}
-        //                 {/* Mapping all friends added */}
-        //                 {myFriendsOk.map((solicitud, index) => (
-        //                     <div key={index} className="club_new_request col-12">
-        //                         <div className='col-12 d-flex justify-content-center flex-wrap align-items-center'>
-        //                             <div className='col-10 d-flex align-items-center'>
-        //                                 <div className='club_requqest_content_photo'>
-        //                                     <img 
-        //                                         className='club_cont_perfil_img'
-        //                                         src={ solicitud?.userPhotos?.length > 0 ? solicitud.userPhotos[0].photo : `data:image/jpeg;base64,${PerfilDefault}`}  
-        //                                         alt="" 
-        //                                         srcSet="" 
-        //                                     />
-        //                                 </div>
-        //                                 <div>
-        //                                     <p className='club_friends_name '>{solicitud?.name || "Sin nombre"}</p>
-        //                                 </div>
-        //                             </div>
-        //                             <div className='col-2 d-flex align-items-center justify-content-end'>
-        //                                 <div>
-        //                                     <button 
-        //                                         className='btn'
-        //                                         onClick={()=> { 
-        //                                             createConversation(
-        //                                                 solicitud?.userId,
-        //                                                 solicitud?.userPhotos[0].photo,
-        //                                                 solicitud?.name,
-        //                                                 false,
-        //                                                 'Privado'
-        //                                             )}
-        //                                         }
-        //                                     >
-        //                                         <AiFillMessage className='club_color_fuente_oro' size={20} />
-        //                                     </button>
-        //                                 </div>
-        //                             </div>
-        //                         </div>
-        //                     </div>
-        //                 ))}
-        //             </div>
-        //         ) : (
-        //             <div className="club_content">
-        //                 <div className="club_icon-container">
-        //                 <FaRegCircleUser className='club_icon_card_no_notifications' size={85} />
-        //                 </div>
-        //                 <h2 className="club_message-title">No tienes solicitudes de amigas</h2>
-        //                 <p className="club_message-description">
-        //                 Cada vez que alguien te mande solicitud aparecerá aquí.
-        //                 </p>
-        //                 <button className="club_action-button" onClick={handleOnClick}>Ir a Inicio</button>
-        //             </div>
-        //         )}
-        //         </div>
-        //     </div>
-        // </div>
     )
 }
 

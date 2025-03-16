@@ -6,31 +6,31 @@ import NavBar from '../nav_bar/navBar';
 import AlertSuscribe from '../alertas/alert_suscribete';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NavBarDinamicButtons from '../nav_bar/navBarDinamicButtons';
-import ChatsContent from './chats_content';
 import HeaderConfiguration from '../headers/header_configuration';
 import Loader from '../loader/loader';
 import { conversationGetAll } from '../../services/api';
-import ChatsPrivate from './chats_private';
+import ChatsContentGroup from './chats_content_group';
+import ChatsContentPrivate from './chats_content_private';
 
 const ChatBox = () => {
 
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [vista, setVista] = useState("chatsPrivados"); // Vista inicial
-  const [vistaActual, setVistaActual] = useState(""); // Vista inicial
   const [showLoader, setShowLoader] = useState(false);
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
+  const [privateConversations, setPrivateConversations] = useState([]);
+  const [groupConversations, setGroupConversations] = useState([]);
 
   const location = useLocation();
   const membersIds = location.state?.membersIds || [];
   const photoUsers = location.state?.photoUsers || [];
   const name = location.state?.name || [];
 
-  console.log('membersIds', membersIds) 
-  console.log('photoUsers', photoUsers)
-  console.log('name', name) 
+  // console.log('membersIds', membersIds)
+  // console.log('photoUsers', photoUsers)
+  // console.log('name', name)
 
   const listaBotones = [
     { texto: "Chats Privados", evento: "chatsPrivados" },
@@ -49,27 +49,42 @@ const ChatBox = () => {
       conversationsAll()
     }
   }, [tokenSesionStorage])
-  
 
   const conversationsAll = async () => {
-    setShowLoader(true)
+    setShowLoader(true);
     try {
-      const tokenSesion = tokenSesionStorage;  
-      console.log("tokenSesion conversationsAll", tokenSesion);
-
-      const data = await conversationGetAll(tokenSesion);
-      console.log("data", data);
-      if (!data.code) {
+      const tokenSesion = tokenSesionStorage;    
+      const response = await conversationGetAll(tokenSesion);
+      // console.log("data", response);
+  
+      if (response.isSuccess === true && response.conversations) { // Verifica que response.conversations existe
         setShowLoader(false);
-        // setOpciones(data.map(item => ({ id: item.id, name: item.name })));
+        // Separa las conversaciones en privadas y de grupo
+        const prvConversations = [];
+        const grpConversations = [];
+  
+        response.conversations.forEach((conversation) => { // Aquí es donde estaba el error
+          if (conversation.category === "Privado") {
+            prvConversations.push(conversation);
+          } else if (conversation.isGroup) {
+            grpConversations.push(conversation);
+          }
+        });
+  
+        console.log("Conversaciones privadas:", prvConversations);
+        console.log("Conversaciones de grupo:", grpConversations);
+  
+        // Guardar en el estado
+        setPrivateConversations(prvConversations);
+        setGroupConversations(grpConversations);
       } else {
-        console.log("ocurrio un error ☠️");
+        console.log("Ocurrió un error ☠️");
       }
     } catch (err) {
-      console.log(err);
+      console.error("Error en conversationsAll:", err);
       setShowLoader(false);
     }
-  };
+  };  
 
   useEffect(() => {
     const q = query(collection(db, 'messages'), orderBy('timestamp'));
@@ -81,25 +96,13 @@ const ChatBox = () => {
     return () => unsubscribe();
   }, []);
 
-  const sendMessage = async () => {
-    if (newMessage.trim() !== "") {
-      const messageData = {
-        text: newMessage,
-        sender: auth.currentUser.uid,
-        timestamp: new Date(),
-      };
-      await addDoc(collection(db, 'messages'), messageData);
-      setNewMessage("");
-    }
-  };
-
   const goToSuscribe = () => {
     navigate('/suscripcion')
   }
 
   const handleButtonClick = (evento) => {
     setVista(evento); // Actualizar la vista activa
-    console.log("Vista activa:", evento); // Debug
+    // console.log("Vista activa:", evento); // Debug
   };
 
   const redirectBack = () => {
@@ -130,24 +133,10 @@ const ChatBox = () => {
           />
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
-            {/* {vista === "chatsPrivados" && <ChatsContent handleOnClick={redirectBack} />} */}
-            {vista === "chatsPrivados" && <ChatsPrivate handleOnClick={redirectBack} />}
-            {vista === "salaDeChats" && <ChatsContent handleOnClick={redirectBack} tokenSesionStorage={tokenSesionStorage} />}
+            {vista === "chatsPrivados" && <ChatsContentPrivate handleOnClick={redirectBack} listChatsPrivates={privateConversations} />}
+            {/* {vista === "chatsPrivados" && <ChatsPrivate handleOnClick={redirectBack} />} */}
+            {vista === "salaDeChats" && <ChatsContentGroup handleOnClick={redirectBack} listChatsGroup={groupConversations} tokenSesionStorage={tokenSesionStorage} />}
           </div>
-          {/* <div className="message-list">
-              {messages.map((msg, idx) => (
-                <div key={idx} className={`message ${msg.sender === auth.currentUser.uid ? 'my-message' : 'other-message'}`}>
-                  {msg.text}
-                </div>
-              ))}
-            </div>
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Escribe un mensaje..."
-            />
-            <button onClick={sendMessage}>Enviar</button> */}
         </div>
         <div className="club_contenido_bottom club_cont_info">
           <NavBar currentPage={"Chats"} />
@@ -162,7 +151,7 @@ const ChatBox = () => {
           />
         )}
       </div>
-      {(showLoader && <Loader /> )}
+      {(showLoader && <Loader />)}
     </div>
     // </div>
   );

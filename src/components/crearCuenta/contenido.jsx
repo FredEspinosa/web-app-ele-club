@@ -11,6 +11,7 @@ import FooterDinamico from '../footer/footer_dinamico';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 // import { getGoogleSecretLogin } from '../../services/api';
 import { jwtDecode } from "jwt-decode";
+import { loginGoogle } from '../../services/api';
 
 const CLIENT_ID = '30011618273-nh5igt93a24bu2juthi2e6hsbt6c9vfc.apps.googleusercontent.com';
 
@@ -21,14 +22,13 @@ const CrearCuentaContenido = () => {
     const [showInicioSesion, setShowInicioSesion] = useState(false);
     const [showIngresaNumTel, setShowIngresaNumTel] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState(paises[0]); // País por defecto
-    const [isloginGoogle, setIsloginGoogle] = useState(false); // País por defecto 
 
     let pasoActual = ''
 
     const formRef = useRef(null); // Crea la referencia al formulario
 
     const [formData, setFormData] = useState({
-        phoneNumber: '', 
+        phoneNumber: '',
         codeCountry: '+52',
     });
 
@@ -37,34 +37,40 @@ const CrearCuentaContenido = () => {
     }, [])
 
     const handleLoginSuccess = async (credentialResponse) => {
-
-        console.log("credentialResponse", credentialResponse);
-        
-        const decoded = jwtDecode(credentialResponse.credential);
-        console.log("Info Google decoded", decoded);
-
-        // Una vez obteniendo los datos que arroja el loguin con Google, qué se hace?
-
-        // const token = JSON.stringify(credentialResponse.credential);
-        // try {
-        //     const response = await getGoogleSecretLogin(token);
-        //     console.log("response Google login", response);
-            
-        //     if (response) {
-        //         console.log("response ok", response);
-        //         // const data = await response.json();
-        //         // console.log('Usuario autenticado:', data.user);
-        //     } else {
-        //         console.error('Error en la autenticación');
-        //     }
-        // } catch (error) {
-        //     console.error('Error en la solicitud:', error);
-        // }
+        const tokentCodeGoogle = credentialResponse.credential;
+        try {
+            const response = await loginGoogle(tokentCodeGoogle);
+            // console.log("response Google login", response);
+            if (response.status == 200) {
+                sessionStorage.setItem('AccessToken', response.data.accessToken);
+                const loginTrue = localStorage.getItem('isLogin');
+                const decoded = jwtDecode(tokentCodeGoogle);
+                if (loginTrue) {
+                    setTimeout(() => {
+                        navigate("/home");
+                    }, 300);
+                } else {
+                    setTimeout(() => {      
+                        navigate("/datos_personales", {
+                            state: {
+                                nameIs: decoded.given_name,
+                                lastNameIs: decoded.family_name,
+                                emailIs: decoded.email,
+                            },
+                        });
+                    }, 300);
+                }
+            } else {
+                console.log("ocurrio un error ☠️");
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }
     };
 
     useEffect(() => {
         const savedStep = localStorage.getItem('MostrarPaso');
-        
+
         if (savedStep) {
             setActiveOption(savedStep);
             // Ajustar el estado de las vistas según el paso guardado
@@ -133,28 +139,14 @@ const CrearCuentaContenido = () => {
         localStorage.setItem('MostrarPaso', pasoActual);
     };
 
-    // const handleInputChange = (e) => {
-    //     setFormData({
-    //         ...formData,
-    //         [e.target.name]: e.target.value
-    //     });
-    // };
-
-    // const handleCountryChange = (e) => {
-    //     setFormData({
-    //         ...formData,
-    //         CodigoPais: e.target.value
-    //     });
-    // };
-
     const handleInputChange = (e) => {
         const newNumber = e.target.value;
         const matchingCountries = paises.filter(pais => newNumber.startsWith(pais.codigo));
-        
+
         if (matchingCountries.length === 1) {
             setSelectedCountry(matchingCountries[0]);
         }
-        
+
         setFormData({
             ...formData,
             [e.target.name]: newNumber,
@@ -164,7 +156,7 @@ const CrearCuentaContenido = () => {
     const handleCountryChange = (e) => {
         const selectedCode = e.target.value; // Obtiene el prefijo telefónico
         const selectedCountry = paises.find((pais) => pais.codigo === selectedCode); // Busca por 'codigo'
-    
+
         if (selectedCountry) {
             setFormData({
                 ...formData,
@@ -172,7 +164,7 @@ const CrearCuentaContenido = () => {
             });
             setSelectedCountry(selectedCountry); // Actualiza el país seleccionado
         }
-    };    
+    };
 
     // Valores a los campos type, name, label, options, placeholder, iconStart, iconNameStart, iconEnd, iconNameEnd , help
 
@@ -207,7 +199,7 @@ const CrearCuentaContenido = () => {
                             </div>
                         </div>
                         {/* <Footer /> */}
-                        <FooterDinamico 
+                        <FooterDinamico
                             textoFooter={<p>Al continuar, aceptas a nuestros <b>términos y condiciones</b> y a la <br /> <b>política de privacidad</b>. HelenaSafica® 2024</p>}
                             redirectLink={true}
                         />
@@ -259,14 +251,14 @@ const CrearCuentaContenido = () => {
                         </div>
                         <div className='club_cont_info_grow_1 d-flex align-items-center'>
                             <div className='club_crear_cuenta_cont_btns col-12'>
-                                <div style={{marginBottom:'3%'}}>
+                                <div style={{ marginBottom: '3%' }}>
                                     <GoogleOAuthProvider clientId={CLIENT_ID}>
                                         <div className="club_crear_cuenta_cont_btns">
-                                            <GoogleLogin 
-                                                onSuccess={(credentialResponse)=> { handleLoginSuccess(credentialResponse) }} 
+                                            <GoogleLogin
+                                                onSuccess={(credentialResponse) => { handleLoginSuccess(credentialResponse) }}
                                                 // onSuccess={(credentialResponse) => {console.log(credentialResponse)}} 
-                                                onError={() => console.error('Login Failed')} 
-                                                useOneTap 
+                                                onError={() => console.error('Login Failed')}
+                                                useOneTap
                                             />
                                         </div>
                                     </GoogleOAuthProvider>
@@ -276,7 +268,7 @@ const CrearCuentaContenido = () => {
                                 <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarCelular')}>Continuar con celular</button>
                             </div>
                         </div>
-                        <FooterDinamico 
+                        <FooterDinamico
                             textoFooter={<p>Al continuar, aceptas a nuestros <b>términos y condiciones</b> y a la <br /> <b>política de privacidad</b>. HelenaSafica® 2024</p>}
                             redirectLink={true}
                         />
