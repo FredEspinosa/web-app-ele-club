@@ -161,7 +161,15 @@ const UserProfile = () => {
             {!isEditing ? (
               <div className="club_cont_perfil_img">
                 <img
-                  src={JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo || `data:image/jpeg;base64,${profilePicture}`}
+                  // src={JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo || `data:image/jpeg;base64,${profilePicture}`}
+                  src={
+                    (() => {
+                      const storedData = JSON.parse(localStorage.getItem("datosUsuario"));
+                      if (storedData && storedData.userPhotos && storedData.userPhotos.length > 0) {
+                        return storedData.userPhotos[0].photo || `data:image/jpeg;base64,${profilePicture}`;
+                      }
+                      return PerfilDefault;
+                    })() }
                   alt="Imagen de Perfil"
                   srcSet="Imagen de Perfil"
                 />
