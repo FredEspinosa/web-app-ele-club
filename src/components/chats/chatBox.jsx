@@ -28,10 +28,6 @@ const ChatBox = () => {
   const photoUsers = location.state?.photoUsers || [];
   const name = location.state?.name || [];
 
-  // console.log('membersIds', membersIds)
-  // console.log('photoUsers', photoUsers)
-  // console.log('name', name)
-
   const listaBotones = [
     { texto: "Chats Privados", evento: "chatsPrivados" },
     { texto: "Sala de Chats", evento: "salaDeChats" },
@@ -53,16 +49,17 @@ const ChatBox = () => {
   const conversationsAll = async () => {
     setShowLoader(true);
     try {
-      const tokenSesion = tokenSesionStorage;    
+      const tokenSesion = tokenSesionStorage;
       const response = await conversationGetAll(tokenSesion);
       // console.log("data", response);
-  
+
       if (response.isSuccess === true && response.conversations) { // Verifica que response.conversations existe
         setShowLoader(false);
+        setShowAlert(true)
         // Separa las conversaciones en privadas y de grupo
         const prvConversations = [];
         const grpConversations = [];
-  
+
         response.conversations.forEach((conversation) => { // Aquí es donde estaba el error
           if (conversation.category === "Privado") {
             prvConversations.push(conversation);
@@ -70,10 +67,10 @@ const ChatBox = () => {
             grpConversations.push(conversation);
           }
         });
-  
+
         console.log("Conversaciones privadas:", prvConversations);
         console.log("Conversaciones de grupo:", grpConversations);
-  
+
         // Guardar en el estado
         setPrivateConversations(prvConversations);
         setGroupConversations(grpConversations);
@@ -84,7 +81,7 @@ const ChatBox = () => {
       console.error("Error en conversationsAll:", err);
       setShowLoader(false);
     }
-  };  
+  };
 
   useEffect(() => {
     const q = query(collection(db, 'messages'), orderBy('timestamp'));

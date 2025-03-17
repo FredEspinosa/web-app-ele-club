@@ -9,35 +9,57 @@ import { useNavigate } from 'react-router-dom';
 const ChatsContentPrivate = ({ handleOnClick, listChatsPrivates }) => {
 
     const navigate = useNavigate();
-    const [infoMemberChat, setInfoMemberChat] = useState([]);
-
 
     console.log("listChatsPrivates", listChatsPrivates);
 
-    const sendConversation = async (membersIds, perfilPhoto, nameUser, isGroup, category) => {
-        console.log("membersIds", membersIds);
-        console.log("perfilPhoto", perfilPhoto);
-        console.log("nameUser", nameUser);
-        console.log("isGroup", isGroup);
-        console.log("category", category);
+    const sendConversation = async (userIds, perfilPhoto, nameUser, isGroup, category) => {
+
+        const conversationIds = listChatsPrivates.flatMap(chat => 
+            chat.conversationMembers.map(member => member.conversationId)
+        );
         
-        const data = {
-            isGroup,
-            name: nameUser,
-            category,
-            membersIds: Array.isArray(membersIds) ? membersIds : [membersIds],
-        };
+        console.log(conversationIds);
+
+
+        navigate("/chat_privado", {
+            state: {
+                userIds,
+                photoUsers: perfilPhoto,
+                name: nameUser,
+                conversationIds
+            },
+        });
+
+        // console.log("userIds", userIds);
+        // console.log("perfilPhoto", perfilPhoto);
+        // console.log("nameUser", nameUser);
+        // console.log("isGroup", isGroup);
+        // console.log("category", category);
+
+        
+        // const data = {
+        //     category: category,
+        //     isGroup: isGroup,
+        //     name: Array.isArray(nameUser) ? nameUser.join(', ') : String(nameUser), // 🔥 Convertido a string
+        //     membersIds: Array.isArray(userIds) ? userIds : [userIds],
+        // };
+
+        // console.log("sendConversation data ", data);
+        
 
         // try {
         //     const tokenSesion = sessionStorage.getItem("AccessToken");
         //     const response = await conversationCreate(tokenSesion, data);
+        //     console.log("response sendConversation", response);
 
-        //     if (response.status === 200) {
+        //     if (response.status === 200 && response.data?.conversations?.length > 0) {
+        //         const conversationsId = response.data.conversations[0].id;
         //         navigate("/chat_privado", {
         //             state: {
-        //                 membersIds,
+        //                 userIds,
         //                 photoUsers: perfilPhoto,
         //                 name: nameUser,
+        //                 conversationsId
         //             },
         //         });
         //     } else {
@@ -47,6 +69,7 @@ const ChatsContentPrivate = ({ handleOnClick, listChatsPrivates }) => {
         //     console.error("Error al crear conversación:", error);
         // }
     };
+    
 
     return (
         <div>
@@ -70,19 +93,19 @@ const ChatsContentPrivate = ({ handleOnClick, listChatsPrivates }) => {
                                     </div>
                                 </div>
                                 <div className="col-2 d-flex align-items-center justify-content-end">
-                                    <button 
-                                        className="btn" 
+                                    <button
+                                        className="btn"
                                         // onClick={() => sendConversation(chatList.conversationMembers.userId, chatList?.userPhotos[0]?.photo, chatList?.name, false, "Privado")}
                                         onClick={() => {
-                                            const userIds = chatList.conversationMembers.map(member => member.user.userId); 
+                                            const userIds = chatList.conversationMembers.map(member => member.user.userId);
                                             const perfilPhoto = chatList.conversationMembers.map(member => member.user.userPhotos[0].photo);
                                             const nameUser = chatList.conversationMembers.map(member => member.user.name);
                                             sendConversation(
-                                              userIds,
-                                              perfilPhoto, 
-                                              nameUser, 
-                                              "Privado",
-                                              false, 
+                                                userIds,
+                                                perfilPhoto,
+                                                nameUser,
+                                                false,
+                                                "Privado",
                                             );
                                         }}
                                     >

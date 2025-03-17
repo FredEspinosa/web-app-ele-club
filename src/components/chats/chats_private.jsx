@@ -1,78 +1,58 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BsChatSquareDotsFill } from 'react-icons/bs';
 import InputDinamico from '../inputs/inputsDinamico';
 import { getMessage, messageSend } from '../../services/api';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import HeaderConfiguration from '../headers/header_configuration';
+import { FaArrowLeft } from 'react-icons/fa6';
 
 const ChatsPrivate = ({ handleOnClick }) => {
-    const [chatExists, setChatExists] = useState(true);
-    const [messages, setMessages] = useState([]);  // Lista de mensajes
+    const navigate = useNavigate();
+    const messagesEndRef = useRef(null);
+    const [messages, setMessages] = useState([]);
     const [tokenSesionStorage, setTokenSesionStorage] = useState("");
-    const [formData, setFormData] = useState({
-        sendMessage: '',
-    });
-
+    const [formData, setFormData] = useState({ sendMessage: '' });
     const location = useLocation();
-    const membersIds = location.state?.membersIds || [];
-    const photoUsers = location.state?.photoUsers || [];
-    const name = location.state?.name || [];
-    const conversationsId = location.state?.conversationsId || [];
-
-    console.log('membersIds', membersIds)
-    console.log('photoUsers', photoUsers)
-    console.log('name', name)
+    const conversationsId = location.state?.conversationsId || null;
 
     useEffect(() => {
         const tokenStorage = sessionStorage.getItem("AccessToken");
         if (tokenStorage && !tokenSesionStorage) {
             setTokenSesionStorage(tokenStorage);
-            allListChats(tokenStorage)
+            allListChats(tokenStorage);
         }
-    }, []);
+    }, [tokenSesionStorage]);  // 🔥 Solo depende del token
 
-    const campos = [
-        {
-            type: 'textArea',
-            name: 'sendMessage',
-            label: 'Escribe algo',
-            placeholder: 'Hola...',
-            iconStart: false,
-            iconNameStart: '',
-            iconEnd: false,
-            iconNameEnd: '',
-            help: false
-        }
-    ];
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+    useEffect(() => {
+        const chatBox = document.querySelector(".chat-messages");
+        if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+    }, [messages]);
 
+    // ✅ Función para obtener mensajes del historial
     const allListChats = async (tokenStorage) => {
         try {
             const response = await getMessage(tokenStorage, conversationsId);
-            console.log("data", response.data.result);
             if (response?.data?.result?.length > 0) {
-                const historyMessages = response?.data?.result.map(item => ({
-                    content: item.content,
-                    creationDate: item.creationDate,
-                    status: item.status
-                }))
-                console.log("Mensajes procesados:", historyMessages);
-                // Aquí puedes setearlos en un estado si lo necesitas
-                // setOpciones(messages);
-            } else {
-                console.log("ocurrio un error ☠️");
+                const historyMessages = response.data.result.map(item => ({
+                    text: item.content,
+                    sender: 'otro',
+                    timestamp: new Date(item.creationDate).toLocaleTimeString()
+                }));
+
+                // 🔥 Añadir solo si no están repetidos
+                setMessages((prev) => [...prev, ...historyMessages]); // 🔥 Se agregan al final
             }
         } catch (err) {
-            console.log(err);
+            console.log("Error obteniendo mensajes:", err);
         }
     };
 
+    // ✅ Enviar mensaje
     const handleSendMessage = async () => {
         if (formData.sendMessage.trim() === '') return;
 
@@ -82,65 +62,92 @@ const ChatsPrivate = ({ handleOnClick }) => {
             timestamp: new Date().toLocaleTimeString(),
         };
 
-        setMessages([...messages, newMessage]);  // Agregar el mensaje al estado
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
 
         try {
-            const tokenSesion = tokenSesionStorage
-            const response = await messageSend(tokenSesion, { conversationId: conversationsId, content: formData.sendMessage });
-            console.log("response", response.data);
-
-            if (response.isSuccess === true) {
-                console.log("Accediste al servicio de solicitudes de amigos");
-            } else {
-                console.log("No se pudo acceder al servicio");
-            }
-
+            const tokenSesion = tokenSesionStorage;
+            await messageSend(tokenSesion, { conversationId: conversationsId, content: formData.sendMessage });
         } catch (error) {
             console.error("Error enviando mensaje:", error);
         }
 
-        setFormData({ sendMessage: '' }); // Limpiar input
+        setFormData({ sendMessage: '' });
     };
 
+    // ✅ WebSocket para recibir mensajes en tiempo real
+    useEffect(() => {
+        const ws = new WebSocket(`https://lahplataforma.azurewebsites.net/Message?conversationId=${conversationsId}`);
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.conversationId === conversationsId) {
+                setMessages((prevMessages) => [...prevMessages, {
+                    text: data.content,
+                    sender: 'otro',
+                    timestamp: new Date().toLocaleTimeString(),
+                }]);
+            }
+        };
+
+        return () => ws.close();  // 🔥 Cierra la conexión cuando el componente se desmonta
+    }, [conversationsId, tokenSesionStorage]);
+
     return (
-        <div id='chatBoxPrivate' className="chat-container">
-            {chatExists ? (
-                <div className="chat-content">
-                    {/* 📌 Sección de Mensajes */}
-                    <div className="chat-messages">
+        <div id='chatBoxPrivate' className="">
+            <HeaderConfiguration
+                isBtnLeft={true}
+                handleOnclick={() => navigate('/chatbox')}
+                iconAction={<FaArrowLeft size={24} />}
+                nameHeader={<span>{location.state?.name || "Chat"}</span>}
+                sizeF={'20px'}
+                isBtnRear={false}
+                bgColorBar={'club_bg_oro'}
+                textColor={'club_color_fuente_blanco'}
+            />
+
+            <div className="chat-container club_contenedor container-lg">
+                <div className="chat-content" style={{ marginTop: '45px' }}>
+                    <div className="chat-messages d-flex flex-column-reverse overflow-auto" style={{ height: "80vh" }}>
+
                         {messages.length > 0 ? (
                             messages.map((msg, index) => (
-                                <div key={index} className={`message club_bg_oro ${msg.sender === 'yo' ? 'sent' : 'received'}`}>
-                                    <p>{msg.text}</p>
-                                    <span>{msg.timestamp}</span>
+                                <div
+                                    key={index}
+                                    ref={messagesEndRef}
+                                    className={`message p-2 rounded-lg max-w-75 d-flex flex-column ${msg.sender === 'yo' ? 
+                                        'align-self-start club_bg_menta_06' : 
+                                        'align-self-end club_bg_violeta_02 text-white'}`}
+                                >
+                                    <p className="m-0">{msg.text}</p>
+                                    <span className="small text-muted">{msg.timestamp}</span>
                                 </div>
                             ))
                         ) : (
                             <p>No hay mensajes aún.</p>
                         )}
                     </div>
+                </div>
+            </div>
 
-                    {/* 📌 Input de Mensaje */}
-                    <div className="chat-input">
-                        {campos.map((campo, index) => (
-                            <InputDinamico
-                                key={index}
-                                config={campo}
-                                value={formData[campo.name] || ""}
-                                onChange={handleChange}
-                            />
-                        ))}
-                        <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={handleSendMessage}>Enviar</button>
-                    </div>
+
+            <div className="chat-input club_write_chat_fixed col-12 club_bg_blanco">
+                <div className="club_contenedor container-lg">
+                    <InputDinamico
+                        config={{
+                            type: 'textArea',
+                            name: 'sendMessage',
+                            label: 'Escribe algo',
+                            placeholder: 'Hola...',
+                            iconStart: false,
+                            iconEnd: false,
+                            help: false
+                        }}
+                        value={formData.sendMessage}
+                        onChange={(e) => setFormData({ sendMessage: e.target.value })}
+                    />
+                    <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={handleSendMessage}>Enviar</button>
                 </div>
-            ) : (
-                <div className="chat-empty">
-                    <BsChatSquareDotsFill className="chat-icon" size={85} />
-                    <h2>No tienes chats todavía</h2>
-                    <p>Ve a inicio para likear perfiles y hacer match.</p>
-                    <button onClick={handleOnClick}>Ir a Inicio</button>
-                </div>
-            )}
+            </div>
         </div>
     );
 };

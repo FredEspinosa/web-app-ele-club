@@ -2722,6 +2722,36 @@ club_onboarding_info p {
     color: var(--color-primario-oro);
 }
 
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+.sent {
+    align-self: flex-end;
+    background-color: #DCF8C6;  /* Verde claro (como WhatsApp) */
+    color: #000;
+}
+
+.received {
+    align-self: flex-start;
+    background-color: #EAEAEA; /* Gris claro */
+    color: #000;
+}
+
+.club_write_chat_fixed {
+    position: fixed;
+    bottom: 0%;
+}
+
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 
 No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bootstrap  */
 
