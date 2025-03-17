@@ -8,7 +8,7 @@ export const limpiarTodoLocalStorage = () => {
 };
 
 // Data del local storage
-export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
+export const enviarDatosUsuario = async (tokenSesion, type, dataUser, component=false) => {
   console.log("type", type);
   console.log("data.js => dataUser", dataUser);
 
@@ -17,27 +17,27 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
 
     if (type === "update") {
       const datosTransformadosUpdate = {
-        genders: dataUser.genders?.id ? [dataUser.genders.id] : [],
-        lookingFors: dataUser.lookingFors?.id ? [dataUser.lookingFors.id] : [],
-        perceptions: dataUser.perceptions?.id ? [dataUser.perceptions.id] : [],
+        genders: (component) ? dataUser?.genders?.map((item) => item.gender.id) : dataUser.genders?.id ? [dataUser.genders.id] : [],
+        lookingFors: (component) ? dataUser?.lookingFors?.map((item) => item.lookingFor.id) : dataUser.lookingFors?.id ? [dataUser.lookingFors.id] : [],
+        perceptions: (component) ? dataUser?.perceptions?.map((item) => item.perception.id) : dataUser.perceptions?.id ? [dataUser.perceptions.id] : [],
         pronouns: dataUser.pronouns?.map((item) => item.id) || [],
         relationshipStatus: dataUser.relationshipStatus?.map((item) => item.id) || [],
-        sexualIdentities: dataUser.sexualIdentities?.id ? [dataUser.sexualIdentities.id] : [],
+        sexualIdentities: (component) ? dataUser?.sexualIdentities?.map((item) => item.sexualIdentity.id) : dataUser.sexualIdentities?.id ? [dataUser.sexualIdentities.id] : [],
         pets: dataUser.pets?.map((item) => item.id) || [],
         roles: dataUser.roles?.map((item) => item.id) || [],
         interests: dataUser.interests?.map((item) => item.id) || [],
         zodiacs: dataUser.zodiacs?.id ? [dataUser.zodiacs.id] : [],
         smokes: dataUser.smokes?.map((item) => item.id) || [],
-        userPhotos: [],
+        userPhotos: (component) ? dataUser.userPhotos || [] : [],
         name: dataUser.name || "",
         lastName: dataUser.lastName || "",
         email: dataUser.email || "",
-        birthDate: dataUser.birthDate || "",
+        birthDate: `${dataUser.birthDate}.000Z` || "",
         height: parseInt(dataUser.height) || 0,
         aboutMe: dataUser.aboutMe || "",
       };
+      console.log({ datosTransformadosUpdate });
       const respuesta = await userPreferencesUpdate(datosTransformadosUpdate, tokenSesion);
-      console.log("Respuesta del servidor update:", respuesta);
       return respuesta;
     } else {
       const datosTransformadosAdd = {
@@ -56,14 +56,12 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
         name: dataUser.name || "",
         lastName: dataUser.lastName || "",
         email: dataUser.email || "",
-        birthDate: dataUser.birthDate || "",
+        birthDate: `${dataUser.birthDate}.000Z` || "",
         height: parseInt(dataUser.height) || 0,
         aboutMe: dataUser.aboutMe || "",
       };
       console.log("entro al else datos transformados");
-
       const respuesta = await userPreferencesAdd(datosTransformadosAdd, tokenSesion);
-      console.log("Respuesta del servidor add:", respuesta);
       return respuesta; // Devuelve la respuesta
     }
   } catch (error) {

@@ -935,6 +935,14 @@ p {
     margin-top: 40px;
 }
 
+.club_margin_bar_20 {
+    margin-top: 20px;
+}
+
+.club_margin_bar_10 {
+    margin-top: 10px;
+}
+
 .club_contenedor_bg_borde_gris {
     background-color: var(--color-background-negro);
     border-top: 1px solid var(--color-neutral-gris-03);
