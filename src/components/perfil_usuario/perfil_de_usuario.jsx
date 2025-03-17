@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfilePicture from "./foto_de_perfil";
 import EditProfileForm from "./editar_perfil";
@@ -16,153 +15,126 @@ const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [topBarTitle, setTopBarTitle] = useState("Mi perfil");
   const [perfilProgress, setPerfilProgress] = useState("65%");
-  const [datosUsuario, setDatosUsuario] = useState({});
   const [showLoader, setShowLoader] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeModal, setMensajeModal] = useState("");
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
-  const [perfilAge, setPerfilAge] = useState("");
-  const [profilePicture, setProfilePicture] = useState(PerfilDefault); // Inicializa con una imagen predeterminada
   const [userPhotosNew, setUserPhotosNew] = useState([]);
-  const [dataUser, setDataUser] = useState({
-    userId: "",
-    userName: "",
-    name: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    birthDate: "",
-    height: "",
-    aboutMe: "",
-    match: "",
-    friend: "",
-    friendRequest: "",
-    genders: "",
-    lookingFors: "",
-    perceptions: "",
-    pronouns: "",
-    relationshipStatus: "",
-    sexualIdentities: "",
-    pets: "",
-    roles: "",
-    interests: "",
-    zodiacs: "",
-    smokes: "",
-    userPhotos: [],
-    delegation: "",
-    age: "",
-    phoneNumber: "",
-    photoProfile: "",
+  const [dataUser, setDataUser] = useState(() => {
+    const storedData = JSON.parse(localStorage.getItem("datosUsuario"));
+    return (
+      storedData || {
+        userId: "",
+        userName: "",
+        name: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        birthDate: "",
+        height: "",
+        aboutMe: "",
+        match: "",
+        friend: "",
+        friendRequest: "",
+        genders: "",
+        lookingFors: "",
+        perceptions: "",
+        pronouns: "",
+        relationshipStatus: "",
+        sexualIdentities: "",
+        pets: "",
+        roles: "",
+        interests: "",
+        zodiacs: "",
+        smokes: "",
+        userPhotos: [],
+        delegation: "",
+        age: "",
+        phoneNumber: "",
+        photoProfile: "",
+      }
+    );
   });
 
+  const calcularEdad = useCallback((fechaNacimiento) => {
+    const hoy = new Date();
+    const fechaNac = new Date(fechaNacimiento);
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    if (hoy.getMonth() < fechaNac.getMonth() || (hoy.getMonth() === fechaNac.getMonth() && hoy.getDate() < fechaNac.getDate())) {
+      edad--;
+    }
+    return edad;
+  }, []);
+
+  const profilePicture = useMemo(() => {
+    return dataUser?.userPhotos?.length > 0 ? dataUser.userPhotos[0].photo : PerfilDefault;
+  }, [dataUser.userPhotos]);
+
+  const perfilAge = useMemo(() => {
+    return dataUser.birthDate ? calcularEdad(dataUser.birthDate) : "";
+  }, [dataUser.birthDate]);
+
   const topRef = useRef(null);
-  const scrollToTop = () => {
+  const scrollToTop = useCallback(() => {
     topRef.current?.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
-      window.scrollBy({ top: -500, left: 0 });
+      window.scrollBy({ top: -700, left: 0, behavior: "smooth" });
     }, 10);
-  };
-
-  useEffect(() => {
-    const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
-    if (datosUsuario) {
-      setDataUser(datosUsuario);
-    }
-    const tokenStorage = sessionStorage.getItem("AccessToken");
-    if (tokenStorage) {
-      setTokenSesionStorage(tokenStorage);
-    }
   }, []);
 
   useEffect(() => {
-    if (dataUser.birthDate) {
-      const edad = calcularEdad(dataUser.birthDate);
-      console.log(`La edad es: ${edad} años`);
-      setPerfilAge(edad);
+    if (sessionStorage.getItem("AccessToken")) {
+      setTokenSesionStorage(sessionStorage.getItem("AccessToken"));
     }
-    // Verifica si dataUser tiene FotosCarrucel y establece el primer elemento como la imagen de perfil
-    if (dataUser?.userPhotos && dataUser.userPhotos.length > 0) {
-      setProfilePicture(JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo);
-    } else {
-      setProfilePicture(PerfilDefault); // Imagen predeterminada
-    }
-  }, [dataUser]); // Ejecuta el efecto cuando dataUser cambie
-
-  // const handleSaveProfile = (updatedInfo) => {
-  //   setDataUser({ ...dataUser, ...updatedInfo });
-  //   // setDataUser(localStorage.getItem('datosUsuario'));
-  //   scrollToTop();
-  //   console.log("on handleSaveProfile", { dataUser });
-  //   setIsEditing(false);
-  //   setShowLoader(true)
-  //   setTopBarTitle("Mi perfil");
-  //   return dataUser;
-  // };
-
-  const handleSaveProfile = (updatedUser) => {
-    setDataUser(updatedUser); // Actualiza dataUser con los datos actualizados
-    localStorage.setItem("datosUsuario", JSON.stringify(updatedUser)); // Actualiza localStorage
     scrollToTop();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("datosUsuario", JSON.stringify(dataUser));
+  }, [dataUser]);
+
+  useEffect(() => {
+    scrollToTop();
+  }, [isEditing]);
+
+  const handleSaveProfile = useCallback((updatedUser) => {
+    setDataUser(updatedUser);
     setIsEditing(false);
     setShowLoader(true);
     setTopBarTitle("Mi perfil");
-  };
+  }, []);
 
-  // Función para añadir una nueva imagen
-  const addPhoto = (newPhoto) => {
+  const addPhoto = useCallback((newPhoto) => {
     setUserPhotosNew((prevPhotos) => [...prevPhotos, newPhoto]);
-  };
+  }, []);
 
-  const redirectBack = () => {
-    setProfilePicture(JSON.parse(localStorage.getItem("datosUsuario")).userPhotos[0].photo);
+  const redirectBack = useCallback(() => {
     setTopBarTitle("Mi perfil");
     if (isEditing) {
       setIsEditing(false);
     } else {
       navigate("/home");
     }
-  };
+  }, [isEditing, navigate]);
 
-  const handleProfilePictureChange = (newImageUrl) => {
-    console.log({ newImageUrl });
+  const handleProfilePictureChange = useCallback((newImageUrl) => {
     if (newImageUrl) {
-      setProfilePicture(newImageUrl); // Actualiza la imagen de perfil
+      setDataUser((prevData) => ({ ...prevData, userPhotos: [{ photo: newImageUrl }, ...prevData.userPhotos.slice(1)] }));
     }
-  };
+  }, []);
 
-  const cancelEdit = () => {
+  const cancelEdit = useCallback(() => {
     setIsEditing(false);
-  };
+    setTopBarTitle("Mi perfil");
+  }, []);
 
-  useEffect(() => {
-    // console.log("topBar", topBarTitle);
-  }, [topBarTitle]);
-
-  const goSuscribe = () => {
+  const goSuscribe = useCallback(() => {
     navigate("/suscripcion");
-  };
+  }, [navigate]);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setShowAlert(false);
-  };
-
-  const calcularEdad = (fechaNacimiento) => {
-    const hoy = new Date(); // Fecha actual
-    const fechaNac = new Date(fechaNacimiento); // Convierte el string a fecha
-    let edad = hoy.getFullYear() - fechaNac.getFullYear(); // Diferencia de años
-
-    // Ajusta si el cumpleaños aún no ha pasado este año
-    const mesActual = hoy.getMonth();
-    const diaActual = hoy.getDate();
-    const mesNacimiento = fechaNac.getMonth();
-    const diaNacimiento = fechaNac.getDate();
-
-    if (mesActual < mesNacimiento || (mesActual === mesNacimiento && diaActual < diaNacimiento)) {
-      edad - 1;
-    }
-
-    return edad;
-  };
+  }, []);
 
   return (
     <div ref={topRef} id="perfilUsuario">
@@ -307,7 +279,6 @@ const UserProfile = () => {
                   onClick={() => {
                     setIsEditing(true);
                     setTopBarTitle("Editar perfil");
-                    scrollToTop();
                   }}
                 >
                   Editar perfil
@@ -338,6 +309,8 @@ const UserProfile = () => {
         addPhoto={addPhoto}
         userPhotosNew={userPhotosNew}
         textoTitulo={"Agregar Fotos"}
+        token={tokenSesionStorage}
+        dataUser={dataUser}
       />
       <div className="p-5 m-5"></div>
       <NavBar currentPage={"Perfil"} />

@@ -17,16 +17,21 @@ const ProfilePicture = ({ src, onEdit }) => {
   return (
     <div className="d-flex flex-wrap w-100">
       <div className="col-12 d-flex club_contenedor">
-        <div className="club_cont_perfil_foto club_margin_bar_40">
+        <div className="club_cont_perfil_foto club_margin_bar_10">
           <div className="col-12 d-flex justify-content-center flex-wrap">
-            <div className="club_cont_perfil_img">
+            <div className="club_cont_perfil_img" style={{ position: "relative" }}>
               <img
                 src={src}
                 alt="Perfil"
                 // srcSet="Imagen de Perfil"
                 onClick={() => document.getElementById("fileInput").click()}
               />
-              <FaCamera className="club_btn_edit_foto_perfil" onClick={() => document.getElementById("fileInput").click()} size={24} />
+              <FaCamera
+                className="club_btn_edit_foto_perfil"
+                onClick={() => document.getElementById("fileInput").click()}
+                size={24}
+                style={{ position: "absolute", top: "60px", right: "60px", cursor: "pointer" }}
+              />
             </div>
           </div>
         </div>

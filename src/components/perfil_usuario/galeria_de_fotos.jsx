@@ -2,34 +2,87 @@
 import React, { useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";
 import { FaTimes } from "react-icons/fa";
+import { deleteUserPhoto, userProfileMe } from "../../services/api";
+import { enviarDatosUsuario } from "../../services/data";
 
-const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpload }) => {
+const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpload, token, dataUser }) => {
   const [imgPrev, setImgPrev] = useState([]);
+  const [localPhotos, setLocalPhotos] = useState(photos || []);
+  const [localUserPhotosNew, setLocalUserPhotosNew] = useState(userPhotosNew || []);
 
   const handlePhotoUpload = (event) => {
     const files = Array.from(event.target.files);
-
     files.forEach((file) => {
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.onload = async () => {
         const base64 = reader.result;
-        setImgPrev(base64);
-
         const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, "");
         addPhoto(cleanBase64);
+        setLocalUserPhotosNew((prevPhotos) => [...prevPhotos, cleanBase64]);
+
+        const updatedDataUser = { ...dataUser, userPhotos: [cleanBase64] };
+        console.log("dataUser antes de enviar:", updatedDataUser);
+
+        try {
+          const respuesta = await enviarDatosUsuario(token, "update", updatedDataUser, true);
+          console.log("Respuesta de enviarDatosUsuario:", respuesta);
+          if (respuesta.isSuccess) {
+            userProfileMe(token).then((response) => {
+              if (response.isSuccess) {
+                localStorage.setItem("datosUsuario", JSON.stringify(response.userProfile));
+                window.location.reload();
+              }
+            });
+          }
+        } catch (error) {
+          console.error("Error al enviar datos:", error);
+        }
       };
       reader.readAsDataURL(file);
     });
   };
 
-  const handleRemovePhoto = (index, arrayName) => {
-    console.log("eliminando...", index, arrayName);
+  const handleRemovePhoto = async (indexToRemove, arrayName) => {
+    try {
+      console.log("Eliminando imagen en la base de datos...", indexToRemove, arrayName);
 
-    // if (arrayName === 'photos') {
-    //   setPhotos(prevPhotos => prevPhotos.filter((_, i) => i !== index));
-    // } else if (arrayName === 'userPhotosNew') {
-    //   setUserPhotosNew(prevUserPhotosNew => prevUserPhotosNew.filter((_, i) => i !== index));
-    // }
+      let imgId;
+      if (arrayName === "photos") {
+        imgId = localPhotos[indexToRemove]?.id;
+      } else if (arrayName === "userPhotosNew") {
+        imgId = localUserPhotosNew[indexToRemove]?.id;
+      }
+
+      if (!imgId) {
+        console.warn("No se encontró ID de imagen para eliminar.");
+        return;
+      }
+
+      await deleteUserPhoto(imgId, token);
+
+      console.log("Imagen eliminada exitosamente en la base de datos");
+
+      let updatedPhotos, updatedUserPhotos;
+
+      if (arrayName === "photos") {
+        updatedPhotos = localPhotos.filter((_, index) => index !== indexToRemove);
+        setLocalPhotos(updatedPhotos);
+      } else if (arrayName === "userPhotosNew") {
+        updatedUserPhotos = localUserPhotosNew.filter((_, index) => index !== indexToRemove);
+        setLocalUserPhotosNew(updatedUserPhotos);
+      }
+
+      const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario")) || {};
+      localStorage.setItem(
+        "datosUsuario",
+        JSON.stringify({
+          ...datosUsuario,
+          userPhotos: [...(updatedPhotos || localPhotos), ...(updatedUserPhotos || localUserPhotosNew)],
+        })
+      );
+    } catch (error) {
+      console.error("Error eliminando la foto:", error);
+    }
   };
 
   return (
@@ -44,35 +97,50 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
         </div>
       </div>
 
-      {/* Aquí renderizamos las imágenes desde el arreglo de URLs */}
       <div className="thumbnail-container">
-        {Array.isArray(photos) &&
-          photos?.map((photoObj, index) => (
+        {Array.isArray(localPhotos) &&
+          localPhotos?.map((photoObj, index) => (
             <div key={`${photoObj.userId}-${index}`} style={{ position: "relative", display: "inline-block" }}>
               <img
                 src={photoObj ? photoObj.photo : imgPrev}
                 alt={`thumbnail-${index}`}
                 className="thumbnail"
-                style={{ width: "65px", height: "65px", margin: "5px", objectFit:"cover" }}
+                style={{ width: "65px", height: "65px", margin: "5px", objectFit: "cover" }}
               />
               <FaTimes
-                style={{ position: "absolute", top: "0px", right: "0px", cursor: "pointer", borderRadius:"50%", backgroundColor: "rgb(0, 0, 0, .7)", color:"rgb(255, 255, 255, .7)" }}
+                style={{
+                  position: "absolute",
+                  top: "0px",
+                  right: "0px",
+                  cursor: "pointer",
+                  borderRadius: "50%",
+                  backgroundColor: "rgb(0, 0, 0, .7)",
+                  color: "rgb(255, 255, 255, .7)",
+                }}
                 onClick={() => handleRemovePhoto(index, "photos")} // Agrega la función para eliminar
               />
             </div>
           ))}
 
-        {Array.isArray(userPhotosNew) &&
-          userPhotosNew?.map((photoObj, index) => (
+        {Array.isArray(localUserPhotosNew) &&
+          localUserPhotosNew?.map((photoObj, index) => (
             <div key={index} style={{ position: "relative", display: "inline-block" }}>
               <img
                 src={`data:image/*;base64,${photoObj}`}
                 alt={`thumbnail-${index}`}
                 className="thumbnail"
-                style={{ width: "65px", height: "65px", margin: "5px", objectFit:"cover" }}
+                style={{ width: "65px", height: "65px", margin: "5px", objectFit: "cover" }}
               />
               <FaTimes
-                style={{ position: "absolute", top: "0px", right: "0px", cursor: "pointer", borderRadius:"50%", backgroundColor: "rgb(0, 0, 0, .7)", color:"rgb(255, 255, 255, .7)" }}
+                style={{
+                  position: "absolute",
+                  top: "0px",
+                  right: "0px",
+                  cursor: "pointer",
+                  borderRadius: "50%",
+                  backgroundColor: "rgb(0, 0, 0, .7)",
+                  color: "rgb(255, 255, 255, .7)",
+                }}
                 onClick={() => handleRemovePhoto(index, "userPhotosNew")} // Agrega la función para eliminar
               />
             </div>
