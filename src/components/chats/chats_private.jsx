@@ -152,7 +152,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
                                 <p className="club_message-description">
                                     Ve a inicio para likear perfiles - una vez que te regresen el like se volverá match y podrás chatear aquí!
                                 </p>
-                                <button className="club_action-button" onClick={handleOnClick}>Ir a Inicio</button>
+                                <button className="club_action-button" onClick={() =>{setShowMessages(true)}}>Escribe un mensaje</button>
                             </div>
                         </div>
                     </div>
