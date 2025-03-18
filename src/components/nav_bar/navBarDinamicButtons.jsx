@@ -7,7 +7,8 @@ const NavBarDinamicButtons = ({ buttonsList, onButtonClick, activeButton, colBtn
   };
 
   return (
-    <div style={{ marginTop: "50px" }}>
+    // <div style={{ marginTop: "50px" }}>
+    <div>
       <div className="col-12 club_nav_btn_dynamic">
         <div className="col-12 d-flex flex-wrap justify-content-center">
           {buttonsList.map((item, idx) => (

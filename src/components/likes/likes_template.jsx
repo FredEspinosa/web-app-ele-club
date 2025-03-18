@@ -46,17 +46,19 @@ const LikesTemplate = () => {
 
   return (
     <div>
-      <div className="club_contenedor_full_height">
-        <HeaderConfiguration
-          isBtnLeft={false}
-          txtButton={"Volver"}
-          nameHeader={"Alertas"}
-          sizeF={"20px"}
-          isBtnRear={false}
-          bgColorBar={"club_bg_blanco"}
-          textColor={"club_color_fuente_negro"}
-        />
-        <div className="club_contenedor container-lg club_sub_contenedor">
+      <div id="friendsBox" className="club_contenedor_tres_secciones club_contenedor container-lg">
+        <div className="club_contenido_top club_cont_info">
+          <HeaderConfiguration
+            isBtnLeft={false}
+            txtButton={"Volver"}
+            nameHeader={"Alertas"}
+            sizeF={"20px"}
+            isBtnRear={false}
+            bgColorBar={"club_bg_blanco"}
+            textColor={"club_color_fuente_negro"}
+          />
+        </div>
+        <div className="club_content_central club_force_scroll_y">
           <NavBarDinamicButtons
             buttonsList={listaBotones}
             onButtonClick={handleButtonClick}
@@ -70,10 +72,12 @@ const LikesTemplate = () => {
             {vista === "friends" && <FriendsContent handleOnClick={redirectBack} isLoader={isLoaderShow} />}
           </div>
         </div>
-        <NavBar
-            currentPage={'Likes'}
-            onOptionSelect={handleOptionSelect}
-        />
+        <div className="club_contenido_bottom club_cont_info">
+          <NavBar
+              currentPage={'Likes'}
+              onOptionSelect={handleOptionSelect}
+          />
+        </div>
       </div>
       {(showLoader && <Loader />)}
     </div>

@@ -2585,7 +2585,10 @@ input[type="file"] {
     text-decoration: none;
 }
 
-#chatsBox .club_contenido_top.club_cont_info>div {
+#chatsBox .club_contenido_top.club_cont_info>div,
+#friendsBox .club_contenido_top.club_cont_info>div,
+#alertsBox .club_contenido_top.club_cont_info>div,
+#chatBoxPrivate .club_contenido_top.club_cont_info>div {
     width: 100%;
     display: contents;
 }
@@ -2722,7 +2725,7 @@ club_onboarding_info p {
 .club_new_request .club_cont_perfil_img {
     height: 50px;
     width: 50px;
-    border: 2px solid var(--color-primario-oro);
+    border: 2px solid var(--color-primario-violeta-04);
 }
 
 .club_friends_name {
@@ -2734,6 +2737,8 @@ club_onboarding_info p {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    height: 77vh;
+    padding: 10px 0;
 }
 
 .message {
@@ -2758,6 +2763,29 @@ club_onboarding_info p {
 .club_write_chat_fixed {
     position: fixed;
     bottom: 0%;
+}
+
+.club_force_scroll_y {
+    overflow-y: scroll !important;
+}
+
+#chatsBox .club_cont_perfil_img {
+    height: 50px;
+    width: 50px;
+}
+
+.club_content_scroll {
+    display: flex;
+    width: 375px;
+    height: 520px;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 10px 0px;
+}
+
+#chatBoxPrivate .club_input_label {
+    color: var(--color-background-negro);
 }
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 

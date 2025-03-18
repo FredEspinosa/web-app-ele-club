@@ -47,17 +47,19 @@ const AlertsTemplate = () => {
 
   return (
     <div>
-      <div className="club_contenedor_full_height">
-        <HeaderConfiguration
-          isBtnLeft={false}
-          txtButton={"Volver"}
-          nameHeader={"Alertas"}
-          sizeF={"20px"}
-          isBtnRear={false}
-          bgColorBar={"club_bg_blanco"}
-          textColor={"club_color_fuente_negro"}
-        />
-        <div className="club_contenedor container-lg club_sub_contenedor">
+      <div id='alertsBox' className="club_contenedor_tres_secciones club_contenedor container-lg">
+      <div className="club_contenido_top club_cont_info">
+          <HeaderConfiguration
+            isBtnLeft={false}
+            txtButton={"Volver"}
+            nameHeader={"Alertas"}
+            sizeF={"20px"}
+            isBtnRear={false}
+            bgColorBar={"club_bg_blanco"}
+            textColor={"club_color_fuente_negro"}
+          />
+        </div>
+        <div className="club_content_central club_force_scroll_y">
           <NavBarDinamicButtons
             buttonsList={listaBotones}
             onButtonClick={handleButtonClick}
@@ -72,10 +74,12 @@ const AlertsTemplate = () => {
             {vista === "friends" && <FriendsContent handleOnClick={redirectBack} />}
           </div>
         </div>
-        <NavBar
-            currentPage={'Alertas'}
-            onOptionSelect={handleOptionSelect}
-        />
+        <div className="club_contenido_bottom club_cont_info">
+          <NavBar
+              currentPage={'Alertas'}
+              onOptionSelect={handleOptionSelect}
+          />
+        </div>
       </div>
     </div>
   );

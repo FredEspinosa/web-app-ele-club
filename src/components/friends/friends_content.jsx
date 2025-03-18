@@ -170,7 +170,7 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
             <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
                 <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
                     {showFriends || showListFriends ? (
-                        <div className="club_content club_scroll_y align-items-start">
+                        <div className="club_content_scroll club_scroll_y align-items-start">
                             {requests.map((solicitud, index) => (
                                 <div key={index} className="club_new_request col-12">
                                     <div className='col-12 d-flex justify-content-center flex-wrap align-items-center'>
@@ -184,8 +184,8 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                                 />
                                             </div>
                                             <div>
-                                                <p className='club_friends_name '>{solicitud?.fromUser?.name || "Sin nombre"}</p>
-                                                <p>te mando una solicitud de amistad aceptala y empieza a chatear</p>
+                                                <p className='club_friends_name club_color_fuente_negro'>{solicitud?.fromUser?.name || "Sin nombre"}</p>
+                                                <p className='club_color_fuente_negro'>te mando una solicitud de amistad aceptala y empieza a chatear</p>
                                             </div>
                                         </div>
                                         <div className='col-2 d-flex align-items-center justify-content-end'>
@@ -200,7 +200,7 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                                     className='btn'
                                                     onClick={() => { sendRequestFriends(solicitud?.id, true) }}
                                                 >
-                                                    <IoPersonAdd className='club_color_fuente_oro' size={20} />
+                                                    <IoPersonAdd className='club_color_fuente_violeta_04' size={20} />
                                                 </button>
                                             </div>
                                         </div>
@@ -226,7 +226,7 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                                 />
                                             </div>
                                             <div>
-                                                <p className="club_friends_name">{friend?.name || "Sin nombre"}</p>
+                                                <p className="club_friends_name club_color_fuente_negro">{friend?.name || "Sin nombre"}</p>
                                             </div>
                                         </div>
                                         <div className="col-2 d-flex align-items-center justify-content-end">
@@ -243,7 +243,7 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                                         sendConversation(friend.userId, friend?.userPhotos[0]?.photo, friend?.name, false, "Privado")
                                                     }
                                                 >
-                                                    <AiFillMessage className="club_color_fuente_oro" size={20} />
+                                                    <AiFillMessage className="club_color_fuente_violeta_04" size={20} />
                                                 </button>
                                             )}
                                         </div>

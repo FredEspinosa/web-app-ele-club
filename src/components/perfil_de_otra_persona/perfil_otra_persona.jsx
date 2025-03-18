@@ -74,10 +74,13 @@ const PerfilOtraPersona = () => {
             const tokenSesion = tokenSesionStorage;
             const response = await friendsInvite(tokenSesion, likedUserId);
 
-            if (response.status === 200) {
+            if (response?.isSuccess === true) {
                 console.log("solicitud enviada correctamente");
                 setShowAlert(true);
                 setMensajeModal(<p>Tu solicitud se ha enviado correctamente.</p>);
+                setTimeout(() => {
+                    setShowAlert(false)
+                }, 1000);
             } else {
                 console.log("ocurrio un error en enviar solicitud");
             }
@@ -87,6 +90,10 @@ const PerfilOtraPersona = () => {
             setShowAlert(true);
             setMensajeModal(<p>Ocurrio un error al enviar tu solicitud.</p>);
         }
+    }
+
+    const closeModal = () => {
+        setShowAlert(false)
     }
  
     return (
@@ -192,15 +199,15 @@ const PerfilOtraPersona = () => {
                     </div>
                 </div>
             </div>
-            {showAlert &&
+            {(showAlert && 
                 <AlertSuscribe 
                     mensajeModal={mensajeModal}
                     btnAceptar={true}
-                    btnMsjButtom={'SUSCRIBETE'}
-                    handleOnclick={goToSuscribe}
-                    bgColorButton={'club_bg_violeta_05'}
+                    btnMsjButtom={'CERRAR'}
+                    handleOnclick={closeModal}
+                    bgColorButton={'club_bg_oro'}
                 />
-            }
+            )}
         </div>
   )
 }

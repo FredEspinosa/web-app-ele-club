@@ -24,9 +24,6 @@ const ChatBox = () => {
   const [groupConversations, setGroupConversations] = useState([]);
 
   const location = useLocation();
-  const membersIds = location.state?.membersIds || [];
-  const photoUsers = location.state?.photoUsers || [];
-  const name = location.state?.name || [];
 
   const listaBotones = [
     { texto: "Chats Privados", evento: "chatsPrivados" },
@@ -51,26 +48,20 @@ const ChatBox = () => {
     try {
       const tokenSesion = tokenSesionStorage;
       const response = await conversationGetAll(tokenSesion);
-      // console.log("data", response);
 
       if (response.isSuccess === true && response.conversations) { // Verifica que response.conversations existe
         setShowLoader(false);
-        setShowAlert(true)
         // Separa las conversaciones en privadas y de grupo
         const prvConversations = [];
         const grpConversations = [];
 
         response.conversations.forEach((conversation) => { // Aquí es donde estaba el error
-          if (conversation.category === "Privado") {
+          if (conversation.isGroup === false) {
             prvConversations.push(conversation);
           } else if (conversation.isGroup) {
             grpConversations.push(conversation);
           }
         });
-
-        console.log("Conversaciones privadas:", prvConversations);
-        console.log("Conversaciones de grupo:", grpConversations);
-
         // Guardar en el estado
         setPrivateConversations(prvConversations);
         setGroupConversations(grpConversations);
@@ -107,7 +98,6 @@ const ChatBox = () => {
   };
 
   return (
-    // <div className="club_contenedor_full_height">
     <div>
       <div id='chatsBox' className="club_contenedor_tres_secciones club_contenedor container-lg">
         <div className="club_contenido_top club_cont_info">
@@ -121,7 +111,7 @@ const ChatBox = () => {
             textColor={"club_color_fuente_negro"}
           />
         </div>
-        <div className="club_content_central">
+        <div className="club_content_central club_force_scroll_y">
           <NavBarDinamicButtons
             buttonsList={listaBotones}
             onButtonClick={handleButtonClick}
@@ -131,7 +121,6 @@ const ChatBox = () => {
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
             {vista === "chatsPrivados" && <ChatsContentPrivate handleOnClick={redirectBack} listChatsPrivates={privateConversations} />}
-            {/* {vista === "chatsPrivados" && <ChatsPrivate handleOnClick={redirectBack} />} */}
             {vista === "salaDeChats" && <ChatsContentGroup handleOnClick={redirectBack} listChatsGroup={groupConversations} tokenSesionStorage={tokenSesionStorage} />}
           </div>
         </div>
@@ -150,7 +139,6 @@ const ChatBox = () => {
       </div>
       {(showLoader && <Loader />)}
     </div>
-    // </div>
   );
 };
 

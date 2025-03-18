@@ -3,118 +3,74 @@ import React, { useState } from 'react'
 import { AiFillMessage } from 'react-icons/ai';
 import { BsChatSquareDotsFill } from 'react-icons/bs'
 import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
-import { conversationCreate } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const ChatsContentPrivate = ({ handleOnClick, listChatsPrivates }) => {
+    // Recordatory: In this component, a search was performed within the arrays and the current userId was found in order to discard the information from the array that contains the same userId and display the recipient's information.
 
     const navigate = useNavigate();
+    const userIdActual = localStorage.getItem('userId'); // Esto debe ser dinámico
 
-    console.log("listChatsPrivates", listChatsPrivates);
-
-    const sendConversation = async (userIds, perfilPhoto, nameUser, isGroup, category) => {
-
-        const conversationIds = listChatsPrivates.flatMap(chat => 
-            chat.conversationMembers.map(member => member.conversationId)
-        );
-        
-        console.log(conversationIds);
-
+    const sendConversation = async (userId, perfilPhoto, nameUser, conversationId) => {
 
         navigate("/chat_privado", {
             state: {
-                userIds,
+                membersIds: userId,
                 photoUsers: perfilPhoto,
                 name: nameUser,
-                conversationIds
+                conversationsId: conversationId
             },
         });
-
-        // console.log("userIds", userIds);
-        // console.log("perfilPhoto", perfilPhoto);
-        // console.log("nameUser", nameUser);
-        // console.log("isGroup", isGroup);
-        // console.log("category", category);
-
-        
-        // const data = {
-        //     category: category,
-        //     isGroup: isGroup,
-        //     name: Array.isArray(nameUser) ? nameUser.join(', ') : String(nameUser), // 🔥 Convertido a string
-        //     membersIds: Array.isArray(userIds) ? userIds : [userIds],
-        // };
-
-        // console.log("sendConversation data ", data);
-        
-
-        // try {
-        //     const tokenSesion = sessionStorage.getItem("AccessToken");
-        //     const response = await conversationCreate(tokenSesion, data);
-        //     console.log("response sendConversation", response);
-
-        //     if (response.status === 200 && response.data?.conversations?.length > 0) {
-        //         const conversationsId = response.data.conversations[0].id;
-        //         navigate("/chat_privado", {
-        //             state: {
-        //                 userIds,
-        //                 photoUsers: perfilPhoto,
-        //                 name: nameUser,
-        //                 conversationsId
-        //             },
-        //         });
-        //     } else {
-        //         console.log("Ocurrió un error al crear la conversación");
-        //     }
-        // } catch (error) {
-        //     console.error("Error al crear conversación:", error);
-        // }
     };
-    
 
     return (
         <div>
             {listChatsPrivates ?
-                <div>
-                    {listChatsPrivates.map((chatList, index) => (
-                        <div key={index} >
-                            <div className="col-12 d-flex justify-content-center flex-wrap align-items-center">
-                                <div className="col-10 d-flex align-items-center">
-                                    <div className="club_requqest_content_photo">
-                                        {/* src={chatList?.userPhotos?.length> 0 ? chatList.userPhotos[0].photo : `data:image/jpeg;base64,${PerfilDefault}`} */}
-                                        <img className="club_cont_perfil_img"
-                                            src={chatList?.conversationMembers?.length > 0 ?
-                                                chatList.conversationMembers[0].user?.userPhotos[0].photo : `data:image/jpeg;base64,${PerfilDefault}`
-                                            }
-                                            alt=""
-                                        />
+                <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
+                    <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
+                        <div className="club_content_scroll club_scroll_y align-items-start">
+
+                            {listChatsPrivates.map((chatList, index) => {
+                                const otroUsuario = chatList.conversationMembers.find(
+                                    (member) => member.user.userId !== userIdActual
+                                );
+                                return (
+                                    <div className='club_new_request col-12' key={index} >
+                                        <div className="col-12 d-flex justify-content-center flex-wrap align-items-center">
+                                            <div className="col-10 d-flex align-items-center">
+                                                <div className="club_requqest_content_photo">
+                                                    <img className="club_cont_perfil_img"
+                                                        src={otroUsuario?.user?.userPhotos?.[0]?.photo || PerfilDefault}
+                                                        alt=""
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <p className="club_friends_name club_color_fuente_negro">{otroUsuario?.user?.name || "Usuario desconocido"}</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-2 d-flex align-items-center justify-content-end">
+                                                <button
+                                                    className="btn"
+                                                    onClick={() => {
+                                                        if (otroUsuario) {
+                                                            sendConversation(
+                                                                otroUsuario.user.userId,
+                                                                otroUsuario.user.userPhotos?.[0]?.photo || PerfilDefault,
+                                                                otroUsuario.user.name,
+                                                                otroUsuario.conversationId
+                                                            );
+                                                        }
+                                                    }}
+                                                >
+                                                    <AiFillMessage className="club_color_fuente_violeta_04" size={20} />
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="club_friends_name">{chatList?.name || "Sin nombre"}</p>
-                                    </div>
-                                </div>
-                                <div className="col-2 d-flex align-items-center justify-content-end">
-                                    <button
-                                        className="btn"
-                                        // onClick={() => sendConversation(chatList.conversationMembers.userId, chatList?.userPhotos[0]?.photo, chatList?.name, false, "Privado")}
-                                        onClick={() => {
-                                            const userIds = chatList.conversationMembers.map(member => member.user.userId);
-                                            const perfilPhoto = chatList.conversationMembers.map(member => member.user.userPhotos[0].photo);
-                                            const nameUser = chatList.conversationMembers.map(member => member.user.name);
-                                            sendConversation(
-                                                userIds,
-                                                perfilPhoto,
-                                                nameUser,
-                                                false,
-                                                "Privado",
-                                            );
-                                        }}
-                                    >
-                                        <AiFillMessage className="club_color_fuente_oro" size={20} />
-                                    </button>
-                                </div>
-                            </div>
+                                )
+                            })}
                         </div>
-                    ))}
+                    </div>
                 </div>
                 :
                 <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
