@@ -1,93 +1,87 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import React, { useEffect, useState } from "react";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
-const OpcionesCheck = ({opciones, onOptionSelect, tituloDeLista, iconoCheck, multiselect, isDropList }) => {
-    
-    const [selectedOptions, setSelectedOptions] = useState([]); // Almacena múltiples opciones si multiselect es true
-    const [newSelectedOption, setNewSelectedOption] = useState(''); // Almacena múltiples opciones si multiselect es true
-    const [listDrop, setListDrop] = useState(false)
-  
-    const handleOptionClick = (opcion) => {
-        if (multiselect) {
-            const isSelected = selectedOptions.some(item => item.id === opcion.id);
-            const updatedOptions = isSelected
-                ? selectedOptions.filter(item => item.id !== opcion.id) // Remover si ya está seleccionado
-                : [...selectedOptions, { id: opcion.id, name: opcion.name }]; // Agregar si no está seleccionado
+const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, multiselect, isDropList, storedOptions }) => {
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [newSelectedOption, setNewSelectedOption] = useState("");
+  const [listDrop, setListDrop] = useState(false);
 
-            setSelectedOptions(updatedOptions);
-            onOptionSelect(updatedOptions); // Devuelve los objetos seleccionados al componente padre
-        } else {
-            const selectedOption = { id: opcion.id, name: opcion.name };
-            setSelectedOptions([selectedOption]);
-            onOptionSelect(selectedOption); // Devuelve el objeto seleccionado al componente padre
-        }
-    }; 
-
-    useEffect(() => {
-      setNewSelectedOption(selectedOptions[0]?.name)
-    }, [selectedOptions])
-    
-
-    const dropList = () => {
-        setListDrop(!listDrop);
+  useEffect(() => {
+    // Inicializar selectedOptions con storedOptions si existen valores
+    if (Array.isArray(storedOptions) && storedOptions.length > 0) {
+      setSelectedOptions(storedOptions.map((item) => ({ name: item }))); // Convertir strings a objetos con 'name'
     }
- 
-    return (
-        <div className='col-12'>
-            {isDropList ?
-            <div className='club_cont_opciones_check'>
-                <div className='col-12 d-flex'>
-                    <p className='club_titulo_opciones_check' onClick={dropList}>{newSelectedOption ?? tituloDeLista}</p>
-                    <div>
-                    {listDrop ?
-                        <IoIosArrowUp size={24} />
-                    :
-                        <IoIosArrowDown size={24} />
-                    }
-                    </div>
-                </div>
-                {listDrop ?
-                <ul className={`club_cont_lista_opciones_check animate__animated animate__fadeIn`}>
-                    {opciones.map((opcion) => (
-                        <li
-                            className='club_lista_opciones_check'
-                            key={opcion.id}
-                            onClick={() => handleOptionClick(opcion)}
-                        >
-                            {opcion.name} {/* Mostrar el nombre de la opción */}
-                            {selectedOptions.some(selected => selected.id === opcion.id) && (
-                                <div>{iconoCheck}</div>
-                            )} {/* Muestra el icono de check si está seleccionada */}
-                        </li>
-                    ))}
-                </ul>
-                :
-                <span className='animate__animated animate__fadeInUp'></span>
-                }
-            </div>
-            :
-            <div className='club_cont_opciones_check'>
-                <p className='club_titulo_opciones_check'>{tituloDeLista}</p>
-                <ul className={`club_cont_lista_opciones_check`}>
-                    {opciones.map((opcion) => (
-                        
-                        <li
-                        className='club_lista_opciones_check'
-                        key={opcion.id}
-                        onClick={() => handleOptionClick(opcion)}
-                        >
-                            {opcion.name} {/* Mostrar el nombre de la opción */}
-                            {selectedOptions.some(selected => selected.id === opcion.id) && (
-                                <div>{iconoCheck}</div>
-                            )} {/* Muestra el icono de check si está seleccionada */}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            }
+  }, [storedOptions]);
+
+  const handleOptionClick = (opcion) => {
+    if (multiselect) {
+      const isSelected = selectedOptions.some((item) => item.name === opcion.name);
+      const updatedOptions = isSelected ? selectedOptions.filter((item) => item.name !== opcion.name) : [...selectedOptions, { name: opcion.name }];
+      setSelectedOptions(updatedOptions);
+      onOptionSelect(updatedOptions.map((item) => item.name)); // Enviar solo los nombres al componente padre
+    } else {
+      const selectedOption = { name: opcion.name };
+      setSelectedOptions([selectedOption]);
+      onOptionSelect([opcion.name]); // Enviar solo el nombre al componente padre
+    }
+  };
+
+  useEffect(() => {
+    setNewSelectedOption(selectedOptions[0]?.name);
+  }, [selectedOptions]);
+
+  const dropList = () => {
+    setListDrop(!listDrop);
+  };
+
+  const getDisplayedText = () => {
+    if (Array.isArray(selectedOptions) && selectedOptions.length > 0) {
+      return selectedOptions.map((item) => item.name).join(", ");
+    } else if (newSelectedOption) {
+      return newSelectedOption;
+    } else {
+      return tituloDeLista;
+    }
+  };
+
+  return (
+    <div className="col-12">
+      {isDropList ? (
+        <div className="club_cont_opciones_check">
+          <div className="col-12 d-flex">
+            <p className="club_titulo_opciones_check" onClick={dropList}>
+              {getDisplayedText()}
+            </p>
+            <div>{listDrop ? <IoIosArrowUp size={24} /> : <IoIosArrowDown size={24} />}</div>
+          </div>
+          {listDrop ? (
+            <ul className={`club_cont_lista_opciones_check animate__animated animate__fadeIn`}>
+              {opciones.map((opcion) => (
+                <li className="club_lista_opciones_check" key={opcion.id} onClick={() => handleOptionClick(opcion)}>
+                  {opcion.name}
+                  {selectedOptions.some((selected) => selected.name === opcion.name) && <div>{iconoCheck}</div>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span className="animate__animated animate__fadeInUp"></span>
+          )}
         </div>
-    );
+      ) : (
+        <div className="club_cont_opciones_check">
+          <p className="club_titulo_opciones_check">{tituloDeLista}</p>
+          <ul className={`club_cont_lista_opciones_check`}>
+            {opciones.map((opcion) => (
+              <li className="club_lista_opciones_check" key={opcion.id} onClick={() => handleOptionClick(opcion)}>
+                {opcion.name}
+                {selectedOptions.some((selected) => selected.name === opcion.name) && <div>{iconoCheck}</div>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default OpcionesCheck;

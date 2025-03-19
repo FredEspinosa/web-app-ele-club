@@ -1,27 +1,86 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import InputDinamico from "../inputs/inputsDinamico";
 import OpcionesCheck from "../inputs/opciones_check";
-import { getGender, getLookingFor, getPerception, getSexualIdentity, userProfileMe } from "../../services/api";
+import {
+  getGender,
+  getInterest,
+  getLookingFor,
+  getPerception,
+  getPet,
+  getPronouns,
+  getRelationshipStatus,
+  getRole,
+  getSexualIdentity,
+  getSmoke,
+  getZodiac,
+  userProfileMe,
+} from "../../services/api";
 import Loader from "../loader/loader";
 import { FaCheck } from "react-icons/fa";
 import { enviarDatosUsuario } from "../../services/data";
 
 const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, setMensajeModal, setShowAlert }) => {
   const [formData, setFormData] = useState({ ...dataUser });
-  const [opciones, setOpciones] = useState({ lookingFor: [], genders: [], sexualIdentity: [], perception: [] });
-  const [datosUsuario, setDatosUsuario] = useState({});
+  const [options, setOptions] = useState({
+    lookingFor: [],
+    genders: [],
+    sexualIdentity: [],
+    perception: [],
+    interests: [],
+    pets: [],
+    pronouns: [],
+    relationshipStatus: [],
+    roles: [],
+    smokes: [],
+    zodiacs: [],
+  });
+  const [storedOptionName, setStoredOptionName] = useState({});
 
-  const iconoCheck = <FaCheck size={24} style={{ color: "#BC8D40" }} />;
+  const fieldsValue = [
+    "lookingFors",
+    "genders",
+    "sexualIdentities",
+    "perceptions",
+    "interests",
+    "pets",
+    "pronouns",
+    "relationshipStatus",
+    "roles",
+    "smokes",
+    "zodiacs",
+  ];
+
+  const checkIcon = <FaCheck size={24} style={{ color: "#BC8D40" }} />;
 
   const fetchOptions = useCallback(async () => {
     setShowLoader(true);
     try {
-      const [lookingFor, genders, sexualIdentity, perception] = await Promise.all([getLookingFor(), getGender(), getSexualIdentity(), getPerception()]);
-      setOpciones({
+      const [lookingFor, genders, sexualIdentity, perception, interests, pets, pronouns, relationshipStatus, roles, smokes, zodiacs] = await Promise.all([
+        getLookingFor(),
+        getGender(),
+        getSexualIdentity(),
+        getPerception(),
+        getInterest(),
+        getPet(),
+        getPronouns(),
+        getRelationshipStatus(),
+        getRole(),
+        getSmoke(),
+        getZodiac(),
+      ]);
+
+      setOptions({
         lookingFor: lookingFor?.map((item) => ({ id: item.id, name: item.name })) || [],
         genders: genders?.map((item) => ({ id: item.id, name: item.name })) || [],
         sexualIdentity: sexualIdentity?.map((item) => ({ id: item.id, name: item.name })) || [],
         perception: perception?.map((item) => ({ id: item.id, name: item.name })) || [],
+        interests: interests?.map((item) => ({ id: item.id, name: item.name })) || [],
+        pets: pets?.map((item) => ({ id: item.id, name: item.name })) || [],
+        pronouns: pronouns?.map((item) => ({ id: item.id, name: item.name })) || [],
+        relationshipStatus: relationshipStatus?.map((item) => ({ id: item.id, name: item.name })) || [],
+        roles: roles?.map((item) => ({ id: item.id, name: item.name })) || [],
+        smokes: smokes?.map((item) => ({ id: item.id, name: item.name })) || [],
+        zodiacs: zodiacs?.map((item) => ({ id: item.id, name: item.name })) || [],
       });
     } catch (error) {
       console.error("Error fetching options", error);
@@ -32,59 +91,78 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
 
   useEffect(() => {
     fetchOptions();
-    const savedData = localStorage.getItem("datosUsuario");
-    if (savedData) setDatosUsuario(JSON.parse(savedData));
   }, [fetchOptions]);
+
+  function buscarNombreEnObjeto(objeto) {
+    if (objeto && typeof objeto === "object") {
+      if (objeto.hasOwnProperty("name") && typeof objeto.name === "string") {
+        return objeto.name;
+      } else {
+        for (const key in objeto) {
+          const nombre = buscarNombreEnObjeto(objeto[key]);
+          if (nombre) {
+            return nombre;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  function extraerNombres(objeto, campos) {
+    const resultados = {};
+
+    campos.forEach((campo) => {
+      resultados[campo] = []; // Inicializar con un array vacío
+
+      if (objeto && objeto.hasOwnProperty(campo)) {
+        const valorCampo = objeto[campo];
+
+        if (Array.isArray(valorCampo)) {
+          valorCampo.forEach((item) => {
+            if (item && typeof item === "object") {
+              const nombre = buscarNombreEnObjeto(item);
+              if (nombre) {
+                resultados[campo].push(nombre);
+              }
+            }
+          });
+        } else if (typeof valorCampo === "object") {
+          const nombre = buscarNombreEnObjeto(valorCampo);
+          if (nombre) {
+            resultados[campo].push(nombre);
+          }
+        }
+      }
+    });
+
+    return resultados;
+  }
+
+  useEffect(() => {
+    const extractedOptionName = extraerNombres(formData, fieldsValue);
+    if (extractedOptionName) {
+      setStoredOptionName(extractedOptionName);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log({ storedOptionName }); // Ahora se ejecuta después de que storedOptionName se actualiza
+  }, [storedOptionName]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleOptionSelect = (selectedOptions, fieldName) => {
+  const handleOptionSelect = useCallback((selectedOptions, fieldName) => {
     setFormData((prev) => ({ ...prev, [fieldName]: selectedOptions }));
-  };
-
-  // const updateDataUserInfo = async () => {
-  //   setShowLoader(true);
-  //   const type = "update";
-  //   try {
-  //     const tokenSesion = token;
-  //     const response = await enviarDatosUsuario(tokenSesion, type, { ...formData });
-  //     if (response?.isSuccess) {
-  //       setShowAlert(true);
-  //       setMensajeModal(
-  //         <p>
-  //           Información actualizada <b>correctamente</b>.
-  //         </p>
-  //       );
-  //       userProfileMe(token).then((response) => {
-  //         if (response.isSuccess) {
-  //           localStorage.setItem('datosUsuario', JSON.stringify(response.userProfile))
-  //         }
-  //       });
-  //       setShowLoader(false);
-  //     } else {
-  //       console.error("Ocurrió un error en la API:", response);
-  //     }
-  //   } catch (err) {
-  //     console.error("Error al enviar datos del usuario:", err);
-  //     setShowAlert(true);
-  //     setMensajeModal(
-  //       <p>
-  //         ¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.
-  //       </p>
-  //     );
-  //   } finally {
-  //     setShowLoader(false);
-  //   }
-  // };
+  }, []);
 
   const updateDataUserInfo = async () => {
     setShowLoader(true);
     const type = "update";
     try {
-      const tokenSesion = token;
-      const response = await enviarDatosUsuario(tokenSesion, type, { ...formData });
+      const response = await enviarDatosUsuario(token, type, { ...formData });
       if (response?.isSuccess) {
         setShowAlert(true);
         setMensajeModal(
@@ -92,19 +170,16 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
             Información actualizada <b>correctamente</b>.
           </p>
         );
-        userProfileMe(token).then((response) => {
-          if (response.isSuccess) {
-            localStorage.setItem("datosUsuario", JSON.stringify(response.userProfile));
-            // Llama a la función onSave con los datos actualizados
-            onSave(response.userProfile);
-            setShowLoader(false);
-          }
-        });
+        const userProfileResponse = await userProfileMe(token);
+        if (userProfileResponse.isSuccess) {
+          localStorage.setItem("datosUsuario", JSON.stringify(userProfileResponse.userProfile));
+          onSave(userProfileResponse.userProfile);
+        }
       } else {
-        console.error("Ocurrió un error en la API:", response);
+        console.error("API error:", response);
       }
     } catch (err) {
-      console.error("Error al enviar datos del usuario:", err);
+      console.error("Error sending user data:", err);
       setShowAlert(true);
       setMensajeModal(
         <p>
@@ -119,12 +194,10 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave(formData);
-    setTimeout(() => {
-      updateDataUserInfo();
-    }, 3000);
+    updateDataUserInfo();
   };
 
-  const campos = [
+  const fields = [
     {
       type: "textArea",
       name: "aboutMe",
@@ -133,30 +206,39 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
     },
   ];
 
+  const optionFields = [
+    { label: "Estoy buscando", field: "lookingFors", options: options.lookingFor, initialValue: storedOptionName.lookingFors },
+    { label: "Identidad de género", field: "genders", options: options.genders, initialValue: storedOptionName.genders },
+    { label: "Identidad sexual", field: "sexualIdentities", options: options.sexualIdentity, initialValue: storedOptionName.sexualIdentities },
+    { label: "Percepción sexual", field: "perceptions", options: options.perception, initialValue: storedOptionName.perceptions },
+    { label: "Intereses", field: "interests", options: options.interests, initialValue: storedOptionName.interests },
+    { label: "Tienes mascotas?", field: "pets", options: options.pets, initialValue: storedOptionName.pets },
+    { label: "Cuál es tu pronombre?", field: "pronouns", options: options.pronouns, initialValue: storedOptionName.pronouns },
+    { label: "Estatus de relación", field: "relationshipStatus", options: options.relationshipStatus, initialValue: storedOptionName.relationshipStatus },
+    { label: "Cuál es tu rol?", field: "roles", options: options.roles, initialValue: storedOptionName.roles },
+    { label: "Fumas?", field: "smokes", options: options.smokes, initialValue: storedOptionName.smokes },
+    { label: "Cuál es tu signo zodiacal?", field: "zodiacs", options: options.zodiacs, initialValue: storedOptionName.zodiacs },
+  ];
+
   return (
     <div className="club_contenedor">
       <form onSubmit={handleSubmit}>
         <div className="club_cont_data_perfil">
           <h3 className="club_txt_titular">Acerca de mí</h3>
-          {campos.map((campo, index) => (
-            <InputDinamico key={index} config={campo} value={formData[campo.name] || ""} onChange={handleChange} />
+          {fields.map((field, index) => (
+            <InputDinamico key={index} config={field} value={formData[field.name] || ""} onChange={handleChange} />
           ))}
         </div>
-        {[
-          { label: "Estoy buscando", field: "lookingFors", opciones: opciones.lookingFor },
-          { label: "Identidad de género", field: "genders", opciones: opciones.genders },
-          { label: "Identidad sexual", field: "sexualIdentities", opciones: opciones.sexualIdentity },
-          { label: "Percepción sexual", field: "perceptions", opciones: opciones.perception },
-        ].map(({ label, field, opciones }) => (
+        {optionFields.map(({ label, field, options, initialValue }) => (
           <div className="club_cont_data_perfil" key={field}>
             <h3 className="club_txt_titular">{label}</h3>
             <OpcionesCheck
-              dataUser={dataUser}
-              opciones={opciones}
-              onOptionSelect={(selectedOptions) => handleOptionSelect(...selectedOptions, field)}
+              storedOptions={initialValue}
+              opciones={options}
+              onOptionSelect={(selectedOptions) => handleOptionSelect(selectedOptions, field)}
               tituloDeLista={label}
-              iconoCheck={iconoCheck}
-              multiselect={true}
+              iconoCheck={checkIcon}
+              multiselect={false}
               isDropList={true}
             />
           </div>
