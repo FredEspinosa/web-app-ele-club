@@ -17,6 +17,14 @@ const ChatsPrivate = ({ handleOnClick }) => {
     const location = useLocation();
     const conversationsId = location.state?.conversationsId || null;
     const [showMessages, setShowMessages] = useState(true);
+    const [userId, setUserId] = useState("");
+
+    useEffect(() => {
+        const storedUserId = localStorage.getItem('userId');
+        if (storedUserId) {
+            setUserId(storedUserId);
+        }
+    }, []);
 
     useEffect(() => {
         const tokenStorage = sessionStorage.getItem("AccessToken");
@@ -36,22 +44,37 @@ const ChatsPrivate = ({ handleOnClick }) => {
         if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
     }, [messages]);
 
-    // ✅ Función para obtener mensajes del historial
+    useEffect(() => {
+        const storedUserId = localStorage.getItem('userId');
+        if (storedUserId) {
+            setUserId(storedUserId);
+        }
+    }, []);
+    
+    useEffect(() => {
+        if (userId && tokenSesionStorage) {
+            allListChats(tokenSesionStorage);
+        }
+    }, [userId, tokenSesionStorage]); // 🔥 Espera hasta que `userId` esté definido
+    
     const allListChats = async (tokenStorage) => {
         try {
             const response = await getMessage(tokenStorage, conversationsId);
             if (response?.data?.result?.length > 0) {
-                setShowMessages(true)
-                const historyMessages = response.data.result.map(item => ({
-                    text: item.content,
-                    sender: 'otro',
-                    timestamp: new Date(item.creationDate).toLocaleTimeString()
-                }));
-
-                // 🔥 Añadir solo si no están repetidos
-                setMessages((prev) => [...prev, ...historyMessages]); // 🔥 Se agregan al final
+                setShowMessages(true);
+    
+                const historyMessages = response.data.result
+                    .sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))    // Asegura que los mensajes estén en orden cronológico (del más antiguo al más reciente).
+                    .reverse()  // Invierte el orden para que el mensaje más reciente aparezca primero.
+                    .map(item => ({
+                        text: item.content,
+                        sender: item.senderUserId === userId ? 'remitente' : 'destinatario', // ✅ `userId` ya está definido
+                        timestamp: new Date(item.creationDate).toLocaleTimeString()
+                    }));
+    
+                setMessages(historyMessages);
             } else {
-                setShowMessages(false)
+                setShowMessages(false);
             }
         } catch (err) {
             console.log("Error obteniendo mensajes:", err);
@@ -61,42 +84,24 @@ const ChatsPrivate = ({ handleOnClick }) => {
     // ✅ Enviar mensaje
     const handleSendMessage = async () => {
         if (formData.sendMessage.trim() === '') return;
-
+    
         const newMessage = {
             text: formData.sendMessage,
-            sender: 'yo',
+            sender: 'remitente',
             timestamp: new Date().toLocaleTimeString(),
         };
-
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
-
+    
+        setMessages((prevMessages) => [...prevMessages, newMessage]); // 🔥 Agregar nuevo mensaje al final
+    
         try {
             const tokenSesion = tokenSesionStorage;
             await messageSend(tokenSesion, { conversationId: conversationsId, content: formData.sendMessage });
         } catch (error) {
             console.error("Error enviando mensaje:", error);
         }
-
+    
         setFormData({ sendMessage: '' });
     };
-
-    // ✅ WebSocket para recibir mensajes en tiempo real
-    useEffect(() => {
-        const ws = new WebSocket(`https://lahplataforma.azurewebsites.net/Message?conversationId=${conversationsId}`);
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.conversationId === conversationsId) {
-                setMessages((prevMessages) => [...prevMessages, {
-                    text: data.content,
-                    sender: 'otro',
-                    timestamp: new Date().toLocaleTimeString(),
-                }]);
-            }
-        };
-
-        return () => ws.close();  // 🔥 Cierra la conexión cuando el componente se desmonta
-    }, [conversationsId, tokenSesionStorage]);
 
     return (
         <div>
@@ -124,9 +129,9 @@ const ChatsPrivate = ({ handleOnClick }) => {
                                             <div
                                                 key={index}
                                                 ref={messagesEndRef}
-                                                className={`message p-2 rounded-lg max-w-75 d-flex flex-column ${msg.sender === 'yo' ?
-                                                    'align-self-start club_bg_menta_06' :
-                                                    'align-self-end club_bg_violeta_02 text-white'}`}
+                                                className={`message p-2 rounded-lg max-w-75 d-flex flex-column ${msg.sender === 'remitente' ?
+                                                    'align-self-end club_bg_menta_06' :
+                                                    'align-self-start club_bg_violeta_02 text-white'}`}
                                             >
                                                 <p className="m-0">{msg.text}</p>
                                                 <span className="small text-muted">{msg.timestamp}</span>
