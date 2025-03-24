@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 const ChatsContentPrivate = ({ handleOnClick, listChatsPrivates }) => {
     // Recordatory: In this component, a search was performed within the arrays and the current userId was found in order to discard the information from the array that contains the same userId and display the recipient's information.
-
+    console.log("listChatsPrivates", listChatsPrivates);
+    
     const navigate = useNavigate();
     const userIdActual = localStorage.getItem('userId'); // Esto debe ser dinámico
 

@@ -121,7 +121,7 @@ const ChatBox = () => {
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
             {vista === "chatsPrivados" && <ChatsContentPrivate handleOnClick={redirectBack} listChatsPrivates={privateConversations} />}
-            {vista === "salaDeChats" && <ChatsContentGroup handleOnClick={redirectBack} listChatsGroup={groupConversations} tokenSesionStorage={tokenSesionStorage} />}
+            {vista === "salaDeChats" && <ChatsContentGroup handleOnClick={redirectBack} listChatsGroup={groupConversations} />}
           </div>
         </div>
         <div className="club_contenido_bottom club_cont_info">
