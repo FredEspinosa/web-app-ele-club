@@ -826,10 +826,10 @@ export const matchesMyMatches = async (tokenSesion) => {
   };
   try {
     const response = await axios.request(config);
-    console.log("friendsRequests", response);
+    console.log("matchesMyMatches", response);
     return response.data;
   } catch (error) {
-    console.error("Error en Friends/Response:", error);
+    console.error("Error en Matches/Response:", error);
     throw error;
   }
 };

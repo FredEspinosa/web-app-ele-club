@@ -8,11 +8,13 @@ import MatchesContent from "../matches/matches_content";
 import FriendsContent from "../friends/friends_content";
 import LikesContent from "../likes/likes_content";
 import AlertsContent from "./alerts_content";
+import Loader from "../loader/loader";
 
 const AlertsTemplate = () => {
   const navigate = useNavigate();
   const [vista, setVista] = useState(""); // Vista inicial
   const [vistaActual, setVistaActual] = useState(""); // Vista inicial
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
     console.log("Opción seleccionada:", vista);
@@ -45,6 +47,10 @@ const AlertsTemplate = () => {
     // Aquí puedes manejar la lógica adicional con la opción seleccionada
   };
 
+  const isLoaderShow = (loaderShow) => {
+    setShowLoader(loaderShow); // Solo actualizar el estado directamente
+  };  
+
   return (
     <div>
       <div id='alertsBox' className="club_contenedor_tres_secciones club_contenedor container-lg">
@@ -68,10 +74,10 @@ const AlertsTemplate = () => {
           />
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
-            {vista === "" && <AlertsContent handleOnClick={redirectBack} />}
-            {vista === "likes" && <LikesContent handleOnClick={redirectBack} />}
-            {vista === "matches" && <MatchesContent handleOnClick={redirectBack} />}
-            {vista === "friends" && <FriendsContent handleOnClick={redirectBack} />}
+            {vista === "" && <AlertsContent handleOnClick={redirectBack} isLoader={isLoaderShow} />}
+            {vista === "likes" && <LikesContent handleOnClick={redirectBack} isLoader={isLoaderShow} />}
+            {vista === "matches" && <MatchesContent handleOnClick={redirectBack} isLoader={isLoaderShow} />}
+            {vista === "friends" && <FriendsContent handleOnClick={redirectBack} isLoader={isLoaderShow} />}
           </div>
         </div>
         <div className="club_contenido_bottom club_cont_info">
@@ -81,6 +87,7 @@ const AlertsTemplate = () => {
           />
         </div>
       </div>
+      {(showLoader && <Loader />)}
     </div>
   );
 };

@@ -67,8 +67,8 @@ const LikesTemplate = () => {
           />
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
-            {vista === "likes" && <LikesContent handleOnClick={redirectBack} />}
-            {vista === "matches" && <MatchesContent handleOnClick={redirectBack} />}
+            {vista === "likes" && <LikesContent handleOnClick={redirectBack} isLoader={isLoaderShow}  />}
+            {vista === "matches" && <MatchesContent handleOnClick={redirectBack} isLoader={isLoaderShow} />}
             {vista === "friends" && <FriendsContent handleOnClick={redirectBack} isLoader={isLoaderShow} />}
           </div>
         </div>

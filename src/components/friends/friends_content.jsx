@@ -70,8 +70,8 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
             const response = await friendsResponse(tokenSesion, toUserId, type);
 
             if (response.isSuccess === true) {
-                const tokenStorage = tokenSesion;
-                await getFriendsRequests(tokenStorage); // Pasa el token correctamente
+                await getFriendsRequests(tokenSesion); // Actualiza la lista de solicitudes
+                await getAllMyFriends(tokenSesion);  // Agrega esta línea para actualizar la lista de amigos
             } else {
                 console.log('Ocurrió un error al enviar tu respuesta');
             }
@@ -199,12 +199,6 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                         </div>
                                         <div className='col-2 d-flex align-items-center justify-content-end'>
                                             <div>
-                                                {/* <button 
-                                                    className='btn' 
-                                                    onClick={()=> { sendRequestFriends(solicitud?.id, false)}}
-                                                >
-                                                    <IoClose size={20} />
-                                                </button> */}
                                                 <button
                                                     className='btn'
                                                     onClick={() => { sendRequestFriends(solicitud?.id, true) }}
@@ -240,11 +234,6 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                         </div>
                                         <div className="col-2 d-flex align-items-center justify-content-end">
                                             {isGroupMode ? (
-                                                // <input
-                                                //     type="checkbox"
-                                                //     checked={selectedFriends.some(f => f.userId === friend.userId)}
-                                                //     onChange={() => handleSelectFriend(friend)}
-                                                // />
                                                 <div className="club_checkbox_wrapper_1">
                                                     <input 
                                                         id={friend.userId}

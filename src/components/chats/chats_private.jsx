@@ -59,7 +59,9 @@ const ChatsPrivate = ({ handleOnClick }) => {
     }, [tokenSesionStorage, userId]);
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
     }, [messages]);
 
     useEffect(() => {
@@ -120,7 +122,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
             timestamp: new Date().toLocaleTimeString(),
         };
 
-        setMessages((prevMessages) => [...prevMessages, newMessage]); // 🔥 Agregar nuevo mensaje al final
+        setMessages((prevMessages) => [newMessage, ...prevMessages]); // Agrega el mensaje al inicio
 
         try {
             const tokenSesion = tokenSesionStorage;
