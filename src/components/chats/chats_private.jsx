@@ -81,6 +81,43 @@ const ChatsPrivate = ({ handleOnClick }) => {
         }
     }, [])
 
+    useEffect(() => {
+        /* ⚠️🪼 Para qué es este useEffect "Polling"
+            Agregar un useEffect con setInterval para hacer getMessage periódicamente.
+            Comparar los mensajes nuevos con los anteriores para evitar actualizaciones innecesarias.
+            Limpiar el intervalo al desmontar el componente.
+            Consulta getMessage cada 3 segundos para obtener los mensajes actualizados.
+            Compara los mensajes nuevos con los actuales para evitar renders innecesarios.
+            Limpia el setInterval al desmontar el componente.
+        🪼⚠️ */
+        const interval = setInterval(async () => {
+            if (tokenSesionStorage && conversationsId) {
+                try {
+                    const response = await getMessage(tokenSesionStorage, conversationsId);
+                    if (response?.data?.result?.length > 0) {
+                        const historyMessages = response.data.result
+                            .sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))
+                            .reverse()
+                            .map(item => ({
+                                text: item.content,
+                                sender: item.senderUserId === userId ? 'destinatario' : 'remitente',
+                                timestamp: new Date(item.creationDate).toLocaleTimeString()
+                            }));
+    
+                        // 📌 Solo actualizar si hay mensajes nuevos
+                        if (JSON.stringify(historyMessages) !== JSON.stringify(messages)) {
+                            setMessages(historyMessages);
+                        }
+                    }
+                } catch (err) {
+                    console.error("Error actualizando mensajes:", err);
+                }
+            }
+        }, 3000); // 🔄 Consulta cada 3 segundos
+    
+        return () => clearInterval(interval); // 🚀 Limpia el intervalo al desmontar
+    }, [tokenSesionStorage, conversationsId, messages]);    
+
     const allListChats = async (tokenStorage) => {
         try {
             setShowLoader(true)
