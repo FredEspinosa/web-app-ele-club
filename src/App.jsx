@@ -221,7 +221,7 @@ function App() {
         element: <ThankyouPage />
       },
       {
-        path: '/chat_privado',
+        path: '/history_chat',
         element: <ChatsPrivate />
       }
     ]

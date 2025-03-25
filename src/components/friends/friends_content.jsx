@@ -7,6 +7,7 @@ import { IoClose, IoPersonAdd } from 'react-icons/io5';
 // import { PiCheckCircleFill } from 'react-icons/pi';
 import { AiFillMessage } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
+import InputDinamico from '../inputs/inputsDinamico';
 
 const FriendsContent = ({ handleOnClick, isLoader }) => {
 
@@ -19,6 +20,9 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
     const [showListFriends, setShowListFriends] = useState(true)
     const [selectedFriends, setSelectedFriends] = useState([]); // Amigos seleccionados
     const [isGroupMode, setIsGroupMode] = useState(false); // Activar selección múltiple
+    const [nameGroup, setNameGroup] = useState('');
+    const [formData, setFormData] = useState({ nameOfGroup: '' });
+
 
     useEffect(() => {
         let tokenStorage = sessionStorage.getItem("AccessToken");
@@ -120,16 +124,20 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
     };
 
     // Crear conversación grupal o privada
+    useEffect(() => {
+        if (selectedFriends.length > 1 && nameGroup) {
+            const membersIds = selectedFriends.map((friend) => friend.userId);
+            const names = selectedFriends.map((friend) => friend.name).join(", ");
+            sendConversation(membersIds, "", names, true, nameGroup);
+        }
+    }, [nameGroup]);
+
     const createConversation = async () => {
         if (selectedFriends.length === 1) {
-            // Conversación privada
             const friend = selectedFriends[0];
             sendConversation(friend.userId, friend.userPhotos[0]?.photo, friend.name, false, "Privado");
         } else {
-            // Conversación grupal
-            const membersIds = selectedFriends.map((friend) => friend.userId);
-            const names = selectedFriends.map((friend) => friend.name).join(", ");
-            sendConversation(membersIds, "", names, true, "Grupo de amigos");
+            setNameGroup(formData.nameOfGroup || 'Grupo de amigas');
         }
     };
 
@@ -140,20 +148,21 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
             category,
             membersIds: Array.isArray(membersIds) ? membersIds : [membersIds],
         };
-
         try {
             const tokenSesion = sessionStorage.getItem("AccessToken");
             const response = await conversationCreate(tokenSesion, data);
             console.log("response sendConversation", response);
-            
-            if (response.status === 200 && response.data?.conversations?.length > 0 ) {
-                const conversationsId = response.data.conversations[0].id; 
-                navigate("/chat_privado", {
+
+            if (response.status === 200 && response.data?.conversations?.length > 0) {
+                const conversationsId = response.data.conversations[0].id;
+                navigate("/history_chat", {
                     state: {
                         membersIds,
                         photoUsers: perfilPhoto,
                         name: nameUser,
-                        conversationsId
+                        conversationsId,
+                        category: category,
+                        isGroup: isGroup,
                     },
                 });
             } else {
@@ -231,11 +240,22 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
                                         </div>
                                         <div className="col-2 d-flex align-items-center justify-content-end">
                                             {isGroupMode ? (
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedFriends.some(f => f.userId === friend.userId)}
-                                                    onChange={() => handleSelectFriend(friend)}
-                                                />
+                                                // <input
+                                                //     type="checkbox"
+                                                //     checked={selectedFriends.some(f => f.userId === friend.userId)}
+                                                //     onChange={() => handleSelectFriend(friend)}
+                                                // />
+                                                <div className="club_checkbox_wrapper_1">
+                                                    <input 
+                                                        id={friend.userId}
+                                                        className="club_check_style"
+                                                        type="checkbox"
+                                                        aria-hidden="true"
+                                                        checked={selectedFriends.some(f => f.userId === friend.userId)}
+                                                        onChange={() => handleSelectFriend(friend)} 
+                                                    />
+                                                    <label htmlFor={friend.userId}> </label>
+                                                </div>
                                             ) : (
                                                 <button
                                                     className="btn"
@@ -265,9 +285,24 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
             </div>
 
             {isGroupMode && selectedFriends.length > 1 && (
-                <button className="btn btn-primary" onClick={createConversation}>
-                    Crear conversación grupal
-                </button>
+                <div>
+                    {/* <form ref={formRef}> */}
+                    <InputDinamico
+                        config={{
+                            type: 'input',
+                            name: 'nameOfGroup',
+                            // label: 'Escribe algo',
+                            placeholder: 'Nombre del grupo',
+                            iconStart: false,
+                            iconEnd: false,
+                            help: false
+                        }}
+                        value={formData.nameOfGroup}
+                        onChange={(e) => setFormData({ ...formData, nameOfGroup: e.target.value })}
+                    />
+                    {/* </form> */}
+                    <button className='btn club_btn club_btn_full club_btn_full_general club_bg_oro' onClick={createConversation}>Crear conversación grupal</button>
+                </div>
             )}
         </div>
     )

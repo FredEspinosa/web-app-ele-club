@@ -7,6 +7,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import HeaderConfiguration from '../headers/header_configuration';
 import { FaArrowLeft } from 'react-icons/fa6';
 import NavBar from '../nav_bar/navBar';
+import Loader from '../loader/loader';
+import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
+import { json } from 'body-parser';
+
 
 const ChatsPrivate = ({ handleOnClick }) => {
     const navigate = useNavigate();
@@ -17,15 +21,42 @@ const ChatsPrivate = ({ handleOnClick }) => {
     const location = useLocation();
     const conversationsId = location.state?.conversationsId || null;
     const [showMessages, setShowMessages] = useState(true);
+    const [userId, setUserId] = useState("");
+    const [displayedMessages, setDisplayedMessages] = useState([]);
+    const [showLoader, setShowLoader] = useState(false);
+    const [page, setPage] = useState(1);
+    const messagesContainerRef = useRef(null);
+    const messagesPerPage = 10;
+    const [dataUser, setDataUser] = useState([]);
+    const photoUsers = location.state?.photoUsers || '';
+    const nameId = location.state?.name || '';
+    const category = location.state?.category || '';
+    const isGroup = location.state?.isGroup || '';
 
     useEffect(() => {
         const tokenStorage = sessionStorage.getItem("AccessToken");
+        const storedUserId = localStorage.getItem('userId');
+        const dataUserMe = JSON.parse(localStorage.getItem("datosUsuario"));
+
+        if (dataUserMe) {
+            setDataUser(dataUserMe);
+        }
+
         if (tokenStorage && !tokenSesionStorage) {
             setTokenSesionStorage(tokenStorage);
-            allListChats(tokenStorage);
-            setShowMessages(false)
         }
-    }, [tokenSesionStorage]);  // 🔥 Solo depende del token
+
+        if (storedUserId && !userId) {
+            setUserId(storedUserId);
+        }
+
+        if (tokenStorage && storedUserId) {
+            console.log("storedUserId", storedUserId);
+
+            allListChats(tokenStorage);
+            setShowMessages(false);
+        }
+    }, [tokenSesionStorage, userId]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -36,25 +67,46 @@ const ChatsPrivate = ({ handleOnClick }) => {
         if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
     }, [messages]);
 
-    // ✅ Función para obtener mensajes del historial
+    useEffect(() => {
+        const chatBox = messagesContainerRef.current;
+        if (chatBox) {
+            chatBox.addEventListener('scroll', handleScroll)
+        }
+        return () => {
+            if (chatBox) {
+                chatBox.removeEventListener('scroll', handleScroll)
+            }
+        }
+    }, [])
+
     const allListChats = async (tokenStorage) => {
         try {
+            setShowLoader(true)
             const response = await getMessage(tokenStorage, conversationsId);
-            if (response?.data?.result?.length > 0) {
-                setShowMessages(true)
-                const historyMessages = response.data.result.map(item => ({
-                    text: item.content,
-                    sender: 'otro',
-                    timestamp: new Date(item.creationDate).toLocaleTimeString()
-                }));
+            console.log("response", response);
 
-                // 🔥 Añadir solo si no están repetidos
-                setMessages((prev) => [...prev, ...historyMessages]); // 🔥 Se agregan al final
+            if (response?.data?.result?.length > 0) {
+                setShowMessages(true);
+
+                const historyMessages = response.data.result
+                    .sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))    // Asegura que los mensajes estén en orden cronológico (del más antiguo al más reciente).
+                    .reverse()  // Invierte el orden para que el mensaje más reciente aparezca primero.
+                    .map(item => ({
+                        text: item.content,
+                        sender: item.senderUserId === userId ? 'destinatario ' : 'remitente', // ✅ `userId` ya está definido
+                        timestamp: new Date(item.creationDate).toLocaleTimeString()
+                    }));
+
+                setMessages(historyMessages);
+                setDisplayedMessages(historyMessages.slice(0, messagesPerPage));
+                setShowLoader(false)
             } else {
-                setShowMessages(false)
+                setShowMessages(false);
+                setShowLoader(false)
             }
         } catch (err) {
             console.log("Error obteniendo mensajes:", err);
+            setShowLoader(false)
         }
     };
 
@@ -64,11 +116,11 @@ const ChatsPrivate = ({ handleOnClick }) => {
 
         const newMessage = {
             text: formData.sendMessage,
-            sender: 'yo',
+            sender: 'destinatario',
             timestamp: new Date().toLocaleTimeString(),
         };
 
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
+        setMessages((prevMessages) => [...prevMessages, newMessage]); // 🔥 Agregar nuevo mensaje al final
 
         try {
             const tokenSesion = tokenSesionStorage;
@@ -80,23 +132,29 @@ const ChatsPrivate = ({ handleOnClick }) => {
         setFormData({ sendMessage: '' });
     };
 
-    // ✅ WebSocket para recibir mensajes en tiempo real
-    useEffect(() => {
-        const ws = new WebSocket(`https://lahplataforma.azurewebsites.net/Message?conversationId=${conversationsId}`);
+    const handleScroll = () => {
+        console.log("Se activo el scroll");
 
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.conversationId === conversationsId) {
-                setMessages((prevMessages) => [...prevMessages, {
-                    text: data.content,
-                    sender: 'otro',
-                    timestamp: new Date().toLocaleTimeString(),
-                }]);
-            }
-        };
+        if (!messagesContainerRef.current) return;
 
-        return () => ws.close();  // 🔥 Cierra la conexión cuando el componente se desmonta
-    }, [conversationsId, tokenSesionStorage]);
+        if (messagesContainerRef.current.scrollTop === 0) {
+            loadMoreMessages();
+        }
+    };
+
+    const loadMoreMessages = () => {
+        setPage((prevPage) => {
+            const nextPage = prevPage + 1;
+            const newMessages = messages.slice(0, nextPage * messagesPerPage);
+            setDisplayedMessages(newMessages)
+            return nextPage
+        })
+    }
+
+    const initCeonversation = () => {
+        setShowMessages(true)
+    }
+
 
     return (
         <div>
@@ -105,12 +163,30 @@ const ChatsPrivate = ({ handleOnClick }) => {
                     <HeaderConfiguration
                         isBtnLeft={true}
                         handleOnclick={() => navigate('/chatbox')}
-                        iconAction={<FaArrowLeft size={24} />}
-                        nameHeader={<span>{location.state?.name || "Chat"}</span>}
+                        iconAction={<FaArrowLeft size={18} />}
+                        nameHeader={
+                            <div>{(isGroup) ?
+                                <span>{category || "Chat grupal"}</span>
+                                :
+                                <span>{nameId || "Chat"}</span>
+                            }
+                            </div>
+                        }
                         sizeF={'20px'}
-                        isBtnRear={false}
-                        bgColorBar={'club_bg_oro'}
-                        textColor={'club_color_fuente_blanco'}
+                        isBtnRear={true}
+                        // handleOnclickBtn2={redirectBack}
+                        // iconActionBtn2={''}
+                        txtButtonbtn2={
+                            <div className="club_requqest_content_photo">
+                                <img className="club_cont_perfil_img"
+                                    src={photoUsers || PerfilDefault}
+                                    alt=""
+                                    style={{ width: '50px', height: '50px' }}
+                                />
+                            </div>
+                        }
+                        bgColorBar={'club_bg_gris_07'}
+                        textColor={'club_color_fuente_negro'}
                     />
                 </div>
 
@@ -118,18 +194,19 @@ const ChatsPrivate = ({ handleOnClick }) => {
                     <div className="club_content_central club_force_scroll_y">
                         <div className="col-12 text-start d-flex align-items-center">
                             <div className="d-flex flex-wrap align-items-center justify-content-center w-100 chat-content">
-                                <div className="chat-messages d-flex flex-column-reverse overflow-auto">
+                                <div className="chat-messages d-flex flex-column-reverse overflow-auto" ref={messagesContainerRef}>
                                     {messages.length > 0 ? (
                                         messages.map((msg, index) => (
                                             <div
                                                 key={index}
                                                 ref={messagesEndRef}
-                                                className={`message p-2 rounded-lg max-w-75 d-flex flex-column ${msg.sender === 'yo' ?
-                                                    'align-self-start club_bg_menta_06' :
-                                                    'align-self-end club_bg_violeta_02 text-white'}`}
+                                                className={`message p-2 rounded-lg max-w-75 d-flex flex-column ${msg.sender === 'remitente' ?
+                                                    'align-self-start club_bg_gris_06 message_chat_dest' :
+                                                    'align-self-end club_bg_oro text-white message_chat_rem'}`}
                                             >
-                                                <p className="m-0">{msg.text}</p>
-                                                <span className="small text-muted">{msg.timestamp}</span>
+                                                <span className='club_chat_name'>{msg.sender === 'remitente' ? nameId : dataUser.name}</span>
+                                                <p className="m-0 club_message_content">{msg.text}</p>
+                                                {/* <span className="small text-muted club_time_stamp">{msg.timestamp}</span> */}
                                             </div>
                                         ))
                                     ) : (
@@ -152,21 +229,21 @@ const ChatsPrivate = ({ handleOnClick }) => {
                                 <p className="club_message-description">
                                     Ve a inicio para likear perfiles - una vez que te regresen el like se volverá match y podrás chatear aquí!
                                 </p>
-                                <button className="club_action-button" onClick={() =>{setShowMessages(true)}}>Escribe un mensaje</button>
+                                <button className="club_action-button" onClick={initCeonversation}>Iniciar conversación</button>
                             </div>
                         </div>
                     </div>
                 )}
 
                 {showMessages &&
-                    <div className="chat-input col-12 club_bg_blanco" style={{ paddingBottom: '10px' }}>
+                    <div className="chat-input col-12 club_bg_blanco" style={{ paddingBottom: '15px' }}>
                         <div className="">
                             <InputDinamico
                                 config={{
                                     type: 'textArea',
                                     name: 'sendMessage',
-                                    label: 'Escribe algo',
-                                    placeholder: 'Hola...',
+                                    // label: 'Escribe algo',
+                                    placeholder: 'Mensaje nuevo',
                                     iconStart: false,
                                     iconEnd: false,
                                     help: false
@@ -185,6 +262,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
                     />
                 </div>
             </div>
+            {showLoader && <Loader />}
         </div>
     );
 };
