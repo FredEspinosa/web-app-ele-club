@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, multiselect, isDropList, storedOptions }) => {
@@ -7,9 +8,8 @@ const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, mu
   const [listDrop, setListDrop] = useState(false);
 
   useEffect(() => {
-    // Inicializar selectedOptions con storedOptions si existen valores
     if (Array.isArray(storedOptions) && storedOptions.length > 0) {
-      setSelectedOptions(storedOptions.map((item) => ({ name: item }))); // Convertir strings a objetos con 'name'
+      setSelectedOptions(storedOptions.map((item) => ({ name: item })));
     }
   }, [storedOptions]);
 
@@ -18,11 +18,11 @@ const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, mu
       const isSelected = selectedOptions.some((item) => item.name === opcion.name);
       const updatedOptions = isSelected ? selectedOptions.filter((item) => item.name !== opcion.name) : [...selectedOptions, { name: opcion.name }];
       setSelectedOptions(updatedOptions);
-      onOptionSelect(updatedOptions.map((item) => item.name)); // Enviar solo los nombres al componente padre
+      onOptionSelect(updatedOptions.map((item) => item.name));
     } else {
       const selectedOption = { name: opcion.name };
       setSelectedOptions([selectedOption]);
-      onOptionSelect([opcion.name]); // Enviar solo el nombre al componente padre
+      onOptionSelect([opcion.name]);
     }
   };
 

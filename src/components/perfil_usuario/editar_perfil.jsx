@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState, useCallback } from "react";
 import InputDinamico from "../inputs/inputsDinamico";
 import OpcionesCheck from "../inputs/opciones_check";
 import {
@@ -15,7 +16,6 @@ import {
   getZodiac,
   userProfileMe,
 } from "../../services/api";
-import Loader from "../loader/loader";
 import { FaCheck } from "react-icons/fa";
 import { enviarDatosUsuario } from "../../services/data";
 
@@ -95,7 +95,8 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
 
   function buscarNombreEnObjeto(objeto) {
     if (objeto && typeof objeto === "object") {
-      if (objeto.hasOwnProperty("name") && typeof objeto.name === "string") {
+      if (Object.prototype.hasOwnProperty.call(objeto, "name") && typeof objeto.name === "string") {
+      // if (objeto.hasOwnProperty("name") && typeof objeto.name === "string") {
         return objeto.name;
       } else {
         for (const key in objeto) {
@@ -113,9 +114,9 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
     const resultados = {};
 
     campos.forEach((campo) => {
-      resultados[campo] = []; // Inicializar con un array vacío
+      resultados[campo] = [];
 
-      if (objeto && objeto.hasOwnProperty(campo)) {
+      if (objeto && Object.prototype.hasOwnProperty.call(objeto, campo)) {
         const valorCampo = objeto[campo];
 
         if (Array.isArray(valorCampo)) {
@@ -145,10 +146,6 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
       setStoredOptionName(extractedOptionName);
     }
   }, []);
-
-  useEffect(() => {
-    console.log({ storedOptionName }); // Ahora se ejecuta después de que storedOptionName se actualiza
-  }, [storedOptionName]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
