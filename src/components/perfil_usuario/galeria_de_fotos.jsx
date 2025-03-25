@@ -24,7 +24,7 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
         console.log("dataUser antes de enviar:", updatedDataUser);
 
         try {
-          const respuesta = await enviarDatosUsuario(token, "update", updatedDataUser, true);
+          const respuesta = await enviarDatosUsuario(token, "update", updatedDataUser);
           console.log("Respuesta de enviarDatosUsuario:", respuesta);
           if (respuesta.isSuccess) {
             userProfileMe(token).then((response) => {

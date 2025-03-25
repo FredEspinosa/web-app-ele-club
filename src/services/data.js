@@ -8,35 +8,50 @@ export const limpiarTodoLocalStorage = () => {
 };
 
 // Data del local storage
-export const enviarDatosUsuario = async (tokenSesion, type, dataUser, component=false) => {
-  console.log("type", type);
-  console.log("data.js => dataUser", dataUser);
-
+export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
   try {
-    console.log("entra a try");
+    const mapData = (key, singularKey) => {
+      const value = dataUser?.[key];
+      console.log("Value:", value);
+
+      if (!value || !Array.isArray(value)) {
+        console.log("Returning empty array due to invalid value.");
+        return [];
+      }
+
+      if (value.length > 0 && value[0] && value[0].hasOwnProperty(singularKey) && value[0][singularKey] && value[0][singularKey].id) {
+        console.log("Processing with singularKey:", singularKey);
+        return value.map((item) => item[singularKey].id);
+      } else {
+        console.log("Processing without singularKey.");
+        return value.map((item) => item?.id).filter(Boolean);
+      }
+    };
 
     if (type === "update") {
       const datosTransformadosUpdate = {
-        genders: (component) ? dataUser?.genders?.map((item) => item.gender.id) : dataUser.genders?.id ? [dataUser.genders.id] : [],
-        lookingFors: (component) ? dataUser?.lookingFors?.map((item) => item.lookingFor.id) : dataUser.lookingFors?.id ? [dataUser.lookingFors.id] : [],
-        perceptions: (component) ? dataUser?.perceptions?.map((item) => item.perception.id) : dataUser.perceptions?.id ? [dataUser.perceptions.id] : [],
-        pronouns: dataUser.pronouns?.map((item) => item.id) || [],
-        relationshipStatus: dataUser.relationshipStatus?.map((item) => item.id) || [],
-        sexualIdentities: (component) ? dataUser?.sexualIdentities?.map((item) => item.sexualIdentity.id) : dataUser.sexualIdentities?.id ? [dataUser.sexualIdentities.id] : [],
-        pets: dataUser.pets?.map((item) => item.id) || [],
-        roles: dataUser.roles?.map((item) => item.id) || [],
-        interests: dataUser.interests?.map((item) => item.id) || [],
-        zodiacs: dataUser.zodiacs?.id ? [dataUser.zodiacs.id] : [],
-        smokes: dataUser.smokes?.map((item) => item.id) || [],
-        userPhotos: (component) ? dataUser.userPhotos || [] : [],
-        name: dataUser.name || "",
-        lastName: dataUser.lastName || "",
-        email: dataUser.email || "",
-        birthDate: `${dataUser.birthDate}.000Z` || "",
-        height: parseInt(dataUser.height) || 0,
-        aboutMe: dataUser.aboutMe || "",
+        genders: mapData("genders", "gender"),
+        lookingFors: mapData("lookingFors", "lookingFor"),
+        perceptions: mapData("perceptions", "perception"),
+        pronouns: mapData("pronouns", "pronoun"),
+        relationshipStatus: mapData("relationshipStatus", "relationshipStatus"),
+        sexualIdentities: mapData("sexualIdentities", "sexualIdentity"),
+        pets: mapData("pets", "pet"),
+        roles: mapData("roles", "role"),
+        interests: mapData("interests", "interest"),
+        zodiacs: mapData("zodiacs", "zodiac"),
+        smokes: mapData("smokes", "smoke"),
+        userPhotos: dataUser?.userPhotos || [],
+        name: dataUser?.name || "",
+        lastName: dataUser?.lastName || "",
+        email: dataUser?.email || "",
+        birthDate: dataUser?.birthDate ? `${dataUser.birthDate}.000Z` : "",
+        height: parseInt(dataUser?.height) || 0,
+        aboutMe: dataUser?.aboutMe || "",
       };
+
       console.log({ datosTransformadosUpdate });
+
       const respuesta = await userPreferencesUpdate(datosTransformadosUpdate, tokenSesion);
       return respuesta;
     } else {
@@ -56,7 +71,7 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser, component=
         name: dataUser.name || "",
         lastName: dataUser.lastName || "",
         email: dataUser.email || "",
-        birthDate: `${dataUser.birthDate}.000Z` || "",
+        birthDate: dataUser.birthDate ? `${dataUser.birthDate}.000Z` : "",
         height: parseInt(dataUser.height) || 0,
         aboutMe: dataUser.aboutMe || "",
       };

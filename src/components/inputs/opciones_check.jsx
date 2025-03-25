@@ -18,11 +18,11 @@ const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, mu
       const isSelected = selectedOptions.some((item) => item.name === opcion.name);
       const updatedOptions = isSelected ? selectedOptions.filter((item) => item.name !== opcion.name) : [...selectedOptions, { name: opcion.name }];
       setSelectedOptions(updatedOptions);
-      onOptionSelect(updatedOptions.map((item) => item.name));
+      onOptionSelect(updatedOptions);
     } else {
-      const selectedOption = { name: opcion.name };
-      setSelectedOptions([selectedOption]);
-      onOptionSelect([opcion.name]);
+      const selectedOption = [{ name: opcion.name, id: opcion.id }];
+      setSelectedOptions(selectedOption);
+      onOptionSelect(selectedOption);      
     }
   };
 

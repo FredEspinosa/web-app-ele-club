@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfilePicture from "./foto_de_perfil";
 import EditProfileForm from "./editar_perfil";
@@ -90,7 +90,7 @@ const UserProfile = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("datosUsuario", JSON.stringify(dataUser));
+    localStorage.setItem("datosUsuario", JSON.stringify(dataUser));    
   }, [dataUser]);
 
   useEffect(() => {
@@ -277,6 +277,92 @@ const UserProfile = () => {
                     ))}
                 </div>
               </div>
+
+              <div className="club_cont_data_perfil">
+                <h3 className="club_txt_titular">Intereses</h3>
+                <div className="d-flex flex-wrap">
+                  {Array.isArray(dataUser.interests) &&
+                    dataUser.interests?.map((item, index) => (
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.interest ? item.interest.name : item.name}</span>
+                      </li>
+                    ))}
+                </div>
+              </div>
+
+              <div className="club_cont_data_perfil">
+                <h3 className="club_txt_titular">Pets</h3>
+                <div className="d-flex flex-wrap">
+                  {Array.isArray(dataUser.pets) &&
+                    dataUser.pets?.map((item, index) => (
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.pet ? item.pet.name : item.name}</span>
+                      </li>
+                    ))}
+                </div>
+              </div>
+
+              <div className="club_cont_data_perfil">
+                <h3 className="club_txt_titular">Pronouns</h3>
+                <div className="d-flex flex-wrap">
+                  {Array.isArray(dataUser.pronouns) &&
+                    dataUser.pronouns?.map((item, index) => (
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.pronoun ? item.pronoun.name : item.name}</span>
+                      </li>
+                    ))}
+                </div>
+              </div>
+
+              <div className="club_cont_data_perfil">
+                <h3 className="club_txt_titular">RelationshipStatus</h3>
+                <div className="d-flex flex-wrap">
+                  {Array.isArray(dataUser.relationshipStatus) &&
+                    dataUser.relationshipStatus?.map((item, index) => (
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.relationshipStatus ? item.relationshipStatus.name : item.name}</span>
+                      </li>
+                    ))}
+                </div>
+              </div>
+
+              <div className="club_cont_data_perfil">
+                <h3 className="club_txt_titular">Cuál es tu rol?</h3>
+                <div className="d-flex flex-wrap">
+                  {Array.isArray(dataUser.roles) &&
+                    dataUser.roles?.map((item, index) => (
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.role ? item.role.name : item.name}</span>
+                      </li>
+                    ))}
+                </div>
+              </div>
+
+              <div className="club_cont_data_perfil">
+                <h3 className="club_txt_titular">Fumas?</h3>
+                <div className="d-flex flex-wrap">
+                  {Array.isArray(dataUser.smokes) &&
+                    dataUser.smokes?.map((item, index) => (
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.smoke ? item.smoke.name : item.name}</span>
+                      </li>
+                    ))}
+                </div>
+              </div>
+
+              <div className="club_cont_data_perfil">
+                <h3 className="club_txt_titular">Cuál es tu signo zodiacal?</h3>
+                <div className="d-flex flex-wrap">
+                  {Array.isArray(dataUser.zodiacs) &&
+                    dataUser.zodiacs?.map((item, index) => (
+                      <li className="club_no_decoration_list" key={index}>
+                        <span className="club_txt_caption w-100 club_texto_capsula">{item.zodiac ? item.zodiac.name : item.name}</span>
+                      </li>
+                    ))}
+                </div>
+              </div>
+
+
             </div>
             <br />
             <br />

@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
 import { useEffect, useState, useCallback } from "react";
 import InputDinamico from "../inputs/inputsDinamico";
@@ -95,8 +96,7 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
 
   function buscarNombreEnObjeto(objeto) {
     if (objeto && typeof objeto === "object") {
-      if (Object.prototype.hasOwnProperty.call(objeto, "name") && typeof objeto.name === "string") {
-      // if (objeto.hasOwnProperty("name") && typeof objeto.name === "string") {
+      if (objeto.hasOwnProperty("name") && typeof objeto.name === "string") {
         return objeto.name;
       } else {
         for (const key in objeto) {
@@ -116,7 +116,7 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
     campos.forEach((campo) => {
       resultados[campo] = [];
 
-      if (objeto && Object.prototype.hasOwnProperty.call(objeto, campo)) {
+      if (objeto && objeto.hasOwnProperty(campo)) {
         const valorCampo = objeto[campo];
 
         if (Array.isArray(valorCampo)) {
