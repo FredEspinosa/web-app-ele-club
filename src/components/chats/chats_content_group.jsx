@@ -14,14 +14,15 @@ const ChatsContentGroup = ({ handleOnClick, listChatsGroup }) => {
     const navigate = useNavigate();
     const userIdActual = localStorage.getItem('userId'); // Esto debe ser dinámico
 
-    const sendConversation = async (userId, perfilPhoto, nameUser, conversationId) => {
-
-        navigate("/chat_privado", {
+    const sendConversation = async (userId, perfilPhoto, nameUser, conversationId, category, isGroup) => {
+        navigate("/history_chat", {
             state: {
                 membersIds: userId,
                 photoUsers: perfilPhoto,
                 name: nameUser,
-                conversationsId: conversationId
+                conversationsId: conversationId,
+                category: category,
+                isGroup: isGroup,
             },
         });
     };
@@ -34,8 +35,6 @@ const ChatsContentGroup = ({ handleOnClick, listChatsGroup }) => {
                         <div className="club_content_scroll club_scroll_y align-items-start">
 
                             {listChatsGroup.map((chatList, index) => {
-                                console.log("chatList", chatList);
-                                
                                 const otroUsuario = chatList.conversationMembers.find(
                                     (member) => member.user.userId !== userIdActual
                                 );
@@ -50,7 +49,7 @@ const ChatsContentGroup = ({ handleOnClick, listChatsGroup }) => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <p className="club_friends_name club_color_fuente_negro">{chatList?.name || "Usuario desconocido"}</p>
+                                                    <p className="club_friends_name club_color_fuente_negro">{chatList?.category || "Grupo de amigas"}</p>
                                                 </div>
                                             </div>
                                             <div className="col-2 d-flex align-items-center justify-content-end">
@@ -62,7 +61,9 @@ const ChatsContentGroup = ({ handleOnClick, listChatsGroup }) => {
                                                                 otroUsuario.user.userId,
                                                                 otroUsuario.user.userPhotos?.[0]?.photo || PerfilDefault,
                                                                 chatList.name,
-                                                                otroUsuario.conversationId
+                                                                otroUsuario.conversationId,
+                                                                chatList.category,
+                                                                chatList.isGroup,
                                                             );
                                                         }
                                                     }}

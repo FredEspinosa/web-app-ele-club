@@ -30,11 +30,13 @@ const ChatsPrivate = ({ handleOnClick }) => {
     const [dataUser, setDataUser] = useState([]);
     const photoUsers = location.state?.photoUsers || '';
     const nameId = location.state?.name || '';
+    const category = location.state?.category || '';
+    const isGroup = location.state?.isGroup || '';
 
     useEffect(() => {
         const tokenStorage = sessionStorage.getItem("AccessToken");
         const storedUserId = localStorage.getItem('userId');
-        const dataUserMe = JSON.parse(localStorage.getItem("datosUsuario"));        
+        const dataUserMe = JSON.parse(localStorage.getItem("datosUsuario"));
 
         if (dataUserMe) {
             setDataUser(dataUserMe);
@@ -50,7 +52,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
 
         if (tokenStorage && storedUserId) {
             console.log("storedUserId", storedUserId);
-            
+
             allListChats(tokenStorage);
             setShowMessages(false);
         }
@@ -82,7 +84,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
             setShowLoader(true)
             const response = await getMessage(tokenStorage, conversationsId);
             console.log("response", response);
-            
+
             if (response?.data?.result?.length > 0) {
                 setShowMessages(true);
 
@@ -149,7 +151,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
         })
     }
 
-    const initCeonversation =() => {
+    const initCeonversation = () => {
         setShowMessages(true)
     }
 
@@ -162,7 +164,14 @@ const ChatsPrivate = ({ handleOnClick }) => {
                         isBtnLeft={true}
                         handleOnclick={() => navigate('/chatbox')}
                         iconAction={<FaArrowLeft size={18} />}
-                        nameHeader={<span>{nameId || "Chat"}</span>}
+                        nameHeader={
+                            <div>{(isGroup) ?
+                                <span>{category || "Chat grupal"}</span>
+                                :
+                                <span>{nameId || "Chat"}</span>
+                            }
+                            </div>
+                        }
                         sizeF={'20px'}
                         isBtnRear={true}
                         // handleOnclickBtn2={redirectBack}
