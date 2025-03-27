@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /***** ☠️ En este documento se declaran funciones globales que ayuden al no ser repetitivo en el código, solo funciones de exportación ☠️ *****/
 
 import { userPreferencesAdd, userPreferencesUpdate } from "./api";
@@ -8,14 +9,14 @@ export const limpiarTodoLocalStorage = () => {
 };
 
 // Data del local storage
-export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
+export const enviarDatosUsuario = async (tokenSesion, type, dataUser, usePhotoGallery = false) => {
   try {
     const mapData = (key, singularKey) => {
       const value = dataUser?.[key];
       console.log("Value:", value);
 
       if (!value || !Array.isArray(value)) {
-        console.log("Returning empty array due to invalid value.");
+        console.error("Returning empty array due to invalid value.");
         return [];
       }
 
@@ -23,7 +24,7 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
         console.log("Processing with singularKey:", singularKey);
         return value.map((item) => item[singularKey].id);
       } else {
-        console.log("Processing without singularKey.");
+        console.error("Processing without singularKey.");
         return value.map((item) => item?.id).filter(Boolean);
       }
     };
@@ -41,7 +42,7 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
         interests: mapData("interests", "interest"),
         zodiacs: mapData("zodiacs", "zodiac"),
         smokes: mapData("smokes", "smoke"),
-        userPhotos: dataUser?.userPhotos || [],
+        userPhotos: usePhotoGallery ? dataUser?.userPhotos : [],
         name: dataUser?.name || "",
         lastName: dataUser?.lastName || "",
         email: dataUser?.email || "",
@@ -75,7 +76,6 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser) => {
         height: parseInt(dataUser.height) || 0,
         aboutMe: dataUser.aboutMe || "",
       };
-      console.log("entro al else datos transformados");
       const respuesta = await userPreferencesAdd(datosTransformadosAdd, tokenSesion);
       return respuesta; // Devuelve la respuesta
     }

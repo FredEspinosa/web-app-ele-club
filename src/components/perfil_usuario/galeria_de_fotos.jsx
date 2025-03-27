@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";
@@ -19,12 +21,9 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
         const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, "");
         addPhoto(cleanBase64);
         setLocalUserPhotosNew((prevPhotos) => [...prevPhotos, cleanBase64]);
-
         const updatedDataUser = { ...dataUser, userPhotos: [cleanBase64] };
-        console.log("dataUser antes de enviar:", updatedDataUser);
-
         try {
-          const respuesta = await enviarDatosUsuario(token, "update", updatedDataUser);
+          const respuesta = await enviarDatosUsuario(token, "update", updatedDataUser, true);
           console.log("Respuesta de enviarDatosUsuario:", respuesta);
           if (respuesta.isSuccess) {
             userProfileMe(token).then((response) => {
@@ -59,8 +58,6 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
       }
 
       await deleteUserPhoto(imgId, token);
-
-      console.log("Imagen eliminada exitosamente en la base de datos");
 
       let updatedPhotos, updatedUserPhotos;
 

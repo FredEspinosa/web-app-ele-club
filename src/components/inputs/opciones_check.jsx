@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, multiselect, isDropList, storedOptions }) => {
+  
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [newSelectedOption, setNewSelectedOption] = useState("");
   const [listDrop, setListDrop] = useState(false);
@@ -12,11 +13,11 @@ const OpcionesCheck = ({ opciones, onOptionSelect, tituloDeLista, iconoCheck, mu
       setSelectedOptions(storedOptions.map((item) => ({ name: item })));
     }
   }, [storedOptions]);
-
+  
   const handleOptionClick = (opcion) => {
     if (multiselect) {
       const isSelected = selectedOptions.some((item) => item.name === opcion.name);
-      const updatedOptions = isSelected ? selectedOptions.filter((item) => item.name !== opcion.name) : [...selectedOptions, { name: opcion.name }];
+      const updatedOptions = isSelected ? selectedOptions.filter((item) => item.name !== opcion.name) : [...selectedOptions, { name: opcion.name, id: opcion.id }];
       setSelectedOptions(updatedOptions);
       onOptionSelect(updatedOptions);
     } else {

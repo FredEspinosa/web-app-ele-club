@@ -14,6 +14,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [topBarTitle, setTopBarTitle] = useState("Mi perfil");
+  // eslint-disable-next-line no-unused-vars
   const [perfilProgress, setPerfilProgress] = useState("65%");
   const [showLoader, setShowLoader] = useState(false);
   const [showAlert, setShowAlert] = useState(false);

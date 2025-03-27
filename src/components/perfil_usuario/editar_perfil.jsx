@@ -159,7 +159,7 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
     setShowLoader(true);
     const type = "update";
     try {
-      const response = await enviarDatosUsuario(token, type, { ...formData });
+      const response = await enviarDatosUsuario(token, type, { ...formData }, false);
       if (response?.isSuccess) {
         setShowAlert(true);
         setMensajeModal(
@@ -204,17 +204,29 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
   ];
 
   const optionFields = [
-    { label: "Estoy buscando", field: "lookingFors", options: options.lookingFor, initialValue: storedOptionName.lookingFors },
-    { label: "Identidad de género", field: "genders", options: options.genders, initialValue: storedOptionName.genders },
-    { label: "Identidad sexual", field: "sexualIdentities", options: options.sexualIdentity, initialValue: storedOptionName.sexualIdentities },
-    { label: "Percepción sexual", field: "perceptions", options: options.perception, initialValue: storedOptionName.perceptions },
-    { label: "Intereses", field: "interests", options: options.interests, initialValue: storedOptionName.interests },
-    { label: "Tienes mascotas?", field: "pets", options: options.pets, initialValue: storedOptionName.pets },
-    { label: "Cuál es tu pronombre?", field: "pronouns", options: options.pronouns, initialValue: storedOptionName.pronouns },
-    { label: "Estatus de relación", field: "relationshipStatus", options: options.relationshipStatus, initialValue: storedOptionName.relationshipStatus },
-    { label: "Cuál es tu rol?", field: "roles", options: options.roles, initialValue: storedOptionName.roles },
-    { label: "Fumas?", field: "smokes", options: options.smokes, initialValue: storedOptionName.smokes },
-    { label: "Cuál es tu signo zodiacal?", field: "zodiacs", options: options.zodiacs, initialValue: storedOptionName.zodiacs },
+    { label: "Estoy buscando", field: "lookingFors", options: options.lookingFor, initialValue: storedOptionName.lookingFors, multiselect: true },
+    { label: "Identidad de género", field: "genders", options: options.genders, initialValue: storedOptionName.genders, multiselect: false },
+    {
+      label: "Identidad sexual",
+      field: "sexualIdentities",
+      options: options.sexualIdentity,
+      initialValue: storedOptionName.sexualIdentities,
+      multiselect: false,
+    },
+    { label: "Percepción sexual", field: "perceptions", options: options.perception, initialValue: storedOptionName.perceptions, multiselect: false },
+    { label: "Intereses", field: "interests", options: options.interests, initialValue: storedOptionName.interests, multiselect: true },
+    { label: "Tienes mascotas?", field: "pets", options: options.pets, initialValue: storedOptionName.pets, multiselect: true },
+    { label: "Cuál es tu pronombre?", field: "pronouns", options: options.pronouns, initialValue: storedOptionName.pronouns, multiselect: false },
+    {
+      label: "Estatus de relación",
+      field: "relationshipStatus",
+      options: options.relationshipStatus,
+      initialValue: storedOptionName.relationshipStatus,
+      multiselect: false,
+    },
+    { label: "Cuál es tu rol?", field: "roles", options: options.roles, initialValue: storedOptionName.roles, multiselect: false },
+    { label: "Fumas?", field: "smokes", options: options.smokes, initialValue: storedOptionName.smokes, multiselect: true },
+    { label: "Cuál es tu signo zodiacal?", field: "zodiacs", options: options.zodiacs, initialValue: storedOptionName.zodiacs, multiselect: false },
   ];
 
   return (
@@ -226,7 +238,7 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
             <InputDinamico key={index} config={field} value={formData[field.name] || ""} onChange={handleChange} />
           ))}
         </div>
-        {optionFields.map(({ label, field, options, initialValue }) => (
+        {optionFields.map(({ label, field, options, initialValue, multiselect }) => (
           <div className="club_cont_data_perfil" key={field}>
             <h3 className="club_txt_titular">{label}</h3>
             <OpcionesCheck
@@ -235,7 +247,7 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
               onOptionSelect={(selectedOptions) => handleOptionSelect(selectedOptions, field)}
               tituloDeLista={label}
               iconoCheck={checkIcon}
-              multiselect={false}
+              multiselect={multiselect}
               isDropList={true}
             />
           </div>
