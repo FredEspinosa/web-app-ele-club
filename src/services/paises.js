@@ -222,12 +222,12 @@ export const paises = [{
         bandera: "🇨🇲",
         code: "CM"
     },
-    {
-        nombre: "Canada",
-        codigo: "+1",
-        bandera: "🇨🇦",
-        code: "CA"
-    },
+    // {
+    //     nombre: "Canada",
+    //     codigo: "+1",
+    //     bandera: "🇨🇦",
+    //     code: "CA"
+    // },
     {
         nombre: "Cape Verde",
         codigo: "+238",

@@ -30,7 +30,7 @@ const PrivacyPoliciesContent = () => {
         <div className='d-flex col-12 align-items-center'>
           <div className='col-11'>
             <p className='club_config_parrafo'>
-              <p className='club_config_parrafo'><a className='club_links club_color_fuente_blanco' href="https://helenaapp.com/privacy-policy/">https://helenaapp.com/privacy-policy/</a></p>
+              <p className='club_config_parrafo'><a className='club_links club_color_fuente_blanco' href="https://helenasafica.com/privacy-policy/">https://helenasafica.com/privacy-policy/</a></p>
             </p>
           </div>
         </div>

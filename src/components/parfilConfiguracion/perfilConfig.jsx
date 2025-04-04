@@ -41,7 +41,7 @@ const PerfilConfig = () => {
         handleOnclick={redirectHome}
         iconAction={<FaArrowLeft />}
         txtButton={''}
-        nameHeader={<span>Configuración</span>}
+        nameHeader={<span>Ajustes</span>}
         sizeF={'20px'}
         isBtnRear={false}
         bgColorBar={'club_bg_negro'} 

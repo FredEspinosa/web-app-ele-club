@@ -30,7 +30,7 @@ const TechSupportContent = () => {
         <div className='d-flex col-12 align-items-center'>
           <div className='col-11'>
             <p className='club_config_parrafo'>
-              <a className='club_links club_color_fuente_blanco' href="mailto:contacto@helenaapp.com">contacto@helenaapp.com</a>
+              <a className='club_links club_color_fuente_blanco' href="mailto:contacto@helenasafica.com">contacto@helenasafica.com</a>
             </p>
           </div>
         </div>

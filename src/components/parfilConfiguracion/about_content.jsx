@@ -42,7 +42,7 @@ const AboutContent = () => {
                 <br />
                 Versión 1.0
                 <br />
-                helenaapp.com.mx
+                <a className="club_links club_color_fuente_blanco" href="http://helenasafica.com" target="_blank" rel="noopener noreferrer">helenasafica.com</a>
               </p>
             </div>
           </div>

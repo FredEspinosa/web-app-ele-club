@@ -30,7 +30,7 @@ const TermsConditionsContent = () => {
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris club_center_content'>
         <div className='d-flex col-12 align-items-center'>
           <div className='col-11'>
-            <p className='club_config_parrafo'><a className='club_links club_color_fuente_blanco' href="https://helenaapp.com/terms/">https://helenaapp.com/terms/</a></p>
+            <p className='club_config_parrafo'><a className='club_links club_color_fuente_blanco' href="https://helenasafica.com/terms/">https://helenasafica.com/terms/</a></p>
           </div>
         </div>
       </div>

@@ -208,7 +208,7 @@ const TinderLikeCarouselV2 = () => {
       {profiles.length > 0 && (
         <div className="club_centrar_swiper_tinder">
           {/* Bullets manuales para las imágenes */}
-          <div className="club_bullets_imgs">
+          {/* <div className="club_bullets_imgs">
             {Array.from({ length: totalImages }).map((_, idx) => (
               <div
                 key={idx}
@@ -221,7 +221,7 @@ const TinderLikeCarouselV2 = () => {
                 }}
               ></div>
             ))}
-          </div>
+          </div> */}
           <TinderCard
             onSwipe={handleSwipe} // Detecta swipe
             key={profiles[currentIndex].userId}
@@ -253,10 +253,10 @@ const TinderLikeCarouselV2 = () => {
       )}
 
       <div className={`club_swiper_tache`}>
-        <TiDelete size={48.75} onClick={handleDislike} className={`active animate__animated ${animacionBtnDislike}`} />
+        <TiDelete size={60} onClick={handleDislike} className={`active animate__animated ${animacionBtnDislike}`} />
       </div>
       <div className={`club_swiper_corazon`}>
-        <IoHeartCircleSharp size={48.75} onClick={handleLike} className={`active animate__animated ${animacionBtnLike}`} />
+        <IoHeartCircleSharp size={60} onClick={handleLike} className={`active animate__animated ${animacionBtnLike}`} />
       </div>
       {(showAlert && 
             <AlertSuscribe 

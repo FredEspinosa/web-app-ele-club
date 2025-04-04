@@ -954,7 +954,7 @@ p {
 .club_configuración_barra,
 .club_perfil_barra {
     height: auto;
-    min-height: 40px;
+    min-height: 50px;
     position: fixed;
     top: 0%;
     width: 100%;
@@ -1195,6 +1195,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .club_bienvenida_footer {
@@ -2890,6 +2891,19 @@ club_onboarding_info p {
 
 .club_message_content {
     padding: 3px 0px;
+}
+
+.club_bienvenida_btns .club_btn_full_general,
+.club_crear_cuenta_cont_btns .club_btn_full_general {
+    height: 50px;
+}
+
+#homeHelena .club_input {
+    margin-bottom: 0px;
+}
+
+#homeHelena .club_input label {
+    display: none;
 }
 
 
