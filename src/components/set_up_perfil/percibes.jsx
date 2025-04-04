@@ -16,7 +16,7 @@ const TePercibes = () => {
     const [opciones, setOpciones] = useState([]);
 
     // const opciones = ['Fem', 'Masc', 'Tomfem'];
-    const tituloDeLista = 'Cómo te percibes?'
+    const tituloDeLista = '¿Cómo te percibes?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {

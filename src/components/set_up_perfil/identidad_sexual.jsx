@@ -16,7 +16,7 @@ const IdentidadSexual = () => {
     const [opciones, setOpciones] = useState([]);
 
     // const opciones = ['Lesbiana', 'Bisexual','Heterocuriosa', 'Pansexual', 'Demisexual', 'Sáfica'];
-    const tituloDeLista = 'Cual es tu identidad sexual?'
+    const tituloDeLista = '¿Cuál es tu identidad sexual?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {

@@ -16,7 +16,7 @@ const Pronombres = () => {
     const [opciones, setOpciones] = useState([]);
 
     // const opciones = ['Ella', 'Ella/él', 'Ella/elle'];
-    const tituloDeLista = 'Cuál es tu pronombre?'
+    const tituloDeLista = '¿Cuáles son tus pronombres?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {

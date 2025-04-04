@@ -15,7 +15,7 @@ const Mascota = () => {
     const [showLoader, setShowLoader] = useState(false);
     const [opciones, setOpciones] = useState([]);
 
-    const tituloDeLista = 'Tienes mascotas?'
+    const tituloDeLista = '¿Tienes mascotas?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {
@@ -28,7 +28,7 @@ const Mascota = () => {
     }
 
     const handleOmitir = () => {
-        navigate('/notificaciones')
+        navigate('/signo_zodiacal')
     }
 
     useEffect(() => {
@@ -40,14 +40,25 @@ const Mascota = () => {
         listPet()
     }, []);
 
+    const ordenPersonalizado = (a, b) => {
+        if (a.name === "Perros") return -1;
+        if (b.name === "Perros") return 1;
+        if (a.name === "Gatos") return -1;
+        if (b.name === "Gatos") return 1;
+        return 0;
+    };
+
     const listPet = async () => {
         setShowLoader(true)
         try {
           const data = await getPet();
           console.log("data", data);
           if (!data.code) {
+            setOpciones(data
+                .map(item => ({ id: item.id, name: item.name }))
+                .sort(ordenPersonalizado)
+            );
             setShowLoader(false);
-            setOpciones(data.map(item => ({ id: item.id, name: item.name })));
           } else {
             console.log("ocurrio un error ☠️");
           }
@@ -115,6 +126,12 @@ const Mascota = () => {
                         onClick={() => handleContinuar()}
                     >
                         Continuar
+                    </button>
+                    <button
+                        className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro"
+                        onClick={() => handleOmitir()}
+                    >
+                        Saltar
                     </button>
                 </div>
             </div>

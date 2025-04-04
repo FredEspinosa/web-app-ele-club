@@ -16,7 +16,7 @@ const QueBusca = () => {
     const [opciones, setOpciones] = useState([]);
 
     // const opciones = ['Citas', 'Relación Monógama', 'Relación Abierta', 'Algo Casual', 'Hacer Amigas'];
-    const tituloDeLista = 'Qué estás buscando?'
+    const tituloDeLista = '¿Qué estás buscando?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {

@@ -34,7 +34,7 @@ const Estatura = () => {
         {
             type: 'number',
             name: 'height',
-            label: 'Cuánto mides?',
+            label: '¿Cuánto mides?',
             placeholder: '165 cm',
             iconStart: false,
             iconNameStart:'',
@@ -45,11 +45,13 @@ const Estatura = () => {
     ];
 
     const handleRegresar = () => {
-        navigate('/que_buscas')
+        navigate('/tu_rol')
     }
 
     const handleOmitir = () => {
-        navigate('/notificaciones')
+        setTimeout(() => {
+            navigate('/tus_intereses');
+        }, 100);
     }
 
     const handleContinuar = () => {
@@ -63,7 +65,7 @@ const Estatura = () => {
           console.log("Datos actualizados guardados:", nuevosDatos);
           setTimeout(() => {
               navigate('/tus_intereses');
-          }, 300);
+          }, 100);
       } else {
         console.log("No se ha seleccionado ninguna opción");
       }
@@ -114,6 +116,12 @@ const Estatura = () => {
                     onClick={() => handleContinuar()}
                     >
                     Continuar
+                    </button>
+                    <button
+                    className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro"
+                    onClick={() => handleOmitir()}
+                    >
+                    Saltar
                     </button>
                 </div>
             </div>

@@ -1,18 +1,20 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";
 import { FaTimes } from "react-icons/fa";
 import { deleteUserPhoto, userProfileMe } from "../../services/api";
 import { enviarDatosUsuario } from "../../services/data";
 
-const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpload, token, dataUser }) => {
+const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpload, token, dataUser, type }) => {
   const [imgPrev, setImgPrev] = useState([]);
   const [localPhotos, setLocalPhotos] = useState(photos || []);
   const [localUserPhotosNew, setLocalUserPhotosNew] = useState(userPhotosNew || []);
 
   const handlePhotoUpload = (event) => {
+    // document.body.style.transition = "opacity 0.1s ease";
+    // document.body.style.opacity = 0;
     const files = Array.from(event.target.files);
     files.forEach((file) => {
       const reader = new FileReader();
@@ -22,14 +24,17 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
         addPhoto(cleanBase64);
         setLocalUserPhotosNew((prevPhotos) => [...prevPhotos, cleanBase64]);
         const updatedDataUser = { ...dataUser, userPhotos: [cleanBase64] };
+        if (type === "") {
+          return;
+        }
         try {
-          const respuesta = await enviarDatosUsuario(token, "update", updatedDataUser, true);
+          const respuesta = await enviarDatosUsuario(token, type, updatedDataUser, true);
           console.log("Respuesta de enviarDatosUsuario:", respuesta);
           if (respuesta.isSuccess) {
             userProfileMe(token).then((response) => {
               if (response.isSuccess) {
                 localStorage.setItem("datosUsuario", JSON.stringify(response.userProfile));
-                window.location.reload();
+                // window.location.reload();
               }
             });
           }
@@ -44,7 +49,6 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
   const handleRemovePhoto = async (indexToRemove, arrayName) => {
     try {
       console.log("Eliminando imagen en la base de datos...", indexToRemove, arrayName);
-
       let imgId;
       if (arrayName === "photos") {
         imgId = localPhotos[indexToRemove]?.id;
@@ -53,7 +57,12 @@ const PhotoGallery = ({ addPhoto, userPhotosNew, textoTitulo, photos, onPhotoUpl
       }
 
       if (!imgId) {
-        console.warn("No se encontró ID de imagen para eliminar.");
+        console.log("no hay fotos");
+        if (arrayName === "photos") {
+          setLocalPhotos(localPhotos.filter((_, index) => index !== indexToRemove));
+        } else if (arrayName === "userPhotosNew") {
+          setLocalUserPhotosNew(localUserPhotosNew.filter((_, index) => index !== indexToRemove));
+        }
         return;
       }
 

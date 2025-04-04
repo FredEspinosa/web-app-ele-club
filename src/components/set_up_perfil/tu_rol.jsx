@@ -16,7 +16,7 @@ const TuRol = () => {
     const [opciones, setOpciones] = useState([]);
 
     // const opciones = ['Activa', 'Pasiva', 'Versátil'];
-    const tituloDeLista = 'Cuál es tu rol?'
+    const tituloDeLista = '¿Cuál es tu rol?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {
@@ -53,7 +53,6 @@ const TuRol = () => {
           setShowLoader(false);
         }
     };
-    
 
     const handleContinuar = () => {
         if (selectedValue && selectedValue.length > 0) {
@@ -73,6 +72,12 @@ const TuRol = () => {
         } else {
             console.log("No se ha seleccionado ninguna opción");
         }
+    }
+
+    const handleOmit = () => {
+        setTimeout(() => {
+            navigate('/cuanto_mides');
+        }, 100);
     }
 
   return (
@@ -112,6 +117,12 @@ const TuRol = () => {
                     onClick={() => handleContinuar()}
                     >
                     Continuar
+                    </button>
+                    <button
+                    className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro"
+                    onClick={() => handleOmit()}
+                    >
+                    Saltar
                     </button>
                 </div>
             </div>
