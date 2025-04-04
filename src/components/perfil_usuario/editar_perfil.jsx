@@ -215,8 +215,8 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
     },
     { label: "Percepción sexual", field: "perceptions", options: options.perception, initialValue: storedOptionName.perceptions, multiselect: false },
     { label: "Intereses", field: "interests", options: options.interests, initialValue: storedOptionName.interests, multiselect: true },
-    { label: "Tienes mascotas?", field: "pets", options: options.pets, initialValue: storedOptionName.pets, multiselect: true },
-    { label: "Cuál es tu pronombre?", field: "pronouns", options: options.pronouns, initialValue: storedOptionName.pronouns, multiselect: false },
+    { label: "¿Tienes mascotas?", field: "pets", options: options.pets, initialValue: storedOptionName.pets, multiselect: true },
+    { label: "¿Cuáles son tus pronombres?", field: "pronouns", options: options.pronouns, initialValue: storedOptionName.pronouns, multiselect: false },
     {
       label: "Estatus de relación",
       field: "relationshipStatus",
@@ -224,9 +224,9 @@ const EditProfileForm = ({ onSave, dataUser, cancelEdit, token, setShowLoader, s
       initialValue: storedOptionName.relationshipStatus,
       multiselect: false,
     },
-    { label: "Cuál es tu rol?", field: "roles", options: options.roles, initialValue: storedOptionName.roles, multiselect: false },
-    { label: "Fumas?", field: "smokes", options: options.smokes, initialValue: storedOptionName.smokes, multiselect: true },
-    { label: "Cuál es tu signo zodiacal?", field: "zodiacs", options: options.zodiacs, initialValue: storedOptionName.zodiacs, multiselect: false },
+    { label: "¿Cuál es tu rol?", field: "roles", options: options.roles, initialValue: storedOptionName.roles, multiselect: false },
+    { label: "¿Fumas?", field: "smokes", options: options.smokes, initialValue: storedOptionName.smokes, multiselect: true },
+    { label: "¿Cuál es tu signo zodiacal?", field: "zodiacs", options: options.zodiacs, initialValue: storedOptionName.zodiacs, multiselect: false },
   ];
 
   return (

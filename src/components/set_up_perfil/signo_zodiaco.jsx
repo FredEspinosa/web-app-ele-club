@@ -16,7 +16,7 @@ const SignoZodiaco = () => {
     const [opciones, setOpciones] = useState([]);
 
     // const opciones = ['Capri', 'Acuario', 'Picis', 'Sagi', 'Escorpio', 'Libra', 'Virgo', 'Leo', 'Cáncer', 'Géminis', 'Tauro', 'Aries'];
-    const tituloDeLista = 'Cuál es tu signo zodiacal?'
+    const tituloDeLista = '¿Cuál es tu signo zodiacal?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {
@@ -29,7 +29,7 @@ const SignoZodiaco = () => {
     }
 
     const handleOmitir = () => {
-        navigate('/notificaciones')
+        navigate('/fumas')
     }
 
     useEffect(() => {
@@ -112,6 +112,12 @@ const SignoZodiaco = () => {
                         onClick={() => handleContinuar()}
                     >
                         Continuar
+                    </button>
+                    <button
+                        className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro"
+                        onClick={() => handleOmitir()}
+                    >
+                        Saltar
                     </button>
                 </div>
             </div>

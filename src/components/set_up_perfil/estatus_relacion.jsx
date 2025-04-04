@@ -15,7 +15,7 @@ const EstatusDeRelacion = () => {
   const [opciones, setOpciones] = useState([]);
 
   // const opciones = ['Soltera', 'En pareja', 'Casada', 'Divorciada', 'En Citas', 'Relación Abierta'];
-  const tituloDeLista = "Cual es tu estatus de relación?";
+  const tituloDeLista = "¿Cuál es tu estatus de relación?";
   const iconoCheck = <FaCheck size={24} style={{ color: "#BC8D40" }} />;
 
   const handleOptionSelect = (selectedOptions) => {

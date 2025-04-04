@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import OpcionesCheck from '../inputs/opciones_check'
 import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
-import { getSmoke, userProfileMe } from '../../services/api';
+import { getSmoke } from '../../services/api';
 import Loader from '../loader/loader';
 import { enviarDatosUsuario } from '../../services/data';
 import AlertSuscribe from '../alertas/alert_suscribete';
@@ -21,7 +22,7 @@ const Habitos = () => {
     const [tokenSesionStorage, setTokenSesionStorage] = useState("");
 
     // const opciones = ['Cigarros', 'Vape', 'Weed', 'No'];
-    const tituloDeLista = 'Fumas?'
+    const tituloDeLista = '¿Fumas?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (idOrIds) => {

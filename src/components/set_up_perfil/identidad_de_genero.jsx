@@ -16,7 +16,7 @@ const IdentidadGenero = () => {
     const [opciones, setOpciones] = useState([]);
 
     // const opciones = ['Mujer', 'No-Binarie', 'Gender Fluid', 'Mujer Trans'];
-    const tituloDeLista = 'Cual es tu identidad de género?'
+    const tituloDeLista = '¿Cuál es tu identidad de género?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {

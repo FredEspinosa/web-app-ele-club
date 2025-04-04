@@ -10,6 +10,8 @@ export const limpiarTodoLocalStorage = () => {
 
 // Data del local storage
 export const enviarDatosUsuario = async (tokenSesion, type, dataUser, usePhotoGallery = false) => {
+  console.log(dataUser);
+  
   try {
     const mapData = (key, singularKey) => {
       const value = dataUser?.[key];
@@ -72,7 +74,7 @@ export const enviarDatosUsuario = async (tokenSesion, type, dataUser, usePhotoGa
         name: dataUser.name || "",
         lastName: dataUser.lastName || "",
         email: dataUser.email || "",
-        birthDate: dataUser.birthDate ? `${dataUser.birthDate}.000Z` : "",
+        birthDate: dataUser.birthDate || "",
         height: parseInt(dataUser.height) || 0,
         aboutMe: dataUser.aboutMe || "",
       };

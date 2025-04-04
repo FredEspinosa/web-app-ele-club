@@ -6,15 +6,15 @@ const ProfileDataList = ({ dataUser }) => {
   const dataFields = [
     { key: "lookingFors", title: "Estoy buscando" },
     { key: "genders", title: "Identidad de género" },
-    { key: "sexualIdentities", title: "Identidad sexual" },
+    { key: "sexualIdentities", title: "¿Cuál es tu identidad sexual?" },
     { key: "perceptions", title: "Percepción sexual" },
     { key: "interests", title: "Intereses" },
-    { key: "pets", title: "Tienes mascotas?" },
-    { key: "pronouns", title: "Cuál es tu pronombre?" },
+    { key: "pets", title: "¿Tienes mascotas?" },
+    { key: "pronouns", title: "¿Cuáles son tus pronombres?" },
     { key: "relationshipStatus", title: "Estatus de relación" },
-    { key: "roles", title: "Cuál es tu rol?" },
-    { key: "smokes", title: "Fumas?" },
-    { key: "zodiacs", title: "Cuál es tu signo zodiacal?" },
+    { key: "roles", title: "¿Cuál es tu rol?" },
+    { key: "smokes", title: "¿Fumas?" },
+    { key: "zodiacs", title: "¿Cuál es tu signo zodiacal?" },
   ];
 
   return (

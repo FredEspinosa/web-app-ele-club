@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfilePicture from "./foto_de_perfil";
@@ -14,7 +15,6 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [topBarTitle, setTopBarTitle] = useState("Mi perfil");
-  // eslint-disable-next-line no-unused-vars
   const [perfilProgress, setPerfilProgress] = useState("65%");
   const [showLoader, setShowLoader] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -75,19 +75,14 @@ const UserProfile = () => {
     return dataUser.birthDate ? calcularEdad(dataUser.birthDate) : "";
   }, [dataUser.birthDate]);
 
-  const topRef = useRef(null);
   const scrollToTop = useCallback(() => {
-    topRef.current?.scrollIntoView({ behavior: "smooth" });
-    setTimeout(() => {
-      window.scrollBy({ top: -700, left: 0, behavior: "smooth" });
-    }, 10);
+    scrollTo(0,0, { behavior: "smooth" });
   }, []);
 
   useEffect(() => {
     if (sessionStorage.getItem("AccessToken")) {
       setTokenSesionStorage(sessionStorage.getItem("AccessToken"));
     }
-    scrollToTop();
   }, []);
 
   useEffect(() => {
@@ -138,16 +133,18 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div ref={topRef} id="perfilUsuario">
+    <div id="perfilUsuario">
       <div className="club_perfil_barra">
         <div className="col-12 d-flex club_contenedor club_bg_blanco">
           <div className="col-3 d-flex align-items-center justify-content-start">
             <button className="btn d-flex align-items-center club_color_fuente_negro club_config_btn_back" onClick={redirectBack}>
-              {topBarTitle === "Editar perfil" ? (
+              <FaArrowLeft size={14} className="club_color_fuente_negro" />
+
+              {/* {topBarTitle === "Editar perfil" ? (
                 <FaArrowLeft size={14} className="club_color_fuente_negro" />
               ) : (
                 <IoIosSettings size={24} className="club_color_fuente_negro" />
-              )}
+              )} */}
             </button>
           </div>
           <div className="col-6 d-flex align-items-center justify-content-center">
@@ -328,7 +325,7 @@ const UserProfile = () => {
               </div>
 
               <div className="club_cont_data_perfil">
-                <h3 className="club_txt_titular">Cuál es tu rol?</h3>
+                <h3 className="club_txt_titular">¿Cuál es tu rol?</h3>
                 <div className="d-flex flex-wrap">
                   {Array.isArray(dataUser.roles) &&
                     dataUser.roles?.map((item, index) => (
@@ -340,7 +337,7 @@ const UserProfile = () => {
               </div>
 
               <div className="club_cont_data_perfil">
-                <h3 className="club_txt_titular">Fumas?</h3>
+                <h3 className="club_txt_titular">¿Fumas?</h3>
                 <div className="d-flex flex-wrap">
                   {Array.isArray(dataUser.smokes) &&
                     dataUser.smokes?.map((item, index) => (
@@ -352,7 +349,7 @@ const UserProfile = () => {
               </div>
 
               <div className="club_cont_data_perfil">
-                <h3 className="club_txt_titular">Cuál es tu signo zodiacal?</h3>
+                <h3 className="club_txt_titular">¿Cuál es tu signo zodiacal?</h3>
                 <div className="d-flex flex-wrap">
                   {Array.isArray(dataUser.zodiacs) &&
                     dataUser.zodiacs?.map((item, index) => (
@@ -406,6 +403,7 @@ const UserProfile = () => {
         textoTitulo={"Agregar Fotos"}
         token={tokenSesionStorage}
         dataUser={dataUser}
+        type={'update'}
       />
       <div className="p-5 m-5"></div>
       <NavBar currentPage={"Perfil"} />
