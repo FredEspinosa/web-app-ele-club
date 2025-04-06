@@ -53,14 +53,19 @@ const PerfilOtraPersona = () => {
             // Validar la respuesta
             if (response?.isSuccess === true) { // Ajusta según el código esperado por tu API
                 console.log("Datos enviados correctamente:", response);
+                setShowAlert(true);
+                setMensajeModal(<p>Tu like se ha enviado correctamente.</p>);
+                setTimeout(() => {
+                    setShowAlert(false)
+                }, 1000);
                 // getDataProfileMe(tokenSesion)
             } else {
                 console.error("Ocurrió un error en la API:", response);
             }
         } catch (err) {
             console.error("Error al enviar datos del usuario:", err);
-            // setShowAlert(true);
-            // setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
+            setShowAlert(true);
+            setMensajeModal(<p>Ocurrio un error al enviar tu solicitud.</p>);
         } finally {
             // setShowLoader(false); // Asegurarse de ocultar el loader siempre
             // setShowAlert(true);
@@ -94,6 +99,14 @@ const PerfilOtraPersona = () => {
 
     const closeModal = () => {
         setShowAlert(false)
+    }
+
+    const sendBlockFriend = () => {
+        setShowAlert(true);
+            setMensajeModal(<p>Se ha bloqueado a esta persona.</p>);
+            setTimeout(() => {
+            setShowAlert(false)
+        }, 1000);
     }
  
     return (
@@ -193,7 +206,12 @@ const PerfilOtraPersona = () => {
                         </div>
                         <div className="club_cont_btns_doble club_bienvenida_btns club_bienvenida_btns">
                             <div className="col-12">
-                                <button className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro">Bloquear</button>
+                                <button className="btn club_btn club_btn_full club_btn_full_general club_btn_borde_oro" onClick={() => {
+                                        sendBlockFriend ();
+                                    }}
+                                >
+                                    Bloquear
+                                </button>
                             </div>
                         </div>
                     </div>
