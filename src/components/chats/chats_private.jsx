@@ -9,7 +9,6 @@ import { FaArrowLeft } from 'react-icons/fa6';
 import NavBar from '../nav_bar/navBar';
 import Loader from '../loader/loader';
 import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
-import { json } from 'body-parser';
 
 
 const ChatsPrivate = ({ handleOnClick }) => {
@@ -32,6 +31,7 @@ const ChatsPrivate = ({ handleOnClick }) => {
     const nameId = location.state?.name || '';
     const category = location.state?.category || '';
     const isGroup = location.state?.isGroup || '';
+    const membersIds = location.state?.membersIds || '';
 
     useEffect(() => {
         const tokenStorage = sessionStorage.getItem("AccessToken");
@@ -101,7 +101,8 @@ const ChatsPrivate = ({ handleOnClick }) => {
                             .map(item => ({
                                 text: item.content,
                                 sender: item.senderUserId === userId ? 'destinatario' : 'remitente',
-                                timestamp: new Date(item.creationDate).toLocaleTimeString()
+                                timestamp: new Date(item.creationDate).toLocaleTimeString(),
+                                nameRemitent:item.senderUserId
                             }));
     
                         // 📌 Solo actualizar si hay mensajes nuevos
@@ -122,19 +123,21 @@ const ChatsPrivate = ({ handleOnClick }) => {
         try {
             setShowLoader(true)
             const response = await getMessage(tokenStorage, conversationsId);
-            console.log("response", response);
+            console.log("response allListChats", response);
 
             if (response?.data?.result?.length > 0) {
-                setShowMessages(true);
-
-                const historyMessages = response.data.result
+                setShowMessages(true);// Output: "Pricila Linda"
+                
+                const historyMessages = response.data.result                
                     .sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))    // Asegura que los mensajes estén en orden cronológico (del más antiguo al más reciente).
                     .reverse()  // Invierte el orden para que el mensaje más reciente aparezca primero.
                     .map(item => ({
                         text: item.content,
                         sender: item.senderUserId === userId ? 'destinatario ' : 'remitente', // ✅ `userId` ya está definido
-                        timestamp: new Date(item.creationDate).toLocaleTimeString()
+                        timestamp: new Date(item.creationDate).toLocaleTimeString(),
+                        nameRemitent:item.senderUserId
                     }));
+                console.log("historyMessages", historyMessages);
 
                 setMessages(historyMessages);
                 setDisplayedMessages(historyMessages.slice(0, messagesPerPage));
@@ -235,19 +238,41 @@ const ChatsPrivate = ({ handleOnClick }) => {
                             <div className="d-flex flex-wrap align-items-center justify-content-center w-100 chat-content">
                                 <div className="chat-messages d-flex flex-column-reverse overflow-auto" ref={messagesContainerRef}>
                                     {messages.length > 0 ? (
-                                        messages.map((msg, index) => (
-                                            <div
-                                                key={index}
-                                                ref={messagesEndRef}
-                                                className={`message p-2 rounded-lg max-w-75 d-flex flex-column ${msg.sender === 'remitente' ?
-                                                    'align-self-start club_bg_gris_06 message_chat_dest' :
-                                                    'align-self-end club_bg_oro text-white message_chat_rem'}`}
-                                            >
-                                                <span className='club_chat_name'>{msg.sender === 'remitente' ? nameId : dataUser.name}</span>
-                                                <p className="m-0 club_message_content">{msg.text}</p>
-                                                {/* <span className="small text-muted club_time_stamp">{msg.timestamp}</span> */}
-                                            </div>
-                                        ))
+                                        messages.map((msg, index) => {                                            
+                                            if (isGroup === true ) {
+                                                const senderUserId = msg.nameRemitent;
+                                                const member = membersIds.find(member => member.userId === senderUserId);
+                                                const nameMember = member ? member.name : 'Nombre no encontrado';
+
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        ref={messagesEndRef}
+                                                        className={`message p-2 rounded-lg max-w-75 d-flex flex-column ${msg.sender === 'remitente' ?
+                                                            'align-self-start club_bg_gris_06 message_chat_dest' :
+                                                            'align-self-end club_bg_oro text-white message_chat_rem'}`}
+                                                    >
+                                                        <span className='club_chat_name'>{msg.sender === 'remitente' ? nameMember : dataUser.name}</span>
+                                                        <p className="m-0 club_message_content">{msg.text}</p>
+                                                        {/* <span className="small text-muted club_time_stamp">{msg.timestamp}</span> */}
+                                                    </div>
+                                                )
+                                            } else {
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        ref={messagesEndRef}
+                                                        className={`message p-2 rounded-lg max-w-75 d-flex flex-column ${msg.sender === 'remitente' ?
+                                                            'align-self-start club_bg_gris_06 message_chat_dest' :
+                                                            'align-self-end club_bg_oro text-white message_chat_rem'}`}
+                                                    >
+                                                        <span className='club_chat_name'>{msg.sender === 'remitente' ? nameId : dataUser.name}</span>
+                                                        <p className="m-0 club_message_content">{msg.text}</p>
+                                                        {/* <span className="small text-muted club_time_stamp">{msg.timestamp}</span> */}
+                                                    </div>
+                                                )
+                                            }
+                                        })
                                     ) : (
                                         <p>No hay mensajes aún.</p>
                                     )}

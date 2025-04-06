@@ -715,7 +715,6 @@ export const getMessage = async( tokenSesion, conversationId ) => {
 
     try {
         const response = await axios.request(config);
-        console.log('Response getMessage', response);
         return response        
     } catch (error) {
         console.error("Error en MessageSend:", error);

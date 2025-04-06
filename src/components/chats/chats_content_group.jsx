@@ -53,7 +53,7 @@ const ChatsContentGroup = ({ handleOnClick, listChatsGroup }) => {
                                                 </div>
                                             </div>
                                             <div className="col-2 d-flex align-items-center justify-content-end">
-                                                <button
+                                                {/* <button
                                                     className="btn"
                                                     onClick={() => {
                                                         if (otroUsuario) {
@@ -69,7 +69,33 @@ const ChatsContentGroup = ({ handleOnClick, listChatsGroup }) => {
                                                     }}
                                                 >
                                                     <AiFillMessage className="club_color_fuente_violeta_04" size={20} />
+                                                </button> */}
+                                                <button
+                                                    className="btn"
+                                                    onClick={() => {
+                                                        const allMembers = chatList.conversationMembers
+                                                            ?.filter((member) => member.user.userId !== userIdActual)
+                                                            ?.map((member) => ({
+                                                                userId: member.user.userId,
+                                                                name: member.user.name,
+                                                                photoUser: member.user?.userPhotos?.[0]?.photo 
+                                                            }));
+
+                                                        const perfilPhoto = chatList.conversationMembers?.[0]?.user?.userPhotos?.[0]?.photo || PerfilDefault;
+
+                                                        sendConversation(
+                                                            allMembers,
+                                                            perfilPhoto,
+                                                            chatList.name,
+                                                            chatList.id,
+                                                            chatList.category,
+                                                            chatList.isGroup,
+                                                        );
+                                                    }}
+                                                >
+                                                    <AiFillMessage className="club_color_fuente_violeta_04" size={20} />
                                                 </button>
+
                                             </div>
                                         </div>
                                     </div>
