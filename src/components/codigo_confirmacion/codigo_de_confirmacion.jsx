@@ -23,15 +23,18 @@ const CodigoValidacion = ({ avanzarPagina }) => {
   const [textoBtnCancel, setTextoBtnCancel] = useState("");
   const [showBtnAcept, setShowBtnAcept] = useState(true);
   const [textoBtnAcept, setTextoBtnAcept] = useState("");
+  const [tokenFCM, setTokenFCM] = useState("");
 
   useEffect(() => {
     const datosGuardados = localStorage.getItem("datosUsuario");
-    if (datosGuardados) {
+    const tokenFirebase = sessionStorage.getItem("FCMToken")
+    if (datosGuardados && tokenFirebase) {
       const parsedDatos = JSON.parse(datosGuardados);
       setDatosUsuario(parsedDatos);
       if (parsedDatos?.phoneNumber) {
         const numeroTel = parsedDatos.codeCountry + parsedDatos.phoneNumber;
         setTelUsuario(numeroTel);
+        setTokenFCM(tokenFirebase)
         consultaTuCodigo(numeroTel)
       } else {
         console.log("No se encontró el dato 'Telefono'.");
@@ -69,7 +72,7 @@ const CodigoValidacion = ({ avanzarPagina }) => {
     console.log("parametros funcion", telUsuario, codigoIngresado);
     setShowLoader(true);
     try {
-      const data = await validaCodigoToken(telUsuario, codigoIngresado);
+      const data = await validaCodigoToken(telUsuario, codigoIngresado, tokenFCM);
       console.log("data", data);
       if (data.accessToken) {
         setShowLoader(false)

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Footer from './footer';
 import LogoClubTopBarBig from '../../assets/images/LCLUB_LOGO_BIG.png';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { limpiarTodoLocalStorage } from '../../services/data';
+import { limpiarTodoLocalStorage, requestAndSetupNotifications } from '../../services/data';
 import InputTelefono from '../inputs/input_telefono';
 import { paises } from '../../services/paises';
 import FooterDinamico from '../footer/footer_dinamico';
@@ -34,6 +34,11 @@ const CrearCuentaContenido = () => {
 
     useEffect(() => {
         limpiarTodoLocalStorage();
+    }, [])
+    useEffect(() => {
+        setTimeout(() => {
+            requestAndSetupNotifications();
+        }, 200);
     }, [])
 
     const handleLoginSuccess = async (credentialResponse) => {

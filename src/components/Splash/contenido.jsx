@@ -3,15 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import LogoClubTopBarBig from '../../assets/images/LCLUB_LOGO_BIG.png'; // Importa la imagen como una URL 
 
-
 const SplashCont = () => {
     const navigate = useNavigate();
-    const [animacion, setAnimacion] = useState ('animate__backInDown');
+    const [animacion, setAnimacion] = useState('animate__backInDown');
 
     useEffect(() => {
         setAnimacion('animate__backInDown')
     }, [])
-    
+
     setTimeout(() => {
         setAnimacion('animate__backOutUp')
         setTimeout(() => {
@@ -19,11 +18,11 @@ const SplashCont = () => {
         }, 500);
     }, 1500);
 
-  return (
-    <div className='club_contenedor container-lg club_contenedor_splash'>
-        <img className={`active animate__animated ${animacion}`} src={LogoClubTopBarBig} alt="Club Logo" />
-    </div>
-  )
+    return (
+        <div className='club_contenedor container-lg club_contenedor_splash'>
+            <img className={`active animate__animated ${animacion}`} src={LogoClubTopBarBig} alt="Club Logo" />
+        </div>
+    )
 }
 
 export default SplashCont

@@ -39,6 +39,7 @@ const endpoints = {
     requestsFriends: `${hostApi}Friends/Requests`,
     responseFriends: `${hostApi}Friends/ResponseRequest`,
     matchesMe: `${hostApi}Matches/MyMatches`,
+    loguinFirebase: `${hostApi}Login`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -75,12 +76,16 @@ export const obtenerCodigo = async (numeroTel) => {
   }
 };
 
-export const validaCodigoToken = async (telUsuario, codigoIngresado) => {
+export const validaCodigoToken = async (telUsuario, codigoIngresado, tokenFCM) => {
   let data = {
     phoneNumber: telUsuario,
     code: codigoIngresado,
     skip: true,
+    registrationToken: tokenFCM,
   };
+
+  console.log("data login", data);
+  
 
   let config = {
     method: "POST",
