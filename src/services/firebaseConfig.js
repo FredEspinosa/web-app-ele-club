@@ -5,16 +5,6 @@ import { getAuth } from 'firebase/auth';
 import { getMessaging } from 'firebase/messaging';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCFuaP8p6NLgU4u6qnt1xWjen0SRtHiFRs",
-//   authDomain: "lahplataforma-481ad.firebaseapp.com",
-//   projectId: "lahplataforma-481ad",
-//   storageBucket: "lahplataforma-481ad.firebasestorage.app",
-//   messagingSenderId: "850828285963",
-//   appId: "1:850828285963:web:83b6c08075e659199acf0e",
-//   measurementId: "G-F3DMBTB4L2"
-// };
-
 const firebaseConfig = {
     apiKey: "AIzaSyBw3PfxvKcXF4USNMA4jN7uYAUM4l7dbiQ",
     authDomain: "helenaapp-75fdb.firebaseapp.com",

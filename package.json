@@ -33,6 +33,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.26.1",
     "react-tinder-card": "^1.6.4",
+    "react-toastify": "^11.0.5",
     "stripe": "^17.5.0",
     "swiper": "^11.1.12",
     "vite-plugin-pwa": "^0.21.1"

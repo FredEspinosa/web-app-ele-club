@@ -49,6 +49,8 @@ import AboutPage from './pages/config_pages/about_page';
 import PaymentForm from './components/form_stripe/payment_form';
 import ThankyouPage from './pages/thankyou_page';
 import ChatsPrivate from './components/chats/chats_private';
+import { NotificationProvider } from './components/notifications_context/notification_context';
+import AlertaNotificacion from './components/notifications_context/alert_notification';
 
 
 function App() {
@@ -229,7 +231,11 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      {/* <RouterProvider router={router} /> */}
+      <NotificationProvider>
+        <AlertaNotificacion />
+        <RouterProvider router={router} />
+      </NotificationProvider>
     </>
   );
 }

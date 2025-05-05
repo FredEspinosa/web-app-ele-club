@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiBellAlert } from "react-icons/hi2";
 import { BsChatSquareDotsFill } from "react-icons/bs";
 import { IoHeart, IoHeartCircleOutline } from "react-icons/io5";
 import { IoMdPerson } from "react-icons/io";
+import { NotificationContext } from "../notifications_context/notification_context";
 
 const NavBar = ({ currentPage, onOptionSelect }) => {
   const navigate = useNavigate();
 
   // Estado para manejar la opción activa
   const [activeOption, setActiveOption] = useState(currentPage || "Inicio");
+  const { notifications } = useContext(NotificationContext);
 
   // Sincronizar estado si `currentPage` cambia
   useEffect(() => {
@@ -48,20 +50,21 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
     <div className="club_nav_bar">
       <div className="club_nav_opciones">
         <div
-          className={`club_nav_opcion_icono ${
-            activeOption === "Alertas" ? "active animate__animated animate__fadeInUp" : ""
-          }`}
+          className={`club_nav_opcion_icono ${activeOption === "Alertas" ? "active animate__animated animate__fadeInUp" : ""
+            }`}
           onClick={() => handleClick("Alertas")}
         >
           <div>
+            {notifications.length > 0 && (
+              <span className="notification-badge">{notifications.length}</span>
+            )}
             <HiBellAlert size={24} />
           </div>
           <span>Alertas</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${
-            activeOption === "Chats" ? "active animate__animated animate__fadeInUp" : ""
-          }`}
+          className={`club_nav_opcion_icono ${activeOption === "Chats" ? "active animate__animated animate__fadeInUp" : ""
+            }`}
           onClick={() => handleClick("Chats")}
         >
           <div>
@@ -70,9 +73,8 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           <span>Chats</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${
-            activeOption === "Inicio" ? "active animate__animated animate__fadeInUp" : ""
-          }`}
+          className={`club_nav_opcion_icono ${activeOption === "Inicio" ? "active animate__animated animate__fadeInUp" : ""
+            }`}
           onClick={() => handleClick("Inicio")}
         >
           <div>
@@ -81,9 +83,8 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           <span>Inicio</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${
-            activeOption === "Likes" ? "active animate__animated animate__fadeInUp" : ""
-          }`}
+          className={`club_nav_opcion_icono ${activeOption === "Likes" ? "active animate__animated animate__fadeInUp" : ""
+            }`}
           onClick={() => handleClick("Likes")}
         >
           <div>
@@ -92,9 +93,8 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           <span>Likes</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${
-            activeOption === "Perfil" ? "active animate__animated animate__fadeInUp" : ""
-          }`}
+          className={`club_nav_opcion_icono ${activeOption === "Perfil" ? "active animate__animated animate__fadeInUp" : ""
+            }`}
           onClick={() => handleClick("Perfil")}
         >
           <div>

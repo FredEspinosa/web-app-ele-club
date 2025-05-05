@@ -118,7 +118,6 @@ export const setupFCM = async () => {
       if (token) {
         console.log("📲 FCM Token:", token);
         sessionStorage.setItem("FCMToken", token);
-        // Aquí puedes enviar el token a tu back
       } else {
         console.warn("🚫 No se obtuvo token. Verifica los permisos.");
       }
@@ -127,9 +126,10 @@ export const setupFCM = async () => {
     }
 
     // Escucha notificaciones en primer plano
-    onMessage(messaging, (payload) => {
-      console.log("🔔 Mensaje recibido en primer plano:", payload);
-      // Puedes mostrar una alerta personalizada si quieres
-    });
+    // onMessage(messaging, (payload) => {
+    //   console.log("🔔 Mensaje recibido en primer plano:", payload);
+    //   // Puedes mostrar una alerta personalizada si quieres
+    //   setNotification(payload.notification);
+    // });
   }
 };
