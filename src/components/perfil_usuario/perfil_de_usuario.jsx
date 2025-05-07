@@ -10,12 +10,17 @@ import NavBar from "../nav_bar/navBar";
 import { FaArrowLeft } from "react-icons/fa";
 import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
+import ProgressBar from "../set_up_perfil/ProgressBar";
+import { useProgress } from "../../hooks/ProgressContext";
+import { userProfileMe } from "../../services/api";
+import { use } from "react";
+import { useCalcProgress } from "../../hooks/useCalcProgress";
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [topBarTitle, setTopBarTitle] = useState("Mi perfil");
-  const [perfilProgress, setPerfilProgress] = useState("65%");
+  const [perfilProgress, setPerfilProgress] = useState("45%");
   const [showLoader, setShowLoader] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeModal, setMensajeModal] = useState("");
@@ -56,6 +61,9 @@ const UserProfile = () => {
       }
     );
   });
+  const { setCurrentStep } = useProgress();
+  const progressValueCalc = useCalcProgress(dataUser);
+
 
   const calcularEdad = useCallback((fechaNacimiento) => {
     const hoy = new Date();
@@ -85,9 +93,14 @@ const UserProfile = () => {
     }
   }, []);
 
+  
   useEffect(() => {
-    localStorage.setItem("datosUsuario", JSON.stringify(dataUser));    
+    localStorage.setItem("datosUsuario", JSON.stringify(dataUser));
   }, [dataUser]);
+  
+  useEffect(() => {
+    setCurrentStep(progressValueCalc);
+  }, [dataUser, setCurrentStep, progressValueCalc]);
 
   useEffect(() => {
     scrollToTop();
@@ -186,17 +199,7 @@ const UserProfile = () => {
 
         {!isEditing ? (
           <>
-            <div className="club_cont_barra">
-              <span className="club_color_fuente_negro">
-                Completa tu perfil <span>{perfilProgress}</span>
-              </span>
-              <div className="club_barra_progreso">
-                <div className="club_progreso club_bg_oro active"></div>
-                <div className="club_progreso club_bg_oro active"></div>
-                <div className="club_progreso club_bg_oro active animate__animated animate__bounceIn"></div>
-                <div className="club_progreso"></div>
-              </div>
-            </div>
+            <ProgressBar porcentaje={progressValueCalc / 4 * 100} />
             <br />
             <br />
 

@@ -4,29 +4,34 @@ import InputDinamico from "../inputs/inputsDinamico";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
+import ProgressBar from "./ProgressBar";
+import { useProgress } from "../../hooks/ProgressContext";
 
 const DatosPersonales = () => {
   const formRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const [datosUsuario, setDatosUsuario] = useState({});
-  const nameIs = location.state?.nameIs || '';
-  const lastNameIs = location.state?.lastNameIs || '';
-  const emailIs = location.state?.emailIs || '';
+  const nameIs = location.state?.nameIs || "";
+  const lastNameIs = location.state?.lastNameIs || "";
+  const emailIs = location.state?.emailIs || "";
   const [formData, setFormData] = useState({
-    name: location.state? nameIs : '',
-    lastName: location.state? lastNameIs : '',
+    name: location.state ? nameIs : "",
+    lastName: location.state ? lastNameIs : "",
     birthDate: "",
-    email: location.state? emailIs : '',
+    email: location.state ? emailIs : "",
     age: "",
-  }); 
+  });
+  const { setCurrentStep } = useProgress();
 
   useEffect(() => {
+    setCurrentStep(1);
     const datosGuardados = localStorage.getItem("datosUsuario");
     if (datosGuardados) {
       setDatosUsuario(JSON.parse(datosGuardados));
     }
   }, []);
+
 
   const calcularEdad = (fechaNacimiento) => {
     console.log("fechaNacimiento", fechaNacimiento);
@@ -95,7 +100,6 @@ const DatosPersonales = () => {
   const handleContinuar = () => {
     const nuevosDatos = { ...datosUsuario, ...formData };
     localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
-    console.log("Datos actualizados guardados:", nuevosDatos);
     setTimeout(() => {
       navigate("/primeras_fotos");
     }, 300);
@@ -110,17 +114,7 @@ const DatosPersonales = () => {
             <span onClick={() => handleRegresar()}>Atrás</span>
           </div>
           <div className="club_cont_info_grow_1">
-            <div className="col-12 d-flex justify-content-start">
-              <div className="club_cont_barra">
-                <span className="club_color_fuente_blanco">Completa tu perfil</span>
-                <div className="club_barra_progreso">
-                  <div className="club_progreso active animate__animated animate__bounceIn"></div>
-                  <div className="club_progreso"></div>
-                  <div className="club_progreso"></div>
-                  <div className="club_progreso"></div>
-                </div>
-              </div>
-            </div>
+            <ProgressBar />
             <div className="col-12 club_margin_top_56">
               <form ref={formRef}>
                 {campos.map((campo, index) => (

@@ -6,6 +6,8 @@ import { FaCheck } from 'react-icons/fa';
 import { IoIosArrowBack } from 'react-icons/io';
 import { getPerception } from '../../services/api';
 import Loader from '../loader/loader';
+import ProgressBar from './ProgressBar';
+import { useProgress } from '../../hooks/ProgressContext';
 
 const TePercibes = () => {
 
@@ -14,13 +16,13 @@ const TePercibes = () => {
     const [datosUsuario, setDatosUsuario] = useState({});
     const [showLoader, setShowLoader] = useState(false);
     const [opciones, setOpciones] = useState([]);
+    const { setCurrentStep } = useProgress();
 
-    // const opciones = ['Fem', 'Masc', 'Tomfem'];
     const tituloDeLista = '¿Cómo te percibes?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
     const handleOptionSelect = (selectedOptions) => {
-        setSelectedValue(selectedOptions); // Puede ser un objeto o un array de objetos
+        setSelectedValue(selectedOptions);
         console.log('Opciones seleccionadas:', selectedOptions);
     };
 
@@ -32,7 +34,6 @@ const TePercibes = () => {
         setShowLoader(true)
         try {
           const data = await getPerception();
-          console.log("data", data);
           if (!data.code) {
             setShowLoader(false);
             setOpciones(data.map(item => ({ id: item.id, name: item.name })));
@@ -46,12 +47,11 @@ const TePercibes = () => {
     };
 
     useEffect(() => {
-        // Obtener los datos guardados del localStorage al cargar el componente
+        setCurrentStep(3);
         const datosGuardados = localStorage.getItem("datosUsuario");
         if (datosGuardados) {
-            setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
+            setDatosUsuario(JSON.parse(datosGuardados));
         }
-
         listPerception()
     }, []);
     
@@ -65,10 +65,7 @@ const TePercibes = () => {
                     ? selectedValue.map(item => ({ id: item.id, name: item.name })) 
                     : { id: selectedValue.id, name: selectedValue.name }
             };
-
-            // Guarda los nuevos datos en el localStorage
             localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
-            console.log("Datos actualizados guardados:", nuevosDatos);
             setTimeout(() => {
                 navigate('/identidad_de_genero');
             }, 300);
@@ -86,17 +83,7 @@ const TePercibes = () => {
                     <span onClick={() => handleRegresar()}>Atrás</span>
                 </div>
                 <div className="club_cont_info_grow_1">
-                    <div className="col-12 d-flex justify-content-start">
-                    <div className="club_cont_barra">
-                        <span>Completa tu perfil</span>
-                        <div className='club_barra_progreso'>
-                            <div className='club_progreso active'></div>
-                            <div className='club_progreso active'></div>
-                            <div className='club_progreso active animate__animated animate__bounceIn'></div>
-                            <div className='club_progreso'></div>
-                        </div>
-                    </div>
-                    </div>
+                    <ProgressBar/>
                     <div className="col-12 club_margin_top_56">
                         {/* <p>Opción seleccionada: {selectedValue}</p> */}
                         <OpcionesCheck 

@@ -6,6 +6,8 @@ import OpcionesCheck from '../inputs/opciones_check';
 import { IoIosArrowBack } from 'react-icons/io';
 import { getSexualIdentity } from '../../services/api';
 import Loader from '../loader/loader';
+import { useProgress } from '../../hooks/ProgressContext';
+import ProgressBar from './ProgressBar';
 
 const IdentidadSexual = () => {
 
@@ -14,8 +16,8 @@ const IdentidadSexual = () => {
     const [datosUsuario, setDatosUsuario] = useState({});
     const [showLoader, setShowLoader] = useState(false);
     const [opciones, setOpciones] = useState([]);
-
-    // const opciones = ['Lesbiana', 'Bisexual','Heterocuriosa', 'Pansexual', 'Demisexual', 'Sáfica'];
+    const { setCurrentStep } = useProgress();
+    
     const tituloDeLista = '¿Cuál es tu identidad sexual?'
     const iconoCheck = <FaCheck size={24} style={{color:'#BC8D40'}} />
   
@@ -29,10 +31,10 @@ const IdentidadSexual = () => {
     }
 
     useEffect(() => {
-        // Obtener los datos guardados del localStorage al cargar el componente
+        setCurrentStep(2);
         const datosGuardados = localStorage.getItem("datosUsuario");
         if (datosGuardados) {
-            setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
+            setDatosUsuario(JSON.parse(datosGuardados));
         }
 
         listSexualIdentity();
@@ -85,17 +87,7 @@ const IdentidadSexual = () => {
                     <span onClick={() => handleRegresar()}>Atrás</span>
                 </div>
                 <div className="club_cont_info_grow_1">
-                    <div className="col-12 d-flex justify-content-start">
-                    <div className="club_cont_barra">
-                        <span>Completa tu perfil</span>
-                        <div className='club_barra_progreso'>
-                            <div className='club_progreso active'></div>
-                            <div className='club_progreso active'></div>
-                            <div className='club_progreso active animate__animated animate__bounceIn'></div>
-                            <div className='club_progreso'></div>
-                        </div>
-                    </div>
-                    </div>
+                    <ProgressBar />
                     <div className="col-12 club_margin_top_56">
                         <OpcionesCheck 
                             opciones={opciones} 

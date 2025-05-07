@@ -49,6 +49,7 @@ import AboutPage from './pages/config_pages/about_page';
 import PaymentForm from './components/form_stripe/payment_form';
 import ThankyouPage from './pages/thankyou_page';
 import ChatsPrivate from './components/chats/chats_private';
+import { ProgressProvider } from './hooks/ProgressContext';
 
 
 function App() {
@@ -94,7 +95,7 @@ function App() {
       },
       {
         path: '/mi_perfil',
-        element: <PerfilPage />
+        element: <ProgressProvider><PerfilPage /></ProgressProvider>
       },
       {
         path: '/configuracion',
@@ -102,23 +103,23 @@ function App() {
       },
       {
         path: '/datos_personales',
-        element: <DatosPersonalesPerfil />
+        element: <ProgressProvider><DatosPersonalesPerfil /></ProgressProvider>
       },
       {
         path: '/primeras_fotos',
-        element: <PrimeraFoto />
+        element: <ProgressProvider><PrimeraFoto /></ProgressProvider>
       },
       {
         path: '/pronombres',
-        element: <PronombresPage />
+        element: <ProgressProvider><PronombresPage /></ProgressProvider>
       },
       {
         path: '/identidad_sexual',
-        element: <IdentidadSexualPage />
+        element: <ProgressProvider><IdentidadSexualPage /></ProgressProvider>
       },
       {
         path: '/como_te_percibes',
-        element: <ComoTePercibes />
+        element: <ProgressProvider><ComoTePercibes /></ProgressProvider>
       },
       {
         path: '/identidad_de_genero',
