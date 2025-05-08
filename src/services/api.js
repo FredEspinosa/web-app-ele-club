@@ -493,7 +493,7 @@ export const userSuscription = async (tokenSesion) => {
 };
 
 // Get GoogleLogin
-export const loginGoogle = async (tokentCodeGoogle) => {
+export const loginGoogle = async (tokentCodeGoogle, tokenFCM) => {
     let config = {
         method: "POST",
         url: endpoints.googleLogin,
@@ -502,7 +502,8 @@ export const loginGoogle = async (tokentCodeGoogle) => {
             "Content-Type": "application/json",
         },
         data: {
-            "googleToken": tokentCodeGoogle
+            "googleToken": tokentCodeGoogle,
+            "registrationToken": tokenFCM,
         }
     };
 
