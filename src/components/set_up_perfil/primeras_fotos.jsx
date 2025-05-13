@@ -3,25 +3,29 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import PhotoGallery from "../perfil_usuario/galeria_de_fotos";
+import ProgressBar from "./ProgressBar";
+import { useProgress } from "../../hooks/ProgressContext";
 
 const PrimerasFotos = () => {
   const navigate = useNavigate();
   const [datosUsuario, setDatosUsuario] = useState({});
   const [userPhotosNew, setUserPhotosNew] = useState([]);
   const [tokenSesionStorage, setTokenSesionStorage] = useState([]);
+    const { setCurrentStep } = useProgress();
+  
 
   useEffect(() => {
-    // Obtener los datos guardados del localStorage al cargar el componente
+    setCurrentStep(1);
     const datosGuardados = localStorage.getItem("datosUsuario");
     if (datosGuardados) {
-      setDatosUsuario(JSON.parse(datosGuardados)); // Parsea y guarda los datos en el estado
+      setDatosUsuario(JSON.parse(datosGuardados));
     }
     if (sessionStorage.getItem("AccessToken")) {
       setTokenSesionStorage(sessionStorage.getItem("AccessToken"));
     }
   }, []);
 
-  const [formData, setFormData] = useState({
+  const [formData] = useState({
     userPhotos: "",
   });
 
@@ -51,7 +55,6 @@ const PrimerasFotos = () => {
       };
       // Guarda los nuevos datos en el localStorage
       localStorage.setItem("datosUsuario", JSON.stringify(nuevosDatos));
-      console.log("Datos actualizados guardados:", nuevosDatos);
       setTimeout(() => {
         navigate("/pronombres");
       }, 300);
@@ -69,17 +72,7 @@ const PrimerasFotos = () => {
             <span onClick={() => handleRegresar()}>Atrás</span>
           </div>
           <div className="club_cont_info_grow_1">
-            <div className="col-12 d-flex justify-content-start">
-              <div className="club_cont_barra">
-                <span>Completa tu perfil</span>
-                <div className="club_barra_progreso">
-                  <div className="club_progreso active"></div>
-                  <div className="club_progreso active animate__animated animate__bounceIn"></div>
-                  <div className="club_progreso"></div>
-                  <div className="club_progreso"></div>
-                </div>
-              </div>
-            </div>
+            <ProgressBar />
             <div className="col-12 club_margin_top_56">
               <PhotoGallery
                   addPhoto={addPhoto}
