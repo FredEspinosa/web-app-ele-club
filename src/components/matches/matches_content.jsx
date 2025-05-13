@@ -12,41 +12,9 @@ import InputDinamico from '../inputs/inputsDinamico';
 
 const MatchesContent = ({ handleOnClick, isLoader }) => {
 
-    // const [showFriends, setShowFriends] = useState(true)
-    // const [tokenSesionStorage, setTokenSesionStorage] = useState('');
-    // const [requests, setRequests] = useState([])
-
-    // useEffect(() => {
-    //     let tokenStorage = sessionStorage.getItem("AccessToken");
-    //     if (tokenStorage) {
-    //         setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
-    //         getMatchesMyMatches(tokenStorage)
-    //     }
-    // }, []);
-
-    // const getMatchesMyMatches = async (tokenStorage) => {
-    //     try {
-    //         const tokenSesion = tokenStorage;
-    //         const response = await matchesMyMatches(tokenSesion);
-    //         console.log("response getFriendsRequests", response);
-
-    //         // La respuesta esperada está en `response.result`
-    //         const result = response?.result;
-    //         console.log("Contenido de result:", result);
-
-    //         setRequests(Array.isArray(result) ? result : []);
-    //         setShowFriends(result && result.length > 0);
-
-    //     } catch (error) {
-    //         console.log(error);
-    //         setRequests([]); // En caso de error, evitar que `requests` sea undefined
-    //     }
-    // };
-
     const navigate = useNavigate()
     const [showFriends, setShowFriends] = useState(true)
     const [tokenSesionStorage, setTokenSesionStorage] = useState('');
-    // const [typeResponse, setTypeResponse] = useState('')
     const [requests, setRequests] = useState([])
     const [myFriendsOk, setMyFriendsOk] = useState([])
     const [showListFriends, setShowListFriends] = useState(true)
@@ -61,7 +29,6 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
         if (tokenStorage) {
             setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
             getMatchesMyMatches(tokenStorage);
-            // getFriendsRequests(tokenStorage)
         }
     }, []);
 
@@ -95,42 +62,6 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
             //   setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
         }
     }
-
-    //Funciones para aceptar una solicitud de amistad
-    // const sendRequestFriends = async (toUserId, type) => {
-    //     try {
-    //         const tokenSesion = sessionStorage.getItem("AccessToken");
-    //         const response = await friendsResponse(tokenSesion, toUserId, type);
-
-    //         if (response.isSuccess === true) {
-    //             await getFriendsRequests(tokenSesion); // Actualiza la lista de solicitudes
-    //             await getAllMyFriends(tokenSesion);  // Agrega esta línea para actualizar la lista de amigos
-    //         } else {
-    //             console.log('Ocurrió un error al enviar tu respuesta');
-    //         }
-    //     } catch (error) {
-    //         console.error("Error en sendRequestFriends:", error);
-    //     }
-    // };
-
-    // const getFriendsRequests = async (tokenStorage) => {
-    //     isLoader(true);
-    //     try {
-    //         const response = await matchesMyMatches(tokenStorage);
-    //         const result = response?.result || [];
-    //         console.log("Contenido de result:", result);
-
-    //         setRequests([]);
-    //         setRequests(result);
-    //         // setTimeout(() => setRequests(result), 0);
-    //         setShowFriends(result.length > 0);
-    //     } catch (error) {
-    //         console.error("Error en getFriendsRequests:", error);
-    //         setRequests([]);
-    //     } finally {
-    //         isLoader(false);
-    //     }
-    // };
 
     // Detectar pulsación larga para activar selección múltiple
     let pressTimer;

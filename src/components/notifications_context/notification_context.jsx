@@ -13,7 +13,10 @@ export const NotificationProvider = ({ children }) => {
     useEffect(() => {
         if (messaging) {
             onMessage(messaging, (payload) => {
-                const newNotif = payload.notification;
+                console.log("data onMessage", payload);
+                
+                const newNotif = payload.data;
+                // const newNotif = payload.notification;
                 console.log("🔔 Nueva notificación recibida:", newNotif);
 
                 setNotifications((prev) => {

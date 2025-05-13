@@ -10,6 +10,8 @@ import LikesContent from "../likes/likes_content";
 import AlertsContent from "./alerts_content";
 import Loader from "../loader/loader";
 import { NotificationContext } from "../notifications_context/notification_context";
+import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
+
 
 const AlertsTemplate = () => {
   const navigate = useNavigate();
@@ -84,19 +86,27 @@ const AlertsTemplate = () => {
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
             {vista === "" &&
-              <div className="container">
+              <div className="">
                 {localNotifs.length === 0 ? (
                   <LikesContent handleOnClick={redirectBack} isLoader={isLoaderShow} />
                 ) : (
-                  <div>
-                    <h1>Mis Notificaciones</h1>
-                    <ul>
-                      {localNotifs.map((n, index) => (
-                        <li key={index}>
-                          <strong>{n.title}</strong> – {n.body}
-                        </li>
+                  <div className="club_color_fuente_negro">
+                    <h1 className="text-center">Mis Notificaciones</h1>
+                    <div className="">
+                      {localNotifs.map((notify, index) => (
+                      <div key={index} className="col-10 d-flex align-items-center container">
+                        <div className="club_requqest_content_photo">
+                          <img className="club_cont_perfil_img club_img_notify"
+                            src={notify?.profilePictureURL || PerfilDefault}
+                            alt=""
+                          />
+                        </div>
+                        <div>
+                          <p className="club_friends_name club_color_fuente_negro">{notify?.body || "Nueva notificación"}</p>
+                        </div>
+                      </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 )}
               </div>

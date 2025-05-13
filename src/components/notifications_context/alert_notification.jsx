@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef } from 'react';
 import { NotificationContext } from './notification_context';
 import { toast, ToastContainer } from 'react-toastify';
+import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
 import 'react-toastify/dist/ReactToastify.css';
 
 const AlertaNotificacion = () => {
@@ -9,24 +10,33 @@ const AlertaNotificacion = () => {
 
     useEffect(() => {
         if (notifications.length < lastShownIndex.current) {
-            lastShownIndex.current = 0; // Reinicia si se vació el array
+            lastShownIndex.current = 0; // Reinicia si se vació el array            
         }
 
         if (notifications.length > lastShownIndex.current) {
             const newNotifications = notifications.slice(lastShownIndex.current);
-
+            console.log("newNotifications", newNotifications);
+            
             newNotifications.forEach((notif, idx) => {
-                toast.info(
+                // toast.info( // Para agregar un icono en el alert
+                toast(
                     <div
+                        className='col-12 d-flex align-items-center justify-content-around'
                         onClick={() => removeNotification(lastShownIndex.current + idx)}
                         style={{ cursor: 'pointer' }}
-                    >
-                        <strong>{notif.title || "Nueva notificación"}</strong>
-                        <div>{notif.body || "Tienes una nueva alerta"}</div>
+                    >   
+                        <div className='col-2'>
+                            <img className='club_cont_perfil_img club_img_notify' src={notif?.profilePictureURL || PerfilDefault }/>
+                        </div>
+                        <div className='col-10'>
+                            <strong>{notif?.title || "Nueva notificación"}</strong>
+                            <div>{notif?.body || "Tienes una nueva alerta"}</div>
+                        </div>
                     </div>,
                     {
                         position: "top-right",
                         autoClose: 5000,
+                        // autoClose: false,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
