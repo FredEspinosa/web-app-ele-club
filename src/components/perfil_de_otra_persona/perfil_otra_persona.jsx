@@ -16,6 +16,7 @@ const PerfilOtraPersona = () => {
     const [btnDisabled, setBtnDisabled] = useState(false)
 
     const location = useLocation();
+    console.log(location)
     const profileImages = location.state?.profileImages || [];
     const nameProfile = location.state?.nameProfile || '';
     const age = location.state?.age|| '';

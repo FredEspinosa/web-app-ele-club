@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@mixins": ["src/styles/globals/mixins.js"],
+      "@components/*": ["src/components/*"],
+
+    }
+  }
+}

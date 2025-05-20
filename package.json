@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@hookform/resolvers": "^5.0.1",
     "@mui/icons-material": "^6.0.2",
     "@mui/material": "^6.0.2",
     "@mui/x-date-pickers": "^7.22.1",
@@ -25,17 +26,26 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "firebase": "^11.0.1",
+    "framer-motion": "^12.10.4",
     "google-auth-library": "^9.15.0",
     "jwt-decode": "^4.0.0",
+    "lodash.debounce": "^4.0.8",
+    "nanoid": "^5.1.5",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.56.3",
     "react-icons": "^5.3.0",
+    "react-intersection-observer": "^9.16.0",
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.26.1",
     "react-tinder-card": "^1.6.4",
     "stripe": "^17.5.0",
     "swiper": "^11.1.12",
-    "vite-plugin-pwa": "^0.21.1"
+    "swr": "^2.3.3",
+    "uuid": "^11.1.0",
+    "vite-plugin-pwa": "^0.21.1",
+    "zod": "^3.24.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -47,6 +57,12 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
+    "msw": "^2.8.2",
     "vite": "^5.4.1"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

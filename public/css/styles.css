@@ -5,6 +5,7 @@
     --color-background-blanco: #ffffff;
     --color-primario-oro: #BC8D40;
     --color-primario-naranja: #FF9D5F;
+    --color-gris-descubre: #C6C6C8;
     /* Colores violeta */
     --color-primario-violeta-01: #FFC1E5;
     --color-primario-violeta-02: #FC9ED5;
@@ -47,6 +48,10 @@
     --color-alerta-verde: #007D00;
     --color-alerta-naranja: #FF9E00;
     --color-alerta-rojo: #CF0000;
+    /* Colores Descubre */
+    --color-titulo-pagina: #1F2024;
+    --color-background-calendar-icon: #882DE7;
+    --color-background-bell-icon: #164A99;
 }
 
 /* ❗️Toda clase personalizada será iniciada con la palabra club, 

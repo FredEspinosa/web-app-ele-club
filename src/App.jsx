@@ -49,6 +49,10 @@ import AboutPage from './pages/config_pages/about_page';
 import PaymentForm from './components/form_stripe/payment_form';
 import ThankyouPage from './pages/thankyou_page';
 import ChatsPrivate from './components/chats/chats_private';
+import Discover from './pages/discover/page';
+import Layout from './pages/discover/layout';
+import EventDetails from './pages/discover/EventDetails';
+import ServiceDetails from './pages/discover/ServiceDetails';
 
 
 function App() {
@@ -223,6 +227,19 @@ function App() {
       {
         path: '/history_chat',
         element: <ChatsPrivate />
+      },
+      {
+        path: '/descubre',
+        children: [
+          { index: true, Component: Discover },
+          {
+            Component: Layout,
+            children: [
+              { path: "evento/:id", Component: EventDetails },
+              { path: "servicio/:id", Component: ServiceDetails },
+            ],
+          },
+        ],
       }
     ]
   )
