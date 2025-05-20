@@ -8,8 +8,7 @@ export function useCalcProgress(userProfile) {
     if (userProfile.aboutMe !== null) {
       completitud += 0.5;
     }
-  
-    // Arreglos a verificar
+
     const arreglos = [
       'genders',
       'lookingFors',
@@ -25,7 +24,6 @@ export function useCalcProgress(userProfile) {
       'userPhotos',
     ];
   
-    // Verificar la presencia de elementos en los arreglos
     arreglos.forEach((arreglo) => {
       if (userProfile[arreglo] && userProfile[arreglo].length > 0) {
         completitud += 0.288;
