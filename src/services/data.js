@@ -4,6 +4,8 @@ import { getToken, onMessage } from "firebase/messaging";
 import { userPreferencesAdd, userPreferencesUpdate } from "./api";
 import { messaging } from "./firebaseConfig";
 
+const vapidKeyE = import.meta.env.VITE_HELENA_FIREBASE_VAPID_KEY;
+
 export const limpiarTodoLocalStorage = () => {
   localStorage.clear();
   sessionStorage.clear();
@@ -109,9 +111,11 @@ export const setupFCM = async () => {
     console.log("entro a notifications");
 
     try {
+      console.log("vapidKeyE", vapidKeyE);
+      
       const token = await getToken(messaging, {
-        vapidKey:
-          "BLGzBu_jD9zIhiUhD-M_eimbYRPS0Ppto9yZ9VhA3MvIIfkCnHeTcbP41KgD7Mt77D68Joxg6V3vBANZoHQdHPE", // 🔐 Este lo sacas de Firebase Console > Cloud Messaging
+        // vapidKey: "BLGzBu_jD9zIhiUhD-M_eimbYRPS0Ppto9yZ9VhA3MvIIfkCnHeTcbP41KgD7Mt77D68Joxg6V3vBANZoHQdHPE", // 🔐 Este lo sacas de Firebase Console > Cloud Messaging
+        vapidKey: vapidKeyE, // 🔐 Este lo sacas de Firebase Console > Cloud Messaging
         serviceWorkerRegistration: registration,
       });
 

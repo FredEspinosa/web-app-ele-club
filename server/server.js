@@ -1,11 +1,19 @@
 //  Comando para iniciar el server: node server/server.js
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import Stripe from 'stripe';
 import cors from 'cors';
 import { OAuth2Client } from 'google-auth-library';
 
+// Environment Variables
+const secretKey = process.env.STRIPE_SECRET_KEY;
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const urlOrigin = process.env.FRONTEND_ORIGIN;
+
 // const stripe = new Stripe('sk_test_IKYCHOAmUhC7IPTdaoVtO58D'); // Key test stripe
-const stripe = new Stripe('sk_test_51QK2i8GAVmU9n0M4XjML2UfAPvVM8X0917NV58VKzSUJoE3H2jMUKrxSMo2idRMKjVnRDhlS7Ax5tCwQ60duj6HG00AQtZKyLf');  // Secret Key My Stripe
+const stripe = new Stripe(secretKey);  // Secret Key My Stripe
 
 const app = express();
 const port = 3001; // Usa un puerto disponible
@@ -14,7 +22,7 @@ const port = 3001; // Usa un puerto disponible
 // app.use(express.json());
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Ajusta al dominio de tu frontend
+  origin: urlOrigin, // Ajusta al dominio de tu frontend
   credentials: true, // Permite cookies y encabezados de autenticación
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
@@ -79,7 +87,7 @@ app.post('/create-payment-intent', async (req, res) => {
 });
 
 // Google Login
-const CLIENT_ID = '30011618273-nh5igt93a24bu2juthi2e6hsbt6c9vfc.apps.googleusercontent.com'; // Usa tu client_id
+const CLIENT_ID = googleClientId; // Usa tu client_id
 const client = new OAuth2Client(CLIENT_ID);
 
 app.post('/crear_cuenta', async (req, res) => {
