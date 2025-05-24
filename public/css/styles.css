@@ -2932,6 +2932,24 @@ club_onboarding_info p {
     background: var(--color-primario-oro) !important;
 }
 
+.club_info_me > h3 {
+    margin-bottom: 0px !important;
+}
+
+.club_info_me li {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    height: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.club_info_me li span {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 
 No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bootstrap  */

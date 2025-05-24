@@ -7,8 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { likeSend, locationFeed } from "../../services/api";
 import AlertSuscribe from "../alertas/alert_suscribete";
 import Loader from "../loader/loader";
+import { FaCheck } from "react-icons/fa6";
+import ProfilePicture from "../../assets/images/perfil/blank-profile-picture.png";
 
-const TinderLikeCarouselV2 = () => {
+
+const TinderLikeCarouselV2 = ({ubicationData}) => {
+  
   const navigate = useNavigate()
   const [profiles, setProfiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,6 +24,7 @@ const TinderLikeCarouselV2 = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeModal, setMensajeModal] = useState("");
   const [showLoader, setShowLoader] = useState(false);
+  const [gpsData, setGpsData] = useState (ubicationData);
 
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
@@ -29,37 +34,43 @@ const TinderLikeCarouselV2 = () => {
   useEffect(() => {
     let tokenStorage = sessionStorage.getItem("AccessToken");
       if (tokenStorage) {
+        // console.log("gpsData swiper v2", gpsData);        
         setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
-        updateUbication(tokenStorage); 
+        // updateUbication(tokenStorage); 
+        sendLocationToServer(tokenStorage)
       }
   }, []);
 
-  const updateUbication = (tokenStorage) => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocation({ latitude, longitude });
-          // Enviar ubicación al servicio
-          console.log("location", location);
+  // const updateUbication = (tokenStorage) => {
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         setLocation({ latitude, longitude });
+  //         // Enviar ubicación al servicio
+  //         console.log("location", location);
           
-          sendLocationToServer(tokenStorage, { latitude, longitude });
-        },
-        (error) => {
-          console.error("Error obteniendo la ubicación:", error);
-          setError(error.message);
-          setShowAlert(true);
-          setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
-        }
-      );
-    } else {
-      setError("La geolocalización no está soportada en este navegador.");
-    }
-  }
+  //         sendLocationToServer(tokenStorage, { latitude, longitude });
+  //       },
+  //       (error) => {
+  //         console.error("Error obteniendo la ubicación:", error);
+  //         setError(error.message);
+  //         setShowAlert(true);
+  //         setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
+  //       }
+  //     );
+  //   } else {
+  //     setError("La geolocalización no está soportada en este navegador.");
+  //   }
+  // }
 
-  const sendLocationToServer = async (tokenStorage, location) => {
+  const sendLocationToServer = async (tokenStorage) => {
     setShowLoader(true)
     try {
+      let location = {
+        latitude: gpsData.latitude,
+        longitude: gpsData.longitude,
+      }      
       const tokenSesion = tokenStorage;
       const response = await locationFeed(tokenSesion, location)
       
@@ -116,7 +127,7 @@ const TinderLikeCarouselV2 = () => {
   };
 
   const handleDislike = () => {
-    console.log("No me gusta", profiles[currentIndex].name);
+    // console.log("No me gusta", profiles[currentIndex].name);
     setAnimacionBtnDislike('animate__rotateOut'); // Activa la animación
     let user = profiles[currentIndex].userId
     let liked = false
@@ -146,6 +157,11 @@ const TinderLikeCarouselV2 = () => {
     // console.log("Imagen actual:", imageProfile[imageIndex]); // Debug
     return imageProfile[imageIndex];
   };
+  
+  // const getProfileImage = () => {
+  //   const image = imageProfile?.[imageIndex];
+  //   return image || ProfilePicture;
+  // };
 
   const handleSwipe = (direction) => {
     if (direction === "left") {
@@ -242,10 +258,10 @@ const TinderLikeCarouselV2 = () => {
           {/* Nombre y Datos de la Persona */}
           <div className="col-12 club_carrucel_datos_persona">
             <h3 className="col-12" onClick={goPersonProfile}>
-              {profiles[currentIndex].name} {profiles[currentIndex].lastName}
+              {profiles[currentIndex].name} {profiles[currentIndex].lastName}, {profiles[currentIndex].age} <FaCheck className='club_color_fuente_violeta_05' size={24} />
             </h3>
             <p className="col-12">
-              Missing data...
+              {profiles[currentIndex] ? profiles[currentIndex].userLocation?.location : 'Missing data...'}
               {/* {profiles[currentIndex].delegation}, {profiles[currentIndex].delegation} */}
             </p>
           </div>

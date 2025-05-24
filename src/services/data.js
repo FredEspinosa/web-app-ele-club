@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 /***** ☠️ En este documento se declaran funciones globales que ayuden al no ser repetitivo en el código, solo funciones de exportación ☠️ *****/
-import { getToken, onMessage } from "firebase/messaging";
-import { userPreferencesAdd, userPreferencesUpdate } from "./api";
+import { getToken } from "firebase/messaging";
+import { ubicationAdd, userPreferencesAdd, userPreferencesUpdate } from "./api";
 import { messaging } from "./firebaseConfig";
 
 const vapidKeyE = import.meta.env.VITE_HELENA_FIREBASE_VAPID_KEY;
@@ -135,5 +135,48 @@ export const setupFCM = async () => {
     //   // Puedes mostrar una alerta personalizada si quieres
     //   setNotification(payload.notification);
     // });
+  }
+};
+
+// Function to obtain gps ubication
+export const getUserLocation = ({
+  onSuccess = () => {},
+  onError = (error) => console.error(error),
+}) => {
+  if (!("geolocation" in navigator)) {
+    const err = new Error(
+      "La geolocalización no está soportada en este navegador."
+    );
+    onError(err);
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
+      // console.log("📍 Ubicación obtenida:", { latitude, longitude });
+      onSuccess({ latitude, longitude });
+    },
+    (error) => {
+      console.error("❌ Error obteniendo la ubicación:", error);
+      onError(error);
+    }
+  );
+};
+
+// Function to obtain ubication name
+export const getLocationName = async (latitude, longitude) => {
+  try {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const locationName = data.display_name;
+    const delegation = data.address?.county || "Delegación no disponible";
+
+    return { locationName, delegation };
+  } catch (error) {
+    console.error("❌ Error al obtener el nombre del lugar:", error);
+    throw error;
   }
 };

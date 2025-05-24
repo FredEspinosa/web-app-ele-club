@@ -203,21 +203,22 @@ const UserProfile = () => {
             <br />
             <br />
 
-            <div className="club_cont_data_perfil">
+            <div className="club_cont_data_perfil club_info_me">
               <h3 className="club_txt_titular">{perfilAge} años</h3>
               <div className="d-flex flex-wrap">
                 {Array.isArray(dataUser.pronouns) &&
                   dataUser.pronouns?.map((item, index) => (
-                    <li className="club_no_decoration_list club_list_separation" key={index}>
-                      <span className="club_txt_caption w-100">{item.name}</span>
+                    <li className="club_no_decoration_list col-12" key={index}>
+                      <span className="club_txt_caption w-100 club_texto_capsula club_color_fuente_negro">{item.pronoun ? item.pronoun.name : item.name}</span>
                     </li>
                   ))}
-                {Array.isArray(dataUser.delegation) &&
-                  dataUser.delegation?.map((item, index) => (
-                    <li className="club_no_decoration_list club_list_separation" key={index}>
-                      <span className="club_txt_caption w-100">{item.name}</span>
+                {/* {Array.isArray(dataUser.userLocation) &&
+                  dataUser.userLocation?.map((item, index) => ( */}
+                    {/* <li className="club_no_decoration_list col-12" key={index}> */}
+                    <li className="club_no_decoration_list col-12" >
+                      <span className="club_txt_caption w-100 club_texto_capsula club_color_fuente_negro">{dataUser.userLocation?.location ? dataUser.userLocation?.location : 'Prueba'}</span>
                     </li>
-                  ))}
+                  {/* ))} */}
               </div>
             </div>
 

@@ -57,7 +57,7 @@ const PerfilOtraPersona = () => {
                 setMensajeModal(<p>Tu like se ha enviado correctamente.</p>);
                 setTimeout(() => {
                     setShowAlert(false)
-                }, 1000);
+                }, 5000);
                 // getDataProfileMe(tokenSesion)
             } else {
                 console.error("Ocurrió un error en la API:", response);

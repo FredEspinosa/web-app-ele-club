@@ -98,7 +98,7 @@ const ConfigInfoAcount = () => {
             <p className='club_config_parrafo'>Username</p>
           </div>
           <div className='col-6 d-flex justify-content-end'>
-            <p className='club_config_parrafo'>{dataUser?.UserName ? dataUser?.UserName :''}</p>
+            <p className='club_config_parrafo'>{dataUser?.UserName ? dataUser?.UserName :'Sin username'}</p>
           </div>
         </div>
       </div>
@@ -108,7 +108,7 @@ const ConfigInfoAcount = () => {
             <p className='club_config_parrafo'>Número de Celular</p>
           </div>
           <div className='col-6 d-flex justify-content-end'>
-            <p className='club_config_parrafo'>{dataUser?.phoneNumber ? dataUser?.phoneNumber : ''}</p>
+            <p className='club_config_parrafo'>{dataUser?.phone ? dataUser?.phone : 'Sin no. celular'}</p>
           </div>
         </div>
       </div>

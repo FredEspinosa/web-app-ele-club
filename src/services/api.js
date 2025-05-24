@@ -4,8 +4,6 @@ import axios from "axios";
 // const hostApi = "https://lahplataforma.azurewebsites.net/";
 const hostApi = import.meta.env.VITE_HELENA_VITE_API_BASE_URL;
 
-console.log("hostApi", hostApi);
-
 const endpoints = {
     // Por el momento se utiliza una API de fotos de perritos https://dog.ceo/dog-api/breeds-list
     perfilImagen: `https://dog.ceo/api/breeds/image/random`,
@@ -434,7 +432,6 @@ export const userProfileMe = async (tokenSesion) => {
 
   try {
     const response = await axios.request(config);
-    console.log("userProfileMe", response);
     return response.data;
   } catch (error) {
     console.error("Error en Profile/Me:", error);
@@ -444,7 +441,6 @@ export const userProfileMe = async (tokenSesion) => {
 
 // Get Profile
 export const profileUserID = async (tokenSesion, idUser) => {
-  console.log("idUser", idUser);
 
   let config = {
     method: "GET",
@@ -461,7 +457,6 @@ export const profileUserID = async (tokenSesion, idUser) => {
 
   try {
     const response = await axios.request(config);
-    console.log("profileUserID", response);
     return response.data;
   } catch (error) {
     console.error("Error en profileUserID:", error);
@@ -546,7 +541,7 @@ export const ubicationAdd = async (tokenSesion, ubicacion) => {
 
 // Get ClientSecret for Stripe
 export const getClientSecret = async (priceId) => {
-  console.log("Api priceId", priceId);
+  // console.log("Api priceId", priceId);
   const config = {
     method: "POST",
     url: "http://localhost:3001/create-payment-intent", // Asegúrate de que la URL sea correcta
@@ -598,7 +593,7 @@ export const conversationGetAll = async (tokenSesion) => {
 
   try {
     const response = await axios.request(config);
-    console.log("userProfileMe", response);
+    // console.log("userProfileMe", response);
     return response.data;
   } catch (error) {
     console.error("Error en conversationGetAll:", error);
@@ -650,7 +645,7 @@ export const likeSend = async (tokenSesion, data) => {
   };
   try {
     const response = await axios.request(config);
-    console.log("userProfileMe", response);
+    // console.log("userProfileMe", response);
     return response.data;
   } catch (error) {
     console.error("Error en Like/Send", error);
@@ -794,9 +789,6 @@ export const friendsRequests = async (tokenSesion) => {
 
 // Get Friends/Response
 export const friendsResponse = async (tokenSesion, friendRequestId, accept) => {
-  console.log("accept", accept);
-  console.log("friendRequestId", friendRequestId);
-  console.log("tokenSesion", tokenSesion);
 
   let config = {
     method: "POST",

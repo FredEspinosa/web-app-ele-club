@@ -14,13 +14,13 @@ const firebaseMessaginSenderId = import.meta.env.VITE_HELENA_FIREBASE_MESSAGING_
 const firebaseAppId = import.meta.env.VITE_HELENA_FIREBASE_APP_ID;
 const firebaseMeasuramentId = import.meta.env.VITE_HELENA_FIREBASE_MEASUREMENT_ID;
 
-console.log("firebaseApyKey", firebaseApyKey);
-console.log("firebaseAuhtDomain", firebaseAuhtDomain);
-console.log("firebaseProjectId", firebaseProjectId);
-console.log("firebaseStorageBucket", firebaseStorageBucket);
-console.log("firebaseMessaginSenderId", firebaseMessaginSenderId);
-console.log("firebaseAppId", firebaseAppId);
-console.log("firebaseMeasuramentId", firebaseMeasuramentId);
+// console.log("firebaseApyKey", firebaseApyKey);
+// console.log("firebaseAuhtDomain", firebaseAuhtDomain);
+// console.log("firebaseProjectId", firebaseProjectId);
+// console.log("firebaseStorageBucket", firebaseStorageBucket);
+// console.log("firebaseMessaginSenderId", firebaseMessaginSenderId);
+// console.log("firebaseAppId", firebaseAppId);
+// console.log("firebaseMeasuramentId", firebaseMeasuramentId);
 
 // const firebaseConfig = {
 //     apiKey: "AIzaSyBw3PfxvKcXF4USNMA4jN7uYAUM4l7dbiQ",

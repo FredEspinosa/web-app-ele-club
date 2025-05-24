@@ -9,6 +9,7 @@ import TinderLikeCarouselV2 from "../swiper/v2_tinder-swiper";
 import { userProfileMe } from "../../services/api";
 import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
+import { getLocationName, getUserLocation } from "../../services/data";
 
 export const ContenidoHome = () => {
   const formRef = useRef(null); // Crea la referencia al formulario
@@ -16,6 +17,8 @@ export const ContenidoHome = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeModal, setMensajeModal] = useState("");
+  const [textModalButton, setTextModalButton] = useState("");
+  const [ubicationData, setUbicationData] = useState({});
   const [dataUser, setDataUser] = useState({
     lastName: "",
     lookingFors: "",
@@ -41,41 +44,15 @@ export const ContenidoHome = () => {
     aboutMe: "",
   });
 
-  const [formData, setFormData] = useState({
-    Colonia: "",
-  });
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const campos = [
-    {
-      type: "text",
-      name: "Colonia",
-      label: "Colonia",
-      placeholder: "Álvaro Obregón",
-      disabled: true,
-      iconStart: false,
-      iconNameStart: <IoSearch className="club_input_icon_izq" size={24} />,
-      iconEnd: true,
-      iconNameEnd: <FiFilter className="club_input_icon_der" size={24} />,
-      help: false,
-    },
-  ];
-
   useEffect(() => {
     const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
-    // const typeLogin = localStorage.getItem("isLogin");
     const tokenStorage = sessionStorage.getItem("AccessToken");
 
     if (tokenStorage) {
       setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
       // Siempre priorizamos la API si hay un token disponible
       getDataProfileMe(tokenStorage);
+      obtenerUbicacionCompleta()
     } else if (datosUsuario) {
       setDataUser(datosUsuario);
     } else {
@@ -91,7 +68,7 @@ export const ContenidoHome = () => {
       if (response?.isSuccess && response.userProfile) {
         setShowLoader(false); // Asegurarse de ocultar el loader siempre
         const userProfile = response.userProfile;
-        console.log("Datos obtenidos correctamente:", userProfile);
+        // console.log("Datos obtenidos correctamente:", userProfile);
 
         // Actualiza el estado y guarda los datos en localStorage
         setDataUser(userProfile);
@@ -111,8 +88,60 @@ export const ContenidoHome = () => {
       setShowLoader(false); // Asegurarse de ocultar el loader siempre
       setShowAlert(true);
       setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
+      setTextModalButton('CERRAR')
     }
   };
+
+  const obtenerUbicacionCompleta = () => {
+    getUserLocation({
+      onSuccess: async ({ latitude, longitude }) => {
+        try {
+          const { locationName, delegation } = await getLocationName(latitude, longitude);
+          // setDatosUsuario((prev) => ({
+          //   ...prev,
+          //   delegation,
+          // }));
+          setUbicationData({ latitude, longitude, locationName, delegation })          
+          // console.log("✅ Todo listo:", { latitude, longitude, locationName, delegation });
+        } catch (e) {
+          console.error("Error en la ubicación completa:", e.message);
+        }
+      },
+      onError: (e) => {
+        console.error("Error obteniendo coordenadas:", e.message);
+        setShowLoader(false); // Asegurarse de ocultar el loader siempre
+          setShowAlert(true);
+          setMensajeModal(<p>¡Lo sentimos! la aplicación <b>no cuenta</b> con los servicios de <b>ubicación</b> activados.<br /> Por favor permite los servicios de <b>ubicación</b>.</p>);
+          setTextModalButton('REFRESCAR')
+      },
+    });
+  };
+
+  const [formData, setFormData] = useState({
+    Colonia: "",
+  });
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const campos = [
+    {
+      type: "text",
+      name: "Colonia",
+      label: "Colonia",
+      placeholder: dataUser.userLocation?.location ? dataUser.userLocation?.location : ubicationData? ubicationData?.delegation : 'Not Found',
+      disabled: true,
+      iconStart: false,
+      iconNameStart: <IoSearch className="club_input_icon_izq" size={24} />,
+      iconEnd: true,
+      iconNameEnd: <FiFilter className="club_input_icon_der" size={24} />,
+      help: false,
+    },
+  ];
 
   // useEffect(() => {
   //   // Actualiza isLoading cuando los datos estén listos
@@ -120,7 +149,11 @@ export const ContenidoHome = () => {
   // }, [dataUser]);
 
   const closeModal = () => {
-    setShowAlert(false)
+    if (textModalButton === 'CERRAR'){
+      setShowAlert(false)
+    } else {
+      window.location.reload();
+    }
   }
 
   return (
@@ -144,7 +177,10 @@ export const ContenidoHome = () => {
                 ))}
               </form>
             </div>
-            <TinderLikeCarouselV2 token={tokenSesionStorage} />
+            {ubicationData.latitude && (
+              <TinderLikeCarouselV2 token={tokenSesionStorage} ubicationData={ubicationData} />
+            )}
+            {/* <TinderLikeCarouselV2 token={tokenSesionStorage} /> */}
           </div>
         </div>
         <div className="club_contenido_bottom club_cont_info">
@@ -156,7 +192,7 @@ export const ContenidoHome = () => {
         <AlertSuscribe
           mensajeModal={mensajeModal}
           btnAceptar={true}
-          btnMsjButtom={'CERRAR'}
+          btnMsjButtom={textModalButton}
           handleOnclick={closeModal}
           bgColorButton={'club_bg_oro'}
         />
