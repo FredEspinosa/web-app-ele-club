@@ -51,7 +51,7 @@ const LikesTemplate = () => {
           <HeaderConfiguration
             isBtnLeft={false}
             txtButton={"Volver"}
-            nameHeader={"Alertas"}
+            nameHeader={<span style={{textTransform: 'uppercase'}}>{vista}</span>}
             sizeF={"20px"}
             isBtnRear={false}
             bgColorBar={"club_bg_blanco"}

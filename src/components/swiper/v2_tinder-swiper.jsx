@@ -110,7 +110,7 @@ const TinderLikeCarouselV2 = ({ubicationData}) => {
       setImageProfile(imageOptions);
       setImageIndex(0); // Reiniciar el índice de imágenes al cambiar de perfil
     } else {
-      setImageProfile([]);
+      setImageProfile([ProfilePicture]);
     }
   }, [currentIndex, profiles]);
 

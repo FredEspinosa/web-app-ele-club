@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { IoHeartCircleOutline } from 'react-icons/io5'
+import { HiBellAlert } from 'react-icons/hi2'
 
 const AlertsContent = ({handleOnClick}) => {
   return (
@@ -10,10 +10,10 @@ const AlertsContent = ({handleOnClick}) => {
                 <div className="club_content">
                     <div className="club_icon-container">
                         <div>
-                            <IoHeartCircleOutline className='club_icon_card_no_notifications' size={85} />
+                            <HiBellAlert className='club_icon_card_no_notifications' size={85} />
                         </div>
                     </div>
-                    <h2 className="club_message-title">No tienes nuevos Matches</h2>
+                    <h2 className="club_message-title">No tienes nuevas notificaciones</h2>
                     <p className="club_message-description">
                         Ve a inicio para likear perfiles - una vez que te regresen el like se volverá match y podrás verlo aquí!
                     </p>

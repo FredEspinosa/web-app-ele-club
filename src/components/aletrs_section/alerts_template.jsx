@@ -69,7 +69,7 @@ const AlertsTemplate = () => {
           <HeaderConfiguration
             isBtnLeft={false}
             txtButton={"Volver"}
-            nameHeader={"Alertas"}
+            nameHeader={<span style={{textTransform: 'uppercase'}}>ALERTAS</span>}
             sizeF={"20px"}
             isBtnRear={false}
             bgColorBar={"club_bg_blanco"}
@@ -88,7 +88,7 @@ const AlertsTemplate = () => {
             {vista === "" &&
               <div className="">
                 {localNotifs.length === 0 ? (
-                  <LikesContent handleOnClick={redirectBack} isLoader={isLoaderShow} />
+                  <AlertsContent handleOnClick={redirectBack} isLoader={isLoaderShow} />
                 ) : (
                   <div className="club_color_fuente_negro">
                     <h1 className="text-center">Mis Notificaciones</h1>

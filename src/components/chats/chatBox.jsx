@@ -104,7 +104,7 @@ const ChatBox = () => {
           <HeaderConfiguration
             isBtnLeft={false}
             txtButton={"Volver"}
-            nameHeader={"Chats"}
+            nameHeader={<span style={{textTransform: 'uppercase'}}>CHATS</span>}
             sizeF={"20px"}
             isBtnRear={false}
             bgColorBar={"club_bg_blanco"}
