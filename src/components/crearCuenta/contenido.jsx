@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Footer from './footer';
 import LogoClubTopBarBig from '../../assets/images/LCLUB_LOGO_BIG.png';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { limpiarTodoLocalStorage } from '../../services/data';
+import { limpiarTodoLocalStorage, requestAndSetupNotifications } from '../../services/data';
 import InputTelefono from '../inputs/input_telefono';
 import { paises } from '../../services/paises';
 import FooterDinamico from '../footer/footer_dinamico';
@@ -22,6 +22,9 @@ const CrearCuentaContenido = () => {
     const [showInicioSesion, setShowInicioSesion] = useState(false);
     const [showIngresaNumTel, setShowIngresaNumTel] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState(paises[0]); // País por defecto
+    const [initSesion, setInitSesion] = useState(false); // País por defecto
+    const [tokenFCM, setTokenFCM] = useState("");
+
 
     let pasoActual = ''
 
@@ -35,11 +38,17 @@ const CrearCuentaContenido = () => {
     useEffect(() => {
         limpiarTodoLocalStorage();
     }, [])
+    useEffect(() => {
+        setTimeout(() => {
+            requestAndSetupNotifications();
+        }, 200);
+    }, [])
 
     const handleLoginSuccess = async (credentialResponse) => {
         const tokentCodeGoogle = credentialResponse.credential;
         try {
-            const response = await loginGoogle(tokentCodeGoogle);
+            const tokenFirebase = sessionStorage.getItem("FCMToken")
+            const response = await loginGoogle(tokentCodeGoogle, tokenFirebase);
             // console.log("response Google login", response);
             if (response.status == 200) {
                 sessionStorage.setItem('AccessToken', response.data.accessToken);
@@ -109,6 +118,7 @@ const CrearCuentaContenido = () => {
                 setShowCrearCuenta(false);
                 setShowInicioSesion(true);
                 setShowIngresaNumTel(false);
+                setInitSesion('Continuar con celular')
                 break;
             case 'Continuar':
                 localStorage.setItem("datosUsuario", JSON.stringify(formData));
@@ -126,6 +136,7 @@ const CrearCuentaContenido = () => {
                 setShowInicioSesion(true);
                 setShowCrearCuenta(false);
                 setShowIngresaNumTel(false);
+                setInitSesion('Acceder con celular')
                 break;
             case 'ContinuarCelular':
                 pasoActual = 'Continuar'
@@ -265,7 +276,7 @@ const CrearCuentaContenido = () => {
                                 </div>
                                 {/* <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarConGoogle')}>Continuar con Google</button> */}
                                 {/*  <button className='btn club_btn_negro' >Continuar con Facebook</button> */}
-                                <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarCelular')}>Continuar con celular</button>
+                                <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarCelular')}>{initSesion}</button>
                             </div>
                         </div>
                         <FooterDinamico

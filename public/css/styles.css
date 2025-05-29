@@ -2906,6 +2906,32 @@ club_onboarding_info p {
     display: none;
 }
 
+.notification-badge {
+    position: absolute;
+    top: -4px;
+    /* right: -8px; */
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: 12px;
+}
+
+.club_img_notify {
+    height: 50px;
+    width: 50px;
+    border: 2px solid var(--color-primario-oro);
+}
+
+.Toastify__toast-theme--light {
+    background-color: var(--color-background-negro) !important;
+    color: var(--color-neutral-blanco-06) !important;
+}
+
+.Toastify__progress-bar-theme--light {
+    background: var(--color-primario-oro) !important;
+}
+
 
 /* Dispositivos X-Small (teléfonos verticales, menos de 576 px) 
 No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bootstrap  */

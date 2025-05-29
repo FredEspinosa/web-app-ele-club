@@ -39,6 +39,7 @@ const endpoints = {
     requestsFriends: `${hostApi}Friends/Requests`,
     responseFriends: `${hostApi}Friends/ResponseRequest`,
     matchesMe: `${hostApi}Matches/MyMatches`,
+    loguinFirebase: `${hostApi}Login`,
 }
 
 export const obtenerImagenPerfil = () => {
@@ -75,12 +76,16 @@ export const obtenerCodigo = async (numeroTel) => {
   }
 };
 
-export const validaCodigoToken = async (telUsuario, codigoIngresado) => {
+export const validaCodigoToken = async (telUsuario, codigoIngresado, tokenFCM) => {
   let data = {
     phoneNumber: telUsuario,
     code: codigoIngresado,
     skip: true,
+    registrationToken: tokenFCM,
   };
+
+  console.log("data login", data);
+  
 
   let config = {
     method: "POST",
@@ -488,7 +493,7 @@ export const userSuscription = async (tokenSesion) => {
 };
 
 // Get GoogleLogin
-export const loginGoogle = async (tokentCodeGoogle) => {
+export const loginGoogle = async (tokentCodeGoogle, tokenFCM) => {
     let config = {
         method: "POST",
         url: endpoints.googleLogin,
@@ -497,7 +502,8 @@ export const loginGoogle = async (tokentCodeGoogle) => {
             "Content-Type": "application/json",
         },
         data: {
-            "googleToken": tokentCodeGoogle
+            "googleToken": tokentCodeGoogle,
+            "registrationToken": tokenFCM,
         }
     };
 
