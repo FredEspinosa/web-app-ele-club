@@ -15,7 +15,6 @@ const available_icons = {
   clock: <ClockInfoIcon />,
   user: <UserInfoIcon />,
   money: <MoneyInfoIcon />
-
 }
 
 function DiscoverInfo({ icon, color, children }) {

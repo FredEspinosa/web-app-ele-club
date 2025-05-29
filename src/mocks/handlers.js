@@ -1,17 +1,18 @@
 import { http } from 'msw';
 import { v4 as uuidv4 } from 'uuid';
 
-const CATEGORIES = {
+let CATEGORIES = {
   Eventos: ['gastronomía', 'arte', 'música'],
   Servicios: ['Belleza', 'coaching', 'salud'],
 };
 
-const items = [
+let items = [
   {
-    id: uuidv4(),
+    id: '827b2f4d-ded1-454c-9f83-73d7173bc9cc',
     assistants: '0',
     distance: '4km de distancia',
     type: 'Eventos',
+    owner: 'Compañía o usuario',
     title: 'Festival Gastronómico de Otoño',
     location: [19.4326, -99.1332],
     date: '15/10/2025',
@@ -19,86 +20,98 @@ const items = [
     end: '20:00',
     category: 'gastronomía',
     price: 'Costo',
-    about: 'Disfruta de los mejores sabores de la temporada con chefs invitados.',
+    amount: '$1,000',
+    about:
+      'Disfruta de los mejores sabores de la temporada con chefs invitados.',
     images: [
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ],
   },
   {
-    id: uuidv4(),
+    id: '4ea26462-5dea-451a-90dd-83cabddc8f74',
     assistants: '0',
     distance: '4km de distancia',
     type: 'Eventos',
+    owner: 'Compañía o usuario',
     title: 'Concierto de Jazz al Aire Libre',
-    location: [19.4260, -99.1677],
+    location: [19.426, -99.1677],
     date: '20/11/2025',
     start: '18:00',
     end: '22:00',
     category: 'música',
     price: 'Gratuito',
-    about: 'Una experiencia única con las mejores bandas locales e internacionales de jazz.',
+    about:
+      'Una experiencia única con las mejores bandas locales e internacionales de jazz.',
     images: [
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ],
   },
   {
-    id: uuidv4(),
+    id: '759eef71-40e2-494e-b09c-0b6099994720',
     assistants: '0',
     distance: '4km de distancia',
     type: 'Eventos',
+    owner: 'Compañía o usuario',
     title: 'Exposición de Arte Contemporáneo',
-    location: [19.4400, -99.1500],
+    location: [19.44, -99.15],
     date: '05/12/2025',
     start: '10:00',
     end: '18:00',
     category: 'arte',
     price: 'Costo',
-    about: 'Descubre las obras más impactantes de artistas emergentes en la ciudad.',
+    amount: '$1,000',
+    about:
+      'Descubre las obras más impactantes de artistas emergentes en la ciudad.',
     images: [
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ],
   },
   {
-    id: uuidv4(),
+    id: '04275b8a-d06b-42d4-8f01-8d9121720f6b',
     assistants: '0',
     distance: '4km de distancia',
     type: 'Eventos',
+    owner: 'Compañía o usuario',
     title: 'Feria del Chocolate y Café',
-    location: [19.4200, -99.1400],
+    location: [19.42, -99.14],
     date: '10/10/2025',
     start: '11:00',
     end: '19:00',
     category: 'gastronomía',
     price: 'Gratuito',
-    about: 'Endúlzate el día con las mejores propuestas de café y chocolate artesanal.',
+    about:
+      'Endúlzate el día con las mejores propuestas de café y chocolate artesanal.',
     images: [
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ],
   },
   {
-    id: uuidv4(),
+    id: '9643929e-8219-4f2d-adb8-08e65952ab84',
     assistants: '0',
     distance: '4km de distancia',
     type: 'Eventos',
+    owner: 'Compañía o usuario',
     title: 'Festival Internacional de Música Electrónica',
-    location: [19.4300, -99.1600],
+    location: [19.43, -99.16],
     date: '25/12/2025',
     start: '21:00',
     end: '04:00',
     category: 'música',
     price: 'Costo',
-    about: 'Las mejores DJs del mundo en una noche inolvidable de música y luces.',
+    amount: '$1,000',
+    about:
+      'Las mejores DJs del mundo en una noche inolvidable de música y luces.',
     images: [
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ],
   },
   {
-    id: uuidv4(),
+    id: '3fab08de-0a00-4afc-b2b3-0b42e238fbf0',
     type: 'Servicios',
     title: 'Festival Gastronómico',
     location: [19.4326, -99.1332],
@@ -120,11 +133,11 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: 'd57f8c76-0451-46b1-ba9d-c5e40d958180',
     type: 'Servicios',
     rate: '4.9',
     title: 'Salón de Belleza Glam',
-    location: [19.4270, -99.1276],
+    location: [19.427, -99.1276],
     category: 'Belleza',
     price: 'Costo',
     amount: 'Desde $500',
@@ -143,10 +156,10 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: 'cc7ecbb7-620e-4fbc-93b6-2bc591afc9f8',
     type: 'Servicios',
     title: 'Exposición de Arte Contemporáneo',
-    location: [19.4350, -99.1400],
+    location: [19.435, -99.14],
     category: 'Arte',
     price: 'Costo',
     amount: '$150 entrada general',
@@ -165,11 +178,11 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: 'd8a7fae9-30b9-4e2e-86ca-95ef4d03695c',
     type: 'Servicios',
     rate: '4.9',
     title: 'Clínica de Salud Integral',
-    location: [19.4205, -99.1450],
+    location: [19.4205, -99.145],
     category: 'Salud',
     price: 'Costo',
     amount: 'Consulta desde $700',
@@ -188,10 +201,10 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: '383cfc46-4c97-45a9-b9eb-457e50c8bc97',
     type: 'Servicios',
     title: 'Concierto Música Indie',
-    location: [19.4280, -99.1320],
+    location: [19.428, -99.132],
     category: 'Música',
     price: 'Costo',
     amount: 'Entrada $300',
@@ -210,11 +223,11 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: '2fec8f0a-3bfc-443f-bea2-177fadb4158f',
     type: 'Servicios',
     rate: '4.9',
     title: 'Coaching Personal Elite',
-    location: [19.4212, -99.1350],
+    location: [19.4212, -99.135],
     category: 'Coaching',
     price: 'Costo',
     amount: 'Sesión desde $1000',
@@ -233,10 +246,10 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: '5ac331b4-6b95-474f-b383-9bc87ecdab21',
     type: 'Servicios',
     title: 'Feria de Libros Independientes',
-    location: [19.4300, -99.1333],
+    location: [19.43, -99.1333],
     category: 'Arte',
     price: 'Gratuito',
     amount: 'Entrada libre',
@@ -255,11 +268,11 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: '63e1107d-5aae-4824-92cf-6b102cb61095',
     type: 'Servicios',
     rate: '4.9',
     title: 'Consultorio Nutricional Vida Sana',
-    location: [19.4250, -99.1290],
+    location: [19.425, -99.129],
     category: 'Salud',
     price: 'Costo',
     amount: 'Plan mensual $1200',
@@ -278,10 +291,10 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: '49547129-f047-4477-b4da-c57093a8b232',
     type: 'Servicios',
     title: 'Encuentro de Jazz al Aire Libre',
-    location: [19.4330, -99.1360],
+    location: [19.433, -99.136],
     category: 'Música',
     price: 'Gratuito',
     amount: 'Entrada libre',
@@ -300,7 +313,7 @@ const items = [
     ],
   },
   {
-    id: uuidv4(),
+    id: '6cf6805a-20cd-433c-8f64-693db79f274b',
     type: 'Servicios',
     rate: '4.9',
     title: 'Masajes Relajantes Zen',
@@ -322,8 +335,22 @@ const items = [
       'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ],
   },
-]
+];
 
+function generateRandomName() {
+  const names = ['Ana', 'Luis', 'Carlos', 'María', 'José', 'Lucía', 'Miguel', 'Sofía', 'Pedro', 'Valeria'];
+  const lastNames = ['García', 'Hernández', 'Martínez', 'López', 'Gómez', 'Ramírez'];
+  return `${names[Math.floor(Math.random() * names.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`;
+}
+
+// Generador de objetos de perfil
+function generateProfiles(count = 20) {
+  return Array.from({ length: count }, (_, i) => ({
+    name: generateRandomName(),
+    profileImage: `https://randomuser.me/api/portraits/thumb/${i % 2 === 0 ? 'men' : 'women'}/${i}.jpg`,
+    profileLink: `/profile/${i + 1}`,
+  }));
+}
 
 export const handlers = [
   http.get('/api/categories', () => {
@@ -339,26 +366,34 @@ export const handlers = [
     return Response.json([]);
   }),
 
+  http.get('/api/items/:id', ({ params }) => {
+    const { id } = params;
+    const item = items.find((i) => i.id === id);
+    if (!item) {
+      return new Response(null, { status: 404 });
+    }
+    return Response.json(item);
+  }),
   http.get('/api/items', ({ request }) => {
     const url = new URL(request.url);
     const category = url.searchParams.get('category');
     const subcategory = url.searchParams.get('subcategory');
     const search = url.searchParams.get('search')?.toLowerCase();
-  
+
     let result = items;
-  
+
     if (category) {
       result = result.filter((i) => i.type === category);
     }
-  
+
     if (subcategory) {
       result = result.filter((i) => i.category === subcategory);
     }
-  
+
     if (search) {
       result = result.filter((i) => i.title.toLowerCase().includes(search));
     }
-  
+
     // ✅ Siempre agrupamos por type (en lowercase)
     const grouped = result.reduce((acc, item) => {
       const key = item.type.toLowerCase();
@@ -366,7 +401,7 @@ export const handlers = [
       acc[key].push(item);
       return acc;
     }, {});
-  
+
     return Response.json(grouped);
   }),
 
@@ -382,9 +417,12 @@ export const handlers = [
         status: 400,
       });
     }
-    const newItem = { id: uuidv4(),
+    const newItem = {
+      id: uuidv4(),
       assistants: '0',
-      distance: '4km de distancia', ...body };
+      distance: '4km de distancia',
+      ...body,
+    };
     items.push(newItem);
     return new Response(JSON.stringify(newItem), { status: 201 });
   }),
@@ -418,5 +456,14 @@ export const handlers = [
     const { id } = params;
     items = items.filter((i) => i.id !== id);
     return new Response(null, { status: 204 });
+  }),
+  http.get('/api/assistants', ({ request }) => {
+    const url = new URL(request.url);
+    const all = url.searchParams.get('all');
+
+    const profiles = generateProfiles(20);
+    const result = all === 'true' ? profiles : profiles.slice(0, 4);
+
+    return Response.json(result);
   }),
 ];

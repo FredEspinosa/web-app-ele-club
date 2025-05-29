@@ -2,9 +2,11 @@ import styled from '@emotion/styled';
 import { flex, fontMixin, grid } from '../globals/mixins';
 
 export const StyledCategoryButton = styled.button`
-  ${flex({})}
-  width: 80px;
-  height: 81px;
+  ${flex({
+    flexDirection: 'row',
+    gap: '6px'
+  })}
+  padding: 16px 10px;
   border-radius: 16px;
   border: solid 2px
     var(
@@ -22,6 +24,7 @@ export const StyledCategoryButton = styled.button`
   background-color: var(--color-background-blanco);
   font-weight: 500;
   box-shadow: 0px 4px 11px 0px rgba(151, 151, 151, 0.25);
+  font-size: 14px;
 `;
 
 export const StyledDetailsButton = styled.button`
@@ -44,7 +47,6 @@ export const StyledButton = styled.button`
   align-items: center;
   justify-content: center;
   column-gap: 13px;
-  line-height: normal;
   background-color: ${({ $bgColorType }) =>
     $bgColorType
       ? `var(--color-${$bgColorType})`

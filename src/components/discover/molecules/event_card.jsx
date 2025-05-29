@@ -35,10 +35,13 @@ function EventCard({
   return (
     <Card
       sx={{
-        width: distance ? '100%' : 'fit-content',
+        width: distance ? '100%' : '250px',
         minWidth: '250px',
+        maxWidth: distance ? 'auto' : '250px',
         borderRadius: '16px',
-        minHeight: distance ? '233px' : '197px',
+        minHeight: distance ? '233px' : '199px',
+        maxHeight: distance ? '0' : '199px',
+        height: distance ? '233px' : '199px',
       }}
     >
       <StyledCardContainer {...cardOptions}>
@@ -51,15 +54,21 @@ function EventCard({
             flexDirection: 'column',
             alignItems: 'start',
             gap: '10px',
+            overflow: 'hidden'
           }}
         >
-          <Typography
-            sx={{ fontSize: 16, fontWeight: 700, letterSpacing: 0 }}
-            variant='h5'
-            component='div'
+          <p
+            style={{ fontSize: 16, fontWeight: 700, letterSpacing: 0,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: 'block',
+              maxWidth: '100%'
+             }}
+            
           >
             {title}
-          </Typography>
+          </p>
           <DiscoverInfo icon={'location'} color='var(--color-gris-descubre)'>
             {location}
           </DiscoverInfo>

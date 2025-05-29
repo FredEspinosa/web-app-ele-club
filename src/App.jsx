@@ -50,8 +50,8 @@ import PaymentForm from './components/form_stripe/payment_form';
 import ThankyouPage from './pages/thankyou_page';
 import ChatsPrivate from './components/chats/chats_private';
 import Discover from './pages/discover/page';
-import Layout from './pages/discover/layout';
-import EventDetails from './pages/discover/EventDetails';
+import Layout from './pages/discover/EventDetails/layout';
+import EventDetails from './pages/discover/EventDetails/page';
 import ServiceDetails from './pages/discover/ServiceDetails';
 
 

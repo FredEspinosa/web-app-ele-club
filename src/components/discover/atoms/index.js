@@ -6,3 +6,8 @@ export { default as SearchInput } from "./SearchInput";
 export { default as DetailsHeader } from "./DetailsHeader";
 export { default as TitleSection } from "./TitleSection";
 export { default as ServiceRate } from "./ServiceRate";
+export { default as EventGallery } from "./EventGallery";
+export { default as Button } from "./Button";
+export { default as TabPanel } from "./TabPanel";
+export { default as AboutDetails } from "./AboutDetails";
+export { default as AssistantCard } from "./AssistantCard";
