@@ -15,24 +15,27 @@ import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
 
 const AlertsTemplate = () => {
   const navigate = useNavigate();
-  const { notifications, markAllAsRead } = useContext(NotificationContext);
+  const { notifications, markAllAsRead, removeNotification } = useContext(NotificationContext);
   const [vista, setVista] = useState(""); // Vista inicial
   const [vistaActual, setVistaActual] = useState(""); // Vista inicial
   const [showLoader, setShowLoader] = useState(false);
   const [localNotifs, setLocalNotifs] = useState([]);
 
   useEffect(() => {
-    console.log("Opción seleccionada:", vista);
     if (vista === 'likes') {
       navigate('/likes')
     }
   }, [vista])
 
+  // useEffect(() => {
+  //   // Captura las notificaciones al entrar
+  //   setLocalNotifs(notifications);    
+  //   markAllAsRead(); // Luego márcalas como leídas
+  // }, []);
+
   useEffect(() => {
-    // Captura las notificaciones al entrar
-    setLocalNotifs(notifications);
-    markAllAsRead(); // Luego márcalas como leídas
-  }, []);
+    setLocalNotifs(notifications);    
+  }, [notifications]);
 
   const redirectBack = () => {
     navigate("/home");
@@ -46,20 +49,32 @@ const AlertsTemplate = () => {
 
   const handleButtonClick = (evento) => {
     setVista(evento); // Actualizar la vista activa
-    console.log("Vista activa:", evento); // Debug
-    // if (vista === 'likes') {
-    //   navigate('/likes')
-    // }
   };
 
   const handleOptionSelect = (selectedOption) => {
-    console.log("Opción seleccionada:", selectedOption);
     setVistaActual(selectedOption)
     // Aquí puedes manejar la lógica adicional con la opción seleccionada
   };
 
   const isLoaderShow = (loaderShow) => {
     setShowLoader(loaderShow); // Solo actualizar el estado directamente
+  };
+
+  const redirectAlert = (typeAlert, index) => {
+    removeNotification(index);
+    switch (typeAlert) {
+      case "match":
+        navigate("/likes", { state: { vistaNotf: "matches" }});
+        break;
+      case "likes":
+        navigate("/likes", { state: { vistaNotf: "likes" }});
+        break;
+      case "friend":
+        navigate("/chatbox", { state: { vistaNotf: "friends" }});
+        break;
+      default:
+        navigate("/chatbox");
+    }
   };
 
   return (
@@ -87,15 +102,15 @@ const AlertsTemplate = () => {
             {/* Renderiza contenido basado en la vista */}
             {vista === "" &&
               <div className="">
-                {localNotifs.length === 0 ? (
+                {notifications.length === 0 ? (
                   <AlertsContent handleOnClick={redirectBack} isLoader={isLoaderShow} />
                 ) : (
                   <div className="club_color_fuente_negro">
                     <h1 className="text-center">Mis Notificaciones</h1>
                     <div className="">
-                      {localNotifs.map((notify, index) => (
-                      <div key={index} className="col-10 d-flex align-items-center container">
-                        <div className="club_requqest_content_photo">
+                      {notifications.map((notify, index) => (
+                      <div key={index} className="col-10 d-flex align-items-center container" onClick={()=> {redirectAlert(notify?.type, index)} }>
+                        <div className="club_requqest_content_photo" >
                           <img className="club_cont_perfil_img club_img_notify"
                             src={notify?.profilePictureURL || PerfilDefault}
                             alt=""

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import NavBarDinamicButtons from "../nav_bar/navBarDinamicButtons";
 import HeaderConfiguration from "../headers/header_configuration";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LikesContent from "./likes_content";
 import NavBar from "../nav_bar/navBar";
 import MatchesContent from "../matches/matches_content";
@@ -11,12 +11,20 @@ import Loader from "../loader/loader";
 
 const LikesTemplate = () => {
   const navigate = useNavigate();
-  const [vista, setVista] = useState("likes"); // Vista inicial
+  const location = useLocation();
+  const vistaNotf = location.state?.vistaNotf || '';
+  const [vista, setVista] = useState(vistaNotf ? vistaNotf : "likes"); // Vista inicial
   const [vistaActual, setVistaActual] = useState(""); // Vista inicial
   const [showLoader, setShowLoader] = useState(false);
 
   // useEffect(() => {
-  //   console.log("Opción seleccionada:", vistaActual);
+  //   console.log(vistaNotf);
+    
+  //   if (!vistaNotf) {
+  //     setVistaActual(vistaNotf)
+  //   } else {
+  //     setVistaActual("likes")
+  //   }
   // }, [vistaActual])
   
   const redirectBack = () => {

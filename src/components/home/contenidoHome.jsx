@@ -19,6 +19,7 @@ export const ContenidoHome = () => {
   const [mensajeModal, setMensajeModal] = useState("");
   const [textModalButton, setTextModalButton] = useState("");
   const [ubicationData, setUbicationData] = useState({});
+  const [ubicationDataName, setUbicationDataName] = useState({});
   const [dataUser, setDataUser] = useState({
     lastName: "",
     lookingFors: "",
@@ -95,24 +96,29 @@ export const ContenidoHome = () => {
   const obtenerUbicacionCompleta = () => {
     getUserLocation({
       onSuccess: async ({ latitude, longitude }) => {
+        setUbicationData({ latitude, longitude})          
         try {
           const { locationName, delegation } = await getLocationName(latitude, longitude);
           // setDatosUsuario((prev) => ({
           //   ...prev,
           //   delegation,
           // }));
-          setUbicationData({ latitude, longitude, locationName, delegation })          
+          setUbicationDataName({ latitude, longitude, locationName, delegation })          
           // console.log("✅ Todo listo:", { latitude, longitude, locationName, delegation });
         } catch (e) {
           console.error("Error en la ubicación completa:", e.message);
+          setShowLoader(false); // Asegurarse de ocultar el loader siempre
+          setShowAlert(true);
+          setMensajeModal(<p>¡Lo sentimos! la aplicación <b>no peude obtener tu ubicación</b>.<br /> Estamos trabajando para resolver el problema</p>);
+          setTextModalButton('CERRAR')
         }
       },
       onError: (e) => {
         console.error("Error obteniendo coordenadas:", e.message);
         setShowLoader(false); // Asegurarse de ocultar el loader siempre
-          setShowAlert(true);
-          setMensajeModal(<p>¡Lo sentimos! la aplicación <b>no cuenta</b> con los servicios de <b>ubicación</b> activados.<br /> Por favor permite los servicios de <b>ubicación</b>.</p>);
-          setTextModalButton('REFRESCAR')
+        setShowAlert(true);
+        setMensajeModal(<p>¡Lo sentimos! la aplicación <b>no cuenta</b> con los servicios de <b>ubicación</b> activados.<br /> Por favor permite los servicios de <b>ubicación</b>.</p>);
+        setTextModalButton('REFRESCAR')
       },
     });
   };
@@ -133,7 +139,7 @@ export const ContenidoHome = () => {
       type: "text",
       name: "Colonia",
       label: "Colonia",
-      placeholder: dataUser.userLocation?.location ? dataUser.userLocation?.location : ubicationData? ubicationData?.delegation : 'Not Found',
+      placeholder: dataUser.userLocation?.location ? dataUser.userLocation?.location : ubicationDataName.delegation ? ubicationDataName?.delegation : 'Buscar',
       disabled: true,
       iconStart: false,
       iconNameStart: <IoSearch className="club_input_icon_izq" size={24} />,

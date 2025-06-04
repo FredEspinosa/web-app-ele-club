@@ -128,13 +128,6 @@ export const setupFCM = async () => {
     } catch (err) {
       console.error("❌ Error al obtener token FCM:", err);
     }
-
-    // Escucha notificaciones en primer plano
-    // onMessage(messaging, (payload) => {
-    //   console.log("🔔 Mensaje recibido en primer plano:", payload);
-    //   // Puedes mostrar una alerta personalizada si quieres
-    //   setNotification(payload.notification);
-    // });
   }
 };
 
@@ -166,17 +159,31 @@ export const getUserLocation = ({
 
 // Function to obtain ubication name
 export const getLocationName = async (latitude, longitude) => {
+
+  if (!latitude || !longitude) {
+    console.error("❌ Coordenadas inválidas");
+    return { locationName: null, delegation: null };
+  }
+
   try {
     const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-    const response = await fetch(url);
-    const data = await response.json();
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent": "helena-app/1.0 (lahplataforma@gmail.com)"
+      }
+    });
 
+    if (!response.ok) {
+      throw new Error(`Respuesta no OK: ${response.status}`);
+    }
+
+    const data = await response.json();
     const locationName = data.display_name;
     const delegation = data.address?.county || "Delegación no disponible";
 
     return { locationName, delegation };
   } catch (error) {
     console.error("❌ Error al obtener el nombre del lugar:", error);
-    throw error;
+    return { locationName: null, delegation: null }; // o throw si deseas manejarlo arriba
   }
 };

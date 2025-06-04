@@ -77,7 +77,7 @@ const TinderLikeCarouselV2 = ({ubicationData}) => {
       if (response?.status === 200) {
         const result = response.data?.result;
         if (Array.isArray(result) && result.length > 0) {
-          console.log("Feed Datos enviados correctamente:", result);
+          // console.log("Feed Datos enviados correctamente:", result);
           setShowLoader(false); // Asegurarse de ocultar el loader siempre
           setProfiles(result);
         } else {
