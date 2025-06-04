@@ -10,6 +10,8 @@ export default function Button({
   type = 'button',
   onClick = () => {},
   icon = null,
+  fontSize,
+  size = 'fit',
   children
 }) {
   return (
@@ -20,6 +22,8 @@ export default function Button({
       $variant={variant}
       $shape={shape}
       $padding={padding}
+      $fontSize={fontSize}
+      $size={size}
       onClick={onClick}
     >
       {icon}
@@ -38,4 +42,5 @@ Button.propTypes = {
   onClick: PropTypes.func,
   icon: PropTypes.node,
   children: PropTypes.node.isRequired,
+  fontSize: PropTypes.string
 };

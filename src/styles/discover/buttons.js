@@ -42,11 +42,23 @@ export const StyledDetailsButton = styled.button`
   padding: 0;
 `;
 
+const availableSizeButton = {
+  'fit': 'fit-content',
+  'full': '100%',
+}
+
+const getButtonSize = (size) => {
+  if (!Object.keys(availableSizeButton).includes(size)) return size;
+  return availableSizeButton[size];
+}
+
 export const StyledButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   column-gap: 13px;
+  line-height: normal;
+  font-size: ${({ $fontSize }) => $fontSize ? $fontSize : '16px'};
   background-color: ${({ $bgColorType }) =>
     $bgColorType
       ? `var(--color-${$bgColorType})`
@@ -70,7 +82,7 @@ export const StyledButton = styled.button`
       background-color: ${
         $textColorType
           ? `var(--color-${$textColorType})`
-          : 'var(--color-background-blanco)'
+          : 'transparent'
       };
       border: 1px solid ${
         $bgColorType
@@ -83,6 +95,7 @@ export const StyledButton = styled.button`
           : 'var(--color-primario-violeta-08)'
       };
     `}
+  width: ${({ $size }) => getButtonSize($size)};
 `;
 
 export const StyledBackButton = styled.button`

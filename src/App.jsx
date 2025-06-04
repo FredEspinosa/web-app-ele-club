@@ -52,7 +52,7 @@ import ChatsPrivate from './components/chats/chats_private';
 import Discover from './pages/discover/page';
 import Layout from './pages/discover/EventDetails/layout';
 import EventDetails from './pages/discover/EventDetails/page';
-import ServiceDetails from './pages/discover/ServiceDetails';
+import ServiceDetails from './pages/discover/ServiceDetails/page';
 
 
 function App() {

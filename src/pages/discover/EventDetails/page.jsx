@@ -1,14 +1,15 @@
 import { AboutDetails, DiscoverInfo, EventGallery } from '@/components/discover/atoms';
-import { DetailsTabsInfo, EventAssistants } from '@/components/discover/molecules';
+import { DetailsTabsInfo, EventAssistants, EventLocation } from '@/components/discover/molecules';
 import EventOrganizationInfo from '@/components/discover/molecules/EventOrganizationInfo';
 import { useEventDetail } from '@/hooks/discover';
 import useFixLeafletIcons from '@/hooks/discover/useFixLeafletIcons';
 import {
   StyledDetailContainer,
+  StyledDetailsActions,
   StyledDetailsEventContainer,
 } from '@/styles/discover/containers';
 import { StyledDetailTitle } from '@/styles/discover/texts';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Button } from '@/styles/shared/slider';
 
 export default function EventDetails() {
   const { data, error, isLoading } = useEventDetail();
@@ -30,19 +31,7 @@ export default function EventDetails() {
     {
       label: 'Ubicación',
       content: (
-        <MapContainer
-          center={[19.4326, -99.1332]}
-          zoom={13}
-          style={{ height: '181px', width: '100%' }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          />
-          <Marker position={[19.4326, -99.1332]}>
-            <Popup>¡Hola desde la CDMX!</Popup>
-          </Marker>
-        </MapContainer>
+        <EventLocation />
       ),
     },
   ];
@@ -68,6 +57,10 @@ export default function EventDetails() {
         />
         <DetailsTabsInfo tabs={tabs} />
       </StyledDetailContainer>
+      <StyledDetailsActions elevation={40}>
+        <Button type='button' variant='outlined'>Contactar</Button>
+        <Button type='button'>Asistiré</Button>
+      </StyledDetailsActions>
     </>
   );
 }

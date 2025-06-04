@@ -3,3 +3,5 @@ export { default as Categories } from "./categories";
 export { default as ServiceItem } from "./ServiceItem";
 export { default as DetailsTabsInfo } from "./DetailsTabsInfo";
 export { default as EventAssistants } from "./EventAssistants";
+export { default as EventLocation } from "./EventLocation";
+export { default as GlobalReview } from "./GlobalReview";

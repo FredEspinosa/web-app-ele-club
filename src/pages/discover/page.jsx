@@ -7,21 +7,14 @@ import {
 import { useHomeFilters } from '@/hooks/discover';
 import { AllView } from '@/components/discover/organisms';
 import { SearchInput } from '@/components/discover/atoms';
-import Button from '@/components/discover/atoms/Button';
+import Button from '@/components/shared/atoms/Button';
 import { WorldIcon } from '@/assets/icons';
 import EventsView from '@/components/discover/organisms/EventsView';
 import ServiceView from '@/components/discover/organisms/ServiceView';
 
 export default function Discover() {
   const {
-    control,
-    errors,
-    handleSubmit,
-    onSubmit,
     data,
-    error,
-    isLoading,
-    watch,
     handleSetValue,
     values,
   } = useHomeFilters();

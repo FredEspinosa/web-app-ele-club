@@ -14,3 +14,6 @@ export { default as SearchIcon } from "./search.jsx";
 export { default as WorldIcon } from "./world.jsx";
 export { default as ArrowLeftIcon } from "./arrow_left.jsx";
 export { default as StarSmallIcon } from "./star_small.jsx";
+export { default as CheckIcon } from "./check_icon.jsx";
+export { default as CloseIcon } from "./CloseIcon.jsx";
+export { default as AnimatedCheckIcon } from "./AnimatedCheck.jsx";

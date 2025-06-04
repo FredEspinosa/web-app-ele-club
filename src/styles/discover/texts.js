@@ -5,9 +5,10 @@ export const StyledDiscoverRegularText = styled.p`
   ${({ $color }) =>
     fontMixin({
       fontSize: '12px',
-      color: $color ?? 'var(-color-background-negro)',
+      color: $color ?? 'var(--color-background-negro)',
     })}
   opacity: ${({ $opacity }) => $opacity ?? '1'};
+  line-height: 1.5;
 `;
 
 export const StyledDetailsTitle = styled.h1`
@@ -78,4 +79,13 @@ export const StyledAboutText = styled.p`
   font-size: 14px;
   vertical-align: middle;
   color: var(--color-neutral-gris-02);
-`
+`;
+
+export const StyledDetailsDistance = styled.p`
+  font-weight: 400;
+  font-size: 14px;
+  text-align: right;
+  vertical-align: middle;
+  line-height: normal;
+  color: var(--color-neutral-gris-02);
+`;
