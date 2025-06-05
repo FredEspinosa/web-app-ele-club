@@ -1,0 +1,290 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 26px 21px;
+    border-radius: 16px 16px 0px 0px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    position: absolute;
+}
+
+.modal-header {
+    display: flex;
+    width: 339px;
+    height: 24px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 21px;
+    margin-bottom: 20px;
+}
+
+.modal-header div {
+    width: 294px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 150%;
+    vertical-align: middle;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-body p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #71727A;
+    line-height: 16px;
+}
+
+.modal-body .reason-question {
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+    line-height: 150%;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.radio-option {
+
+    display: flex;
+    align-items: center;
+}
+
+.radio-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    accent-color: var(--color-primario-violeta-08);
+    margin: 12px;
+    padding: 8px;
+}
+
+.warning-message {
+    height: 78px;
+    background-color: #FFF7E6;
+    border: 2px solid #D9A441;
+    border-radius: 18px;
+    padding: 16px;
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+    color: #FFF7E6;
+}
+
+.warning-message p {
+    width: 292px;
+    height: 45px;
+    gap: 10px;
+    color: #5B450F;
+    vertical-align: middle;
+}
+
+.modal-footer {
+    display: flex;
+    height: 116px;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-footer button {
+    padding: 12px;
+    border-radius: 16px;
+    border: none;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.continue-button {
+    background-color: #e7e7e7;
+    color: #333;
+}
+
+.continue-button:not(:disabled):hover {
+    background-color: #d4d4d4;
+}
+
+.continue-button:disabled {
+    background-color: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.cancel-button {
+    background-color: transparent;
+    color: #8c00bf;
+    border: 1px solid #8c00bf;
+}
+
+.cancel-button:hover {
+    background-color: rgba(140, 0, 191, 0.1);
+}
+
+.textAreaAddInfo {
+    width: 100%;
+    height: 90px;
+    border-radius: 16px;
+    border: 1px solid #6F7271;
+    padding: 8px 16px;
+}
+
+#confirmation-content {
+    display: flex;
+    flex-direction: column;
+    height: 163px;
+    gap: 24px;
+}
+
+#confirmation-content>.confirmation-title {
+    display: flex;
+    flex-direction: column;
+    height: 67px;
+    gap: 16px;
+    align-items: center;
+}
+
+#confirmation-content>.confirmation-title p {
+    display: flex;
+    height: 17px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 150%;
+    color: #343434;
+    align-items: center;
+}
+
+#confirmation-content>.confirmation-message {
+    height: 72px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    vertical-align: middle;
+    color: #343434;
+}
+
+.checkbox-agreement {
+    display: flex;
+    height: 46px;
+    gap: 8px;
+    margin-top: 24px;
+    align-items: center;
+}
+
+#agreementCheckbox {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1.5px solid #C5C6CC;
+}
+
+.checkbox-agreement label {
+    display: flex;
+    height: 17px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: #000;
+    align-items: center;
+}
+
+.modal-text-with-breaks {
+    white-space: pre-line;
+}
+
+/* input[type="file"] {
+    display: flex;
+    opacity: 1;
+    width: 100%;
+    height: 149px;
+    gap: 8px;
+} */
+
+
+/* -----------------FILE UPLOADER----------------- */
+.file-uploader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #CAC9C9;
+    border-radius: 16px;
+    height: 149px;
+    width: 100%;
+    margin: 20px auto;
+    gap: 8px;
+}
+
+.file-uploader-container.dragging {
+    border-color: #007bff;
+    background-color: #e9f5ff;
+}
+
+.file-uploader-container:hover {
+    border-color: #aaa;
+}
+
+.upload-content {
+    display: flex;
+    width: 197px;
+    height: 102px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    text-align: center;
+}
+
+.upload-message {
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0px;
+    text-align: center;
+    vertical-align: middle;
+    color: #6F7271;
+}
+
+.upload-message .sub-text {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    text-align: center;
+    vertical-align: middle;
+    opacity: 0.5;
+}
+
+.upload-message .select-file-button {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.error-text {
+    font-size: 14px;
+    color: red;
+    margin-top: 10px;
+}
