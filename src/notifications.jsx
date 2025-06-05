@@ -2,6 +2,9 @@ import { messaging } from './firebaseConfig';
 import { getToken, onMessage } from 'firebase/messaging';
 import { askNotificationPermission } from './services/data';
 
+const vapidKeyE = import.meta.env.VITE_HELENA_FIREBASE_VAPID_KEY;
+
+
 export const requestAndSetupNotifications = async () => {
     const permission = await askNotificationPermission();
     if (permission === 'granted') {
@@ -18,7 +21,8 @@ export const setupFCM = async () => {
 
         try {
             const token = await getToken(messaging, {
-                vapidKey: 'BLGzBu_jD9zIhiUhD-M_eimbYRPS0Ppto9yZ9VhA3MvIIfkCnHeTcbP41KgD7Mt77D68Joxg6V3vBANZoHQdHPE', // 🔐 Este lo sacas de Firebase Console > Cloud Messaging
+                // vapidKey: 'BLGzBu_jD9zIhiUhD-M_eimbYRPS0Ppto9yZ9VhA3MvIIfkCnHeTcbP41KgD7Mt77D68Joxg6V3vBANZoHQdHPE', // 🔐 Este lo sacas de Firebase Console > Cloud Messaging
+                vapidKey: vapidKeyE, // 🔐 Este lo sacas de Firebase Console > Cloud Messaging
                 serviceWorkerRegistration: registration,
             });
 

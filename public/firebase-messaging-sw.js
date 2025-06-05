@@ -2,13 +2,13 @@
 importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js");
 
-const firebaseApyKey = import.meta.env.VITE_HELENA_FIREBASE_APKY;
-const firebaseAuhtDomain =import.meta.env.VITE_HELENA_FIREBASE_AUTH_DOMAIN;
-const firebaseProjectId =import.meta.env.VITE_HELENA_FIREBASE_PROJECT_ID;
-const firebaseStorageBucket = import.meta.env.VITE_HELENA_FIREBASE_STORAGE_BUCKET;
-const firebaseMessaginSenderId = import.meta.env.VITE_HELENA_FIREBASE_MESSAGING_SENDER_ID;
-const firebaseAppId = import.meta.env.VITE_HELENA_FIREBASE_APP_ID;
-const firebaseMeasuramentId = import.meta.env.VITE_HELENA_FIREBASE_MEASUREMENT_ID;
+// const firebaseApyKey = import.meta.env.VITE_HELENA_FIREBASE_APKY;
+// const firebaseAuhtDomain =import.meta.env.VITE_HELENA_FIREBASE_AUTH_DOMAIN;
+// const firebaseProjectId =import.meta.env.VITE_HELENA_FIREBASE_PROJECT_ID;
+// const firebaseStorageBucket = import.meta.env.VITE_HELENA_FIREBASE_STORAGE_BUCKET;
+// const firebaseMessaginSenderId = import.meta.env.VITE_HELENA_FIREBASE_MESSAGING_SENDER_ID;
+// const firebaseAppId = import.meta.env.VITE_HELENA_FIREBASE_APP_ID;
+// const firebaseMeasuramentId = import.meta.env.VITE_HELENA_FIREBASE_MEASUREMENT_ID;
 
 // firebase.initializeApp({
 //   apiKey: "AIzaSyBw3PfxvKcXF4USNMA4jN7uYAUM4l7dbiQ",
@@ -20,14 +20,24 @@ const firebaseMeasuramentId = import.meta.env.VITE_HELENA_FIREBASE_MEASUREMENT_I
 //   measurementId: "G-MSSGEF52TS"
 // });
 
+// firebase.initializeApp({
+//   apiKey: firebaseApyKey,
+//   authDomain: firebaseAuhtDomain,
+//   projectId: firebaseProjectId,
+//   storageBucket: firebaseStorageBucket,
+//   messagingSenderId: firebaseMessaginSenderId,
+//   appId: firebaseAppId,
+//   measurementId: firebaseMeasuramentId,
+// });
+
 firebase.initializeApp({
-  apiKey: firebaseApyKey,
-  authDomain: firebaseAuhtDomain,
-  projectId: firebaseProjectId,
-  storageBucket: firebaseStorageBucket,
-  messagingSenderId: firebaseMessaginSenderId,
-  appId: firebaseAppId,
-  measurementId: firebaseMeasuramentId,
+  apiKey: "<VITE_HELENA_FIREBASE_APKY>",
+  authDomain: "<VITE_HELENA_FIREBASE_AUTH_DOMAIN>",
+  projectId: "<VITE_HELENA_FIREBASE_PROJECT_ID>",
+  storageBucket: "<VITE_HELENA_FIREBASE_STORAGE_BUCKET>",
+  messagingSenderId: "<VITE_HELENA_FIREBASE_MESSAGING_SENDER_ID>",
+  appId: "<VITE_HELENA_FIREBASE_APP_ID>",
+  measurementId: "<VITE_HELENA_FIREBASE_MEASUREMENT_ID>",
 });
 
 const messaging = firebase.messaging();

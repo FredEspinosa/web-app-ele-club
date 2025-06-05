@@ -1,0 +1,1 @@
+export { default as MotionSlider } from './MotionSlider';

@@ -52,6 +52,10 @@ import ChatsPrivate from './components/chats/chats_private';
 import { NotificationProvider } from './components/notifications_context/notification_context';
 import AlertaNotificacion from './components/notifications_context/alert_notification';
 import { ProgressProvider } from './hooks/ProgressContext';
+import Discover from './pages/discover/page';
+import Layout from './pages/discover/EventDetails/layout';
+import EventDetails from './pages/discover/EventDetails/page';
+import ServiceDetails from './pages/discover/ServiceDetails/page';
 
 
 function App() {
@@ -226,6 +230,19 @@ function App() {
       {
         path: '/history_chat',
         element: <ChatsPrivate />
+      },
+      {
+        path: '/descubre',
+        children: [
+          { index: true, Component: Discover },
+          {
+            Component: Layout,
+            children: [
+              { path: "evento/:id", Component: EventDetails },
+              { path: "servicio/:id", Component: ServiceDetails },
+            ],
+          },
+        ],
       }
     ]
   )
