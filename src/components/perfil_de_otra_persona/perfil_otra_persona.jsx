@@ -11,6 +11,7 @@ import ConfirmationModal from "../bloqueos/organisms/ConfirmationModal";
 import ReportUserModal from "../reportes/organisms/ReportUserModal";
 import DetailsReportModal from "../reportes/organisms/DetailsReportModal";
 import EvidenceReportModal from "../reportes/organisms/EvidenceReportModal";
+import ReportConfirmationModal from "../reportes/organisms/ReportConfirmationModal";
 
 const PerfilOtraPersona = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,6 +27,7 @@ const PerfilOtraPersona = () => {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isDetailsReportModalOpen, setIsDetailsReportModalOpen] = useState(false);
   const [isEvidenceModalOpen, setIsEvidenceModalOpen] = useState(false);
+  const [isReportConfirmationModalOpen, setIsReportConfirmationModalOpen] = useState(false);
 
   const location = useLocation();
   const profileImages = location.state?.profileImages || [];
@@ -187,8 +189,13 @@ const PerfilOtraPersona = () => {
   };
 
   const handleSubmitEvidenceReportModal = (additionalText) => {
-    console.log(`Bloqueando a ${userToBlock.name} por: ${blockReasonSelected}. Detalles: ${additionalText}`);
+    console.log(`Reportando a ${userToBlock.name} por: ${blockReasonSelected}. Detalles: ${additionalText}`);
     setIsEvidenceModalOpen(false);
+    setIsReportConfirmationModalOpen(true);
+  };
+
+  const handleCloseReportConfirmatioModal = () => {
+    setIsReportConfirmationModalOpen(false);
   };
 
   return (
@@ -366,6 +373,7 @@ const PerfilOtraPersona = () => {
       )}
       {isDetailsReportModalOpen && <DetailsReportModal onSubmit={handleSubmitDetailsReportModal} onBack={handleBackFromDetailsReportModal} />}
       {isEvidenceModalOpen && <EvidenceReportModal onBack={handleBackFromEvidenceReportModal} onSubmit={handleSubmitEvidenceReportModal} />}
+      {isReportConfirmationModalOpen && <ReportConfirmationModal onClose={handleCloseReportConfirmatioModal} />}
 
       {showAlert && (
         <AlertSuscribe mensajeModal={mensajeModal} btnAceptar={true} btnMsjButtom={"CERRAR"} handleOnclick={closeModal} bgColorButton={"club_bg_oro"} />

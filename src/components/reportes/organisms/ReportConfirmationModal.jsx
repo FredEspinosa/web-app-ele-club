@@ -10,13 +10,11 @@ const ReportConfirmationModal = ({ onClose }) => {
       <div id="confirmation-content">
         <div className="confirmation-title">
           <img src={checkBoxCircleLine} alt="checkbox-circle-line.svg" width={34} height={34} />
-          <p>Usuario bloqueado</p>
+          <p>Reporte enviado</p>
         </div>
         <div className="confirmation-message">
           <p>
-            Queremos que en Helena tengas un espacio seguro.
-            <br />
-            Ya no verás al usuario.
+            Gracias por ayudarnos a mantener Helena como un espacio seguro. Revisaremos tu reporte lo antes posible.
           </p>
         </div>
       </div>
