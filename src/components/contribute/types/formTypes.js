@@ -1,0 +1,20 @@
+export const defaultValues = {
+  title: '',
+  location: '',
+  mapLocation: [19.4326, -99.1332],
+  date: '',
+  startDate: '',
+  endDate: '',
+  schedule: '',
+  category: '',
+  price: 'free',
+  cost: '',
+  about: '',
+  includes: [],
+  phoneCode: '',
+  phoneNumber: '',
+  website: '',
+  instagram: '',
+  facebook: '',
+  image: null
+};

@@ -53,7 +53,7 @@ import Discover from './pages/discover/page';
 import Layout from './pages/discover/EventDetails/layout';
 import EventDetails from './pages/discover/EventDetails/page';
 import ServiceDetails from './pages/discover/ServiceDetails/page';
-
+import Contribute from './pages/discover/contribute/page';
 
 function App() {
 
@@ -237,6 +237,7 @@ function App() {
             children: [
               { path: "evento/:id", Component: EventDetails },
               { path: "servicio/:id", Component: ServiceDetails },
+              { path: "contribuir", Component: Contribute },
             ],
           },
         ],
