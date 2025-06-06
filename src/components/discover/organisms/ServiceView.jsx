@@ -1,0 +1,29 @@
+import List from '@mui/material/List';
+import React from 'react'
+import { ServiceItem } from '../molecules';
+
+export default function ServiceView({ data }) {
+  return (
+    <List
+        sx={{
+          width: '100%',
+          bgcolor: 'var(--color-background-blanco)',
+          borderRadius: '16px',
+          padding: '0',
+          display: 'grid',
+          gap: '16px'
+        }}
+    >
+      {data?.servicios?.map((info) => (
+        <ServiceItem
+          key={info.id}
+          id={info.id}
+          title={info.title}
+          image={info.images[0]}
+          amount={info.amount}
+          rate={info.rate}
+        />
+      ))}
+    </List>
+  )
+}

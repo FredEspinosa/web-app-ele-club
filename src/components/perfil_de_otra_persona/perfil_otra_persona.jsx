@@ -44,7 +44,7 @@ const PerfilOtraPersona = () => {
 
   const toggleIcon = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
+  };  
 
   const goToHome = () => {
     navigate("/home");
