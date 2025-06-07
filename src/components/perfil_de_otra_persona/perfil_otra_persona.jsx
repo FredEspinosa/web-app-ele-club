@@ -98,9 +98,9 @@ const PerfilOtraPersona = () => {
         console.log("solicitud enviada correctamente");
         setShowAlert(true);
         setMensajeModal(<p>Tu solicitud se ha enviado correctamente.</p>);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 5000);
+        // setTimeout(() => {
+        //   setShowAlert(false);
+        // }, 5000);
       } else {
         console.log("ocurrio un error en enviar solicitud");
       }

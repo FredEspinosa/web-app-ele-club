@@ -11,7 +11,7 @@
     z-index: 1000;
 }
 
-.modal-content {
+#modalContainer{
     background-color: white;
     padding: 26px 21px;
     border-radius: 16px 16px 0px 0px;
@@ -95,14 +95,14 @@
     vertical-align: middle;
 }
 
-.modal-footer {
+#modalContainer > .modal-footer {
     display: flex;
     height: 116px;
     flex-direction: column;
     gap: 16px;
 }
 
-.modal-footer button {
+#modalContainer > .modal-footer button {
     padding: 12px;
     border-radius: 16px;
     border: none;
