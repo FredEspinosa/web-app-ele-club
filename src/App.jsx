@@ -42,6 +42,7 @@ import InformacionDeCuenta from './pages/informacion_de_cuenta';
 import AlertasPagina from './pages/alertas_pagina';
 import LikesPage from './pages/likes_page';
 import PrivacitySecurityPage from './pages/config_pages/privacity_security_page';
+import BlockedProfiles from './pages/config_pages/blocked_profiles_page';
 import SupportPage from './pages/config_pages/tech_support_page';
 import TermsConditionsPage from './pages/config_pages/terms_conditions_page';
 import PrivacyPoliciesPage from './pages/config_pages/privacy_policies_page';
@@ -198,6 +199,10 @@ function App() {
       {
         path: '/privacidad_y_seguridad',
         element: <PrivacitySecurityPage />
+      },
+      {
+        path: '/perfiles_bloqueados',
+        element: <BlockedProfiles />
       },
       {
         path: '/soporte_tecnico',
