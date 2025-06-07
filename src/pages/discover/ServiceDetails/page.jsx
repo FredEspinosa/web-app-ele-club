@@ -91,10 +91,10 @@ export default function ServiceDetails() {
         <DetailsTabsInfo tabs={tabs} />
       </StyledDetailContainer>
       <StyledDetailsActions>
-        <Button type='button' variant='outlined'>
+        <Button size='full' type='button' variant='outlined'>
           Contactar
         </Button>
-        <Button type='button'>Asistiré</Button>
+        <Button size='full' type='button'>Asistiré</Button>
       </StyledDetailsActions>
     </>
   );

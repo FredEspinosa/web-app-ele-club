@@ -16,7 +16,7 @@ export const requestAndSetupNotifications = async () => {
 
 export const setupFCM = async () => {
     if ('serviceWorker' in navigator) {
-        const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        const registration = await navigator.serviceWorker.register('/firebase/firebase-messaging-sw.js');
         console.log("entro a notifications");
 
         try {

@@ -61,7 +61,6 @@ export default function ReviewForm({ handleClose }) {
 
   return (
     <StyledFormContainer onSubmit={handleSubmit(onSubmit)}>
-      <AnimatedCheckIcon />
       <StyledHeaderContainer>
         <StyledDetailTitle $size={'20px'}>
           Reseñar Sesión de Fotos Profesional

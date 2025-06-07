@@ -100,7 +100,7 @@ export const StyledButton = styled.button`
 
 export const StyledBackButton = styled.button`
   ${grid({})}
-  background: transparent;
+  background: transparent; 
   border: none;
   position: absolute;
   left: 24px;
