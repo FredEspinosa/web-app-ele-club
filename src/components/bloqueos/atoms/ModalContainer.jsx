@@ -11,7 +11,7 @@ const ModalContainer = ({ width, height, borderRadius, top, left, children }) =>
   }
   return (
     <div className="modal-overlay">
-      <div className="modal-content" style={contentStyle}>
+      <div id="modalContainer" className="modal-content" style={contentStyle}>
         {children}
       </div>
     </div>

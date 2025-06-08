@@ -9,6 +9,7 @@ import HeaderConfiguration from '../headers/header_configuration'
 import NavBar from '../nav_bar/navBar'
 import AlertSuscribeStatic from '../alertas/alert_suscribete_static'
 import { FaArrowLeft } from 'react-icons/fa'
+import AjustesItem from './AjustesItem'
 
 const PerfilConfig = () => {
 
@@ -106,6 +107,8 @@ const PerfilConfig = () => {
           </div>
         </div>
       </div>
+
+      <AjustesItem route={'/perfiles_bloqueados'} itemText='Perfiles bloqueados' />
 
       <div className='club_contenedor_settings club_contenedor_bg_borde_gris' style={{borderBottom:'none'}}>
         <div className='d-flex col-12 align-items-center justify-content-center'>

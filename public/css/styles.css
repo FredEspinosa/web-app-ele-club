@@ -992,6 +992,31 @@ p {
     margin-bottom: 0;
 }
 
+.club_seccion_titulo-container {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 48px;
+    gap: 10px;
+    padding-left: 16px;
+}
+
+.club_seccion_titulo {
+    width: 376px;
+    height: 25px;
+    padding-bottom: 3px;
+    border-bottom-width: 0.33px;
+}
+
+.club_seccion_titulo-letra {
+    width: 13px;
+    height: 22px;
+
+    font-weight: 590;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+}
+
 .club_config_btn_back {
     font-size: 14px;
     line-height: 14px;
@@ -2851,7 +2876,7 @@ club_onboarding_info p {
         top: calc(var(--size)* -0.5);
         clip-path: polygon(0% 0%, 100% 50%, 0% 50%);
     }
-} 
+}
 
 .message_chat_rem {
     max-width: 70%;
@@ -2874,7 +2899,7 @@ club_onboarding_info p {
         right: calc(var(--size)* 1);
         clip-path: polygon(0% 0%, 100% 15%, 100% 100%);
     }
-} 
+}
 
 .club_chat_name {
     color: #71727A;
@@ -2938,7 +2963,7 @@ club_onboarding_info p {
     background: var(--color-primario-oro) !important;
 }
 
-.club_info_me > h3 {
+.club_info_me>h3 {
     margin-bottom: 0px !important;
 }
 

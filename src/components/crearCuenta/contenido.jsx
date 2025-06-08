@@ -12,6 +12,7 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 // import { getGoogleSecretLogin } from '../../services/api';
 import { jwtDecode } from "jwt-decode";
 import { loginGoogle } from '../../services/api';
+import SignWithAppleButton from './SignWithAppleButton';
 
 const CLIENT_ID = '30011618273-nh5igt93a24bu2juthi2e6hsbt6c9vfc.apps.googleusercontent.com';
 
@@ -277,6 +278,7 @@ const CrearCuentaContenido = () => {
                                 {/* <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarConGoogle')}>Continuar con Google</button> */}
                                 {/*  <button className='btn club_btn_negro' >Continuar con Facebook</button> */}
                                 <button className='btn club_btn_negro' onClick={() => handleClick('ContinuarCelular')}>{initSesion}</button>
+                                <SignWithAppleButton/>
                             </div>
                         </div>
                         <FooterDinamico
