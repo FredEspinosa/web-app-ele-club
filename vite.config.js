@@ -27,6 +27,7 @@ export default defineConfig({
       '@hooks/*': path.resolve(__dirname, 'src/hooks/*'),
       '@components/*': path.resolve(__dirname, 'src/components/*'),
       '@mixins': path.resolve(__dirname, 'src/styles/globals/mixins.js'),
+      '@mui/styled-engine': '@mui/styled-engine-sc',
     }
   },
   server: {

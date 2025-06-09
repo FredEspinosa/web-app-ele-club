@@ -1,4 +1,5 @@
 import { AnimatedCheckIcon, CloseIcon } from '@/assets/icons';
+import AnimatedCheckCircle from '@/assets/icons/AnimatedCheck';
 import { Button } from '@/components/shared/atoms';
 import useReviewForm from '@/hooks/discover/useReviewForm';
 import {
@@ -61,6 +62,7 @@ export default function ReviewForm({ handleClose }) {
 
   return (
     <StyledFormContainer onSubmit={handleSubmit(onSubmit)}>
+      <AnimatedCheckCircle />
       <StyledHeaderContainer>
         <StyledDetailTitle $size={'20px'}>
           Reseñar Sesión de Fotos Profesional

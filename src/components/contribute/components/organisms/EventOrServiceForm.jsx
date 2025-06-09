@@ -50,7 +50,6 @@ export default function EventOrServiceForm({ type }) {
           <Typography>Título del {labelMapping[type]}*</Typography>
           <TextInput
             name='title'
-            label='Título'
             placeholder={'Escribe aquí...'}
           />
           <Typography>Ubicación*</Typography>
