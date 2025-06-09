@@ -1,7 +1,19 @@
 import { TextField } from '@mui/material';
+import { styled } from 'styled-components';
 import { Controller, useFormContext } from 'react-hook-form';
 
-export default function TextInput({ name, label, ...props }) {
+const StyledTextField = styled(TextField)`
+  & .MuiInputBase-root {
+    border-radius: 16px;
+    padding: 8px 12px;
+  }
+
+  & input {
+    padding: 16px;
+  }
+`;
+
+export default function TextInput({ name, ...props }) {
   const { control } = useFormContext();
 
   return (
@@ -9,23 +21,11 @@ export default function TextInput({ name, label, ...props }) {
       name={name}
       control={control}
       render={({ field }) => (
-        <TextField
+        <StyledTextField
           {...field}
           fullWidth
           hiddenLabel
           {...props}
-          slotProps={{
-            input: {
-              sx: { 
-                borderRadius: '16px',
-              },
-            },
-            htmlInput: {
-              sx: { 
-                padding: '16px',
-              },
-            },
-          }}
         />
       )}
     />
