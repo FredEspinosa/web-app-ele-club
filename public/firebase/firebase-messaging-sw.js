@@ -2,26 +2,6 @@
 importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js");
 
-// firebase.initializeApp({
-//   apiKey: "AIzaSyBw3PfxvKcXF4USNMA4jN7uYAUM4l7dbiQ",
-//   authDomain: "helenaapp-75fdb.firebaseapp.com",
-//   projectId: "helenaapp-75fdb",
-//   storageBucket: "helenaapp-75fdb.firebasestorage.app",
-//   messagingSenderId: "1088597517320",
-//   appId: "1:1088597517320:web:9f7573c5316f83d6e99dbd",
-//   measurementId: "G-MSSGEF52TS"
-// });
-
-// firebase.initializeApp({
-//   apiKey: firebaseApyKey,
-//   authDomain: firebaseAuhtDomain,
-//   projectId: firebaseProjectId,
-//   storageBucket: firebaseStorageBucket,
-//   messagingSenderId: firebaseMessaginSenderId,
-//   appId: firebaseAppId,
-//   measurementId: firebaseMeasuramentId,
-// });
-
 firebase.initializeApp({
   apiKey: "<VITE_HELENA_FIREBASE_APKY>",
   authDomain: "<VITE_HELENA_FIREBASE_AUTH_DOMAIN>",

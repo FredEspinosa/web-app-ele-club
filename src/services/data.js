@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 /***** ☠️ En este documento se declaran funciones globales que ayuden al no ser repetitivo en el código, solo funciones de exportación ☠️ *****/
 import { getToken } from "firebase/messaging";
-import { ubicationAdd, userPreferencesAdd, userPreferencesUpdate } from "./api";
+import { userPreferencesAdd, userPreferencesUpdate } from "./api";
 import { messaging } from "./firebaseConfig";
 
 const vapidKeyE = import.meta.env.VITE_HELENA_FIREBASE_VAPID_KEY;
@@ -104,16 +104,6 @@ export const askNotificationPermission = async () => {
 };
 
 export const setupFCM = async () => {
-  // if ('serviceWorker' in navigator) {
-  //   navigator.serviceWorker
-  //     .register('/firebase-messaging-sw.js')
-  //     .then((registration) => {
-  //       console.log('Service Worker registrado con éxito:', registration);
-  //     })
-  //     .catch((err) => {
-  //       console.error('Error al registrar el Service Worker:', err);
-  //     });
-  // }
 
   if ("serviceWorker" in navigator) {
     const registration = await navigator.serviceWorker.register(
@@ -125,7 +115,6 @@ export const setupFCM = async () => {
       console.log("vapidKeyE", vapidKeyE);
       
       const token = await getToken(messaging, {
-        // vapidKey: "BLGzBu_jD9zIhiUhD-M_eimbYRPS0Ppto9yZ9VhA3MvIIfkCnHeTcbP41KgD7Mt77D68Joxg6V3vBANZoHQdHPE", // 🔐 Este lo sacas de Firebase Console > Cloud Messaging
         vapidKey: vapidKeyE, // 🔐 Este lo sacas de Firebase Console > Cloud Messaging
         serviceWorkerRegistration: registration,
       });

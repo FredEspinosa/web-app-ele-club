@@ -40,7 +40,9 @@ const PerfilOtraPersona = () => {
   const perceptions = location.state?.perceptions || "";
   const relationshipStatus = location.state?.relationshipStatus || "";
   const tokenSesionStorage = location.state?.tokenSesion || "";
-  const likedUserId = location.state.likedUserId || "";
+  const likedUserId = location.state?.likedUserId || "";
+  const locations = location.state?.locations || "";
+  const pronouns = location.state?.pronouns || "";
 
   const toggleIcon = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -251,8 +253,16 @@ const PerfilOtraPersona = () => {
                 <div className="col-12 d-flex align-items-center club_identity_icon_container">
                   <div className="col-10">
                     <p className="club_location-profile">
-                      Ella <br />
-                      Benito Juárez
+                      {Array.isArray(pronouns) &&
+                      pronouns.map((item, index) => (
+                        <p className="club_location-profile" key={index}>
+                          {item.pronoun?.name || item.name}
+                        </p>
+                      ))}
+                      <br />
+                      <p className="club_location-profile" >
+                        {locations}
+                      </p>
                     </p>
                   </div>
                   <div className="col-2"></div>
@@ -263,10 +273,7 @@ const PerfilOtraPersona = () => {
                   {aboutMe ? (
                     <p className="col-12">{aboutMe}</p>
                   ) : (
-                    <p className="col-12">
-                      The perfect T-shirt for when you want to feel comfortable but still stylish. Amazing for all occasions. Made of 100% cotton fabric in four
-                      colours. Its modern style gives a lighter look to the outfit. Perfect for the warmest days.
-                    </p>
+                    <p className="col-12"></p>
                   )}
                 </section>
                 <section className="club_preferences col-12">

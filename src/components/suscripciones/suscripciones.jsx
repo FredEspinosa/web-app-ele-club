@@ -8,6 +8,9 @@ import SuscripcionImg2 from '../../assets/images/suscripcion/suscripcion-2.jpg';
 import SuscripcionImg3 from '../../assets/images/suscripcion/suscripcion-3.jpg';
 import { FaArrowLeft } from 'react-icons/fa';
 
+const entornoFetch = import.meta.env.VITE_HELENA_BACKEND_URL;
+
+
 const Suscripciones = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,8 +24,16 @@ const Suscripciones = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3001/suscripcion'); // Verifica esta URL
-        const data = await response.json();
+        // const response = await fetch('http://localhost:3001/suscripcion'); // Verifica esta URL
+        const response = await fetch(`${entornoFetch}suscripcion`); // Verifica esta URL
+        // const data = await response.json();
+        // setProducts(data);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const text = await response.text();
+        const data = text ? JSON.parse(text) : [];
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);

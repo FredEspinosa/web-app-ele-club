@@ -12,7 +12,6 @@ const secretKey = process.env.STRIPE_SECRET_KEY;
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const urlOrigin = process.env.FRONTEND_ORIGIN;
 
-// const stripe = new Stripe('sk_test_IKYCHOAmUhC7IPTdaoVtO58D'); // Key test stripe
 const stripe = new Stripe(secretKey);  // Secret Key My Stripe
 
 const app = express();
@@ -21,8 +20,20 @@ const port = 3001; // Usa un puerto disponible
 // app.use(cors({origin:`http://localhost:5173`}))
 // app.use(express.json());
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://helena-app-beta.vercel.app',
+];
+
 app.use(cors({
-  origin: urlOrigin, // Ajusta al dominio de tu frontend
+  // origin: urlOrigin || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true, // Permite cookies y encabezados de autenticación
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',

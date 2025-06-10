@@ -182,13 +182,15 @@ const TinderLikeCarouselV2 = ({ubicationData}) => {
         likedUserId: profiles[currentIndex].userId,
         profileImages: imageProfile, 
         nameProfile: profiles[currentIndex].name + ' ' + profiles[currentIndex].lastName,
-        // age: profiles[currentIndex].age,
+        age: profiles[currentIndex].age,
         aboutMe: profiles[currentIndex].aboutMe,
         lookingFors: profiles[currentIndex].lookingFors,
         genders: profiles[currentIndex].genders,
         sexualIdentities: profiles[currentIndex].sexualIdentities,
         perceptions: profiles[currentIndex].perceptions,
-        relationshipStatus: profiles[currentIndex].relationshipStatus
+        relationshipStatus: profiles[currentIndex].relationshipStatus,
+        locations: profiles[currentIndex].userLocation.location,
+        pronouns: profiles[currentIndex].pronouns        
       } }
     )
   }
