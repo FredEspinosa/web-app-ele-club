@@ -41,6 +41,7 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
 
     const getMatchesMyMatches = async (tokenStorage) => {
         // Obtiene los amigos ya aceptados
+        isLoader(true);
         try {
             const response = await matchesMyMatches(tokenStorage)
             console.log("response getMatchesMyMatches", response.isSuccess);
@@ -60,6 +61,8 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
             console.error("Error al enviar datos del usuario:", error);
             //   setShowAlert(true);
             //   setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
+        } finally {
+            isLoader(false);
         }
     }
 
