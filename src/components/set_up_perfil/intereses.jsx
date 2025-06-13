@@ -20,17 +20,47 @@ const Intereses = () => {
         listInterest();
     }, []);
 
+    // const listInterest = async () => {
+    //     setShowLoader(true);
+    //     try {
+    //         const data = await getInterest();
+    //         if (!data.code) {
+    //             // Agregar una propiedad `selected` para rastrear el estado de selección
+    //             const opcionesConSeleccion = data.map(item => ({
+    //                 ...item,
+    //                 selected: false,
+    //             }));
+    //             setOpciones(opcionesConSeleccion);
+    //             setShowLoader(false);
+    //         } else {
+    //             console.error('Error al obtener los intereses');
+    //         }
+    //     } catch (err) {
+    //         console.error(err);
+    //         setShowLoader(false);
+    //     }
+    // };
+
     const listInterest = async () => {
         setShowLoader(true);
         try {
             const data = await getInterest();
             if (!data.code) {
-                // Agregar una propiedad `selected` para rastrear el estado de selección
                 const opcionesConSeleccion = data.map(item => ({
                     ...item,
                     selected: false,
                 }));
-                setOpciones(opcionesConSeleccion);
+
+                // Agrupar por categoría
+                const agrupadoPorCategoria = opcionesConSeleccion.reduce((acc, item) => {
+                    if (!acc[item.category]) {
+                        acc[item.category] = [];
+                    }
+                    acc[item.category].push(item);
+                    return acc;
+                }, {});
+
+                setOpciones(agrupadoPorCategoria);
                 setShowLoader(false);
             } else {
                 console.error('Error al obtener los intereses');
@@ -41,17 +71,38 @@ const Intereses = () => {
         }
     };
 
+
+    // const handleCheckboxChange = (id) => {
+    //     const nuevasOpciones = opciones.map(item =>
+    //         item.id === id ? { ...item, selected: !item.selected } : item
+    //     );
+    //     setOpciones(nuevasOpciones);
+
+    //     // Actualizar el estado con las opciones seleccionadas
+    //     const seleccionados = nuevasOpciones
+    //         .filter(item => item.selected)
+    //         // .map(item => ({ id: item.id }));
+    //         .map(item => ({ id: item.id, name: item.name })); // En caso que se necesiten ambos datos
+    //     setFormData(seleccionados);
+    // };
+
     const handleCheckboxChange = (id) => {
-        const nuevasOpciones = opciones.map(item =>
-            item.id === id ? { ...item, selected: !item.selected } : item
-        );
+        const nuevasOpciones = {};
+
+        for (const [categoria, intereses] of Object.entries(opciones)) {
+            nuevasOpciones[categoria] = intereses.map(item =>
+                item.id === id ? { ...item, selected: !item.selected } : item
+            );
+        }
+
         setOpciones(nuevasOpciones);
 
-        // Actualizar el estado con las opciones seleccionadas
-        const seleccionados = nuevasOpciones
+        // Actualizar los seleccionados
+        const seleccionados = Object.values(nuevasOpciones)
+            .flat()
             .filter(item => item.selected)
-            // .map(item => ({ id: item.id }));
-            .map(item => ({ id: item.id, name: item.name })); // En caso que se necesiten ambos datos
+            .map(item => ({ id: item.id, name: item.name }));
+
         setFormData(seleccionados);
     };
 
@@ -98,9 +149,10 @@ const Intereses = () => {
                         <div style={{ margin: '20px 0px' }}>
                             <p>Escoge mínimo 5 intereses para tu perfil</p>
                         </div>
-                        <div className="col-12 club_intereses_bg_negro">
+                        {/* <div className="col-12 club_intereses_bg_negro">
                             {opciones.map(item => (
-                                <div key={item.id}>
+                                <div className='col-12' key={item.id}>
+                                    <span>{item.category}</span>
                                     <label
                                         className={
                                             item.selected
@@ -116,6 +168,34 @@ const Intereses = () => {
                                         />
                                         {item.name}
                                     </label>
+                                </div>
+                            ))}
+                        </div> */}
+
+                        <div className="col-12 club_intereses_bg_negro">
+                            {Object.entries(opciones).map(([categoria, intereses]) => (
+                                <div className='col-12' key={categoria}>
+                                    <span className='club_color_fuente_blanco' style={{ fontWeight: 'bold', marginTop: '10px', marginBottom:'10px', display: 'block', fontSize:'12px' }}>
+                                        {categoria}
+                                    </span>
+                                    {intereses.map(item => (
+                                        <label
+                                            key={item.id}
+                                            className={
+                                                item.selected
+                                                    ? 'club_txt_caption club_texto_capsula cap_active'
+                                                    : 'club_txt_caption club_texto_capsula'
+                                            }
+                                        >
+                                            <input
+                                                className="btn-check"
+                                                type="checkbox"
+                                                checked={item.selected}
+                                                onChange={() => handleCheckboxChange(item.id)}
+                                            />
+                                            {item.name}
+                                        </label>
+                                    ))}
                                 </div>
                             ))}
                         </div>
