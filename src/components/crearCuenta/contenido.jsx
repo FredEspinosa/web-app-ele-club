@@ -123,7 +123,9 @@ const CrearCuentaContenido = () => {
                 break;
             case 'Continuar':
                 localStorage.setItem("datosUsuario", JSON.stringify(formData));
-                navigate('/codigo_de_confirmacion');
+                setTimeout(() => {
+                    navigate('/codigo_de_confirmacion');
+                }, 1000)
                 break;
             case 'Atras':
                 pasoActual = 'Crear'

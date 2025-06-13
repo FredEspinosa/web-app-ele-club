@@ -45,6 +45,7 @@ const CodigoValidacion = ({ avanzarPagina }) => {
   }, []);
 
   const consultaTuCodigo = async (numeroTel) => {
+    console.log(numeroTel)
     setShowLoader(true)
     try {
       const data = await obtenerCodigo(numeroTel);

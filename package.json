@@ -14,7 +14,7 @@
     "preinstall": "node ./check-node-version.js"
   },
   "engines": {
-    "node": "18.x"
+      "node": ">=22.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

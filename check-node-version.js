@@ -1,4 +1,4 @@
-const requiredVersion = 18;
+const requiredVersion = 22;
 const current = process.versions.node;
 const [major] = current.split('.').map(Number);
 
