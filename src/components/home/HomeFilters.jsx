@@ -5,7 +5,7 @@ import Chip from "./Chip.jsx";
 import "./Filter.css";
 import { hostApi } from "@/services/api.js";
 
-function HomeFilters({ handleClose }) {
+function HomeFilters({ handleClose, latitude, longitude }) {
   const FILTERS_INITIAL_VALUES = {
     genero: [],
     lookingFors: [],
@@ -111,9 +111,9 @@ function HomeFilters({ handleClose }) {
     console.log("Aplicando filtros con:", selectedFilters);
     setIsSubmitting(true);
     const requestBody = {
-      latitude: 0,
-      longitude: 0,
-      distanceInMeters: 0,
+      latitude: latitude,
+      longitude: longitude,
+      distanceInMeters: 90000,
       page: 0,
       ...selectedFilters,
     };
@@ -218,6 +218,8 @@ function HomeFilters({ handleClose }) {
 
 HomeFilters.propTypes = {
   handleClose: PropTypes.func.isRequired,
+  latitude: PropTypes.string,
+  longitude: PropTypes.string
 };
 
 export default HomeFilters;

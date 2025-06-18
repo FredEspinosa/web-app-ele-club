@@ -217,7 +217,7 @@ export const ContenidoHome = () => {
       {showAlert && (
         <AlertSuscribe mensajeModal={mensajeModal} btnAceptar={true} btnMsjButtom={textModalButton} handleOnclick={closeModal} bgColorButton={"club_bg_oro"} />
       )}
-      {isHomeFiltersOpen && <HomeFilters handleClose={handleCloseHomeFilters} />}
+      {isHomeFiltersOpen && <HomeFilters handleClose={handleCloseHomeFilters} latitude={ubicationData.latitude} longitude={ubicationData.longitude} />}
     </div>
   );
 };
