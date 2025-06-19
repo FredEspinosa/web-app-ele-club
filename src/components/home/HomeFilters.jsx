@@ -20,10 +20,18 @@ function HomeFilters({ handleClose, latitude, longitude }) {
     smokes: [],
   };
   const IS_OPEN_FILTERS_VALUES = {
-    horoscopo: false,
+    lookingFors: false,
     genero: false,
-    ubicacion: false,
+    horoscopo: false,
     sexualidad: false,
+    perceptions: false,
+    pronouns: false,
+    relationshipStatus: false,
+    pets: false,
+    roles: false,
+    interests: false,
+    smokes: false,
+    ubicacion: false,
     edad: false,
   };
   const tokenStorage = sessionStorage.getItem("AccessToken");
@@ -38,7 +46,20 @@ function HomeFilters({ handleClose, latitude, longitude }) {
     const fetchAllFilterData = async () => {
       try {
         console.log("Iniciando carga de datos para filtros...");
-        const endpoints = [`${hostApi}LookingFor`, `${hostApi}Gender`, `${hostApi}Zodiac`, `${hostApi}SexualIdentity`];
+        const endpoints = [
+          `
+          ${hostApi}LookingFor`,
+          `${hostApi}Gender`,
+          `${hostApi}Zodiac`,
+          `${hostApi}SexualIdentity`,
+          `${hostApi}Perception`,
+          `${hostApi}Pronoun`,
+          `${hostApi}RelationshipStatus`,
+          `${hostApi}Pet`,
+          `${hostApi}Role`,
+          `${hostApi}Interest`,
+          `${hostApi}Smoke`,
+        ];
         const responses = await Promise.all(endpoints.map((url) => fetch(url)));
         for (const res of responses) {
           if (!res.ok) {
@@ -46,12 +67,21 @@ function HomeFilters({ handleClose, latitude, longitude }) {
           }
         }
 
-        const [lookingFor, genders, zodiacs, sexualIdentities] = await Promise.all(responses.map((res) => res.json()));
+        const [lookingFor, genders, zodiacs, sexualIdentities, perceptions, pronouns, relationshipStatus, pets, roles, interests, smokes] = await Promise.all(
+          responses.map((res) => res.json())
+        );
         setFilterData({
           lookingFor,
           genders,
           zodiacs,
           sexualIdentities,
+          perceptions,
+          pronouns,
+          relationshipStatus,
+          pets,
+          roles,
+          interests,
+          smokes,
         });
         console.log("Datos cargados exitosamente:", { lookingFor, genders, zodiacs, sexualIdentities });
       } catch (err) {
@@ -68,6 +98,14 @@ function HomeFilters({ handleClose, latitude, longitude }) {
   const GENDERS_OPTIONS = filterData?.genders?.map((elem) => elem.name);
   const ZODIAC_OPTIONS = filterData?.zodiacs?.map((elem) => elem.name);
   const SEXUALIDENTITIES_OPTIONS = filterData?.sexualIdentities?.map((elem) => elem.name);
+  const LOOKINGFOR_OPTIONS = filterData?.lookingFor?.map((elem) => elem.name);
+  const PERCEPTIONS_OPTIONS = filterData?.perceptions?.map((elem) => elem.name);
+  const PRONOUNS_OPTIONS = filterData?.pronouns?.map((elem) => elem.name);
+  const RELATIONSHIPSTATUS_OPTIONS = filterData?.relationshipStatus?.map((elem) => elem.name);
+  const PETS_OPTIONS = filterData?.pets?.map((elem) => elem.name);
+  const ROLES_OPTIONS = filterData?.roles?.map((elem) => elem.name);
+  const INTERESTS_OPTIONS = filterData?.interests?.map((elem) => elem.name);
+  const SMOKES_OPTIONS = filterData?.smokes?.map((elem) => elem.name);
 
   if (isLoading) {
     return <div>Cargando filtros...</div>;
@@ -77,27 +115,83 @@ function HomeFilters({ handleClose, latitude, longitude }) {
     return <div>Error: {error}</div>;
   }
 
-  // Función para abrir/cerrar secciones
-  const toggleSection = (section) => {
-    setOpenSections((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
+  const FILTER_SECTION_CONFIG = [
+    {
+      id: "genero",
+      title: "Genero",
+      options: GENDERS_OPTIONS,
+    },
+    {
+      id: "ubicacion",
+      title: "Ubicación",
+      options: [],
+    },
+    {
+      id: "horoscopo",
+      title: "Horóscopo",
+      options: ZODIAC_OPTIONS,
+    },
+    {
+      id: "sexualidad",
+      title: "Identidad Sexual",
+      options: SEXUALIDENTITIES_OPTIONS,
+    },
+    {
+      id: "edad",
+      title: "Edad",
+      options: [],
+    },
+    {
+      id: "lookingFors",
+      title: "En busca de",
+      options: LOOKINGFOR_OPTIONS,
+    },
+    {
+      id: "perceptions",
+      title: "Se percibe como",
+      options: PERCEPTIONS_OPTIONS,
+    },
+    {
+      id: "pronouns",
+      title: "Pronombre",
+      options: PRONOUNS_OPTIONS,
+    },
+    {
+      id: "relationshipStatus",
+      title: "Estatus",
+      options: RELATIONSHIPSTATUS_OPTIONS,
+    },
+    {
+      id: "pets",
+      title: "Mascotas",
+      options: PETS_OPTIONS,
+    },
+    {
+      id: "roles",
+      title: "Roles",
+      options: ROLES_OPTIONS,
+    },
+    {
+      id: "interests",
+      title: "Intereses",
+      options: INTERESTS_OPTIONS,
+    },
+    {
+      id: "smokes",
+      title: "Que fume",
+      options: SMOKES_OPTIONS,
+    },
+  ];
+
+  const toggleSection = (sectionId) => {
+    setOpenSections((prev) => ({ ...prev, [sectionId]: !prev[sectionId] }));
   };
 
-  const handleFilterChange = (category, value) => {
-    setSelectedFilters((prevFilters) => {
-      const currentSelection = prevFilters[category];
-      let newSelection;
-      if (currentSelection.includes(value)) {
-        newSelection = currentSelection.filter((item) => item !== value);
-      } else {
-        newSelection = [...currentSelection, value];
-      }
-      return {
-        ...prevFilters,
-        [category]: newSelection,
-      };
+  const handleFilterChange = (sectionId, option) => {
+    setSelectedFilters((prev) => {
+      const currentSelection = prev[sectionId];
+      const newSelection = currentSelection.includes(option) ? currentSelection.filter((item) => item !== option) : [...currentSelection, option];
+      return { ...prev, [sectionId]: newSelection };
     });
   };
 
@@ -157,54 +251,16 @@ function HomeFilters({ handleClose, latitude, longitude }) {
       </header>
 
       <main className="filter-body">
-        <FilterSection title="Identidad de Género" count={selectedFilters.genero.length} isOpen={openSections.genero} onToggle={() => toggleSection("genero")}>
-          <div className="chip-container">
-            {GENDERS_OPTIONS.map((option) => (
-              <Chip key={option} label={option} isSelected={selectedFilters.genero.includes(option)} onSelect={() => handleFilterChange("genero", option)} />
-            ))}
-          </div>
-        </FilterSection>
-
-        <FilterSection title="Ubicación" count={0} isOpen={openSections.ubicacion} onToggle={() => toggleSection("ubicacion")}>
-          <p>Opciones de Ubicación aquí...</p>
-        </FilterSection>
-
-        <FilterSection title="Horóscopo" count={selectedFilters.horoscopo.length} isOpen={openSections.horoscopo} onToggle={() => toggleSection("horoscopo")}>
-          <div className="chip-container">
-            {ZODIAC_OPTIONS.map((option) => (
-              <Chip
-                key={option}
-                label={option}
-                isSelected={selectedFilters.horoscopo.includes(option)}
-                onSelect={() => handleFilterChange("horoscopo", option)}
-              />
-            ))}
-          </div>
-        </FilterSection>
-
-        <FilterSection
-          title="Identidad Sexual"
-          count={selectedFilters.sexualidad.length}
-          isOpen={openSections.sexualidad}
-          onToggle={() => toggleSection("sexualidad")}
-        >
-          <div className="chip-container">
-            {SEXUALIDENTITIES_OPTIONS.map((option) => (
-              <Chip
-                key={option}
-                label={option}
-                isSelected={selectedFilters.sexualidad.includes(option)}
-                onSelect={() => handleFilterChange("sexualidad", option)}
-              />
-            ))}
-          </div>
-        </FilterSection>
-
-        <FilterSection title="Edad" count={0} isOpen={openSections.edad} onToggle={() => toggleSection("edad")}>
-          <p>Un slider de rango para la edad iría aquí...</p>
-        </FilterSection>
+        {FILTER_SECTION_CONFIG.map(({ id, title, options }) => (
+          <FilterSection key={id} title={title} count={selectedFilters[id]?.length || 0} isOpen={openSections[id]} onToggle={() => toggleSection(id)}>
+            <div className="chip-container">
+              {options.map((option) => (
+                <Chip key={option} label={option} isSelected={selectedFilters[id]?.includes(option)} onSelect={() => handleFilterChange(id, option)} />
+              ))}
+            </div>
+          </FilterSection>
+        ))}
       </main>
-
       <div className="filter-footer club_cont_btns_doble club_bienvenida_btns club_bienvenida_btns">
         <div className="col-12">
           <button className="btn club_btn club_btn_full club_btn_full_general club_bg_oro" onClick={handleApplyFilters}>
@@ -218,8 +274,8 @@ function HomeFilters({ handleClose, latitude, longitude }) {
 
 HomeFilters.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  latitude: PropTypes.string,
-  longitude: PropTypes.string
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
 };
 
 export default HomeFilters;
