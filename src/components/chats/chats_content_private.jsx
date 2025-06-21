@@ -35,7 +35,7 @@ const ChatsContentPrivate = ({ handleOnClick, listChatsPrivates, onDelete }) => 
                 key={conversationId}
                 swipeLeft={{
                   content: <SwipeToDeleteContent />,
-                  action: () => onDelete(conversationId),
+                  action: () => onDelete(conversationId, otroUsuario),
                 }}
               >
                 <div className="club_new_request col-12" style={{ backgroundColor: "white" }}>

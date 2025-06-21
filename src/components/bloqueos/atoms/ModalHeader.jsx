@@ -12,9 +12,11 @@ const ModalHeader = ({ text, userName, onCancel, width, marginBottom }) => {
         {text}
         {userName && ` ${userName}`}
       </div>
-      <button onClick={onCancel} className="close-button">
-        <img src={closeButton} alt="Cerrar" height={24} width={24} />
-      </button>
+      {onCancel && (
+        <button onClick={onCancel} className="close-button">
+          <img src={closeButton} alt="Cerrar" height={24} width={24} />
+        </button>
+      )}
     </div>
   );
 };
@@ -22,7 +24,7 @@ const ModalHeader = ({ text, userName, onCancel, width, marginBottom }) => {
 ModalHeader.propTypes = {
   text: PropTypes.string,
   userName: PropTypes.string,
-  onCancel: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
   width: PropTypes.string,
   marginBottom: PropTypes.string,
 };

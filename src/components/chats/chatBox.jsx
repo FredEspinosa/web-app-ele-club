@@ -11,6 +11,7 @@ import Loader from "../loader/loader";
 import { conversationGetAll } from "../../services/api";
 import ChatsContentGroup from "./chats_content_group";
 import ChatsContentPrivate from "./chats_content_private";
+import DeleteChatModal from "./DeleteChatModal";
 
 const ChatBox = () => {
   const navigate = useNavigate();
@@ -21,9 +22,12 @@ const ChatBox = () => {
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
   const [privateConversations, setPrivateConversations] = useState([]);
   const [groupConversations, setGroupConversations] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [conversationToDelete, setConversationToDelete] = useState(null);
+  const [chatName, setChatName] = useState(null);
 
   const location = useLocation();
-
+  
   const listaBotones = [
     { texto: "Chats Privados", evento: "chatsPrivados" },
     { texto: "Sala de Chats", evento: "salaDeChats" },
@@ -98,9 +102,17 @@ const ChatBox = () => {
     navigate("/home");
   };
 
-  const handleDeleteConversation = async (conversationId) => {
-    console.log("Eliminando conversación de la UI:", conversationId);
-    setPrivateConversations((prevConversations) => prevConversations.filter((conv) => conv.id !== conversationId));
+  const handleDeleteConversation = (conversationId, otroUsuario) => {
+    setConversationToDelete(conversationId);
+    setShowDeleteModal(true);
+    setChatName(otroUsuario?.user?.name)
+  };
+
+  const confirmDelete = () => {
+    setPrivateConversations((prevConversations) => prevConversations.filter((conv) => conv.id !== conversationToDelete));
+    console.log("Eliminando conversación de la UI:", conversationToDelete);
+    setShowDeleteModal(false);
+    setConversationToDelete(null);
   };
 
   return (
@@ -145,6 +157,7 @@ const ChatBox = () => {
           />
         )}
       </div>
+      {showDeleteModal && <DeleteChatModal onConfirmDelete={confirmDelete} onCancel={() => setShowDeleteModal(false)} ChatName={chatName} />}
       {showLoader && <Loader />}
     </div>
   );

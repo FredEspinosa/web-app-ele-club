@@ -10,7 +10,7 @@ const ModalBody = ({ text, children }) => {
 };
 
 ModalBody.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   children: PropTypes.node
 };
 
