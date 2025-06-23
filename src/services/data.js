@@ -179,8 +179,10 @@ export const getLocationName = async (latitude, longitude) => {
 
     const data = await response.json();
     const locationName = data.display_name;
-    const delegation = data.address?.county || "Delegación no disponible";
-
+    let delegation = "Delegación no disponible";
+    if (data.address?.neighbourhood && data.address?.borough) {
+        delegation = `${data.address?.neighbourhood}, ${data.address?.borough}`;
+    }
     return { locationName, delegation };
   } catch (error) {
     console.error("❌ Error al obtener el nombre del lugar:", error);

@@ -1,46 +1,46 @@
 /***** 🤖 En este documento se declaran variables de entorno, endpoints, y funciones para consumo de apis de backend con la librería Axios https://axios-http.com/es/docs/req_config, solo funciones de exportación 🤖 *****/
 import axios from "axios";
 
-const hostApi = import.meta.env.VITE_HELENA_VITE_API_BASE_URL;
+export const hostApi = import.meta.env.VITE_HELENA_VITE_API_BASE_URL;
 
 const endpoints = {
-    // Por el momento se utiliza una API de fotos de perritos https://dog.ceo/dog-api/breeds-list
-    perfilImagen: `https://dog.ceo/api/breeds/image/random`,
-    fotoPerfil: `https://randomuser.me/api/?results=10`,
-    getCode: `${hostApi}Login`,
-    pronouns: `${hostApi}Pronoun`,
-    sexualIdentity: `${hostApi}SexualIdentity`,
-    perception: `${hostApi}Perception`,
-    genders: `${hostApi}Gender`,
-    relationshipStatus: `${hostApi}RelationshipStatus`,
-    lookingFor: `${hostApi}LookingFor`,
-    roles: `${hostApi}Role`,
-    interest: `${hostApi}Interest`,
-    pets: `${hostApi}Pet`,
-    zodiacs: `${hostApi}Zodiac`,
-    smoke: `${hostApi}Smoke`,
-    suscription: `${hostApi}Suscription`,
-    userPhotoGet: `${hostApi}UserPhoto`,
-    userAddPreferences: `${hostApi}UserPreferences/Add`,
-    userUpdatePreferences: `${hostApi}UserPreferences/Update`,
-    userMeProfile: `${hostApi}Profile/Me`,
-    userIdProfile: `${hostApi}Profile`,
-    suscriptionUser: `${hostApi}UserSuscription`, // *
-    googleLogin: `${hostApi}Login/Google`, // *
-    addUbication: `${hostApi}UserLocation/Add`,
-    getAllConverations: `${hostApi}Conversation/GetAll`,
-    createConverations: `${hostApi}Conversation/Create`,
-    feedLocation: `${hostApi}Feed`,
-    sendMessage: `${hostApi}Message/Send`,
-    messageGet: `${hostApi}Message`,
-    sendLike: `${hostApi}Likes/Send`,
-    sendInviteFriend: `${hostApi}Friends/Invite`,
-    friendsMe: `${hostApi}Friends/MyFriends`,
-    requestsFriends: `${hostApi}Friends/Requests`,
-    responseFriends: `${hostApi}Friends/ResponseRequest`,
-    matchesMe: `${hostApi}Matches/MyMatches`,
-    loguinFirebase: `${hostApi}Login`,
-}
+  // Por el momento se utiliza una API de fotos de perritos https://dog.ceo/dog-api/breeds-list
+  perfilImagen: `https://dog.ceo/api/breeds/image/random`,
+  fotoPerfil: `https://randomuser.me/api/?results=10`,
+  getCode: `${hostApi}Login`,
+  pronouns: `${hostApi}Pronoun`,
+  sexualIdentity: `${hostApi}SexualIdentity`,
+  perception: `${hostApi}Perception`,
+  genders: `${hostApi}Gender`,
+  relationshipStatus: `${hostApi}RelationshipStatus`,
+  lookingFor: `${hostApi}LookingFor`,
+  roles: `${hostApi}Role`,
+  interest: `${hostApi}Interest`,
+  pets: `${hostApi}Pet`,
+  zodiacs: `${hostApi}Zodiac`,
+  smoke: `${hostApi}Smoke`,
+  suscription: `${hostApi}Suscription`,
+  userPhotoGet: `${hostApi}UserPhoto`,
+  userAddPreferences: `${hostApi}UserPreferences/Add`,
+  userUpdatePreferences: `${hostApi}UserPreferences/Update`,
+  userMeProfile: `${hostApi}Profile/Me`,
+  userIdProfile: `${hostApi}Profile`,
+  suscriptionUser: `${hostApi}UserSuscription`, // *
+  googleLogin: `${hostApi}Login/Google`, // *
+  addUbication: `${hostApi}UserLocation/Add`,
+  getAllConverations: `${hostApi}Conversation/GetAll`,
+  createConverations: `${hostApi}Conversation/Create`,
+  feedLocation: `${hostApi}Feed`,
+  sendMessage: `${hostApi}Message/Send`,
+  messageGet: `${hostApi}Message`,
+  sendLike: `${hostApi}Likes/Send`,
+  sendInviteFriend: `${hostApi}Friends/Invite`,
+  friendsMe: `${hostApi}Friends/MyFriends`,
+  requestsFriends: `${hostApi}Friends/Requests`,
+  responseFriends: `${hostApi}Friends/ResponseRequest`,
+  matchesMe: `${hostApi}Matches/MyMatches`,
+  loguinFirebase: `${hostApi}Login`,
+};
 
 export const obtenerImagenPerfil = () => {
   return axios({
@@ -85,7 +85,6 @@ export const validaCodigoToken = async (telUsuario, codigoIngresado, tokenFCM) =
   };
 
   console.log("data login", data);
-  
 
   let config = {
     method: "POST",
@@ -330,9 +329,9 @@ export const getUserPhoto = async (imgB64) => {
     headers: {
       Accept: "text/plain",
     },
-    params:{
-        base64: dataImg
-    }
+    params: {
+      base64: dataImg,
+    },
   };
 
   try {
@@ -394,8 +393,6 @@ export const userPreferencesAdd = async (dataUser, tokenSesion) => {
 
 // Get userPreferencesUpdate
 export const userPreferencesUpdate = async (dataUser, tokenSesion) => {
-  console.log("tokenSesion userPreferencesUpdate", tokenSesion);
-
   let config = {
     method: "POST",
     url: endpoints.userUpdatePreferences,
@@ -440,7 +437,6 @@ export const userProfileMe = async (tokenSesion) => {
 
 // Get Profile
 export const profileUserID = async (tokenSesion, idUser) => {
-
   let config = {
     method: "GET",
     url: endpoints.userIdProfile,
@@ -491,26 +487,26 @@ export const userSuscription = async (tokenSesion) => {
 
 // Get GoogleLogin
 export const loginGoogle = async (tokentCodeGoogle, tokenFCM) => {
-    let config = {
-        method: "POST",
-        url: endpoints.googleLogin,
-        headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-        },
-        data: {
-            "googleToken": tokentCodeGoogle,
-            "registrationToken": tokenFCM,
-        }
-    };
+  let config = {
+    method: "POST",
+    url: endpoints.googleLogin,
+    headers: {
+      Accept: "*/*",
+      "Content-Type": "application/json",
+    },
+    data: {
+      googleToken: tokentCodeGoogle,
+      registrationToken: tokenFCM,
+    },
+  };
 
-    try {
-        const response = await axios.request(config);
-        return response;
-    } catch (error) {
-        console.error("Error en GoogleLogin:", error);
-        throw error;
-    }
+  try {
+    const response = await axios.request(config);
+    return response;
+  } catch (error) {
+    console.error("Error en GoogleLogin:", error);
+    throw error;
+  }
 };
 
 // Get ubicationAdd
@@ -701,31 +697,30 @@ export const messageSend = async (tokenSesion, data) => {
 };
 
 // Get Message
-export const getMessage = async( tokenSesion, conversationId ) => {
+export const getMessage = async (tokenSesion, conversationId) => {
+  let config = {
+    method: "GET",
+    url: endpoints.messageGet,
+    headers: {
+      Accept: "*/*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tokenSesion}`,
+    },
+    params: {
+      conversationId: conversationId,
+    },
+  };
 
-    let config = {
-        method: 'GET',
-        url: endpoints.messageGet,
-        headers : {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenSesion}`,
-        },
-        params: {
-            'conversationId': conversationId,
-        },
-    };
+  try {
+    const response = await axios.request(config);
+    return response;
+  } catch (error) {
+    console.error("Error en MessageSend:", error);
+    throw error;
+  }
+};
 
-    try {
-        const response = await axios.request(config);
-        return response        
-    } catch (error) {
-        console.error("Error en MessageSend:", error);
-        throw error;
-    }
-}
-
-// Get Friends/Invite 
+// Get Friends/Invite
 export const friendsInvite = async (tokenSesion, toUserId) => {
   let config = {
     method: "POST",
@@ -788,7 +783,6 @@ export const friendsRequests = async (tokenSesion) => {
 
 // Get Friends/Response
 export const friendsResponse = async (tokenSesion, friendRequestId, accept) => {
-
   let config = {
     method: "POST",
     url: endpoints.responseFriends,
@@ -835,6 +829,6 @@ export const matchesMyMatches = async (tokenSesion) => {
 
 export const fetcher = (url) =>
   fetch(url).then((res) => {
-    if (!res.ok) throw new Error('Error en la petición');
+    if (!res.ok) throw new Error("Error en la petición");
     return res.json();
   });

@@ -4,7 +4,7 @@ import ModalHeader from "../atoms/ModalHeader";
 import checkBoxCircleLine from "../../../assets/images/reportar_usuario/checkbox-circle-line.svg";
 const ConfirmationModal = ({ onClose }) => {
   return (
-    <ModalContainer width={332} height={283} top={267} left={37} borderRadius={16}>
+    <ModalContainer width={332} height={283} top={267} borderRadius={16}>
       <ModalHeader onCancel={onClose} width={"auto"} marginBottom={"0px"} />
       <div id="confirmation-content">
         <div className="confirmation-title">

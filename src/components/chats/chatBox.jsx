@@ -1,19 +1,19 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
-import { auth, db } from '../../services/firebaseConfig';
-import { collection, addDoc, onSnapshot, query, orderBy } from 'firebase/firestore';
-import NavBar from '../nav_bar/navBar';
-import AlertSuscribe from '../alertas/alert_suscribete';
-import { useLocation, useNavigate } from 'react-router-dom';
-import NavBarDinamicButtons from '../nav_bar/navBarDinamicButtons';
-import HeaderConfiguration from '../headers/header_configuration';
-import Loader from '../loader/loader';
-import { conversationGetAll } from '../../services/api';
-import ChatsContentGroup from './chats_content_group';
-import ChatsContentPrivate from './chats_content_private';
+import React, { useState, useEffect } from "react";
+import { db } from "../../services/firebaseConfig";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import NavBar from "../nav_bar/navBar";
+import AlertSuscribe from "../alertas/alert_suscribete";
+import { useLocation, useNavigate } from "react-router-dom";
+import NavBarDinamicButtons from "../nav_bar/navBarDinamicButtons";
+import HeaderConfiguration from "../headers/header_configuration";
+import Loader from "../loader/loader";
+import { conversationGetAll } from "../../services/api";
+import ChatsContentGroup from "./chats_content_group";
+import ChatsContentPrivate from "./chats_content_private";
+import DeleteChatModal from "./DeleteChatModal";
 
 const ChatBox = () => {
-
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
@@ -22,9 +22,12 @@ const ChatBox = () => {
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
   const [privateConversations, setPrivateConversations] = useState([]);
   const [groupConversations, setGroupConversations] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [conversationToDelete, setConversationToDelete] = useState(null);
+  const [chatName, setChatName] = useState(null);
 
   const location = useLocation();
-
+  
   const listaBotones = [
     { texto: "Chats Privados", evento: "chatsPrivados" },
     { texto: "Sala de Chats", evento: "salaDeChats" },
@@ -39,9 +42,9 @@ const ChatBox = () => {
 
   useEffect(() => {
     if (tokenSesionStorage) {
-      conversationsAll()
+      conversationsAll();
     }
-  }, [tokenSesionStorage])
+  }, [tokenSesionStorage]);
 
   const conversationsAll = async () => {
     setShowLoader(true);
@@ -49,13 +52,15 @@ const ChatBox = () => {
       const tokenSesion = tokenSesionStorage;
       const response = await conversationGetAll(tokenSesion);
 
-      if (response.isSuccess === true && response.conversations) { // Verifica que response.conversations existe
+      if (response.isSuccess === true && response.conversations) {
+        // Verifica que response.conversations existe
         setShowLoader(false);
         // Separa las conversaciones en privadas y de grupo
         const prvConversations = [];
         const grpConversations = [];
 
-        response.conversations.forEach((conversation) => { // Aquí es donde estaba el error
+        response.conversations.forEach((conversation) => {
+          // Aquí es donde estaba el error
           if (conversation.isGroup === false) {
             prvConversations.push(conversation);
           } else if (conversation.isGroup) {
@@ -75,7 +80,7 @@ const ChatBox = () => {
   };
 
   useEffect(() => {
-    const q = query(collection(db, 'messages'), orderBy('timestamp'));
+    const q = query(collection(db, "messages"), orderBy("timestamp"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map((doc) => doc.data());
       setMessages(msgs);
@@ -85,8 +90,8 @@ const ChatBox = () => {
   }, []);
 
   const goToSuscribe = () => {
-    navigate('/suscripcion')
-  }
+    navigate("/suscripcion");
+  };
 
   const handleButtonClick = (evento) => {
     setVista(evento); // Actualizar la vista activa
@@ -97,14 +102,27 @@ const ChatBox = () => {
     navigate("/home");
   };
 
+  const handleDeleteConversation = (conversationId, otroUsuario) => {
+    setConversationToDelete(conversationId);
+    setShowDeleteModal(true);
+    setChatName(otroUsuario?.user?.name)
+  };
+
+  const confirmDelete = () => {
+    setPrivateConversations((prevConversations) => prevConversations.filter((conv) => conv.id !== conversationToDelete));
+    console.log("Eliminando conversación de la UI:", conversationToDelete);
+    setShowDeleteModal(false);
+    setConversationToDelete(null);
+  };
+
   return (
     <div>
-      <div id='chatsBox' className="club_contenedor_tres_secciones club_contenedor container-lg">
+      <div id="chatsBox" className="club_contenedor_tres_secciones club_contenedor container-lg">
         <div className="club_contenido_top club_cont_info">
           <HeaderConfiguration
             isBtnLeft={false}
             txtButton={"Volver"}
-            nameHeader={<span style={{textTransform: 'uppercase'}}>CHATS</span>}
+            nameHeader={<span style={{ textTransform: "uppercase" }}>CHATS</span>}
             sizeF={"20px"}
             isBtnRear={false}
             bgColorBar={"club_bg_blanco"}
@@ -116,28 +134,31 @@ const ChatBox = () => {
             buttonsList={listaBotones}
             onButtonClick={handleButtonClick}
             activeButton={vista} // Sincronización con el estado padre
-            colBtns={'col-6'}
+            colBtns={"col-6"}
           />
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
-            {vista === "chatsPrivados" && <ChatsContentPrivate handleOnClick={redirectBack} listChatsPrivates={privateConversations} />}
+            {vista === "chatsPrivados" && (
+              <ChatsContentPrivate handleOnClick={redirectBack} listChatsPrivates={privateConversations} onDelete={handleDeleteConversation} />
+            )}
             {vista === "salaDeChats" && <ChatsContentGroup handleOnClick={redirectBack} listChatsGroup={groupConversations} />}
           </div>
         </div>
         <div className="club_contenido_bottom club_cont_info">
           <NavBar currentPage={"Chats"} />
         </div>
-        {(showAlert &&
+        {showAlert && (
           <AlertSuscribe
             mensajeModal={<p>¿Quieres tener todas las funciones de manera ilimitada?</p>}
             btnAceptar={true}
-            btnMsjButtom={'SUSCRIBETE'}
+            btnMsjButtom={"SUSCRIBETE"}
             handleOnclick={goToSuscribe}
-            bgColorButton={'club_bg_violeta_05'}
+            bgColorButton={"club_bg_violeta_05"}
           />
         )}
       </div>
-      {(showLoader && <Loader />)}
+      {showDeleteModal && <DeleteChatModal onConfirmDelete={confirmDelete} onCancel={() => setShowDeleteModal(false)} ChatName={chatName} />}
+      {showLoader && <Loader />}
     </div>
   );
 };

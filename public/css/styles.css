@@ -736,7 +736,6 @@ p {
     height: 98px;
     position: fixed;
     bottom: 0;
-    z-index: 1;
 }
 
 .club_nav_opciones {

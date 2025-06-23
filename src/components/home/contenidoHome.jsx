@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import NavBar from "../nav_bar/navBar";
 import { TopBarClub } from "../top_bar/topBarClub";
 import InputDinamico from "../inputs/inputsDinamico";
@@ -10,6 +9,7 @@ import { userProfileMe } from "../../services/api";
 import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
 import { getLocationName, getUserLocation } from "../../services/data";
+import HomeFilters from "./HomeFilters";
 
 export const ContenidoHome = () => {
   const formRef = useRef(null); // Crea la referencia al formulario
@@ -44,6 +44,7 @@ export const ContenidoHome = () => {
     FotosCarrucel: "",
     aboutMe: "",
   });
+  const [isHomeFiltersOpen, setIsHomeFiltersOpen] = useState(false);
 
   useEffect(() => {
     const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario"));
@@ -53,7 +54,7 @@ export const ContenidoHome = () => {
       setTokenSesionStorage(tokenStorage); // Guarda los datos en el estado
       // Siempre priorizamos la API si hay un token disponible
       getDataProfileMe(tokenStorage);
-      obtenerUbicacionCompleta()
+      obtenerUbicacionCompleta();
     } else if (datosUsuario) {
       setDataUser(datosUsuario);
     } else {
@@ -62,7 +63,7 @@ export const ContenidoHome = () => {
   }, []);
 
   const getDataProfileMe = async (tokenStorage) => {
-    setShowLoader(true)
+    setShowLoader(true);
     try {
       const response = await userProfileMe(tokenStorage);
 
@@ -82,43 +83,60 @@ export const ContenidoHome = () => {
         console.error("Error: Respuesta inesperada de la API:", response);
         setShowLoader(false); // Asegurarse de ocultar el loader siempre
         setShowAlert(true);
-        setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
+        setMensajeModal(
+          <p>
+            ¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.
+          </p>
+        );
       }
     } catch (err) {
       console.error("Error al obtener los datos del perfil:", err);
       setShowLoader(false); // Asegurarse de ocultar el loader siempre
       setShowAlert(true);
-      setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.</p>);
-      setTextModalButton('CERRAR')
+      setMensajeModal(
+        <p>
+          ¡Lo sentimos! ocurrió un problema al enviar tu información, estamos trabajando para <b>resolverlo</b>.
+        </p>
+      );
+      setTextModalButton("CERRAR");
     }
   };
 
   const obtenerUbicacionCompleta = () => {
     getUserLocation({
       onSuccess: async ({ latitude, longitude }) => {
-        setUbicationData({ latitude, longitude})          
+        setUbicationData({ latitude, longitude });
         try {
           const { locationName, delegation } = await getLocationName(latitude, longitude);
           // setDatosUsuario((prev) => ({
           //   ...prev,
           //   delegation,
           // }));
-          setUbicationDataName({ latitude, longitude, locationName, delegation })          
+          setUbicationDataName({ latitude, longitude, locationName, delegation });
           // console.log("✅ Todo listo:", { latitude, longitude, locationName, delegation });
         } catch (e) {
           console.error("Error en la ubicación completa:", e.message);
           setShowLoader(false); // Asegurarse de ocultar el loader siempre
           setShowAlert(true);
-          setMensajeModal(<p>¡Lo sentimos! la aplicación <b>no peude obtener tu ubicación</b>.<br /> Estamos trabajando para resolver el problema</p>);
-          setTextModalButton('CERRAR')
+          setMensajeModal(
+            <p>
+              ¡Lo sentimos! la aplicación <b>no peude obtener tu ubicación</b>.<br /> Estamos trabajando para resolver el problema
+            </p>
+          );
+          setTextModalButton("CERRAR");
         }
       },
       onError: (e) => {
         console.error("Error obteniendo coordenadas:", e.message);
         setShowLoader(false); // Asegurarse de ocultar el loader siempre
         setShowAlert(true);
-        setMensajeModal(<p>¡Lo sentimos! la aplicación <b>no cuenta</b> con los servicios de <b>ubicación</b> activados.<br /> Por favor permite los servicios de <b>ubicación</b>.</p>);
-        setTextModalButton('REFRESCAR')
+        setMensajeModal(
+          <p>
+            ¡Lo sentimos! la aplicación <b>no cuenta</b> con los servicios de <b>ubicación</b> activados.
+            <br /> Por favor permite los servicios de <b>ubicación</b>.
+          </p>
+        );
+        setTextModalButton("REFRESCAR");
       },
     });
   };
@@ -134,18 +152,27 @@ export const ContenidoHome = () => {
     });
   };
 
+  const handleFilterClick = () => {
+    setIsHomeFiltersOpen(true);
+  };
+
+  const handleCloseHomeFilters = () => {
+    setIsHomeFiltersOpen(false);
+  };
+
   const campos = [
     {
       type: "text",
       name: "Colonia",
       label: "Colonia",
-      placeholder: dataUser.userLocation?.location ? dataUser.userLocation?.location : ubicationDataName.delegation ? ubicationDataName?.delegation : 'Buscar',
+      placeholder: dataUser.userLocation?.location ? dataUser.userLocation?.location : ubicationDataName.delegation ? ubicationDataName?.delegation : "Buscar",
       disabled: true,
       iconStart: false,
       iconNameStart: <IoSearch className="club_input_icon_izq" size={24} />,
       iconEnd: true,
       iconNameEnd: <FiFilter className="club_input_icon_der" size={24} />,
       help: false,
+      onIconEndClick: handleFilterClick,
     },
   ];
 
@@ -155,12 +182,12 @@ export const ContenidoHome = () => {
   // }, [dataUser]);
 
   const closeModal = () => {
-    if (textModalButton === 'CERRAR'){
-      setShowAlert(false)
+    if (textModalButton === "CERRAR") {
+      setShowAlert(false);
     } else {
       window.location.reload();
     }
-  }
+  };
 
   return (
     <div id="homeHelena">
@@ -174,18 +201,11 @@ export const ContenidoHome = () => {
               <form ref={formRef}>
                 {" "}
                 {campos.map((campo, index) => (
-                  <InputDinamico
-                    key={index}
-                    config={campo}
-                    value={formData[campo.name] || ""}
-                    onChange={handleInputChange}
-                  />
+                  <InputDinamico key={index} config={campo} value={formData[campo.name] || ""} onChange={handleInputChange} />
                 ))}
               </form>
             </div>
-            {ubicationData.latitude && (
-              <TinderLikeCarouselV2 token={tokenSesionStorage} ubicationData={ubicationData} />
-            )}
+            {ubicationData.latitude && <TinderLikeCarouselV2 token={tokenSesionStorage} ubicationData={ubicationData} />}
             {/* <TinderLikeCarouselV2 token={tokenSesionStorage} /> */}
           </div>
         </div>
@@ -193,16 +213,11 @@ export const ContenidoHome = () => {
           <NavBar currentPage={"Inicio"} />
         </div>
       </div>
-      {(showLoader && <Loader />)}
-      {(showAlert &&
-        <AlertSuscribe
-          mensajeModal={mensajeModal}
-          btnAceptar={true}
-          btnMsjButtom={textModalButton}
-          handleOnclick={closeModal}
-          bgColorButton={'club_bg_oro'}
-        />
+      {showLoader && <Loader />}
+      {showAlert && (
+        <AlertSuscribe mensajeModal={mensajeModal} btnAceptar={true} btnMsjButtom={textModalButton} handleOnclick={closeModal} bgColorButton={"club_bg_oro"} />
       )}
+      {isHomeFiltersOpen && <HomeFilters handleClose={handleCloseHomeFilters} latitude={ubicationData.latitude} longitude={ubicationData.longitude} />}
     </div>
   );
 };
