@@ -40,6 +40,7 @@ const endpoints = {
   responseFriends: `${hostApi}Friends/ResponseRequest`,
   matchesMe: `${hostApi}Matches/MyMatches`,
   loguinFirebase: `${hostApi}Login`,
+  likesMe:`${hostApi}Likes/Me`,
 };
 
 export const obtenerImagenPerfil = () => {
@@ -831,4 +832,25 @@ export const fetcher = (url) =>
   fetch(url).then((res) => {
     if (!res.ok) throw new Error("Error en la petición");
     return res.json();
-  });
+});
+
+// Get Likes/Me`,
+export const likesMyLikes = async (tokenSesion) => {
+  let config = {
+    method: "GET",
+    url: endpoints.likesMe,
+    headers: {
+      Accept: "text/plain",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${tokenSesion}`,
+    },
+  };
+  try {
+    const response = await axios.request(config);
+    console.log("matchesMyMatches", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error en Matches/Response:", error);
+    throw error;
+  }
+};
