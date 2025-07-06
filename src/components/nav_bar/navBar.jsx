@@ -5,6 +5,7 @@ import { BsChatSquareDotsFill } from "react-icons/bs";
 import { IoHeart, IoHeartCircleOutline } from "react-icons/io5";
 import { IoMdPerson } from "react-icons/io";
 import { NotificationContext } from "../notifications_context/notification_context";
+import DescubreIcon from "../../assets/images/icons/events.svg"
 
 const NavBar = ({ currentPage, onOptionSelect }) => {
   const navigate = useNavigate();
@@ -26,8 +27,8 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
     onOptionSelect?.(option); // Llama a la función del padre si está definida
 
     switch (option) {
-      case "Alertas":
-        navigate("/alertas");
+      case "Descubre":
+        navigate("/descubre");
         break;
       case "Chats":
         navigate("/chatbox");
@@ -35,8 +36,8 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
       case "Inicio":
         navigate("/home");
         break;
-      case "Likes":
-        navigate("/likes");
+      case "Alertas":
+        navigate("/alertas");
         break;
       case "Perfil":
         navigate("/mi_perfil");
@@ -50,17 +51,17 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
     <div className="club_nav_bar">
       <div className="club_nav_opciones">
         <div
-          className={`club_nav_opcion_icono ${activeOption === "Alertas" ? "active animate__animated animate__fadeInUp" : ""
+          className={`club_nav_opcion_icono ${activeOption === "Descubre" ? "active animate__animated animate__fadeInUp" : ""
             }`}
-          onClick={() => handleClick("Alertas")}
+          onClick={() => handleClick("Descubre")}
         >
           <div>
             {notifications.length > 0 && (
               <span className="notification-badge">{notifications.length}</span>
             )}
-            <HiBellAlert size={24} />
+            <img src={DescubreIcon} alt="events_icon" />
           </div>
-          <span>Alertas</span>
+          <span>Descubre</span>
         </div>
         <div
           className={`club_nav_opcion_icono ${activeOption === "Chats" ? "active animate__animated animate__fadeInUp" : ""
@@ -83,14 +84,14 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           <span>Inicio</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${activeOption === "Likes" ? "active animate__animated animate__fadeInUp" : ""
+          className={`club_nav_opcion_icono ${activeOption === "Alertas" ? "active animate__animated animate__fadeInUp" : ""
             }`}
-          onClick={() => handleClick("Likes")}
+          onClick={() => handleClick("Alertas")}
         >
           <div>
-            <IoHeart size={24} />
+            <HiBellAlert size={24} />
           </div>
-          <span>Likes</span>
+          <span>Alertas</span>
         </div>
         <div
           className={`club_nav_opcion_icono ${activeOption === "Perfil" ? "active animate__animated animate__fadeInUp" : ""

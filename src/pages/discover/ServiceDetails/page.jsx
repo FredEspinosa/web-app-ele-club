@@ -1,41 +1,31 @@
-import {
-  AboutServices,
-  DiscoverInfo,
-  EventGallery,
-} from '@/components/discover/atoms';
-import {
-  DetailsTabsInfo,
-  EventLocation,
-} from '@/components/discover/molecules';
-import EventOrganizationInfo from '@/components/discover/molecules/EventOrganizationInfo';
-import { ServiceDetailsReviews } from '@/components/discover/organisms';
-import ServiceView from '@/components/discover/organisms/ServiceView';
-import { Button } from '@/components/shared/atoms';
-import { fetcher } from '@/services/api';
+import { AboutServices, DiscoverInfo, EventGallery } from "@/components/discover/atoms";
+import { DetailsTabsInfo, EventLocation } from "@/components/discover/molecules";
+import EventOrganizationInfo from "@/components/discover/molecules/EventOrganizationInfo";
+import { ServiceDetailsReviews } from "@/components/discover/organisms";
+import ServiceView from "@/components/discover/organisms/ServiceView";
+import { Button } from "@/components/shared/atoms";
+import { fetcher } from "@/services/api";
 import {
   StyledDetailContainer,
   StyledDetailsActions,
   StyledDetailsEventContainer,
   StyledDetailsRateContainer,
-} from '@/styles/discover/containers';
-import {
-  StyledDetailOwnerLabel,
-  StyledDetailTitle,
-} from '@/styles/discover/texts';
-import { Rating } from '@mui/material';
-import useSWR from 'swr';
+} from "@/styles/discover/containers";
+import { StyledDetailOwnerLabel, StyledDetailTitle } from "@/styles/discover/texts";
+import { Rating } from "@mui/material";
+import useSWR from "swr";
 
 export default function ServiceDetails() {
   const { data, error, isLoading } = useSWR(() => {
     const params = new URLSearchParams({
-      category: 'Servicios',
+      category: "Servicios",
     }).toString();
     return `/api/items?${params}`;
   }, fetcher);
 
   const tabs = [
     {
-      label: 'Información',
+      label: "Información",
       content: (
         <>
           <AboutServices
@@ -53,11 +43,11 @@ export default function ServiceDetails() {
       ),
     },
     {
-      label: 'Reseña',
+      label: "Reseña",
       content: <ServiceDetailsReviews />,
     },
     {
-      label: 'Ubicación',
+      label: "Ubicación",
       content: <EventLocation />,
     },
   ];
@@ -66,35 +56,32 @@ export default function ServiceDetails() {
     <>
       <EventGallery
         images={[
-          'https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          "https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         ]}
       />
       <StyledDetailContainer>
         <StyledDetailTitle>Sesión de Fotos Profesional</StyledDetailTitle>
         <StyledDetailsRateContainer>
-          <Rating name='read-only' value={3.5} precision={0.5} readOnly />
-          <p style={{ margin: 0, fontSize: '12px' }}>4.9</p>
+          <Rating name="read-only" value={3.5} precision={0.5} readOnly />
+          <p style={{ margin: 0, fontSize: "12px" }}>4.9</p>
           <StyledDetailOwnerLabel>(124 reseñas)</StyledDetailOwnerLabel>
         </StyledDetailsRateContainer>
-        <StyledDetailsEventContainer $width='fit-content'>
-          <DiscoverInfo icon={'location'}>{'Café Connections'}</DiscoverInfo>
+        <StyledDetailsEventContainer $width="fit-content">
+          <DiscoverInfo icon={"location"}>{"Café Connections"}</DiscoverInfo>
         </StyledDetailsEventContainer>
-        <StyledDetailsEventContainer $width='fit-content'>
-          <DiscoverInfo icon={'money'}>{'Cotizar'}</DiscoverInfo>
+        <StyledDetailsEventContainer $width="fit-content">
+          <DiscoverInfo icon={"money"}>{"Cotizar"}</DiscoverInfo>
         </StyledDetailsEventContainer>
-        <EventOrganizationInfo
-          name={'Captura Perfecta'}
-          profileImage={''}
-          subtitle='Empresa'
-          button={false}
-        />
+        <EventOrganizationInfo name={"Captura Perfecta"} profileImage={""} subtitle="Empresa" button={false} />
         <DetailsTabsInfo tabs={tabs} />
       </StyledDetailContainer>
       <StyledDetailsActions>
-        <Button size='full' type='button' variant='outlined'>
+        <Button size="full" type="button" variant="outlined">
           Contactar
         </Button>
-        <Button size='full' type='button'>Asistiré</Button>
+        <Button size="full" type="button">
+          Asistiré
+        </Button>
       </StyledDetailsActions>
     </>
   );

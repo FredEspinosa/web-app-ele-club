@@ -8,8 +8,7 @@ const HomePage = () => {
     return (
         <div>
             {/* <TopBarClub /> */}
-            <ContenidoHome>
-            </ContenidoHome>
+            <ContenidoHome />
             {/* <NavBar /> */}
         </div>
     )

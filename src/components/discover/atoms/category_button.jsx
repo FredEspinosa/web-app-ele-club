@@ -12,11 +12,11 @@ const available_categories = {
     text: 'Todos',
     icon: <AllCategoryIcon />,
   },
-  'Eventos': {
+  'Evento': {
     text: 'Eventos',
     icon: <CalendarIcon />,
   },
-  'Servicios': {
+  'Servicio': {
     text: 'Servicios',
     icon: <BellIcon />,
   },
