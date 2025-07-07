@@ -854,3 +854,28 @@ export const likesMyLikes = async (tokenSesion) => {
     throw error;
   }
 };
+
+const getToken = () => sessionStorage.getItem("AccessToken");
+
+export const fetcherWithToken = async (url) => {
+  const token = getToken();
+  const res = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const error = new Error("Ocurrió un error en la petición.");
+    try {
+      error.info = await res.json();
+    } catch (e) {
+      error.info = { message: e };
+    }
+    error.status = res.status;
+    throw error;
+  }
+
+  return res.json();
+};

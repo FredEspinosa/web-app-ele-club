@@ -1,15 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import debounce from 'lodash.debounce';
-import useSWR from 'swr';
-import { fetcher } from '@/services/api';
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import debounce from "lodash.debounce";
+import useSWR from "swr";
+import { fetcherWithToken } from "@/services/api";
+import { API_ENDPOINTS } from "@/descubreApi";
+import { OFFERS_TYPE_IDS } from "@/constants/offersType";
+
 
 const filterSchema = z.object({
   search: z.string().optional(),
-  category: z.string().nonempty('Seleccione una categoría'),
-  subcategory: z.string().nonempty('Seleccione una subcategoría'),
+  category: z.string().nonempty("Seleccione una categoría"),
+  subcategory: z.string().nonempty("Seleccione una subcategoría"),
 });
 
 export const useDebounce = (value, delay = 500) => {
@@ -30,42 +33,72 @@ const useHomeFilters = () => {
     setValue,
   } = useForm({
     resolver: zodResolver(filterSchema),
-    defaultValues: { search: '', category: '', subcategory: '' },
+    defaultValues: { search: "", category: "", subcategory: "" },
   });
 
-  const searchValue = watch('search');
-  const categoryValue = watch('category');
-  const subcategoryValue = watch('subcategory');
+  const searchValue = watch("search");
+  const categoryValue = watch("category");
+  const subcategoryValue = watch("subcategory");
 
   useEffect(() => {
-    setValue('subcategory', '');
+    setValue("subcategory", "");
   }, [categoryValue, setValue]);
 
   const [debouncedSearch, setDebouncedSearch] = useState(searchValue);
 
-  const debouncedSet = useMemo(
-    () => debounce((value) => setDebouncedSearch(value), 500),
-    [],
-  );
+  const debouncedSet = useMemo(() => debounce((value) => setDebouncedSearch(value), 500), []);
 
   useEffect(() => {
     debouncedSet(searchValue);
   }, [searchValue, debouncedSet]);
 
-  const { data, error, isLoading } = useSWR(() => {
+  const {
+    data: rawData,
+    error,
+    isLoading,
+  } = useSWR(() => {
     const params = new URLSearchParams({
-      search: debouncedSearch || '',
-      category: categoryValue || '',
-      subcategory: subcategoryValue || '',
+      search: debouncedSearch || "",
+      typeId: categoryValue || "",
+      categoryId: subcategoryValue || "",
     }).toString();
-    return `/api/items?${params}`;
-  }, fetcher);
+    return `${API_ENDPOINTS.GET_OFFER_AVAILABLE}?${params}`;
+  }, fetcherWithToken);
+
+  const data = useMemo(() => {
+    const offersArray = rawData?.result || [];
+    if (!Array.isArray(offersArray)) {
+      console.error("rawData.result no es un arreglo. Valor actual:", rawData);
+      return { eventos: [], servicios: [] };
+    }
+    return offersArray.reduce(
+      (acc, item) => {
+        try {
+          const formData = JSON.parse(item.formDataJson);
+          const finalObject = { ...item, ...formData };
+          delete finalObject.formDataJson;
+
+          // Clasifica el objeto final
+          if (item.offerTypeId === OFFERS_TYPE_IDS.SERVICIO) {
+            acc.servicios.push(finalObject);
+          } else if (item.offerTypeId === OFFERS_TYPE_IDS.EVENTO) {
+            acc.eventos.push(finalObject);
+          }
+        } catch (e) {
+          console.error("Error al parsear formDataJson:", e);
+        }
+
+        return acc;
+      },
+      { eventos: [], servicios: [] }
+    );
+  }, [rawData]);
 
   const handleSetValue = (name, value) => {
     setValue(name, value);
   };
 
-  const onSubmit = (formData) => console.log('Formulario enviado:', formData);
+  const onSubmit = (formData) => console.log("Formulario enviado:", formData);
 
   return {
     control,

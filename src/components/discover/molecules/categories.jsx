@@ -3,6 +3,7 @@ import { StyledCategoryContainer } from '@/styles/discover/containers';
 import React, { useMemo } from 'react';
 import useSWR from 'swr';
 import { CategoryButton } from '../atoms';
+import { API_ENDPOINTS } from '@/descubreApi';
 
 const MemoizedCategories = React.memo(
   function Categories({ value, handleSetValue }) {
@@ -10,16 +11,16 @@ const MemoizedCategories = React.memo(
       data: categories,
       error: categoryError,
       isLoading: categoryLoading,
-    } = useSWR('/api/categories', fetcher);
+    } = useSWR(API_ENDPOINTS.GET_OFFER_CATALOG, fetcher);
 
     const categoryList = useMemo(() => {
       if (categoryLoading) return null;
       return categories.map((cat, index) => (
         <CategoryButton
-          key={`${index}-${cat}`}
-          action={() => handleSetValue('category', cat)}
-          category={cat}
-          active={value === cat}
+          key={`${index}-${cat.id}`}
+          action={() => handleSetValue('category', cat.id)}
+          category={cat.name}
+          active={value === cat.id}
         />
       ));
     }, [categories, handleSetValue, value, categoryLoading]);

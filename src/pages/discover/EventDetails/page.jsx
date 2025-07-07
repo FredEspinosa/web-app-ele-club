@@ -19,7 +19,7 @@ export default function EventDetails() {
 
   const tabs = [
     {
-      label: 'Información',
+      label: 'Información', 
       content: (
           <AboutDetails about={[data.about]} />
       ),
@@ -38,22 +38,22 @@ export default function EventDetails() {
 
   return (
     <>
-      <EventGallery images={data.images} />
+      <EventGallery images={data?.images} />
       <StyledDetailContainer>
-        <StyledDetailTitle>{data.title}</StyledDetailTitle>
+        <StyledDetailTitle>{data?.title}</StyledDetailTitle>
         <StyledDetailsEventContainer $width='fit-content'>
-          <DiscoverInfo icon={'calendar'}>{data.date}</DiscoverInfo>
-          {data.start && (
-            <DiscoverInfo icon={'clock'}>{data.start}</DiscoverInfo>
+          <DiscoverInfo icon={'calendar'}>{data?.date}</DiscoverInfo>
+          {data?.start && (
+            <DiscoverInfo icon={'clock'}>{data?.start}</DiscoverInfo>
           )}
-          <DiscoverInfo icon={'location'}>{data.location}</DiscoverInfo>
+          <DiscoverInfo icon={'location'}>{data?.location}</DiscoverInfo>
         </StyledDetailsEventContainer>
         <StyledDetailsEventContainer $width='fit-content'>
-          <DiscoverInfo icon={'money'}>{data.amount}</DiscoverInfo>
+          <DiscoverInfo icon={'money'}>{data?.amount}</DiscoverInfo>
         </StyledDetailsEventContainer>
         <EventOrganizationInfo
-          name={data.owner}
-          profileImage={data.images[0]}
+          name={data?.owner}
+          profileImage={data?.images}
         />
         <DetailsTabsInfo tabs={tabs} />
       </StyledDetailContainer>

@@ -12,7 +12,7 @@ export const StyledPageContainer = styled.main`
     rowGap: '21px',
   })}
   background-color: var(--color-neutral-gris-05);
-  padding: 20px;
+  padding: 70px 20px 150px 20px;
 `;
 
 export const StyledEventInfoContainer = styled.div`
