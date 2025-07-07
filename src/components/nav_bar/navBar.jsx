@@ -56,9 +56,6 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           onClick={() => handleClick("Descubre")}
         >
           <div>
-            {notifications.length > 0 && (
-              <span className="notification-badge">{notifications.length}</span>
-            )}
             <img src={DescubreIcon} alt="events_icon" />
           </div>
           <span>Descubre</span>
@@ -89,6 +86,9 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           onClick={() => handleClick("Alertas")}
         >
           <div>
+            {notifications.length > 0 && (
+              <span className="notification-badge">{notifications.length}</span>
+            )}
             <HiBellAlert size={24} />
           </div>
           <span>Alertas</span>

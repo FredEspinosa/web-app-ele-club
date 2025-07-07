@@ -1,9 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react'
-import { IoPersonAdd } from 'react-icons/io5'
+import { IoHeartCircleOutline, IoPersonAdd } from 'react-icons/io5'
 import { matchesMyMatches } from '../../services/api';
-import { FaRegCircleUser } from 'react-icons/fa6'
-import { conversationCreate, friendsRequests, friendsResponse } from '../../services/api';
+import { conversationCreate } from '../../services/api';
 import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
 // import { PiCheckCircleFill } from 'react-icons/pi';
 import { AiFillMessage } from "react-icons/ai";
@@ -54,11 +53,13 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
                 setShowListFriends(friendsList.length > 0);
             } else {
                 console.error("Ocurrió un error en la API:", response);
+                setShowFriends(false)
                 // setShowAlert(true);
                 // setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
             }
         } catch (error) {
             console.error("Error al enviar datos del usuario:", error);
+            setShowFriends(false)
             //   setShowAlert(true);
             //   setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
         } finally {
@@ -145,7 +146,7 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
         <div>
             <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
                 <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
-                    {showFriends || showListFriends ? (
+                    {showFriends || showListFriends.length > 0 ? (
                         <div className="club_content_scroll club_scroll_y align-items-start">
                             {requests.map((solicitud, index) => (
                                 <div key={index} className="club_new_request col-12">
@@ -229,10 +230,10 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
                         </div>
                     ) : (
                         <div className="club_content">
-                            <FaRegCircleUser className="club_icon_card_no_notifications" size={85} />
-                            <h2 className="club_message-title">No tienes solicitudes de amigas</h2>
+                            <IoHeartCircleOutline className="club_icon_card_no_notifications" size={85} />
+                            <h2 className="club_message-title">No tienes nuevos matches</h2>
                             <p className="club_message-description">
-                                Cada vez que alguien te mande solicitud aparecerá aquí.
+                                Ve al inicio para likear perfiles - una vez que te regresen el like se volverá match y podrás verlo aquí!.
                             </p>
                             <button className="club_action-button" onClick={handleOnClick}>Ir a Inicio</button>
                         </div>

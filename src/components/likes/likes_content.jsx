@@ -55,11 +55,13 @@ const LikesContent = ({ handleOnClick, isLoader }) => {
                 setShowListFriends(friendsList.length > 0);
             } else {
                 console.error("Ocurrió un error en la API:", response);
+                setShowFriends(false)
                 // setShowAlert(true);
                 // setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
             }
         } catch (error) {
             console.error("Error al enviar datos del usuario:", error);
+            setShowFriends(false)
             //   setShowAlert(true);
             //   setMensajeModal(<p>¡Lo sentimos! ocurrió un problema al cargar la información, estamos trabajando para <b>resolverlo</b>.</p>);
         } finally {
@@ -145,7 +147,7 @@ const LikesContent = ({ handleOnClick, isLoader }) => {
         <div>
             <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
                 <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
-                    {showFriends || showListFriends ? (
+                    {showFriends || showListFriends.length > 0 ? (
                         <div className="club_content_scroll club_scroll_y align-items-start">
                             {requests.map((solicitud, index) => (
                                 <div key={index} className="club_new_request col-12">

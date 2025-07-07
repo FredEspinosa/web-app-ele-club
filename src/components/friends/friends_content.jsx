@@ -178,7 +178,7 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
         <div>
             <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
                 <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
-                    {showFriends || showListFriends ? (
+                    {showFriends || showListFriends.length > 0 ? (
                         <div className="club_content_scroll club_scroll_y align-items-start">
                             {requests.map((solicitud, index) => (
                                 <div key={index} className="club_new_request col-12">
