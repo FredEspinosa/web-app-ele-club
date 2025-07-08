@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { flex, grid } from '../globals/mixins';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Box, Tab, Tabs, Paper } from '@mui/material';
+import { Box, Tab, Tabs, Paper, Card } from '@mui/material';
 
 export const StyledPageContainer = styled.main`
   width: 100vw;
@@ -229,3 +229,29 @@ export const StyledDetailsRateContainer = styled.div`
     gap: '5px'
   })}
 `
+
+export const StyledEventCardWithBg = styled(Card)(({ image }) => ({
+  position: "relative",
+  height: "240px",
+  width: "100%",
+  borderRadius: "16px",
+  color: "#FFFFFF",
+  backgroundImage: `url(${image})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-end",
+  cursor: "pointer",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%)",
+    zIndex: 1,
+  },
+}));

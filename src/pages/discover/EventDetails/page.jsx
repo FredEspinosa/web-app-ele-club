@@ -17,7 +17,7 @@ export default function EventDetails() {
   const tabs = [
     {
       label: "Información",
-      content: <AboutDetails about={[data.description]} />,
+      content: <AboutDetails about={[data.EventAbout]} />,
     },
     {
       label: "Asistentes",
@@ -40,7 +40,7 @@ export default function EventDetails() {
           <DiscoverInfo icon={"location"}>{data?.LocationName}</DiscoverInfo>
         </StyledDetailsEventContainer>
         <StyledDetailsEventContainer $width="fit-content">
-          <DiscoverInfo icon={"money"}>{data?.EventPrice}</DiscoverInfo>
+          <DiscoverInfo icon={"money"}>{data?.EventCost}</DiscoverInfo>
         </StyledDetailsEventContainer>
         <EventOrganizationInfo name={data?.owner || "Anónimo"} profileImage={data?.images} />
         <DetailsTabsInfo tabs={tabs} />
