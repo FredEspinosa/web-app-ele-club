@@ -4,28 +4,23 @@ import {
 import {
   StyledAboutText,
   StyledDetailTitle,
+  TitleContainer,
 } from '@/styles/discover/texts';
 import PropTypes from 'prop-types';
 import { AssistantCard } from '../atoms';
-import useSWR from 'swr';
-import { fetcher } from '@/services/api';
 
-export default function EventAssistants() {
-  const { data, error, isLoading } = useSWR(`/api/assistants`, fetcher);
-  if (isLoading) return <div>Loading</div>;
-  if (error) return <div>Error</div>;
-
+export default function EventAssistants({assistants = []}) {
   return (
     <>
-      <div>
-        <StyledDetailTitle $size={16}>Personas que asistirán</StyledDetailTitle>
-        <StyledAboutText>{`120 asistentes`}</StyledAboutText>
-      </div>
+      <TitleContainer>
+        <StyledDetailTitle $size={14}>Personas que asistirán</StyledDetailTitle>
+        <StyledAboutText>{assistants?.length} asistentes</StyledAboutText>
+      </TitleContainer>
       <StyledAssistantsContainer>
-        {data.map((assistants, index) => (
+        {assistants.map((assistant, index) => (
           <AssistantCard
-            key={`event-assistant-${assistants.name}-${index}`}
-            {...assistants}
+            key={`event-assistant-${assistant.fullName}-${index}`}
+            {...assistant}
           />
         ))}
       </StyledAssistantsContainer>
@@ -34,7 +29,7 @@ export default function EventAssistants() {
 }
 
 EventAssistants.propTypes = {
-  name: PropTypes.string,
-  profileImage: PropTypes.string,
-  profileLink: PropTypes.string,
+  fullName: PropTypes.string,
+  photo: PropTypes.string,
+  userId: PropTypes.string,
 };

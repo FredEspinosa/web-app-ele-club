@@ -77,8 +77,6 @@ const useHomeFilters = () => {
           const formData = JSON.parse(item.formDataJson);
           const finalObject = { ...item, ...formData };
           delete finalObject.formDataJson;
-
-          // Clasifica el objeto final
           if (item.offerTypeId === OFFERS_TYPE_IDS.SERVICIO) {
             acc.servicios.push(finalObject);
           } else if (item.offerTypeId === OFFERS_TYPE_IDS.EVENTO) {

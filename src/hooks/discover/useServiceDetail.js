@@ -4,18 +4,18 @@ import { useParams } from "react-router-dom";
 import { API_ENDPOINTS } from "@/descubreApi";
 import { useMemo } from "react";
 
-const useEventDetail = () => {
+const useServiceDetail = () => {
   const { id } = useParams();
   const { data: rawData, error, isLoading } = useSWR(API_ENDPOINTS.GET_OFFER_BY_ID(id), fetcherWithToken);
 
   const data = useMemo(() => {
-    const eventResponse = rawData?.result;
-    if (!eventResponse) {
+    const serviceResponse = rawData?.result;
+    if (!serviceResponse) {
       return null;
     }
     try {
-      const formData = JSON.parse(eventResponse.formDataJson);
-      const processedOffer = { ...eventResponse, ...formData };
+      const formData = JSON.parse(serviceResponse.formDataJson);
+      const processedOffer = { ...serviceResponse, ...formData };
       delete processedOffer.formDataJson;
       
       console.log({processedOffer});
@@ -23,7 +23,7 @@ const useEventDetail = () => {
       return processedOffer;
     } catch (error) {
       console.error("Error al parsear formDataJson:", error);
-      return eventResponse;
+      return serviceResponse;
     }
   }, [rawData]);
 
@@ -34,4 +34,4 @@ const useEventDetail = () => {
   };
 };
 
-export default useEventDetail;
+export default useServiceDetail;

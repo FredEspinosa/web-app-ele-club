@@ -8,11 +8,11 @@ export default function EventsView({ data }) {
       key={info.id}
       // img={info.EventImage}
       img={"https://picsum.photos/200"}
-      title={info.title}
+      title={info.EventTitle}
       location={info.LocationName}
       date={dateTransform(info.EventDate)}
       hour={info.EventTimeStart}
-      assistants={info.eventParticipants}
+      assistants={info.EventParticipants?.length || 1}
       distance={info.distance}
     />
   ));

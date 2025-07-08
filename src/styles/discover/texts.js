@@ -1,13 +1,13 @@
-import styled from '@emotion/styled';
-import { fontMixin } from '../globals/mixins';
+import styled from "@emotion/styled";
+import { fontMixin } from "../globals/mixins";
 
 export const StyledDiscoverRegularText = styled.p`
   ${({ $color }) =>
     fontMixin({
-      fontSize: '12px',
-      color: $color ?? 'var(--color-background-negro)',
+      fontSize: "12px",
+      color: $color ?? "var(--color-background-negro)",
     })}
-  opacity: ${({ $opacity }) => $opacity ?? '1'};
+  opacity: ${({ $opacity }) => $opacity ?? "1"};
   line-height: 1.5;
 `;
 
@@ -34,7 +34,7 @@ export const StyledServiceRate = styled.p`
   line-height: normal;
   color: var(--color-titulo-pagina);
   margin: 0;
-  opacity: ${({ $opacity }) => $opacity ?? '1'};
+  opacity: ${({ $opacity }) => $opacity ?? "1"};
 `;
 
 export const StyledServiceListTitle = styled.h5`
@@ -49,9 +49,14 @@ export const StyledServiceListTitle = styled.h5`
   margin: 0;
 `;
 
+export const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const StyledDetailTitle = styled.p`
   font-weight: 700;
-  font-size: ${({ $size }) => ($size ? `${$size}px` : '24px')};
+  font-size: ${({ $size }) => ($size ? `${$size}px` : "24px")};
   line-height: 150%;
   vertical-align: middle;
 `;
