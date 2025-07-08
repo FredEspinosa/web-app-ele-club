@@ -2,8 +2,6 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { DetailsButton, DiscoverInfo } from "../atoms";
 import { StyledCardContainer, StyledDetailsEventContainer, StyledEventCardWithBg } from "../../../styles/discover/containers";
 import { StyledDiscoverRegularText } from "../../../styles/discover/texts";
