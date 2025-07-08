@@ -252,8 +252,8 @@ export const StyledEventCardWithBg = styled(Card)(({ image }) => ({
 
 export const SubFiltersContainer = styled.div`
   display: flex;
-  gap: 10px;
-  padding: 16px 0;
+  height: 28px;
+  gap: 4px;
   overflow-x: auto;
   -ms-overflow-style: none; // IE y Edge
   scrollbar-width: none; // Firefox
@@ -263,12 +263,17 @@ export const SubFiltersContainer = styled.div`
 `;
 
 export const SubFilterButton = styled.button`
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 600;
+  display: flex;
+  padding: 6px 8px;
+  border-radius: 12px;
+  height: 28px;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
   cursor: pointer;
   white-space: nowrap;
-  border: 1px solid ${({ isActive }) => (isActive ? "#A98E5E" : "#E0E0E0")};
-  background-color: ${({ isActive }) => (isActive ? "#A98E5E" : "#FFFFFF")};
-  color: ${({ isActive }) => (isActive ? "#FFFFFF" : "#333333")};
+  border: none;
+  background-color: ${({ isActive }) => (isActive ? "#BC8D40" : "#FFF")};
+  color: ${({ isActive }) => (isActive ? "#FFFFFF" : "#BC8D40")};
 `;
