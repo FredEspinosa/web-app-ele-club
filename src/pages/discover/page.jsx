@@ -11,6 +11,7 @@ import ServiceView from "@/components/discover/organisms/ServiceView";
 import NavBar from "@/components/nav_bar/navBar";
 import { TopBarClub } from "@/components/top_bar/topBarClub";
 import { OFFERS_TYPE_IDS } from "@/constants/offersType";
+import SubCategoryFilters from "@/components/discover/molecules/SubCategoryFilters";
 
 export default function Discover() {
   const { data, handleSetValue, values } = useHomeFilters();
@@ -27,8 +28,25 @@ export default function Discover() {
         </StyledTopFiltersContainer>
         <Categories value={values.categoryValue} handleSetValue={handleSetValue} />
         {values.categoryValue === "" && <AllView {...{ data }} />}
-        {values.categoryValue === OFFERS_TYPE_IDS.EVENTO && <EventsView {...{ data }} />}
-        {values.categoryValue === OFFERS_TYPE_IDS.SERVICIO && <ServiceView {...{ data }} />}
+        {values.categoryValue === OFFERS_TYPE_IDS.EVENTO && (
+          <>
+            <SubCategoryFilters
+              offerTypeId={OFFERS_TYPE_IDS.EVENTO}
+              onFilterChange={(subCategoryId) => handleSetValue('subcategory', subCategoryId)}
+            />
+            <EventsView {...{ data }} />
+          </>
+        )}
+
+        {values.categoryValue === OFFERS_TYPE_IDS.SERVICIO && (
+          <>
+            <SubCategoryFilters
+              offerTypeId={OFFERS_TYPE_IDS.SERVICIO}
+              onFilterChange={(subCategoryId) => handleSetValue('subcategory', subCategoryId)}
+            />
+            <ServiceView {...{ data }} />
+          </>
+        )}
       </StyledPageContainer>
       <NavBar currentPage={"Descubre"} />
     </>

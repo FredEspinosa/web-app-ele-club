@@ -1,15 +1,15 @@
-import styled from '@emotion/styled';
-import { flex, grid } from '../globals/mixins';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Box, Tab, Tabs, Paper, Card } from '@mui/material';
+import styled from "@emotion/styled";
+import { flex, grid } from "../globals/mixins";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Box, Tab, Tabs, Paper, Card } from "@mui/material";
 
 export const StyledPageContainer = styled.main`
   width: 100vw;
   min-height: 100vh;
   ${grid({
-    alignItems: 'flex-start',
-    gridAutoRows: 'max-content',
-    rowGap: '21px',
+    alignItems: "flex-start",
+    gridAutoRows: "max-content",
+    rowGap: "21px",
   })}
   background-color: var(--color-neutral-gris-05);
   padding: 70px 20px 150px 20px;
@@ -17,38 +17,38 @@ export const StyledPageContainer = styled.main`
 
 export const StyledEventInfoContainer = styled.div`
   ${grid({
-    gridTemplateColumns: '17px 1fr',
-    gap: '4px',
-    alignItems: 'center',
+    gridTemplateColumns: "17px 1fr",
+    gap: "4px",
+    alignItems: "center",
   })}
 `;
 
 export const StyledDetailsEventContainer = styled.div`
   ${({ $justify, $align }) =>
     flex({
-      flexDirection: 'row',
-      gap: '16px',
-      justifyContent: $justify ?? 'center',
-      alignItems: $align ?? 'center',
+      flexDirection: "row",
+      gap: "16px",
+      justifyContent: $justify ?? "center",
+      alignItems: $align ?? "center",
     })}
-  ${({ $padding }) => ($padding ? `padding: ${$padding};` : '')}
-  ${({ $width }) => ($width ? `width: ${$width};` : '')}
+  ${({ $padding }) => ($padding ? `padding: ${$padding};` : "")}
+  ${({ $width }) => ($width ? `width: ${$width};` : "")}
 `;
 
 export const StyledCategoryContainer = styled.div`
   ${grid({
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    columnGap: '9px',
-    justifyContent: 'stretch',
-    alignItems: 'stretch',
+    gridTemplateColumns: "repeat(3, 1fr)",
+    columnGap: "9px",
+    justifyContent: "stretch",
+    alignItems: "stretch",
   })}
 `;
 
 export const StyledTopFiltersContainer = styled.div`
   ${grid({
-    gridTemplateColumns: '1fr 115px',
-    columnGap: '9px',
-    alignItems: 'stretch',
+    gridTemplateColumns: "1fr 115px",
+    columnGap: "9px",
+    alignItems: "stretch",
   })}
 `;
 
@@ -77,27 +77,27 @@ export const StyledDetailsHeader = styled.header`
 
 export const StyledTitleSectionContainer = styled.div`
   ${flex({
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    gap: '10px',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    gap: "10px",
   })}
-  fill: var(${({ $fill }) => $fill ?? '--color-background-calendar-icon'});
+  fill: var(${({ $fill }) => $fill ?? "--color-background-calendar-icon"});
 `;
 
 export const StyledServicesListInfoContainer = styled.div`
   ${grid({
-    gridTemplateColumns: '1fr 38px',
-    gridTemplateRows: 'repeat(2, 1fr)',
-    justifyItems: 'start',
-    rowGap: '8px',
+    gridTemplateColumns: "1fr 38px",
+    gridTemplateRows: "repeat(2, 1fr)",
+    justifyItems: "start",
+    rowGap: "8px",
   })}
   width: 100%;
 `;
 
 export const StyledServicesListRateContainer = styled.div`
   ${grid({
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    columnGap: '4.3px',
+    gridTemplateColumns: "repeat(2, 1fr)",
+    columnGap: "4.3px",
   })}
 `;
 
@@ -121,9 +121,9 @@ export const StyledSwiperSlide = styled(SwiperSlide)`
 export const StyledDetailContainer = styled.div`
   width: 100vw;
   ${grid({
-    alignItems: 'flex-start',
-    gridAutoRows: 'max-content',
-    rowGap: '16px',
+    alignItems: "flex-start",
+    gridAutoRows: "max-content",
+    rowGap: "16px",
   })}
   background-color: var(--color-background-blanco);
   padding: 20px 20px 90px 20px;
@@ -132,9 +132,9 @@ export const StyledDetailContainer = styled.div`
 export const StyledEventDetailOrganizationContainer = styled.div`
   width: 100%;
   ${grid({
-    gridTemplateColumns: '40px 1fr 136px',
-    columnGap: '23px',
-    alignItems: 'center',
+    gridTemplateColumns: "40px 1fr 136px",
+    columnGap: "23px",
+    alignItems: "center",
   })}
 `;
 
@@ -161,14 +161,8 @@ export const StyledTabItem = styled(Tab)`
   font-weight: 700;
   font-size: 12px;
   text-align: center;
-  color: ${({ selected }) =>
-    selected
-      ? 'var(--color-background-blanco) !important'
-      : 'var(--color-tab-details) !important'};
-  background-color: ${({ selected }) =>
-    selected
-      ? 'var(--color-primario-oro) !important'
-      : 'transparent !important'};
+  color: ${({ selected }) => (selected ? "var(--color-background-blanco) !important" : "var(--color-tab-details) !important")};
+  background-color: ${({ selected }) => (selected ? "var(--color-primario-oro) !important" : "transparent !important")};
   border-radius: 12px;
   padding: 8px 20.33px;
   min-height: auto;
@@ -176,8 +170,8 @@ export const StyledTabItem = styled(Tab)`
 
 export const StyledAssistantCard = styled.div`
   ${flex({
-    flexDirection: 'row',
-    gap: '8px',
+    flexDirection: "row",
+    gap: "8px",
   })}
   border: 1px solid var(--color-neutral-gris-06);
   padding: 16px 8px;
@@ -188,9 +182,9 @@ export const StyledAssistantCard = styled.div`
 
 export const StyledAssistantsContainer = styled.div`
   ${grid({
-    gridTemplateColumns: 'calc(50% - 8px) calc(50% - 8px)',
-    columnGap: '16px',
-    rowGap: '16px',
+    gridTemplateColumns: "calc(50% - 8px) calc(50% - 8px)",
+    columnGap: "16px",
+    rowGap: "16px",
   })}
   overflow-x: hidden;
   width: 100%;
@@ -198,8 +192,8 @@ export const StyledAssistantsContainer = styled.div`
 
 export const StyledDetailsActions = styled(Paper)`
   ${grid({
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '12px',
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: "12px",
   })}
   position: fixed;
   bottom: 0;
@@ -212,8 +206,8 @@ export const StyledDetailsActions = styled(Paper)`
 
 export const StyledDetailsDirectioncontainer = styled.div`
   ${flex({
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   })}
   margin: 16px 0px;
 `;
@@ -224,11 +218,11 @@ export const StyledButtonHowToGoContainer = styled.div`
 
 export const StyledDetailsRateContainer = styled.div`
   ${flex({
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    gap: '5px'
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    gap: "5px",
   })}
-`
+`;
 
 export const StyledEventCardWithBg = styled(Card)(({ image }) => ({
   position: "relative",
@@ -255,3 +249,26 @@ export const StyledEventCardWithBg = styled(Card)(({ image }) => ({
     zIndex: 1,
   },
 }));
+
+export const SubFiltersContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  padding: 16px 0;
+  overflow-x: auto;
+  -ms-overflow-style: none; // IE y Edge
+  scrollbar-width: none; // Firefox
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari y Opera
+  }
+`;
+
+export const SubFilterButton = styled.button`
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  border: 1px solid ${({ isActive }) => (isActive ? "#A98E5E" : "#E0E0E0")};
+  background-color: ${({ isActive }) => (isActive ? "#A98E5E" : "#FFFFFF")};
+  color: ${({ isActive }) => (isActive ? "#FFFFFF" : "#333333")};
+`;
