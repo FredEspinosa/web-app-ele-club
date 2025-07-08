@@ -27,8 +27,6 @@ export default function SubCategoryFilters({ offerTypeId, onFilterChange }) {
     }
   }, [rawData]);
 
-  console.log({ subCategories });
-
   useEffect(() => {
     setActiveFilterId(null);
     onFilterChange("");
@@ -41,16 +39,14 @@ export default function SubCategoryFilters({ offerTypeId, onFilterChange }) {
 
   if (isLoading) return <div>Cargando filtros...</div>;
   if (error) return <div>Error al cargar filtros.</div>;
-  if (!subCategories || subCategories.length === 0) return null; // No muestra nada si no hay subcategorías
+  if (!subCategories || subCategories.length === 0) return null;
 
   return (
     <SubFiltersContainer>
-      {/* Botón estático para "TODOS" */}
       <SubFilterButton isActive={activeFilterId === null} onClick={() => handleFilterClick(null)}>
         TODOS
       </SubFilterButton>
 
-      {/* Mapea las subcategorías que vienen de la API */}
       {subCategories?.map((subCategory) => (
         <SubFilterButton
           key={subCategory.id}
