@@ -28,7 +28,7 @@ export default function AllView({ data }) {
             key={info.id}
             // img={info.EventImage}
             img={'https://picsum.photos/200'}
-            title={info.title}
+            title={info.EventTitle}
             location={info.LocationName}
             date={dateTransform(info.EventDate)}
             hour={info.EventTimeStart}
@@ -50,7 +50,7 @@ export default function AllView({ data }) {
           <ServiceItem
             key={info.id}
             id={info.id}
-            title={info.title}
+            title={info.ServiceTitle}
             // image={info.ServiceImage}
             image={'https://picsum.photos/200'}
             amount={info.ServicePrice}

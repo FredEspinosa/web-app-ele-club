@@ -4,7 +4,7 @@ import EventOrganizationInfo from "@/components/discover/molecules/EventOrganiza
 import { ServiceDetailsReviews } from "@/components/discover/organisms";
 import ServiceView from "@/components/discover/organisms/ServiceView";
 import { Button } from "@/components/shared/atoms";
-import { fetcher } from "@/services/api";
+import useServiceDetail from "@/hooks/discover/useServiceDetail";
 import {
   StyledDetailContainer,
   StyledDetailsActions,
@@ -13,31 +13,18 @@ import {
 } from "@/styles/discover/containers";
 import { StyledDetailOwnerLabel, StyledDetailTitle } from "@/styles/discover/texts";
 import { Rating } from "@mui/material";
-import useSWR from "swr";
 
 export default function ServiceDetails() {
-  const { data, error, isLoading } = useSWR(() => {
-    const params = new URLSearchParams({
-      category: "Servicios",
-    }).toString();
-    return `/api/items?${params}`;
-  }, fetcher);
+  const { data, error, isLoading } = useServiceDetail();
+  if (isLoading) return <div>Cargando...</div>;
+  if (error) return <div>Error al cargar los detalles del servicio.</div>;
 
   const tabs = [
     {
       label: "Información",
       content: (
         <>
-          <AboutServices
-            description={`Ofrecemos sesiones de fotos profesionales especializadas en crear imágenes de perfil impactantes para aplicaciones de citas. Nuestro equipo de fotógrafos expertos sabe exactamente cómo capturar tu mejor ángulo y personalidad.
-
-            Cada sesión incluye:
-            • 1 hora de fotografía
-            • Múltiples cambios de ropa
-            • 10 fotos editadas profesionalmente
-            • Recomendaciones personalizadas
-            • Entrega digital en 48 horas`}
-          />
+          <AboutServices description={data?.ServiceAbout || "Descripción no disponible."} checks={[data?.ServiceIncludes]} />
           <ServiceView data={data} />
         </>
       ),
@@ -54,25 +41,21 @@ export default function ServiceDetails() {
 
   return (
     <>
-      <EventGallery
-        images={[
-          "https://images.unsplash.com/photo-1736264335262-8a2c9b81ec26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        ]}
-      />
+      <EventGallery image={"https://picsum.photos/200"} />
       <StyledDetailContainer>
-        <StyledDetailTitle>Sesión de Fotos Profesional</StyledDetailTitle>
+        <StyledDetailTitle>{data?.ServiceTitle}</StyledDetailTitle>
         <StyledDetailsRateContainer>
-          <Rating name="read-only" value={3.5} precision={0.5} readOnly />
-          <p style={{ margin: 0, fontSize: "12px" }}>4.9</p>
-          <StyledDetailOwnerLabel>(124 reseñas)</StyledDetailOwnerLabel>
+          <Rating name="read-only" value={data?.reviews[0] || 3.6} precision={0.5} readOnly />
+          <p style={{ margin: 0, fontSize: "12px" }}>{data?.reviews[0] || 3.6}</p>
+          <StyledDetailOwnerLabel>{data?.reviews?.length || 2} reseñas</StyledDetailOwnerLabel>
         </StyledDetailsRateContainer>
         <StyledDetailsEventContainer $width="fit-content">
-          <DiscoverInfo icon={"location"}>{"Café Connections"}</DiscoverInfo>
+          <DiscoverInfo icon={"location"}>{data?.LocationName}</DiscoverInfo>
         </StyledDetailsEventContainer>
         <StyledDetailsEventContainer $width="fit-content">
-          <DiscoverInfo icon={"money"}>{"Cotizar"}</DiscoverInfo>
+          <DiscoverInfo icon={"money"}>{data?.ServicePrice || 0}</DiscoverInfo>
         </StyledDetailsEventContainer>
-        <EventOrganizationInfo name={"Captura Perfecta"} profileImage={""} subtitle="Empresa" button={false} />
+        <EventOrganizationInfo name={data?.companyName} profileImage={""} subtitle="Empresa" button={false} />
         <DetailsTabsInfo tabs={tabs} />
       </StyledDetailContainer>
       <StyledDetailsActions>

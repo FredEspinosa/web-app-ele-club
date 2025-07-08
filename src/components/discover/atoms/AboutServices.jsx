@@ -3,14 +3,7 @@ import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { CheckIcon } from '@/assets/icons';
 import { StyledDetailTitle } from '@/styles/discover/texts';
 
-export default function AboutServices({ 
-  checks = [
-    'Sesión privada', 
-    'Estudio profesional', 
-    'Asesoría de estilo',
-    'Entrega express'
-  ], 
-  description }) {
+export default function AboutServices({ checks = [], description }) {
   return (
     <>
       <StyledDetailTitle $size={16}>Acerca del servicio</StyledDetailTitle>
