@@ -17,3 +17,4 @@ export { default as StarSmallIcon } from "./star_small.jsx";
 export { default as CheckIcon } from "./check_icon.jsx";
 export { default as CloseIcon } from "./CloseIcon.jsx";
 export { default as AnimatedCheckIcon } from "./AnimatedCheck.jsx";
+export { default as PlusIcon } from "./PlusIcon.jsx";

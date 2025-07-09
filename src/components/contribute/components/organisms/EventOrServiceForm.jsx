@@ -1,97 +1,214 @@
-import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { Box, Button, Typography } from '@mui/material';
-import TextInput from '../atoms/TextInput';
-import SelectInput from '../atoms/SelectInput';
-import FileInput from '../atoms/FileInput';
-import LocationPicker from '../molecules/LocationPicker';
-import IncludesInput from '../molecules/IncludesInput';
-import PriceInput from '../molecules/PriceInput';
-import SocialLinks from '../molecules/SocialLinks';
-import { useEventOrServiceForm } from '../../hooks/useEventOrServiceForm';
-import { defaultValues } from '../../types/formTypes';
-import DatePickerInput from '../atoms/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import React from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { Box, Button, Typography, ThemeProvider, createTheme } from "@mui/material";
+import TextInput from "../atoms/TextInput";
+import FormField from "../molecules/FormField";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { OFFERS_TYPE_IDS } from "@/constants/offersType";
 
-const labelMapping = {
-  event: 'evento',
-  service: 'servicio',
-};
+export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
+  console.log({ schema });
 
-export default function EventOrServiceForm({ type }) {
-  const methods = useForm({ defaultValues });
-  const { onSubmit, showCost, showDateRange, showIncludes, showSchedule } =
-    useEventOrServiceForm(methods, type);
+  const methods = useForm();
+
+  const handleFormSubmit = (data) => {
+    onSubmit(data);
+  };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <FormProvider {...methods}>
-        <Box
-          component='form'
-          onSubmit={methods.handleSubmit(onSubmit)}
-          display='flex'
-          flexDirection='column'
-          gap={2}
-          padding={'24px 14px'}
-        >
-          <Typography sx={{ fontWeight: '700', margin: 0 }}>
-            Agregar un Servicio
-          </Typography>
-          <Typography
+    <div style={{ backgroundColor: "#F0F0F0" }}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <FormProvider {...methods}>
+          <Box
+            component="form"
+            onSubmit={methods.handleSubmit(handleFormSubmit)}
+            display="flex"
+            flexDirection="column"
+            gap={2}
+            padding={"24px 16px"}
             sx={{
-              fontWeight: '400',
-              fontSize: '14px',
-              color: 'var(--color-neutral-gris-02)',
+              width: 342,
+              borderRadius: 4,
+              justifySelf: "center",
+              bgcolor: "#fff",
+              position: "relative",
+              top: "16px",
             }}
           >
-            Comparte un evento con la comunidad de Helena.
-          </Typography>
-          <Typography>Título del {labelMapping[type]}*</Typography>
-          <TextInput
-            name='title'
-            placeholder={'Escribe aquí...'}
-          />
-          <Typography>Ubicación*</Typography>
-          <TextInput name='location' placeholder='Ej. Arte Moderno ' />
-          <Typography>Mapa</Typography>
-          <LocationPicker name='mapLocation' />
+            <Typography variant="h7" sx={{ fontWeight: "700" }}>
+              Descripción general del {schema?.title.split("un")[1].toLowerCase()}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              {schema?.subtitle}
+            </Typography>
 
-          {showDateRange && (
+            {schema?.formValues.map((field) => (
+              <FormField key={field.name} field={field} />
+            ))}
+          </Box>
+
+          {offerTypeId === OFFERS_TYPE_IDS.EVENTO && (
             <>
-              <Typography>Fecha*</Typography>
-              <DatePickerInput name={'date'} />
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                gap={2}
+                padding={"24px 16px"}
+                sx={{
+                  width: 342,
+                  borderRadius: 4,
+                  justifySelf: "center",
+                  bgcolor: "#fff",
+                  position: "relative",
+                  top: "36px",
+                }}
+              >
+                <Typography variant="h7" sx={{ fontWeight: "700" }}>
+                  Fecha y ubicación
+                </Typography>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Fecha"}</Typography>
+                  <TextInput name={"fecha"} placeholder={"Lunes a Viernes de 12:00 - 13:00"} type={"date"} />
+                </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Ubicación"}</Typography>
+                  <TextInput name={"ubicacion"} placeholder={"Ej. Arte Moderno"} type={"text"} />
+                </Box>
+              </Box>
+
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                gap={2}
+                padding={"24px 16px"}
+                sx={{
+                  width: 342,
+                  borderRadius: 4,
+                  justifySelf: "center",
+                  bgcolor: "#fff",
+                  position: "relative",
+                  top: "56px",
+                }}
+              >
+                <Typography variant="h7" sx={{ fontWeight: "700" }}>
+                  Datos del organizador
+                </Typography>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Organizador"}</Typography>
+                  <TextInput name={"organizador"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+                <Typography variant="h7" sx={{ fontWeight: "700" }}>
+                  Redes sociociales
+                </Typography>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Sitio web"}</Typography>
+                  <TextInput name={"website"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Instagram"}</Typography>
+                  <TextInput name={"instagram"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Facebook"}</Typography>
+                  <TextInput name={"facebook"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+              </Box>
             </>
           )}
-          {showSchedule && <TextInput name='schedule' label='Horario' />}
 
-          <SelectInput
-            name='category'
-            label='Categoría'
-            options={['Música', 'Cultura', 'Comida']}
-          />
-          <PriceInput showCost={showCost} />
-
-          {type === 'service' && (
+          {offerTypeId === OFFERS_TYPE_IDS.SERVICIO && (
             <>
-              <TextInput name='about' label='Acerca del servicio' multiline />
-              {showIncludes && <IncludesInput />}
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                gap={2}
+                padding={"24px 16px"}
+                sx={{
+                  width: 342,
+                  borderRadius: 4,
+                  justifySelf: "center",
+                  bgcolor: "#fff",
+                  position: "relative",
+                  top: "36px",
+                }}
+              >
+                <Typography variant="h7" sx={{ fontWeight: "700" }}>
+                  Horario y ubicación
+                </Typography>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Horario"}</Typography>
+                  <TextInput name={"horario"} placeholder={"Lunes a Viernes de 12:00 - 13:00"} type={"text"} />
+                </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Ubicación"}</Typography>
+                  <TextInput name={"ubicacion"} placeholder={"Ej. Arte Moderno"} type={"text"} />
+                </Box>
+              </Box>
+
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                gap={2}
+                padding={"24px 16px"}
+                sx={{
+                  width: 342,
+                  borderRadius: 4,
+                  justifySelf: "center",
+                  bgcolor: "#fff",
+                  position: "relative",
+                  top: "56px",
+                }}
+              >
+                <Typography variant="h7" sx={{ fontWeight: "700" }}>
+                  Datos de la empresa
+                </Typography>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Empresa"}</Typography>
+                  <TextInput name={"empresa"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Whatsapp"}</Typography>
+                  <TextInput name={"whatsapp"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Email"}</Typography>
+                  <TextInput name={"email"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+                <Typography variant="h7" sx={{ fontWeight: "700" }}>
+                  Redes sociociales
+                </Typography>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Sitio web"}</Typography>
+                  <TextInput name={"website"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Instagram"}</Typography>
+                  <TextInput name={"instagram"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Typography>{"Facebook"}</Typography>
+                  <TextInput name={"facebook"} placeholder={"Escribe aqui..."} type={"text"} />
+                </Box>
+              </Box>
             </>
           )}
 
-          <TextInput name='phoneCode' label='Código' />
-          <TextInput name='phoneNumber' label='Número de teléfono' />
-
-          <TextInput name='website' label='Sitio web' />
-          <SocialLinks />
-
-          <FileInput name='image' label='Imagen destacada' />
-
-          <Button variant='contained' type='submit'>
-            Guardar
-          </Button>
-        </Box>
-      </FormProvider>
-    </LocalizationProvider>
+          <Box display="flex" justifyContent="flex-end" gap={2} mt={3}>
+            <Button variant="outlined" onClick={() => methods.reset()}>
+              Cancelar
+            </Button>
+            <Button variant="contained" type="submit">
+              Publicar
+            </Button>
+          </Box>
+        </FormProvider>
+      </LocalizationProvider>
+    </div>
   );
 }

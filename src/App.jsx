@@ -58,6 +58,7 @@ import Layout from './pages/discover/EventDetails/layout';
 import EventDetails from './pages/discover/EventDetails/page';
 import ServiceDetails from './pages/discover/ServiceDetails/page';
 import Contribute from './pages/discover/contribute/page';
+import ContributeWrapper from './pages/discover/contribute/ContributeWrapper';
 
 function App() {
 
@@ -245,7 +246,8 @@ function App() {
             children: [
               { path: "evento/:id", Component: EventDetails },
               { path: "servicio/:id", Component: ServiceDetails },
-              { path: "contribuir", Component: Contribute },
+            //   { path: "contribuir", Component: Contribute },
+            { path: "contribuir/:offerTypeId", Component: ContributeWrapper }, 
             ],
           },
         ],
