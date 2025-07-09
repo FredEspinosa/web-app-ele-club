@@ -25,7 +25,7 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
             onSubmit={methods.handleSubmit(handleFormSubmit)}
             display="flex"
             flexDirection="column"
-            gap={2} // Aumentamos el gap para mejor espaciado
+            gap={2}
             padding={"24px 16px"}
             sx={{
               width: 342,
@@ -36,7 +36,6 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
               top: "16px",
             }}
           >
-            {/* Títulos del formulario */}
             <Typography variant="h7" sx={{ fontWeight: "700" }}>
               Descripción general del {schema?.title.split("un")[1].toLowerCase()}
             </Typography>
@@ -44,7 +43,6 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
               {schema?.subtitle}
             </Typography>
 
-            {/* Renderizado dinámico de campos */}
             {schema?.formValues.map((field) => (
               <FormField key={field.name} field={field} />
             ))}
@@ -56,7 +54,7 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
                 component="form"
                 display="flex"
                 flexDirection="column"
-                gap={2} // Aumentamos el gap para mejor espaciado
+                gap={2}
                 padding={"24px 16px"}
                 sx={{
                   width: 342,
@@ -84,7 +82,7 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
                 component="form"
                 display="flex"
                 flexDirection="column"
-                gap={2} // Aumentamos el gap para mejor espaciado
+                gap={2}
                 padding={"24px 16px"}
                 sx={{
                   width: 342,
@@ -127,7 +125,7 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
                 component="form"
                 display="flex"
                 flexDirection="column"
-                gap={2} // Aumentamos el gap para mejor espaciado
+                gap={2}
                 padding={"24px 16px"}
                 sx={{
                   width: 342,
@@ -155,7 +153,7 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
                 component="form"
                 display="flex"
                 flexDirection="column"
-                gap={2} // Aumentamos el gap para mejor espaciado
+                gap={2}
                 padding={"24px 16px"}
                 sx={{
                   width: 342,
