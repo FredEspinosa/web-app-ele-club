@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Box, Button, Typography, ThemeProvider, createTheme } from "@mui/material";
-import TextInput from "../atoms/TextInput";
+import { Box, Button, Typography } from "@mui/material";
 import FormField from "../molecules/FormField";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { OFFERS_TYPE_IDS } from "@/constants/offersType";
+import FormSection from "../molecules/FormSection";
 
 export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
-  console.log({ schema });
-
+  const sectionTitles = {
+    description: "Descripción general",
+    location: "Fecha y ubicación",
+    contact: "Datos de contacto y redes",
+  };
   const methods = useForm();
+  const groupedFields = useMemo(() => {
+    if (!schema?.formValues) return {};
+
+    return schema.formValues.reduce((acc, field) => {
+      const sectionKey = field.section || "default";
+      if (!acc[sectionKey]) {
+        acc[sectionKey] = [];
+      }
+      acc[sectionKey].push(field);
+      return acc;
+    }, {});
+  }, [schema]);
+
+  if (!schema) return null;
 
   const handleFormSubmit = (data) => {
     onSubmit(data);
@@ -25,187 +41,28 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
             onSubmit={methods.handleSubmit(handleFormSubmit)}
             display="flex"
             flexDirection="column"
+            alignItems="center"
             gap={2}
             padding={"24px 16px"}
-            sx={{
-              width: 342,
-              borderRadius: 4,
-              justifySelf: "center",
-              bgcolor: "#fff",
-              position: "relative",
-              top: "16px",
-            }}
           >
-            <Typography variant="h7" sx={{ fontWeight: "700" }}>
-              Descripción general del {schema?.title.split("un")[1].toLowerCase()}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              {schema?.subtitle}
-            </Typography>
+            <Box sx={{ width: 342 }}>
+              {Object.keys(groupedFields).map((sectionKey) => (
+                <FormSection key={sectionKey} title={sectionTitles[sectionKey] || "Sección Adicional"}>
+                  {groupedFields[sectionKey].map((field) => (
+                    <FormField key={field.name} field={field} />
+                  ))}
+                </FormSection>
+              ))}
 
-            {schema?.formValues.map((field) => (
-              <FormField key={field.name} field={field} />
-            ))}
-          </Box>
-
-          {offerTypeId === OFFERS_TYPE_IDS.EVENTO && (
-            <>
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                gap={2}
-                padding={"24px 16px"}
-                sx={{
-                  width: 342,
-                  borderRadius: 4,
-                  justifySelf: "center",
-                  bgcolor: "#fff",
-                  position: "relative",
-                  top: "36px",
-                }}
-              >
-                <Typography variant="h7" sx={{ fontWeight: "700" }}>
-                  Fecha y ubicación
-                </Typography>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Fecha"}</Typography>
-                  <TextInput name={"fecha"} placeholder={"Lunes a Viernes de 12:00 - 13:00"} type={"date"} />
-                </Box>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Ubicación"}</Typography>
-                  <TextInput name={"ubicacion"} placeholder={"Ej. Arte Moderno"} type={"text"} />
-                </Box>
+              <Box display="flex" justifyContent="flex-end" gap={2} mt={3}>
+                <Button variant="outlined" onClick={() => methods.reset()}>
+                  Cancelar
+                </Button>
+                <Button variant="contained" type="submit">
+                  Publicar
+                </Button>
               </Box>
-
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                gap={2}
-                padding={"24px 16px"}
-                sx={{
-                  width: 342,
-                  borderRadius: 4,
-                  justifySelf: "center",
-                  bgcolor: "#fff",
-                  position: "relative",
-                  top: "56px",
-                }}
-              >
-                <Typography variant="h7" sx={{ fontWeight: "700" }}>
-                  Datos del organizador
-                </Typography>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Organizador"}</Typography>
-                  <TextInput name={"organizador"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-                <Typography variant="h7" sx={{ fontWeight: "700" }}>
-                  Redes sociociales
-                </Typography>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Sitio web"}</Typography>
-                  <TextInput name={"website"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Instagram"}</Typography>
-                  <TextInput name={"instagram"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Facebook"}</Typography>
-                  <TextInput name={"facebook"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-              </Box>
-            </>
-          )}
-
-          {offerTypeId === OFFERS_TYPE_IDS.SERVICIO && (
-            <>
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                gap={2}
-                padding={"24px 16px"}
-                sx={{
-                  width: 342,
-                  borderRadius: 4,
-                  justifySelf: "center",
-                  bgcolor: "#fff",
-                  position: "relative",
-                  top: "36px",
-                }}
-              >
-                <Typography variant="h7" sx={{ fontWeight: "700" }}>
-                  Horario y ubicación
-                </Typography>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Horario"}</Typography>
-                  <TextInput name={"horario"} placeholder={"Lunes a Viernes de 12:00 - 13:00"} type={"text"} />
-                </Box>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Ubicación"}</Typography>
-                  <TextInput name={"ubicacion"} placeholder={"Ej. Arte Moderno"} type={"text"} />
-                </Box>
-              </Box>
-
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                gap={2}
-                padding={"24px 16px"}
-                sx={{
-                  width: 342,
-                  borderRadius: 4,
-                  justifySelf: "center",
-                  bgcolor: "#fff",
-                  position: "relative",
-                  top: "56px",
-                }}
-              >
-                <Typography variant="h7" sx={{ fontWeight: "700" }}>
-                  Datos de la empresa
-                </Typography>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Empresa"}</Typography>
-                  <TextInput name={"empresa"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Whatsapp"}</Typography>
-                  <TextInput name={"whatsapp"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Email"}</Typography>
-                  <TextInput name={"email"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-                <Typography variant="h7" sx={{ fontWeight: "700" }}>
-                  Redes sociociales
-                </Typography>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Sitio web"}</Typography>
-                  <TextInput name={"website"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Instagram"}</Typography>
-                  <TextInput name={"instagram"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-                <Box sx={{ width: "100%" }}>
-                  <Typography>{"Facebook"}</Typography>
-                  <TextInput name={"facebook"} placeholder={"Escribe aqui..."} type={"text"} />
-                </Box>
-              </Box>
-            </>
-          )}
-
-          <Box display="flex" justifyContent="flex-end" gap={2} mt={3}>
-            <Button variant="outlined" onClick={() => methods.reset()}>
-              Cancelar
-            </Button>
-            <Button variant="contained" type="submit">
-              Publicar
-            </Button>
+            </Box>
           </Box>
         </FormProvider>
       </LocalizationProvider>
