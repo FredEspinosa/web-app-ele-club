@@ -74,12 +74,12 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id 
         <CardMedia component="img" height="100" image={img} alt={title} />
         <CardContent
           sx={{
-            padding: "18px",
+            padding: "16px",
             background: "var(--color-background-blanco)",
             display: "flex",
             flexDirection: "column",
             alignItems: "start",
-            gap: "10px",
+            gap: "3px",
             overflow: "hidden",
           }}
         >
