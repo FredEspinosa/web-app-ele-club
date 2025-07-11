@@ -1,6 +1,6 @@
-import { Controller, useFormContext } from 'react-hook-form';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TextField } from '@mui/material';
+import { Controller, useFormContext } from "react-hook-form";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TextField } from "@mui/material";
 
 export default function DatePickerInput({ name, label }) {
   const { control } = useFormContext();
@@ -14,8 +14,13 @@ export default function DatePickerInput({ name, label }) {
           label={label}
           value={field.value || null}
           onChange={(date) => field.onChange(date)}
-          renderInput={(params) => (
-            <TextField {...params} fullWidth />
+          renderInput={(params, fieldState) => (
+            <TextField
+              {...params}
+              fullWidth
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
+            />
           )}
         />
       )}

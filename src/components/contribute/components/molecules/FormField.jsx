@@ -39,7 +39,7 @@ export default function FormField({ field }) {
     return null;
   }
 
-  const locationFieldNames = ['EventLocationName', 'ServiceLocationName'];
+  const locationFieldNames = ["EventLocationName", "ServiceLocationName"];
 
   const renderField = (controllerProps) => {
     switch (field.type) {
@@ -79,7 +79,12 @@ export default function FormField({ field }) {
         {field.label}
         {field.required ? "*" : ""}
       </Typography>
-      <Controller name={field.name} control={control} rules={{ required: field.required }} render={renderField} />
+      <Controller
+        name={field.name}
+        control={control}
+        rules={{ required: field.required ? "Este campo es obligatorio" : false }}
+        render={renderField}
+      />
       {locationFieldNames.includes(field.name) && (
         <Box mt={2}>
           <Typography>Mapa</Typography>
