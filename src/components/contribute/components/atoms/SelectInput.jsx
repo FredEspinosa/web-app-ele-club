@@ -10,7 +10,7 @@ export default function SelectInput({ name, label, options }) {
       control={control}
       render={({ field }) => (
         <TextField select fullWidth label={label} {...field}>
-          {options.map((opt) => (
+          {options?.map((opt) => (
             <MenuItem key={opt} value={opt}>{opt}</MenuItem>
           ))}
         </TextField>
