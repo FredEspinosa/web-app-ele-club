@@ -30,7 +30,7 @@ export default function AllView({ data }) {
             key={firstEvent.id}
             img={firstEvent.EventImage}
             title={firstEvent.EventTitle}
-            location={firstEvent.LocationName}
+            location={firstEvent.EventLocationName}
             date={dateTransform(firstEvent.EventDate)}
             hour={firstEvent.EventTimeStart}
             distance="1.2 km de distancia"
@@ -45,7 +45,7 @@ export default function AllView({ data }) {
             key={info.id}
             img={info.EventImage}
             title={info.EventTitle}
-            location={info.LocationName}
+            location={info.EventLocationName}
             date={dateTransform(info.EventDate)}
             hour={info.EventTimeStart}
           />
@@ -68,7 +68,7 @@ export default function AllView({ data }) {
             id={info.id}
             title={info.ServiceTitle}
             image={info.ServiceImage}
-            amount={info.ServicePrice}
+            amount={info.ServiceCost || info.ServicePrice}
             rate={info.reviews.average || 4.8}
           />
         ))}

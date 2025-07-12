@@ -20,7 +20,7 @@ export default function ServiceView({ data }) {
           id={info.id}
           title={info.ServiceTitle}
           image={info.ServiceImage}
-          amount={info.ServicePrice}
+          amount={info.ServiceCost || info.ServicePrice}
           rate={info.reviews?.average || 4.8}
         />
       ))}

@@ -8,7 +8,7 @@ export default function EventsView({ data }) {
       key={info.id}
       img={info.EventImage}
       title={info.EventTitle}
-      location={info.LocationName}
+      location={info.EventLocationName}
       date={dateTransform(info.EventDate)}
       hour={info.EventTimeStart}
       assistants={info.EventParticipants?.length || 1}
