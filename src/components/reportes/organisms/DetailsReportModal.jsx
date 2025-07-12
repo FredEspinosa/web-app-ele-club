@@ -14,7 +14,7 @@ const DetailsReportModal = ({ onSubmit, onBack }) => {
   };
 
   return (
-    <ModalContainer height={522} top={331}>
+    <ModalContainer height={522}>
       <ModalHeader text="Detalles del reporte" onCancel={onBack} />
       <ModalBody text={"Proporciona más información para ayudarnos a entender \n mejor la situación."}>
         <p className="reason-question">Describe la situación con más detalle</p>

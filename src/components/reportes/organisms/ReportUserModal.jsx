@@ -32,7 +32,7 @@ const ReportUserModal = ({ userName, onBlock, onCancel, onOpenAdditionalInfoModa
   };
 
   return (
-    <ModalContainer height={641} top={212}>
+    <ModalContainer height={641}>
       <ModalHeader text="Reportar a" userName={userName} onCancel={onCancel} />
       <ModalBody text="Los reportes nos ayudan a identificar comportamientos que violan nuestras normas comunitarias.">
         <ReasonsForm reasons={reasons} selectedReason={selectedReason} handleReasonChange={handleReasonChange} />
