@@ -7,7 +7,7 @@ import alertLineIcon from "../../assets/images/reportar_usuario/alert-line.png";
 
 const DeleteChatModal = ({ onConfirmDelete, onCancel, ChatName }) => {
   return (
-    <ModalContainer width={332} height={283} borderRadius={16}>
+    <ModalContainer width={332} height={283} borderRadius={16} top={220}>
       <ModalHeader text={"¿Estás seguro que deseas eliminar esta conversación?"} width={"auto"} marginBottom={"30px"} />
       <ModalBody>
         <div className="d-flex justify-content-center align-items-center" style={{gap:'8px'}}>
