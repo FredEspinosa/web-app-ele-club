@@ -19,7 +19,7 @@ export const RemoveImageButton = styled.button`
   position: absolute;
   top: 8px;
   right: 8px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   border: none;
   border-radius: 50%;

@@ -5,8 +5,10 @@ import FormField from "../molecules/FormField";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import FormSection from "../molecules/FormSection";
+import { useNavigate } from "react-router-dom";
 
 export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, submitError }) {
+  const navigate = useNavigate();
   const sectionTitles = {
     description: "Descripción general",
     location: "Fecha y ubicación",
@@ -26,25 +28,19 @@ export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, sub
 
   if (!schema) return null;
 
-  const handleFormSubmit = (data, errors) => {
-    if (errors && Object.keys(errors).length > 0) {
-      console.error("Errores de validación:", errors);
-      alert("Por favor, revisa los campos marcados en rojo.");
-      return; 
-    }
-    console.log("Formulario válido, enviando datos...");
-    onSubmit(data);
-  };
+  const onError = (errors, e) => console.log(errors, e);
 
-  console.log({schema});
-  
+  const handleFormSubmit = (data, e) => {
+    console.log(data, e);
+    onSubmit(data, e);
+  };
 
   return (
     <div style={{ backgroundColor: "#F0F0F0" }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <FormProvider {...methods}>
           <Box
-            onSubmit={methods.handleSubmit(handleFormSubmit)}
+            onSubmit={methods.handleSubmit(handleFormSubmit, onError)}
             component="form"
             display="flex"
             flexDirection="column"
@@ -68,7 +64,14 @@ export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, sub
               )}
 
               <Box display="flex" justifyContent="flex-end" gap={2} mt={3}>
-                <Button variant="outlined" onClick={() => methods.reset()} disabled={isSubmitting}>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    methods.reset();
+                    navigate("/descubre");
+                  }}
+                  disabled={isSubmitting}
+                >
                   Cancelar
                 </Button>
                 <Button variant="contained" type="submit" disabled={isSubmitting}>

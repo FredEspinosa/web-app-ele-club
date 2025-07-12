@@ -19,8 +19,7 @@ export default function ServiceView({ data }) {
           key={info.id}
           id={info.id}
           title={info.ServiceTitle}
-          // image={info.ServiceImage}
-          image={"https://picsum.photos/200"}
+          image={info.ServiceImage}
           amount={info.ServicePrice}
           rate={info.reviews?.average || 4.8}
         />

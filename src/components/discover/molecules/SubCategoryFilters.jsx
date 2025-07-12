@@ -18,8 +18,7 @@ export default function SubCategoryFilters({ offerTypeId, onFilterChange }) {
       return null;
     }
     try {
-      const processedOffer = Object.values(subCategories);
-      console.log({ processedOffer });
+      const processedOffer = Object.values(eventResponse);
       return processedOffer;
     } catch (error) {
       console.error("Error al parsear formDataJson:", error);

@@ -6,8 +6,7 @@ export default function EventsView({ data }) {
     <EventCard
       id={info.id}
       key={info.id}
-      // img={info.EventImage}
-      img={"https://picsum.photos/200"}
+      img={info.EventImage}
       title={info.EventTitle}
       location={info.LocationName}
       date={dateTransform(info.EventDate)}
