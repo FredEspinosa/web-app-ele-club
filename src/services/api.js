@@ -41,6 +41,7 @@ const endpoints = {
   matchesMe: `${hostApi}Matches/MyMatches`,
   loguinFirebase: `${hostApi}Login`,
   likesMe:`${hostApi}Likes/Me`,
+  createReview:`${hostApi}Review/Create`,
 };
 
 export const obtenerImagenPerfil = () => {
@@ -878,4 +879,32 @@ export const fetcherWithToken = async (url) => {
   }
 
   return res.json();
+};
+
+// Get Review/Create
+export const reviewCreate = async (id, userId, rating, comment) => {
+  const token = getToken();
+  let config = {
+    method: "POST",
+    url: endpoints.createReview,
+    headers: {
+      Accept: "text/plain",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    data: {
+      offerId: id,
+      userId: userId,
+      rating: rating,
+      comment: comment,
+    },
+  };
+  try {
+    const response = await axios.request(config);
+    console.log("reviewCreate", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error en Review/Create: ", error);
+    throw error;
+  }
 };

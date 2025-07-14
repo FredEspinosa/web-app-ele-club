@@ -18,6 +18,7 @@ export default function ServiceDetails() {
   const { data, error, isLoading } = useServiceDetail();
   if (isLoading) return <div>Cargando...</div>;
   if (error) return <div>Error al cargar los detalles del servicio.</div>;
+  console.log("data pages", data);
 
   const tabs = [
     {
@@ -31,6 +32,7 @@ export default function ServiceDetails() {
     },
     {
       label: "Reseña",
+      // content: <ServiceDetailsReviews data={data} />,
       content: <ServiceDetailsReviews />,
     },
     {

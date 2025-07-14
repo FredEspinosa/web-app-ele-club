@@ -8,6 +8,10 @@ export default function a11yProps(index) {
 export const dateTransform = (date) => {
   if (!date) return;
   const fecha = new Date(date + "T00:00:00");
+  if (isNaN(fecha)) {
+    console.warn("Fecha inválida:", date);
+    return null;
+  }
   const opciones = {
     day: "numeric",
     month: "long",

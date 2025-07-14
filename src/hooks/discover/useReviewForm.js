@@ -1,3 +1,4 @@
+import { reviewCreate } from '@/services/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,6 +14,7 @@ const filterSchema = z.object({
 
 const rateLabels = ['Muy malo','Malo','Regular','Bueno','Muy bueno','Excelente']
 
+// const useReviewForm = (id, userId) => {
 const useReviewForm = () => {
   const {
     watch,
@@ -31,8 +33,28 @@ const useReviewForm = () => {
     setValue(name, value);
   };
 
-  const onSubmit = () =>
+  const onSubmit = () => {
     console.log('Formulario enviado:', { ratingValue, opinionValue });
+    sendDataReview({ ratingValue, opinionValue })
+  }
+
+  const sendDataReview = async () => {
+    try {
+      const rating = ratingValue;
+      const comment = opinionValue;
+
+      // const response = await reviewCreate( id, userId, rating, comment);
+      // if (response.inSuccess === true ) {
+      //   console.log("Se envio tu respuesta");
+        
+      // } else {
+      //   console.log("Ocurrió un error ☠️");
+      // }
+    } catch (error) {
+      console.log("Ocurrió un error ☠️ grave", error);
+
+    }
+  }
 
   const rateLabel = useMemo(() => {
     if (!ratingValue) return rateLabels[0];
