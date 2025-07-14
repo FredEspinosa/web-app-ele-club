@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import { useState, useRef } from "react";
 import uploadLine from "../../../assets/images/reportar_usuario/upload-2-line.svg";
+import { ImagePreview, ImagePreviewContainer, RemoveImageButton } from "@/styles/shared/fileUploader";
 
 const FileUploader = ({ onFileSelect }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState("");
-  const fileInputRef = useRef(null); // Referencia para el input de archivo oculto
-
+  const [imagePreview, setImagePreview] = useState(null);
+  const fileInputRef = useRef(null);
   const acceptedTypes = ["image/png", "image/jpeg", "image/webp"];
   const maxSizeMB = 5;
   const maxSizeBytes = maxSizeMB * 1024 * 1024;
@@ -26,7 +27,6 @@ const FileUploader = ({ onFileSelect }) => {
   const handleDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // Esto es necesario para que el evento onDrop funcione
   };
 
   const handleDrop = (e) => {
@@ -49,6 +49,31 @@ const FileUploader = ({ onFileSelect }) => {
     }
   };
 
+  const uploadImage = async (base64Image) => {
+    try {
+      const response = await fetch("/UploadPhoto", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ image: base64Image }), // Envía la imagen en un objeto JSON
+      });
+
+      if (!response.ok) {
+        // Captura errores del servidor (ej: status 400, 500)
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error del servidor al subir la imagen.");
+      }
+
+      const result = await response.json();
+      console.log("Imagen subida con éxito:", result);
+      // Opcional: puedes manejar la respuesta exitosa aquí (ej: mostrar un mensaje)
+    } catch (err) {
+      console.error("Error en la subida:", err);
+      setError(`Error al subir: ${err.message}`);
+    }
+  };
+
   const validateAndProcessFile = (file) => {
     if (!acceptedTypes.includes(file.type)) {
       setError(`Tipo de archivo no permitido. Solo PNG, JPG o WEBP.`);
@@ -60,17 +85,35 @@ const FileUploader = ({ onFileSelect }) => {
       if (onFileSelect) onFileSelect(null, `El archivo excede el tamaño máximo de ${maxSizeMB}MB.`);
       return;
     }
-    // Si pasa la validación
     setError("");
-    if (onFileSelect) onFileSelect(file, null); // Pasar el archivo al componente padre
-    // Aquí podrías añadir lógica para previsualizar la imagen, etc.
-    console.log("Archivo seleccionado:", file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result;
+      setImagePreview(base64String);
+      if (onFileSelect) onFileSelect(file, null);
+      console.log("Archivo seleccionado:", file);
+    };
+    reader.onerror = () => {
+      console.error("Hubo un error al leer el archivo.");
+      setError("No se pudo leer el archivo.");
+    };
+    reader.readAsDataURL(file);
   };
 
-  // Función para abrir el diálogo de selección de archivo al hacer clic
   const openFileDialog = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
+    }
+  };
+
+  const handleRemoveImage = (e) => {
+    e.stopPropagation();
+    setImagePreview(null);
+    setError("");
+    if (onFileSelect) onFileSelect(null, null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -81,30 +124,45 @@ const FileUploader = ({ onFileSelect }) => {
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      onClick={openFileDialog} // Permitir clic en toda el área también
+      // Solo abre el diálogo si no hay imagen
+      onClick={!imagePreview ? openFileDialog : undefined}
     >
       <input
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
-        accept={acceptedTypes.join(",")} // Ayuda al navegador a filtrar
-        style={{ display: "none" }} // Ocultamos el input por defecto
+        accept={acceptedTypes.join(",")}
+        style={{ display: "none" }}
       />
-      <div className="upload-content">
-        <img src={uploadLine} alt="Upload Icon" className="upload-icon" width={24} height={24} />
-        <div className="upload-message">
-          <p className="main-text">Arrastra una imagen o haz clic para seleccionar</p>
-          <span className="sub-text">PNG, JPG o WEBP (máx. {maxSizeMB}MB)</span>
-          <span className="select-file-button">Seleccionar archivo</span>
-          {error && <p className="error-text">{error}</p>}
+
+      {imagePreview ? (
+        <ImagePreviewContainer>
+          <ImagePreview src={imagePreview} alt="Vista previa" />
+          <RemoveImageButton onClick={handleRemoveImage} title="Cambiar imagen">
+            X
+          </RemoveImageButton>
+        </ImagePreviewContainer>
+      ) : (
+        <div className="upload-content">
+          <img src={uploadLine} alt="Upload Icon" className="upload-icon" width={24} height={24} />
+          <div className="upload-message">
+            <p className="main-text">Arrastra una imagen o haz clic para seleccionar</p>
+            <span className="sub-text">PNG, JPG o WEBP (máx. {maxSizeMB}MB)</span>
+            <span className="select-file-button">Seleccionar archivo</span>
+          </div>
         </div>
-      </div>
+      )}
+      {error && (
+        <p className="error-text" style={{ marginTop: "10px" }}>
+          {error}
+        </p>
+      )}
     </div>
   );
 };
 
 FileUploader.propTypes = {
-  onFileSelect: PropTypes.func.isRequired, // Función para manejar el archivo seleccionado
+  onFileSelect: PropTypes.func,
 };
 
 export default FileUploader;

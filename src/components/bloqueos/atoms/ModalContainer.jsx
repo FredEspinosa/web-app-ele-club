@@ -6,7 +6,7 @@ const ModalContainer = ({ width, height, borderRadius, top, left, children }) =>
     width: width ? `${width}px` : '100%',
     height: height ? `${height}px` : '608px',
     borderRadius: borderRadius ? `${borderRadius}px` : '16px 16px 0px 0px',
-    top: top ? `${top}px` : '245px',
+    top: top ? `${top}px` : 'auto',
     ...(left ? {left: `${left}px`} : '')
   }
   return (

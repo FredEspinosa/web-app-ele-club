@@ -19,7 +19,7 @@ export default function AllView({ data }) {
     );
   }, []);
 
-  const firstEvent = data?.eventos?.[0];
+  const firstEvent = data?.eventos?.[1];
 
   return (
     <>
@@ -28,10 +28,9 @@ export default function AllView({ data }) {
           <EventCard
             id={firstEvent.id}
             key={firstEvent.id}
-            // img={firstEvent.EventImage}
-            img={"https://picsum.photos/200"}
+            img={firstEvent.EventImage}
             title={firstEvent.EventTitle}
-            location={firstEvent.LocationName}
+            location={firstEvent.EventLocationName}
             date={dateTransform(firstEvent.EventDate)}
             hour={firstEvent.EventTimeStart}
             distance="1.2 km de distancia"
@@ -44,10 +43,9 @@ export default function AllView({ data }) {
           <EventCard
             id={info.id}
             key={info.id}
-            // img={info.EventImage}
-            img={"https://picsum.photos/200"}
+            img={info.EventImage}
             title={info.EventTitle}
-            location={info.LocationName}
+            location={info.EventLocationName}
             date={dateTransform(info.EventDate)}
             hour={info.EventTimeStart}
           />
@@ -69,9 +67,8 @@ export default function AllView({ data }) {
             key={info.id}
             id={info.id}
             title={info.ServiceTitle}
-            // image={info.ServiceImage}
-            image={"https://picsum.photos/200"}
-            amount={info.ServicePrice}
+            image={info.ServiceImage}
+            amount={info.ServiceCost || info.ServicePrice}
             rate={info.reviews.average || 4.8}
           />
         ))}

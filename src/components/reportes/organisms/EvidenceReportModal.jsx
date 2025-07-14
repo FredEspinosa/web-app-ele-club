@@ -36,7 +36,7 @@ const EvidenceReportModal = ({ onSubmit, onBack }) => {
   };
 
   return (
-    <ModalContainer height={585} top={267}>
+    <ModalContainer height={585}>
       <ModalHeader text="Adjuntar evidencia" onCancel={onBack} />
       <ModalBody text={"Puedes adjuntar capturas de pantalla, mensajes u otra\n evidencia que respalde tu reporte."}>
         <FileUploader onFileSelect={handleFileSelected} />
