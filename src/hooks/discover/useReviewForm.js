@@ -14,8 +14,8 @@ const filterSchema = z.object({
 
 const rateLabels = ['Muy malo','Malo','Regular','Bueno','Muy bueno','Excelente']
 
-// const useReviewForm = (id, userId) => {
-const useReviewForm = () => {
+const useReviewForm = (id, userId) => {
+// const useReviewForm = () => {
   const {
     watch,
     formState: { errors },
@@ -43,13 +43,13 @@ const useReviewForm = () => {
       const rating = ratingValue;
       const comment = opinionValue;
 
-      // const response = await reviewCreate( id, userId, rating, comment);
-      // if (response.inSuccess === true ) {
-      //   console.log("Se envio tu respuesta");
+      const response = await reviewCreate( id, userId, rating, comment);
+      if (response.inSuccess === true ) {
+        console.log("Se envio tu respuesta");
         
-      // } else {
-      //   console.log("Ocurrió un error ☠️");
-      // }
+      } else {
+        console.log("Ocurrió un error ☠️");
+      }
     } catch (error) {
       console.log("Ocurrió un error ☠️ grave", error);
 

@@ -40,8 +40,8 @@ const StyledRating = materialStyled(Rating)({
   },
 });
 
-// export default function GlobalReview({data}) {
-export default function GlobalReview() {
+export default function GlobalReview({data}) {
+// export default function GlobalReview() {
   const [open, setOpen] = useState(false);
   return (
     <StyledGlobalReviewContainer>
@@ -57,8 +57,8 @@ export default function GlobalReview() {
         </Button>
       </div>
       <BottomSheetModal isOpen={open} onClose={() => setOpen(false)}>
-        {/* <ReviewForm handleClose={() => setOpen(false)} data = {data}/> */}
-        <ReviewForm handleClose={() => setOpen(false)} />
+        <ReviewForm handleClose={() => setOpen(false)} data = {data}/>
+        {/* <ReviewForm handleClose={() => setOpen(false)} /> */}
       </BottomSheetModal>
     </StyledGlobalReviewContainer>
   );

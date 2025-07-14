@@ -32,8 +32,8 @@ export default function ServiceDetails() {
     },
     {
       label: "Reseña",
-      // content: <ServiceDetailsReviews data={data} />,
-      content: <ServiceDetailsReviews />,
+      content: <ServiceDetailsReviews data={data} />,
+      // content: <ServiceDetailsReviews />,
     },
     {
       label: "Ubicación",
