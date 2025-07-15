@@ -8,7 +8,9 @@ import { GlobalReview } from '../molecules';
 import { ReviewCard } from '../atoms';
 
 export default function ServiceDetailsReviews({data}) {
-// export default function ServiceDetailsReviews() {
+  const reviews = data?.reviews || [];
+  console.log("reviews", reviews);
+  
   return (
     <>
       <StyledDetailsDirectioncontainer>
@@ -16,10 +18,20 @@ export default function ServiceDetailsReviews({data}) {
         <StyledDetailsDistance>120 reseñas</StyledDetailsDistance>
       </StyledDetailsDirectioncontainer>
       <GlobalReview data={data}/>
-      {/* <GlobalReview /> */}
-      <ReviewCard />
-      <ReviewCard />
-      <ReviewCard />
+      {Array.isArray(reviews) && reviews.length > 0 ? (
+        reviews.map((review, index) => (
+          <ReviewCard
+            key={index}
+            userName={review.userName}
+            rating={review.rating}
+            timeSincePublished={review.timeSincePublished}
+            comment={review.comment}
+            userPhoto={review.userPhoto}
+          />
+        ))
+      ) : (
+        <p>No hay reseñas disponibles.</p>
+      )}
     </>
   );
 }

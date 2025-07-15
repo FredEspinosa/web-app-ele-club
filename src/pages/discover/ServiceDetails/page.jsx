@@ -47,8 +47,10 @@ export default function ServiceDetails() {
       <StyledDetailContainer>
         <StyledDetailTitle>{data?.ServiceTitle}</StyledDetailTitle>
         <StyledDetailsRateContainer>
-          <Rating name="read-only" value={data?.reviews[0] || 3.6} precision={0.5} readOnly />
-          <p style={{ margin: 0, fontSize: "12px" }}>{data?.reviews[0] || 3.6}</p>
+          {/* <Rating name="read-only" value={data?.reviews[0] || 3.6} precision={0.5} readOnly />
+          <p style={{ margin: 0, fontSize: "12px" }}>{data?.reviews[0] || 3.6}</p> */}
+          <Rating name="read-only" value={data?.reviews?.[0]?.rating || 3.6} precision={0.5} readOnly />
+          <p style={{ margin: 0, fontSize: "12px" }}>{data?.reviews?.[0]?.rating || 3.6}</p>
           <StyledDetailOwnerLabel>{data?.reviews?.length || 2} reseñas</StyledDetailOwnerLabel>
         </StyledDetailsRateContainer>
         <StyledDetailsEventContainer $width="fit-content">

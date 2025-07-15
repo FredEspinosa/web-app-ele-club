@@ -8,20 +8,25 @@ import {
 } from '@/styles/discover/texts';
 import { Avatar, Rating } from '@mui/material';
 
-export default function ReviewCard() {
+export default function ReviewCard({
+  userName = 'Usuario desconocido',
+  rating = 0,
+  timeSincePublished = 'hace un momento',
+  comment = '',
+  userPhoto = ''
+}) {
   return (
     <div>
       <StyledEventDetailOrganizationContainer>
-        <Avatar alt={'Laura G.'} src={''} sx={{ width: 40, height: 40 }} />
+        <Avatar alt={userName} src={userPhoto} sx={{ width: 40, height: 40 }} />
         <StyledDetailOwnerContainer>
-          <StyledDetailOwner>{'Laura G.'}</StyledDetailOwner>
-          <Rating name='read-only' value={3.5} precision={0.5} readOnly />
+          <StyledDetailOwner>{userName}</StyledDetailOwner>
+          <Rating name='read-only' value={rating} precision={0.5} readOnly />
         </StyledDetailOwnerContainer>
-        <StyledDetailOwnerLabel>hace 1 mes</StyledDetailOwnerLabel>
+        <StyledDetailOwnerLabel>{timeSincePublished}</StyledDetailOwnerLabel>
       </StyledEventDetailOrganizationContainer>
-      <pre  style={{whiteSpace: 'pre-line', fontSize: '12px', fontWeight: '400', color: 'var(--color-neutral-gris-02)'}}>
-      Increíble experiencia. Las fotos quedaron mucho mejor de lo 
-      que esperaba y he recibido muchos cumplidos en mi perfil.
+      <pre style={{ whiteSpace: 'pre-line', fontSize: '12px', fontWeight: '400', color: 'var(--color-neutral-gris-02)' }}>
+        {comment}
       </pre>
     </div>
   );
