@@ -89,8 +89,14 @@ p {
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
-    /* padding-bottom: 24px; */
 }
+
+/* #profileOtherPerson .club_contenedor_full_height {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+} */
 
 .club_sub_contenedor {
     display: flex;

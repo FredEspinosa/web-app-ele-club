@@ -16,7 +16,7 @@ const AdditionalInfoModal = ({ onSubmit, onBack }) => {
   };
 
   return (
-    <ModalContainer height={522} top={331}>
+    <ModalContainer height={522}>
       <ModalHeader text="Información adicional" onCancel={onBack} />
       <ModalBody text="Proporcionar más detalles nos ayuda a mejorar la experiencia para todos los usuarios.">
         <p className="reason-question">¿Hay algo más que quisieras contarnos?</p>

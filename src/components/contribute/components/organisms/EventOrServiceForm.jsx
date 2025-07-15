@@ -1,26 +1,26 @@
 import React, { useMemo } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, CircularProgress } from "@mui/material";
 import FormField from "../molecules/FormField";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import FormSection from "../molecules/FormSection";
+import { useNavigate } from "react-router-dom";
 
-export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
+export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, submitError }) {
+  const navigate = useNavigate();
   const sectionTitles = {
     description: "Descripción general",
     location: "Fecha y ubicación",
     contact: "Datos de contacto y redes",
   };
   const methods = useForm();
+
   const groupedFields = useMemo(() => {
     if (!schema?.formValues) return {};
-
     return schema.formValues.reduce((acc, field) => {
       const sectionKey = field.section || "default";
-      if (!acc[sectionKey]) {
-        acc[sectionKey] = [];
-      }
+      if (!acc[sectionKey]) acc[sectionKey] = [];
       acc[sectionKey].push(field);
       return acc;
     }, {});
@@ -28,8 +28,11 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
 
   if (!schema) return null;
 
-  const handleFormSubmit = (data) => {
-    onSubmit(data);
+  const onError = (errors, e) => console.log(errors, e);
+
+  const handleFormSubmit = (data, e) => {
+    console.log(data, e);
+    onSubmit(data, e);
   };
 
   return (
@@ -37,8 +40,8 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <FormProvider {...methods}>
           <Box
+            onSubmit={methods.handleSubmit(handleFormSubmit, onError)}
             component="form"
-            onSubmit={methods.handleSubmit(handleFormSubmit)}
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -54,12 +57,25 @@ export default function EventOrServiceForm({ schema, onSubmit, offerTypeId }) {
                 </FormSection>
               ))}
 
+              {submitError && (
+                <Typography color="error" sx={{ mt: 2 }}>
+                  {submitError}
+                </Typography>
+              )}
+
               <Box display="flex" justifyContent="flex-end" gap={2} mt={3}>
-                <Button variant="outlined" onClick={() => methods.reset()}>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    methods.reset();
+                    navigate("/descubre");
+                  }}
+                  disabled={isSubmitting}
+                >
                   Cancelar
                 </Button>
-                <Button variant="contained" type="submit">
-                  Publicar
+                <Button variant="contained" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? <CircularProgress size={24} /> : "Publicar"}
                 </Button>
               </Box>
             </Box>

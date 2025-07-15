@@ -9,7 +9,7 @@ import useSWR from "swr";
 import { API_ENDPOINTS } from "@/descubreApi";
 import { fetcher } from "@/services/api";
 import { OFFERS_TYPE_IDS } from "@/constants/offersType";
-import FileUploader from "@/components/reportes/atoms/FileUploader";
+import FileInput from "../atoms/FileInput";
 
 export default function FormField({ field }) {
   const { control } = useFormContext();
@@ -21,17 +21,19 @@ export default function FormField({ field }) {
     isCategoryField ? API_ENDPOINTS.GET_OFFER_CATEGORY_CATALOG_BY_ID(offerTypeIdForCategory) : null,
     fetcher
   );
+
   const categoryOptions = useMemo(() => {
     const eventResponse = data?.result;
     if (!eventResponse) {
-      return null;
+      return []; // Devuelve un arreglo vacío para evitar errores
     }
     try {
       const processedOffer = Object.values(eventResponse);
-      return processedOffer.map((offer) => offer.name);
+      // Devuelve el objeto completo, no solo el nombre
+      return processedOffer.map((offer) => ({ id: offer.id, name: offer.name }));
     } catch (error) {
-      console.error("Error al parsear formDataJson:", error);
-      return eventResponse;
+      console.error("Error al procesar las categorías:", error);
+      return [];
     }
   }, [data]);
 
@@ -39,7 +41,7 @@ export default function FormField({ field }) {
     return null;
   }
 
-  const locationFieldNames = ['EventLocationName', 'ServiceLocationName'];
+  const locationFieldNames = ["EventLocationName", "ServiceLocationName"];
 
   const renderField = (controllerProps) => {
     switch (field.type) {
@@ -57,7 +59,7 @@ export default function FormField({ field }) {
       case "time":
         return <TextInput name={field.name} type="time" {...controllerProps.field} />;
       case "file":
-        return <FileUploader name={field.name} label={field.label} />;
+        return <FileInput name={field.name} label={field.label} {...controllerProps.field} />;
       case "group":
         return (
           <Box display="flex" flexDirection="column" gap={2} border="1px solid #ddd" p={2} borderRadius={2}>
@@ -79,7 +81,12 @@ export default function FormField({ field }) {
         {field.label}
         {field.required ? "*" : ""}
       </Typography>
-      <Controller name={field.name} control={control} rules={{ required: field.required }} render={renderField} />
+      <Controller
+        name={field.name}
+        control={control}
+        rules={{ required: field.required ? "Este campo es obligatorio" : false }}
+        render={renderField}
+      />
       {locationFieldNames.includes(field.name) && (
         <Box mt={2}>
           <Typography>Mapa</Typography>
