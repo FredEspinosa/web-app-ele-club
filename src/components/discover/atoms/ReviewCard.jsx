@@ -6,6 +6,7 @@ import {
   StyledDetailOwner,
   StyledDetailOwnerLabel,
 } from '@/styles/discover/texts';
+import { getInitials } from '@/utils/functions/discover';
 import { Avatar, Rating } from '@mui/material';
 
 export default function ReviewCard({
@@ -18,7 +19,9 @@ export default function ReviewCard({
   return (
     <div>
       <StyledEventDetailOrganizationContainer>
-        <Avatar alt={userName} src={userPhoto} sx={{ width: 40, height: 40 }} />
+        <Avatar alt={userName} src={userPhoto} sx={{ width: 40, height: 40 }} >
+          {!userPhoto && getInitials(userName)}
+        </Avatar>
         <StyledDetailOwnerContainer>
           <StyledDetailOwner>{userName}</StyledDetailOwner>
           <Rating name='read-only' value={rating} precision={0.5} readOnly />

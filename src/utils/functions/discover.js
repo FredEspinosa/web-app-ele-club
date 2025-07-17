@@ -46,3 +46,11 @@ export const fileToBase64 = (file) => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+export function getInitials(name = '') {
+  return name
+    .split(' ')
+    .map(part => part[0]?.toUpperCase())
+    .join('')
+    .slice(0, 2); // Solo toma 2 letras como máximo
+}
