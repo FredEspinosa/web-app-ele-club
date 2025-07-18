@@ -15,7 +15,7 @@ const CardContentOnBg = styled(Box)({
   padding: "16px",
 });
 
-function EventCard({ img, title, location, date, hour, assistants, distance, id }) {
+function EventCard({ img, title, location, date, hour, assistants, distance, id, fullWidth = false }) {
   const goToEvent = useGoToEvent(id);
 
   if (distance) {
@@ -66,10 +66,10 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id 
   return (
     <Card
       sx={{
-        width: "250px",
-        minWidth: "250px",
+        width: fullWidth ? "100%" : "250px",
+        minWidth: fullWidth ? "100%" : "250px",
         borderRadius: "16px",
-        height: "199px",
+        height: fullWidth ? "210px" : "199px",
       }}
     >
       <StyledCardContainer {...cardOptions}>
@@ -105,7 +105,7 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id 
           <StyledDetailsEventContainer>
             <DiscoverInfo icon={"calendar"}>{date}</DiscoverInfo>
             {hour && <DiscoverInfo icon={"clock"}>{hour}</DiscoverInfo>}
-            {assistants && <DiscoverInfo icon={"user"}>{assistants}</DiscoverInfo>}
+            {typeof assistants === "number" && <DiscoverInfo icon={"user"}>{assistants}</DiscoverInfo>}
           </StyledDetailsEventContainer>
         </CardContent>
       </StyledCardContainer>
@@ -119,9 +119,10 @@ EventCard.propTypes = {
   location: PropTypes.string,
   date: PropTypes.string,
   hour: PropTypes.string,
-  assistants: PropTypes.string,
+  assistants: PropTypes.number,
   distance: PropTypes.string,
   id: PropTypes.string,
+  fullWidth: PropTypes.bool,
 };
 
 const MemoizedEventCard = React.memo(EventCard, (prevProps, nextProps) => {

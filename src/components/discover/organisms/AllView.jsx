@@ -7,6 +7,8 @@ import { BellIcon, CalendarIcon } from "@/assets/icons";
 import { dateTransform } from "@/utils/functions/discover";
 
 export default function AllView({ data }) {
+    console.log({data});
+    
   const EventTitle = useMemo(() => {
     return <TitleSection icon={<CalendarIcon />}>Próximos eventos...</TitleSection>;
   }, []);
@@ -19,7 +21,7 @@ export default function AllView({ data }) {
     );
   }, []);
 
-  const firstEvent = data?.eventos?.[1];
+  const firstEvent = data?.evento?.[1];
 
   return (
     <>
@@ -28,26 +30,26 @@ export default function AllView({ data }) {
           <EventCard
             id={firstEvent.id}
             key={firstEvent.id}
-            img={firstEvent.EventImage}
-            title={firstEvent.EventTitle}
-            location={firstEvent.EventLocationName}
-            date={dateTransform(firstEvent.EventDate)}
-            hour={firstEvent.EventTimeStart}
+            img={firstEvent.offerImage}
+            title={firstEvent.offerTitle}
+            location={firstEvent.offerLocationName}
+            date={dateTransform(firstEvent.offerDate)}
+            hour={firstEvent.offerTimeStart}
             distance="1.2 km de distancia"
           />
         )}
       </>
 
       <MotionSlider title={EventTitle}>
-        {data?.eventos?.map((info) => (
+        {data?.evento?.map((info) => (
           <EventCard
             id={info.id}
             key={info.id}
-            img={info.EventImage}
-            title={info.EventTitle}
-            location={info.EventLocationName}
-            date={dateTransform(info.EventDate)}
-            hour={info.EventTimeStart}
+            img={info.offerImage}
+            title={info.offerTitle}
+            location={info.offerLocationName}
+            date={dateTransform(info.offerDate)}
+            hour={info.offerTimeStart}
           />
         ))}
       </MotionSlider>
@@ -62,14 +64,14 @@ export default function AllView({ data }) {
           gap: "16px",
         }}
       >
-        {data?.servicios?.map((info) => (
+        {data?.servicio?.map((info) => (
           <ServiceItem
             key={info.id}
             id={info.id}
-            title={info.ServiceTitle}
-            image={info.ServiceImage}
-            amount={info.ServiceCost || info.ServicePrice}
-            rate={info.reviews.average || 4.8}
+            title={info.offerTitle}
+            image={info.offerImage}
+            amount={info.offerCost || info.offerPrice}
+            rate={info.reviewRate}
           />
         ))}
       </List>
