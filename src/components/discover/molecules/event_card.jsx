@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
@@ -8,6 +8,8 @@ import { DetailsButton, DiscoverInfo } from "../atoms";
 import { StyledCardContainer, StyledDetailsEventContainer, StyledEventCardWithBg } from "../../../styles/discover/containers";
 import { StyledDiscoverRegularText } from "../../../styles/discover/texts";
 import { useGoToEvent } from "@/hooks/discover/useGoToEvent";
+// import placeholderImage from "../../../assets/images/Helena_LOGO.png"
+import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png"
 
 const CardContentOnBg = styled(Box)({
   position: "relative",
@@ -16,11 +18,30 @@ const CardContentOnBg = styled(Box)({
 });
 
 function EventCard({ img, title, location, date, hour, assistants, distance, id, fullWidth = false }) {
+  const [imageSource, setImageSource] = useState(img);
   const goToEvent = useGoToEvent(id);
+
+  useEffect(() => {
+    if (!img) {
+      setImageSource(placeholderImage);
+      return;
+    }
+    const imageLoader = new Image();
+    imageLoader.src = img;
+    imageLoader.onload = () => setImageSource(img);
+    imageLoader.onerror = () => {
+      setImageSource(placeholderImage);
+    };
+
+    return () => {
+      imageLoader.onload = null;
+      imageLoader.onerror = null;
+    };
+  }, [img]);
 
   if (distance) {
     return (
-      <StyledEventCardWithBg image={img} onClick={goToEvent}>
+      <StyledEventCardWithBg image={imageSource} onClick={goToEvent}>
         <CardContentOnBg>
           <Box sx={{ display: "flex", gap: 2, mb: 1, flexWrap: "wrap" }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -73,7 +94,13 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id,
       }}
     >
       <StyledCardContainer {...cardOptions}>
-        <CardMedia component="img" height="100" image={img} alt={title} />
+        <CardMedia
+          component="img"
+          height="100"
+          image={imageSource || placeholderImage}
+          alt={title}
+          onError={() => setImageSource(placeholderImage)}
+        />
         <CardContent
           sx={{
             padding: "18px",

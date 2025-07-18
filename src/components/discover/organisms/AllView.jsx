@@ -7,8 +7,6 @@ import { BellIcon, CalendarIcon } from "@/assets/icons";
 import { dateTransform } from "@/utils/functions/discover";
 
 export default function AllView({ data }) {
-    console.log({data});
-    
   const EventTitle = useMemo(() => {
     return <TitleSection icon={<CalendarIcon />}>Próximos eventos...</TitleSection>;
   }, []);
