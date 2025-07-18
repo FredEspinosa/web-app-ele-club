@@ -65,68 +65,32 @@ const useHomeFilters = () => {
     return `${API_ENDPOINTS.GET_OFFER_AVAILABLE}?${params}`;
   }, fetcherWithToken);
 
-  // const data = useMemo(() => {
-  //   const offersArray = rawData?.result || [];
-  //   if (!Array.isArray(offersArray)) {
-  //     console.error("rawData.result no es un arreglo. Valor actual:", rawData);
-  //     return { eventos: [], servicios: [] };
-  //   }
-  //   return offersArray.reduce(
-  //     (acc, item) => {
-  //       try {
-  //         const formData = JSON.parse(item.formDataJson);
-  //         const finalObject = { ...item, ...formData };
-  //         delete finalObject.formDataJson;
-  //         if (item.offerTypeId === OFFERS_TYPE_IDS.SERVICIO) {
-  //           acc.servicios.push(finalObject);
-  //         } else if (item.offerTypeId === OFFERS_TYPE_IDS.EVENTO) {
-  //           acc.eventos.push(finalObject);
-  //         }
-  //       } catch (e) {
-  //         console.error("Error al parsear formDataJson:", e);
-  //       }
-
-  //       return acc;
-  //     },
-  //     { eventos: [], servicios: [] }
-  //   );
-  // }, [rawData]);
-
   const data = useMemo(() => {
-    const eventos = rawData?.result?.evento || [];
-    const servicios = rawData?.result?.servicio || [];
-
-    const allOffers = [...eventos, ...servicios];
-
-    const result = {
-      eventos: [],
-      servicios: []
-    };
-
-    for (const item of allOffers) {
-      try {
-        if (!item.formDataJson) {
-          console.warn("formDataJson vacío o undefined en item:", item);
-          continue;
-        }
-
-        const formData = JSON.parse(item.formDataJson);
-        const finalObject = { ...item, ...formData };
-        delete finalObject.formDataJson;
-
-        if (item.offerTypeId === OFFERS_TYPE_IDS.SERVICIO) {
-          result.servicios.push(finalObject);
-        } else if (item.offerTypeId === OFFERS_TYPE_IDS.EVENTO) {
-          result.eventos.push(finalObject);
-        }
-      } catch (e) {
-        console.error("Error al parsear formDataJson:", e, item);
-      }
+    const offersArray = rawData?.result || [];
+    if (!Array.isArray(offersArray)) {
+      console.error("rawData.result no es un arreglo. Valor actual:", rawData);
+      return { eventos: [], servicios: [] };
     }
+    return offersArray.reduce(
+      (acc, item) => {
+        try {
+          const formData = JSON.parse(item.formDataJson);
+          const finalObject = { ...item, ...formData };
+          delete finalObject.formDataJson;
+          if (item.offerTypeId === OFFERS_TYPE_IDS.SERVICIO) {
+            acc.servicios.push(finalObject);
+          } else if (item.offerTypeId === OFFERS_TYPE_IDS.EVENTO) {
+            acc.eventos.push(finalObject);
+          }
+        } catch (e) {
+          console.error("Error al parsear formDataJson:", e);
+        }
 
-    return result;
+        return acc;
+      },
+      { eventos: [], servicios: [] }
+    );
   }, [rawData]);
-
 
   const handleSetValue = (name, value) => {
     setValue(name, value);
