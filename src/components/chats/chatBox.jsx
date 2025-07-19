@@ -12,6 +12,7 @@ import { conversationGetAll } from "../../services/api";
 import ChatsContentGroup from "./chats_content_group";
 import ChatsContentPrivate from "./chats_content_private";
 import DeleteChatModal from "./DeleteChatModal";
+import { useDeleteConversation } from "@/hooks/discover/useDeleteConversation";
 
 const ChatBox = () => {
   const navigate = useNavigate();
@@ -25,9 +26,8 @@ const ChatBox = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [conversationToDelete, setConversationToDelete] = useState(null);
   const [chatName, setChatName] = useState(null);
-
   const location = useLocation();
-  
+  const { deleteConversation, isDeleting, deleteError } = useDeleteConversation();
   const listaBotones = [
     { texto: "Chats Privados", evento: "chatsPrivados" },
     { texto: "Sala de Chats", evento: "salaDeChats" },
@@ -105,14 +105,27 @@ const ChatBox = () => {
   const handleDeleteConversation = (conversationId, otroUsuario) => {
     setConversationToDelete(conversationId);
     setShowDeleteModal(true);
-    setChatName(otroUsuario?.user?.name)
+    setChatName(otroUsuario.user.name);
   };
 
-  const confirmDelete = () => {
-    setPrivateConversations((prevConversations) => prevConversations.filter((conv) => conv.id !== conversationToDelete));
-    console.log("Eliminando conversación de la UI:", conversationToDelete);
-    setShowDeleteModal(false);
-    setConversationToDelete(null);
+  const confirmDelete = async () => {
+    if (!conversationToDelete) return;
+
+    try {
+      await deleteConversation({
+        id: conversationToDelete,
+        token: tokenSesionStorage,
+      });
+
+      setPrivateConversations((prev) => prev.filter((conv) => conv.id !== conversationToDelete));
+      setShowDeleteModal(false);
+      setConversationToDelete(null);
+    } catch (error) {
+      console.error("Error al eliminar la conversación:", error.message);
+      // Opcional: mostrar una notificación de error al usuario
+      alert(`No se pudo eliminar el chat: ${error.message}`);
+      setShowDeleteModal(false); // Cierra el modal también en caso de error
+    }
   };
 
   return (
@@ -133,13 +146,17 @@ const ChatBox = () => {
           <NavBarDinamicButtons
             buttonsList={listaBotones}
             onButtonClick={handleButtonClick}
-            activeButton={vista} // Sincronización con el estado padre
+            activeButton={vista}
             colBtns={"col-6"}
           />
           <div style={{ marginTop: "20px" }}>
             {/* Renderiza contenido basado en la vista */}
             {vista === "chatsPrivados" && (
-              <ChatsContentPrivate handleOnClick={redirectBack} listChatsPrivates={privateConversations} onDelete={handleDeleteConversation} />
+              <ChatsContentPrivate
+                handleOnClick={redirectBack}
+                listChatsPrivates={privateConversations}
+                onDelete={handleDeleteConversation}
+              />
             )}
             {vista === "salaDeChats" && <ChatsContentGroup handleOnClick={redirectBack} listChatsGroup={groupConversations} />}
           </div>
@@ -157,7 +174,9 @@ const ChatBox = () => {
           />
         )}
       </div>
-      {showDeleteModal && <DeleteChatModal onConfirmDelete={confirmDelete} onCancel={() => setShowDeleteModal(false)} ChatName={chatName} />}
+      {showDeleteModal && (
+        <DeleteChatModal onConfirmDelete={confirmDelete} onCancel={() => setShowDeleteModal(false)} ChatName={chatName} />
+      )}
       {showLoader && <Loader />}
     </div>
   );

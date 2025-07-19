@@ -30,7 +30,7 @@ export default function AllView({ data }) {
             key={firstEvent.id}
             img={firstEvent.offerImage}
             title={firstEvent.offerTitle}
-            location={firstEvent.offerLocationName}
+            location={firstEvent.offerLocationName || '--'}
             date={dateTransform(firstEvent.offerDate)}
             hour={firstEvent.offerTimeStart}
             distance="1.2 km de distancia"
@@ -45,7 +45,7 @@ export default function AllView({ data }) {
             key={info.id}
             img={info.offerImage}
             title={info.offerTitle}
-            location={info.offerLocationName}
+            location={info.offerLocationName || '--'}
             date={dateTransform(info.offerDate)}
             hour={info.offerTimeStart}
           />
