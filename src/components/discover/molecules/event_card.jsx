@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
@@ -6,6 +6,8 @@ import { DetailsButton, DiscoverInfo } from "../atoms";
 import { StyledCardContainer, StyledDetailsEventContainer, StyledEventCardWithBg } from "../../../styles/discover/containers";
 import { StyledDiscoverRegularText } from "../../../styles/discover/texts";
 import { useGoToEvent } from "@/hooks/discover/useGoToEvent";
+// import placeholderImage from "../../../assets/images/Helena_LOGO.png"
+import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png"
 
 const CardContentOnBg = styled(Box)({
   position: "relative",
@@ -13,12 +15,31 @@ const CardContentOnBg = styled(Box)({
   padding: "16px",
 });
 
-function EventCard({ img, title, location, date, hour, assistants, distance, id }) {
+function EventCard({ img, title, location, date, hour, assistants, distance, id, fullWidth = false }) {
+  const [imageSource, setImageSource] = useState(img);
   const goToEvent = useGoToEvent(id);
+
+  useEffect(() => {
+    if (!img) {
+      setImageSource(placeholderImage);
+      return;
+    }
+    const imageLoader = new Image();
+    imageLoader.src = img;
+    imageLoader.onload = () => setImageSource(img);
+    imageLoader.onerror = () => {
+      setImageSource(placeholderImage);
+    };
+
+    return () => {
+      imageLoader.onload = null;
+      imageLoader.onerror = null;
+    };
+  }, [img]);
 
   if (distance) {
     return (
-      <StyledEventCardWithBg image={img} onClick={goToEvent}>
+      <StyledEventCardWithBg image={imageSource} onClick={goToEvent}>
         <CardContentOnBg>
           <Box sx={{ display: "flex", gap: 2, mb: 1, flexWrap: "wrap" }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -64,14 +85,20 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id 
   return (
     <Card
       sx={{
-        width: "250px",
-        minWidth: "250px",
+        width: fullWidth ? "100%" : "250px",
+        minWidth: fullWidth ? "100%" : "250px",
         borderRadius: "16px",
-        height: "199px",
+        height: fullWidth ? "210px" : "199px",
       }}
     >
       <StyledCardContainer {...cardOptions}>
-        <CardMedia component="img" height="100" image={img} alt={title} />
+        <CardMedia
+          component="img"
+          height="100"
+          image={imageSource || placeholderImage}
+          alt={title}
+          onError={() => setImageSource(placeholderImage)}
+        />
         <CardContent
           sx={{
             padding: "16px",
@@ -103,7 +130,7 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id 
           <StyledDetailsEventContainer>
             <DiscoverInfo icon={"calendar"}>{date}</DiscoverInfo>
             {hour && <DiscoverInfo icon={"clock"}>{hour}</DiscoverInfo>}
-            {assistants && <DiscoverInfo icon={"user"}>{assistants}</DiscoverInfo>}
+            {typeof assistants === "number" && <DiscoverInfo icon={"user"}>{assistants}</DiscoverInfo>}
           </StyledDetailsEventContainer>
         </CardContent>
       </StyledCardContainer>
@@ -117,9 +144,10 @@ EventCard.propTypes = {
   location: PropTypes.string,
   date: PropTypes.string,
   hour: PropTypes.string,
-  assistants: PropTypes.string,
+  assistants: PropTypes.number,
   distance: PropTypes.string,
   id: PropTypes.string,
+  fullWidth: PropTypes.bool,
 };
 
 const MemoizedEventCard = React.memo(EventCard, (prevProps, nextProps) => {

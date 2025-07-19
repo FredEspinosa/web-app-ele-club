@@ -8,7 +8,6 @@ import { fetcherWithToken } from "@/services/api";
 import { API_ENDPOINTS } from "@/descubreApi";
 import { OFFERS_TYPE_IDS } from "@/constants/offersType";
 
-
 const filterSchema = z.object({
   search: z.string().optional(),
   category: z.string().nonempty("Seleccione una categoría"),
@@ -66,30 +65,12 @@ const useHomeFilters = () => {
   }, fetcherWithToken);
 
   const data = useMemo(() => {
-    const offersArray = rawData?.result || [];
-    if (!Array.isArray(offersArray)) {
-      console.error("rawData.result no es un arreglo. Valor actual:", rawData);
-      return { eventos: [], servicios: [] };
+    if (!rawData || rawData.isSuccess !== true) {
+      console.error("No hay data", rawData);
+    } else {
+      const offersArray = rawData?.result || [];
+      return offersArray;
     }
-    return offersArray.reduce(
-      (acc, item) => {
-        try {
-          const formData = JSON.parse(item.formDataJson);
-          const finalObject = { ...item, ...formData };
-          delete finalObject.formDataJson;
-          if (item.offerTypeId === OFFERS_TYPE_IDS.SERVICIO) {
-            acc.servicios.push(finalObject);
-          } else if (item.offerTypeId === OFFERS_TYPE_IDS.EVENTO) {
-            acc.eventos.push(finalObject);
-          }
-        } catch (e) {
-          console.error("Error al parsear formDataJson:", e);
-        }
-
-        return acc;
-      },
-      { eventos: [], servicios: [] }
-    );
   }, [rawData]);
 
   const handleSetValue = (name, value) => {

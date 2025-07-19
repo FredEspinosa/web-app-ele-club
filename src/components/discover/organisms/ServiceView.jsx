@@ -14,14 +14,14 @@ export default function ServiceView({ data }) {
         gap: "16px",
       }}
     >
-      {data?.servicios?.map((info) => (
+      {data?.servicio?.map((info) => (
         <ServiceItem
           key={info.id}
           id={info.id}
-          title={info.ServiceTitle}
-          image={info.ServiceImage}
-          amount={info.ServiceCost || info.ServicePrice}
-          rate={info.reviews?.average || 4.8}
+          title={info.offerTitle}
+          image={info.offerImage}
+          amount={info.offerCost || info.offerPrice}
+          rate={info.reviewRate}
         />
       ))}
     </List>

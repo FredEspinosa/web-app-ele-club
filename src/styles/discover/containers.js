@@ -20,7 +20,7 @@ export const StyledEventInfoContainer = styled.div`
     gridTemplateColumns: "17px 1fr",
     gap: "4px",
     alignItems: "center",
-  })}
+})}
 `;
 
 export const StyledDetailsEventContainer = styled.div`
