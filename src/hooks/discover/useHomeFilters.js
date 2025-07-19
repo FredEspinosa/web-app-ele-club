@@ -66,11 +66,12 @@ const useHomeFilters = () => {
 
   const data = useMemo(() => {
     if (!rawData || rawData.isSuccess !== true) {
-      console.error("No hay data", rawData);
-    } else {
-      const offersArray = rawData?.result || [];
-      return offersArray;
+      if (rawData && rawData.isSuccess !== true) {
+        console.error("La respuesta del API no fue exitosa:", rawData);
+      }
+      return [];
     }
+    return rawData.result || [];
   }, [rawData]);
 
   const handleSetValue = (name, value) => {

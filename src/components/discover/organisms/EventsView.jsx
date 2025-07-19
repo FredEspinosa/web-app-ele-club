@@ -9,7 +9,7 @@ export default function EventsView({ data }) {
       key={info.id}
       img={info.offerImage}
       title={info.offerTitle}
-      location={info.offerLocationName}
+      location={info.offerLocationName || '--'}
       date={dateTransform(info.offerDate)}
       hour={info.offerTimeStart}
       assistants={info.participantCount}

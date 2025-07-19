@@ -9,5 +9,8 @@ export const API_ENDPOINTS = {
     GET_OFFER_BY_ID: (id) => `${API_BASE_URL}/Offer/GetById/${id}`,
     CREATE_OFFER: `${API_BASE_URL}/Offer/Create`,
     APPROBE_OFFER: (id) => `${API_BASE_URL}/Manage/Approbe/${id}`,
-    UPLOAD_PHOTO: `${API_BASE_URL}/UploadFiles/upload-photo`
+    UPLOAD_PHOTO: `${API_BASE_URL}/UploadFiles/upload-photo`,
+    CHATBOX: {
+        DELETE_CHAT: `${API_BASE_URL}/Conversation/Remove`
+    }
 };
