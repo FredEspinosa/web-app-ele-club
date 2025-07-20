@@ -6,8 +6,7 @@ import { StyledServiceListTitle } from "@/styles/discover/texts";
 import { ArrowRightIcon } from "@/assets/icons";
 import { useGoToService } from "@/hooks/discover/useGoToService";
 import { useEffect, useState } from "react";
-import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png"
-
+import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png";
 
 export default function ServiceItem({ id, title, image, amount, rate }) {
   const goToService = useGoToService(id);
@@ -18,16 +17,35 @@ export default function ServiceItem({ id, title, image, amount, rate }) {
       setImageSource(placeholderImage);
       return;
     }
-    const imageLoader = new Image();
-    imageLoader.src = image;
-    imageLoader.onload = () => setImageSource(image);
-    imageLoader.onerror = () => {
-      setImageSource(placeholderImage);
-    };
+
+    let timeoutId = null;
+    const loadImagePromise = new Promise((resolve, reject) => {
+      const imageLoader = new Image();
+      imageLoader.src = image;
+      imageLoader.onload = () => resolve(image);
+      imageLoader.onerror = () => reject(new Error(`Error al cargar la imagen: ${image}`));
+    });
+
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutId = setTimeout(() => {
+        reject(new Error("Tiempo de carga de imagen agotado"));
+      }, 1000);
+    });
+
+    Promise.race([loadImagePromise, timeoutPromise])
+      .then((resolvedImage) => {
+        clearTimeout(timeoutId);
+        setImageSource(resolvedImage);
+      })
+      .catch((error) => {
+        console.error(error.message);
+        setImageSource(placeholderImage);
+      });
 
     return () => {
-      imageLoader.onload = null;
-      imageLoader.onerror = null;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
   }, [image]);
 
