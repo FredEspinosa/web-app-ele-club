@@ -72,9 +72,12 @@ const ChatBox = () => {
         setGroupConversations(grpConversations);
       } else {
         console.log("Ocurrió un error ☠️");
+        setGroupConversations([]);
+        setShowLoader(false);
       }
     } catch (err) {
       console.error("Error en conversationsAll:", err);
+      setGroupConversations([]);
       setShowLoader(false);
     }
   };

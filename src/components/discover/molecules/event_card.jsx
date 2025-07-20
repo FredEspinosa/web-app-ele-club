@@ -2,8 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { DetailsButton, DiscoverInfo } from "../atoms";
 import { StyledCardContainer, StyledDetailsEventContainer, StyledEventCardWithBg } from "../../../styles/discover/containers";
 import { StyledDiscoverRegularText } from "../../../styles/discover/texts";
@@ -122,12 +120,12 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id,
         />
         <CardContent
           sx={{
-            padding: "18px",
+            padding: "16px",
             background: "var(--color-background-blanco)",
             display: "flex",
             flexDirection: "column",
             alignItems: "start",
-            gap: "10px",
+            gap: "3px",
             overflow: "hidden",
           }}
         >

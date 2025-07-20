@@ -13,6 +13,8 @@ const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const urlOrigin = process.env.FRONTEND_ORIGIN;
 
 const stripe = new Stripe(secretKey);  // Secret Key My Stripe
+console.log("stripe", stripe);
+
 
 const app = express();
 const port = 3001; // Usa un puerto disponible
