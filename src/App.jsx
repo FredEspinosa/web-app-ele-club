@@ -59,6 +59,8 @@ import EventDetails from './pages/discover/EventDetails/page';
 import ServiceDetails from './pages/discover/ServiceDetails/page';
 import Contribute from './pages/discover/contribute/page';
 import ContributeWrapper from './pages/discover/contribute/ContributeWrapper';
+import EventAndServicesDetails from './pages/discover/EditEventAndServices/page';
+import EventAndServicesList from './pages/discover/EditEventAndServices/conten_page';
 
 function App() {
 
@@ -251,7 +253,11 @@ function App() {
             ],
           },
         ],
-      }
+      },
+      {
+        path: '/edit_post/:id',
+        element: <EventAndServicesList />
+      },
     ]
   )
 

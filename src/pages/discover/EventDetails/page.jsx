@@ -5,10 +5,14 @@ import { useEventDetail } from "@/hooks/discover";
 import useFixLeafletIcons from "@/hooks/discover/useFixLeafletIcons";
 import { StyledDetailContainer, StyledDetailsActions, StyledDetailsEventContainer } from "@/styles/discover/containers";
 import { StyledDetailTitle } from "@/styles/discover/texts";
-import { Button } from "@/styles/shared/slider";
+// import { Button } from "@/styles/shared/slider";
 import { dateTransform } from "@/utils/functions/discover";
+import { Button } from "@/components/shared/atoms";
+import useSendAssist from "@/hooks/discover/useSendAssist";
+
 
 export default function EventDetails() {
+  const { sendAssist } = useSendAssist();
   const { data, error, isLoading } = useEventDetail();
   useFixLeafletIcons();
   if (isLoading) return <div>Loading</div>;
@@ -29,6 +33,15 @@ export default function EventDetails() {
     },
   ];
 
+  const handleClick = async () => {
+    try {
+      const res = await sendAssist({ offerId: data.id });
+      console.log('Asistencia enviada', res);
+    } catch (err) {
+      console.error('Error al enviar asistencia', err);
+    }
+  };
+
   return (
     <>
       <EventGallery /*images={data?.images}*/ image={"https://picsum.photos/200"} />
@@ -45,11 +58,13 @@ export default function EventDetails() {
         <EventOrganizationInfo name={data?.owner || "Anónimo"} profileImage={data?.images} />
         <DetailsTabsInfo tabs={tabs} />
       </StyledDetailContainer>
-      <StyledDetailsActions elevation={40}>
-        <Button type="button" variant="outlined">
+      <StyledDetailsActions>
+        <Button size="full" type="button" variant="outlined">
           Contactar
         </Button>
-        <Button type="button">Asistiré</Button>
+        <Button size="full" type="button" onClick={handleClick}>
+          Asistiré
+        </Button>
       </StyledDetailsActions>
     </>
   );

@@ -908,3 +908,30 @@ export const reviewCreate = async (id, userId, rating, comment) => {
     throw error;
   }
 };
+
+export const consultOffert = async () => {
+  const token = getToken();
+  let config = {
+    method: "GET",
+    url: "https://lahplataforma.azurewebsites.net/Offer/GetAllByUser?typeId=ab983407-1efb-4025-94cb-55388a32266f",
+    headers: {
+      Accept: "text/plain",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    // data: {
+    //   offerId: "id",
+    //   userId: userId,
+    //   rating: rating,
+    //   comment: comment,
+    // },
+  };
+  try {
+    const response = await axios.request(config);
+    console.log("consultOffert", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error en Review/Create: ", error);
+    throw error;
+  }
+};

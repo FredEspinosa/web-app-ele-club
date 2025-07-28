@@ -12,9 +12,12 @@ import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
 import ProgressBar from "../set_up_perfil/ProgressBar";
 import { useProgress } from "../../hooks/ProgressContext";
-import { userProfileMe } from "../../services/api";
+import { consultOffert, userProfileMe } from "../../services/api";
 import { use } from "react";
 import { useCalcProgress } from "../../hooks/useCalcProgress";
+import MyEventsAndServices from "../discover/atoms/MyEventsAndServices";
+import useMyEventsAndServices from "@/hooks/discover/useMyEventsAndServices";
+import EventAndServicesDetails from "@/pages/discover/EditEventAndServices/page";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -64,7 +67,6 @@ const UserProfile = () => {
   const { setCurrentStep } = useProgress();
   const progressValueCalc = useCalcProgress(dataUser);
 
-
   const calcularEdad = useCallback((fechaNacimiento) => {
     const hoy = new Date();
     const fechaNac = new Date(fechaNacimiento);
@@ -87,10 +89,22 @@ const UserProfile = () => {
     scrollTo(0,0, { behavior: "smooth" });
   }, []);
 
+  const [idUser, setIdUser] = useState("");
+
+  useEffect(() => {
+    const uuidUser = localStorage.getItem("userId");
+    if (uuidUser) {
+      console.log("useEffect idUser", uuidUser);
+      setIdUser(uuidUser);
+      console.log("useEffect idUser 2", uuidUser);
+    }
+  }, []);
+
   useEffect(() => {
     if (sessionStorage.getItem("AccessToken")) {
       setTokenSesionStorage(sessionStorage.getItem("AccessToken"));
     }
+    // consultOffert()
   }, []);
 
   
@@ -365,6 +379,10 @@ const UserProfile = () => {
               </div>
 
 
+            </div>
+            <br />
+            <div className="club_info_intereses_contenedor">
+              {/* <EventAndServicesDetails idUser={idUser}/> */}
             </div>
             <br />
             <br />

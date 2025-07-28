@@ -7,7 +7,7 @@ export default function AboutServices({ checks = [], description }) {
   return (
     <>
       <StyledDetailTitle $size={16}>Acerca del servicio</StyledDetailTitle>
-      <pre style={{whiteSpace: 'pre-line', fontSize: '14px', color: 'var(--color-neutral-gris-02)'}}>{description}</pre>
+      <p className='club_info_span_card_discover'>{description}</p>
       <StyledDetailTitle $size={16}>¿Qué incluye?</StyledDetailTitle>
       <List>
         {checks.map((text, index) => (

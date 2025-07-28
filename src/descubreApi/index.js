@@ -12,5 +12,7 @@ export const API_ENDPOINTS = {
     UPLOAD_PHOTO: `${API_BASE_URL}/UploadFiles/upload-photo`,
     CHATBOX: {
         DELETE_CHAT: `${API_BASE_URL}/Conversation/Remove`
-    }
+    },
+    GET_USER_EVENTS_SERVICES:(id) => `${API_BASE_URL}/Offer/GetAllByUser/${id}`,
+    POST_PARTICIPANTS_ASSIST:`${API_BASE_URL}/OfferParticipants/Create`,
 };

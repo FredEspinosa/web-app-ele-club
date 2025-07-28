@@ -28,9 +28,9 @@ export default function ReviewCard({
         </StyledDetailOwnerContainer>
         <StyledDetailOwnerLabel>{timeSincePublished}</StyledDetailOwnerLabel>
       </StyledEventDetailOrganizationContainer>
-      <pre style={{ whiteSpace: 'pre-line', fontSize: '12px', fontWeight: '400', color: 'var(--color-neutral-gris-02)' }}>
+      <p className='club_info_span_card_discover'>
         {comment}
-      </pre>
+      </p>
     </div>
   );
 }

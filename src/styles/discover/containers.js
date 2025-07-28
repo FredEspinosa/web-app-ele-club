@@ -73,6 +73,7 @@ export const StyledDetailsHeader = styled.header`
   position: relative;
   padding: 24.5px 46px;
   background-color: var(--color-background-blanco);
+  max-height: 65px;
 `;
 
 export const StyledTitleSectionContainer = styled.div`

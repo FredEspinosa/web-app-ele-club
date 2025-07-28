@@ -15,9 +15,9 @@ export default function EventOrganizationInfo({ name, profileImage, subtitle = '
         <StyledDetailOwnerLabel>{subtitle}</StyledDetailOwnerLabel>
         <StyledDetailOwner >{name}</StyledDetailOwner>
       </StyledDetailOwnerContainer>
-      {button && <Button shape='pill' padding='5px 33px' variant='outlined'>
+      {/* {button && <Button shape='pill' padding='5px 33px' variant='outlined'>
         Ver perfil
-      </Button>}
+      </Button>} */}
     </StyledEventDetailOrganizationContainer>
   )
 }
