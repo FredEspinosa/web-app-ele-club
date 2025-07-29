@@ -39,7 +39,7 @@ export default function PayPlanCard({ basicPlanList }) {
           </ListItemIcon>
           <ListItemText
             primary="Eventos"
-            sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "right", margin: "2px 0px" }}
+            sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "right" }}
             secondary={
               <>
                 <Typography component="span" sx={{ color: "#BC8D40" }}>
@@ -59,7 +59,7 @@ export default function PayPlanCard({ basicPlanList }) {
           </ListItemIcon>
           <ListItemText
             primary="Servicios"
-            sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "right", margin: "2px 0px" }}
+            sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "right" }}
             secondary={
               <>
                 <Typography component="span" sx={{ color: "#BC8D40" }}>
