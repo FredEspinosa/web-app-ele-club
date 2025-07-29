@@ -506,6 +506,12 @@ p {
     color: var(--color-background-negro) !important;
 }
 
+.club_btn_borde_oro_lyrics {
+    background: transparent !important;
+    border: 1px solid var(--color-primario-oro) !important;
+    color: var(--color-primario-oro) !important;
+}
+
 .club_btn_borde_violeta {
     background: transparent !important;
     border: 1px solid var(--color-primario-violeta-08) !important;

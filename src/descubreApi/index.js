@@ -12,5 +12,10 @@ export const API_ENDPOINTS = {
     UPLOAD_PHOTO: `${API_BASE_URL}/UploadFiles/upload-photo`,
     CHATBOX: {
         DELETE_CHAT: `${API_BASE_URL}/Conversation/Remove`
+    },
+    BLOCKED_USERS : {
+        BLOCK_USER: `${API_BASE_URL}/UserBlock/Block`,
+        GET_BLOCKED_USERS: `${API_BASE_URL}/UserBlock/Blocked`,
+        UNBLOCK_USER: `${API_BASE_URL}/UserBlock/Unblock`
     }
 };

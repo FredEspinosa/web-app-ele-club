@@ -9,7 +9,7 @@ const ConfirmationModal = ({ onClose }) => {
       <div id="confirmation-content">
         <div className="confirmation-title">
           <img src={checkBoxCircleLine} alt="checkbox-circle-line.svg" width={34} height={34} />
-          <p>Usuario bloqueado</p>
+          <p>Usuario bloqueado</p> 
         </div>
         <div className="confirmation-message">
           <p>

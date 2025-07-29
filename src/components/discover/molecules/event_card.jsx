@@ -6,7 +6,6 @@ import { DetailsButton, DiscoverInfo } from "../atoms";
 import { StyledCardContainer, StyledDetailsEventContainer, StyledEventCardWithBg } from "../../../styles/discover/containers";
 import { StyledDiscoverRegularText } from "../../../styles/discover/texts";
 import { useGoToEvent } from "@/hooks/discover/useGoToEvent";
-// import placeholderImage from "../../../assets/images/Helena_LOGO.png"
 import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png";
 
 const CardContentOnBg = styled(Box)({

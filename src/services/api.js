@@ -857,28 +857,22 @@ export const likesMyLikes = async (tokenSesion) => {
 };
 
 const getToken = () => sessionStorage.getItem("AccessToken");
-
 export const fetcherWithToken = async (url) => {
   const token = getToken();
-  const res = await fetch(url, {
+  if (!token) throw new Error('Token no proporcionado.');
+
+  const response = await fetch(url, {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      'accept': '*/*',
+      'Authorization': `Bearer ${token}`,
     },
   });
 
-  if (!res.ok) {
-    const error = new Error("Ocurrió un error en la petición.");
-    try {
-      error.info = await res.json();
-    } catch (e) {
-      error.info = { message: e };
-    }
-    error.status = res.status;
-    throw error;
+  if (!response.ok) {
+    const errorInfo = await response.json().catch(() => ({}));
+    throw new Error(errorInfo.message || 'Error en la petición a la API.');
   }
-
-  return res.json();
+  return response.json();
 };
 
 // Get Review/Create

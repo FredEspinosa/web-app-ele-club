@@ -8,7 +8,7 @@ import ModalContainer from "../atoms/ModalContainer";
 
 const BlockUserModal = ({ userName, onBlock, onCancel, onOpenAdditionalInfoModal }) => {
   const [selectedReason, setSelectedReason] = useState("");
-  const isDisabled = !selectedReason
+  const isDisabled = !selectedReason;
 
   const reasons = ["Comportamiento inapropiado", "Acoso o mensajes no deseados", "Perfil falso o suplantación", "Otro motivo"];
 
@@ -18,8 +18,8 @@ const BlockUserModal = ({ userName, onBlock, onCancel, onOpenAdditionalInfoModal
 
   const handleBlock = () => {
     if (selectedReason) {
-      onOpenAdditionalInfoModal(); // Llamamos a la nueva función para abrir el segundo modal
-      onBlock(selectedReason); // Comportamiento anterior para otras razones
+      onOpenAdditionalInfoModal();
+      onBlock(selectedReason);
     } else {
       alert("Por favor, selecciona un motivo para bloquear.");
     }

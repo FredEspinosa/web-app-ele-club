@@ -27,15 +27,12 @@ export default function ContributeWrapper() {
     // setIsSubmitting(true);
     // setSubmitError(null);
 
-    // 1. Extraemos los datos para los campos principales del payload
     const offerCategoryId = formData.EventCategory || formData.ServiceCategory;
     const title = formData.EventTitle || formData.ServiceTitle;
     const description = formData.EventAbout || formData.ServiceAbout;
     const companyName = formData.EventCompany || formData.ServiceCompany;
     const latitude = formData.mapLocation?.lat || 0;
     const longitude = formData.mapLocation?.lon || 0;
-
-    // 2. Creamos una copia de formData para no modificar el original
     const formDataForJson = { ...formData };
 
     const topLevelKeys = [
