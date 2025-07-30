@@ -16,9 +16,12 @@ export default function FormSection({ title, children }) {
         marginBottom: "20px",
       }}
     >
-      <Typography variant="h6" sx={{ fontWeight: "700" }}>
-        {title}
-      </Typography>
+      {title && (
+        <Typography variant="h6" sx={{ fontWeight: "700" }}>
+          {title}
+        </Typography>
+      )}
+
       {children}
     </Box>
   );

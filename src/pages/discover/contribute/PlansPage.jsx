@@ -67,6 +67,11 @@ export default function PlansPage() {
     navigate("/descubre");
   };
 
+  const handleSuscribe = () => {
+    console.log("Suscribirse al plan seleccionado:", selectedSubPlan);
+    navigate("/suscripcion");
+  };
+
   return (
     <PlansContainer>
       <ModalHeader width={"100%"} onCancel={onCancel} marginBottom={"0px"} iconHeight={20} iconWidth={20} />
@@ -109,9 +114,7 @@ export default function PlansPage() {
         </SwiperSlide>
         <SwiperSlide>
           {/* Por ahora es una copia, aquí pondrías la tarjeta del plan "Premium" */}
-          <PayPlanCard
-            basicPlanList={premiumPlanList}
-          />
+          <PayPlanCard basicPlanList={premiumPlanList} />
         </SwiperSlide>
       </Swiper>
 
@@ -123,7 +126,7 @@ export default function PlansPage() {
 
       <button
         className="btn club_btn club_btn_full club_btn_borde_oro_lyrics"
-        onClick={handlePayment}
+        onClick={handleSuscribe}
         disabled={isProcessingPayment}
       >
         Contratar premium

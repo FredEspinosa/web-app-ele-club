@@ -60,7 +60,9 @@ import ServiceDetails from "./pages/discover/ServiceDetails/page";
 import Contribute from "./pages/discover/contribute/page";
 import ContributeWrapper from "./pages/discover/contribute/ContributeWrapper";
 import PlansPage from "./pages/discover/contribute/PlansPage";
-
+import RootLayout from "./components/layouts/RootLayout";
+import ReviewPage from "./pages/discover/contribute/ReviewPage";
+import SuccessPage from "./pages/discover/contribute/SuccessPage";
 
 function App() {
   // const stripePromise = loadStripe('tu-public-key-de-stripe');
@@ -74,205 +76,217 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
-      element: <Splash />,
-    },
-    {
-      path: "/bienvenida",
-      element: <Bienvenida />,
-    },
-    {
-      path: "/tipo_de_cuenta",
-      element: <TipoDeCuentaPage />,
-    },
-    {
-      path: "/crear_cuenta",
-      element: <CrearCuenta />,
-    },
-    {
-      path: "/home",
-      element: <HomePage />,
-    },
-    {
-      path: "/guia_de_estilos",
-      element: <StyleGuide />,
-    },
-    {
-      path: "/codigo_de_confirmacion",
-      element: <ConfirmaCodigo />,
-    },
-    {
-      path: "/mi_perfil",
-      element: (
-        <ProgressProvider>
-          <PerfilPage />
-        </ProgressProvider>
-      ),
-    },
-    {
-      path: "/configuracion",
-      element: <ConfiguracionCuenta />,
-    },
-    {
-      path: "/datos_personales",
-      element: (
-        <ProgressProvider>
-          <DatosPersonalesPerfil />
-        </ProgressProvider>
-      ),
-    },
-    {
-      path: "/primeras_fotos",
-      element: (
-        <ProgressProvider>
-          <PrimeraFoto />
-        </ProgressProvider>
-      ),
-    },
-    {
-      path: "/pronombres",
-      element: (
-        <ProgressProvider>
-          <PronombresPage />
-        </ProgressProvider>
-      ),
-    },
-    {
-      path: "/identidad_sexual",
-      element: (
-        <ProgressProvider>
-          <IdentidadSexualPage />
-        </ProgressProvider>
-      ),
-    },
-    {
-      path: "/como_te_percibes",
-      element: (
-        <ProgressProvider>
-          <ComoTePercibes />
-        </ProgressProvider>
-      ),
-    },
-    {
-      path: "/identidad_de_genero",
-      element: <IdentidadGeGeneroPage />,
-    },
-    {
-      path: "/estatus_de_relacion",
-      element: <EstatusDeRelacion />,
-    },
-    {
-      path: "/que_buscas",
-      element: <QueBuscaPage />,
-    },
-    {
-      path: "/tu_rol",
-      element: <CualEsTuRol />,
-    },
-    {
-      path: "/cuanto_mides",
-      element: <CuantoMides />,
-    },
-    {
-      path: "/tus_intereses",
-      element: <CincoIntereses />,
-    },
-    {
-      path: "/tienes_mascotas",
-      element: <TienesMascotas />,
-    },
-    {
-      path: "/signo_zodiacal",
-      element: <TuSignoZodiacal />,
-    },
-    {
-      path: "/fumas",
-      element: <Tushabitos />,
-    },
-    {
-      path: "/notificaciones",
-      element: <NotificacionesPage />,
-    },
-    {
-      path: "/modal",
-      element: <PermisosUbi />,
-    },
-    {
-      path: "/chatbox",
-      element: <Chats />,
-    },
-    {
-      path: "/suscripcion",
-      element: (
-        // <Elements stripe={stripePromise} options={options}>
-        <Suscribete />
-        // </Elements>
-      ),
-    },
-    {
-      path: "/perfil_otra_persona",
-      element: <PerfilOtraPersona />,
-    },
-    {
-      path: "/informacion_de_la_cuenta",
-      element: <InformacionDeCuenta />,
-    },
-    {
-      path: "/alertas",
-      element: <AlertasPagina />,
-    },
-    {
-      path: "/likes",
-      element: <LikesPage />,
-    },
-    {
-      path: "/privacidad_y_seguridad",
-      element: <PrivacitySecurityPage />,
-    },
-    {
-      path: "/perfiles_bloqueados",
-      element: <BlockedProfiles />,
-    },
-    {
-      path: "/soporte_tecnico",
-      element: <SupportPage />,
-    },
-    {
-      path: "/terminos_y_condiciones",
-      element: <TermsConditionsPage />,
-    },
-    {
-      path: "/politica_de_privacidad",
-      element: <PrivacyPoliciesPage />,
-    },
-    {
-      path: "/acerca_de",
-      element: <AboutPage />,
-    },
-    {
-      path: "/pago",
-      element: <PaymentForm />,
-    },
-    {
-      path: "/gracias",
-      element: <ThankyouPage />,
-    },
-    {
-      path: "/history_chat",
-      element: <ChatsPrivate />,
-    },
-    {
-      path: "/descubre",
+      element: <RootLayout />,
       children: [
-        { index: true, Component: Discover },
-        { path: "planes/:offerTypeId", Component: PlansPage },
         {
-          Component: Layout,
+          path: "/",
+          element: <Splash />,
+        },
+        {
+          path: "/bienvenida",
+          element: <Bienvenida />,
+        },
+        {
+          path: "/tipo_de_cuenta",
+          element: <TipoDeCuentaPage />,
+        },
+        {
+          path: "/crear_cuenta",
+          element: <CrearCuenta />,
+        },
+        {
+          path: "/home",
+          element: <HomePage />,
+        },
+        {
+          path: "/guia_de_estilos",
+          element: <StyleGuide />,
+        },
+        {
+          path: "/codigo_de_confirmacion",
+          element: <ConfirmaCodigo />,
+        },
+        {
+          path: "/mi_perfil",
+          element: (
+            <ProgressProvider>
+              <PerfilPage />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/configuracion",
+          element: <ConfiguracionCuenta />,
+        },
+        {
+          path: "/datos_personales",
+          element: (
+            <ProgressProvider>
+              <DatosPersonalesPerfil />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/primeras_fotos",
+          element: (
+            <ProgressProvider>
+              <PrimeraFoto />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/pronombres",
+          element: (
+            <ProgressProvider>
+              <PronombresPage />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/identidad_sexual",
+          element: (
+            <ProgressProvider>
+              <IdentidadSexualPage />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/como_te_percibes",
+          element: (
+            <ProgressProvider>
+              <ComoTePercibes />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/identidad_de_genero",
+          element: <IdentidadGeGeneroPage />,
+        },
+        {
+          path: "/estatus_de_relacion",
+          element: <EstatusDeRelacion />,
+        },
+        {
+          path: "/que_buscas",
+          element: <QueBuscaPage />,
+        },
+        {
+          path: "/tu_rol",
+          element: <CualEsTuRol />,
+        },
+        {
+          path: "/cuanto_mides",
+          element: <CuantoMides />,
+        },
+        {
+          path: "/tus_intereses",
+          element: <CincoIntereses />,
+        },
+        {
+          path: "/tienes_mascotas",
+          element: <TienesMascotas />,
+        },
+        {
+          path: "/signo_zodiacal",
+          element: <TuSignoZodiacal />,
+        },
+        {
+          path: "/fumas",
+          element: <Tushabitos />,
+        },
+        {
+          path: "/notificaciones",
+          element: <NotificacionesPage />,
+        },
+        {
+          path: "/modal",
+          element: <PermisosUbi />,
+        },
+        {
+          path: "/chatbox",
+          element: <Chats />,
+        },
+        {
+          path: "/suscripcion",
+          element: (
+            // <Elements stripe={stripePromise} options={options}>
+            <Suscribete />
+            // </Elements>
+          ),
+        },
+        {
+          path: "/perfil_otra_persona",
+          element: <PerfilOtraPersona />,
+        },
+        {
+          path: "/informacion_de_la_cuenta",
+          element: <InformacionDeCuenta />,
+        },
+        {
+          path: "/alertas",
+          element: <AlertasPagina />,
+        },
+        {
+          path: "/likes",
+          element: <LikesPage />,
+        },
+        {
+          path: "/privacidad_y_seguridad",
+          element: <PrivacitySecurityPage />,
+        },
+        {
+          path: "/perfiles_bloqueados",
+          element: <BlockedProfiles />,
+        },
+        {
+          path: "/soporte_tecnico",
+          element: <SupportPage />,
+        },
+        {
+          path: "/terminos_y_condiciones",
+          element: <TermsConditionsPage />,
+        },
+        {
+          path: "/politica_de_privacidad",
+          element: <PrivacyPoliciesPage />,
+        },
+        {
+          path: "/acerca_de",
+          element: <AboutPage />,
+        },
+        {
+          path: "/pago",
+          element: <PaymentForm />,
+        },
+        {
+          path: "/gracias",
+          element: <ThankyouPage />,
+        },
+        {
+          path: "/history_chat",
+          element: <ChatsPrivate />,
+        },
+        {
+          path: "/descubre",
           children: [
-            { path: "evento/:id", Component: EventDetails },
-            { path: "servicio/:id", Component: ServiceDetails },
-            //   { path: "contribuir", Component: Contribute },
-            { path: "contribuir/:offerTypeId", Component: ContributeWrapper },
+            { index: true, Component: Discover },
+            { path: "planes/:offerTypeId", Component: PlansPage },
+            {
+              Component: Layout,
+              children: [
+                { path: "evento/:id", Component: EventDetails },
+                { path: "servicio/:id", Component: ServiceDetails },
+                //   { path: "contribuir", Component: Contribute },
+                {
+                  path: "contribuir/:offerTypeId",
+                  children: [
+                    { index: true, Component: ContributeWrapper },
+                    { path: "revisar", Component: ReviewPage },
+                    { path: "exito", Component: SuccessPage }, 
+                  ],
+                },
+              ],
+            },
           ],
         },
       ],

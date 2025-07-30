@@ -28,3 +28,5 @@ export { default as DiscoverBellIcon } from "./service-bell-line.jsx";
 export { default as DiscoverAwardIcon } from "./award-line.jsx";
 export { default as DiscoverGroupIcon } from "./group-line.jsx";
 export { default as DiscoverCustomerIcon } from "./customer-service-2-line.jsx";
+export { default as AlertIcon } from "./alert-line.jsx";
+export { default as EditIcon } from "./edit.jsx";

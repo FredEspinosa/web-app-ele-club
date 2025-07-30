@@ -46,7 +46,7 @@ export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, sub
             flexDirection="column"
             alignItems="center"
             gap={2}
-            padding={"24px 16px"}
+            padding={"24px 16px 90px"}
           >
             <Box sx={{ width: 342 }}>
               {Object.keys(groupedFields).map((sectionKey) => (
@@ -62,10 +62,25 @@ export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, sub
                   {submitError}
                 </Typography>
               )}
-
-              <Box display="flex" justifyContent="flex-end" gap={2} mt={3}>
-                <Button
-                  variant="outlined"
+            </Box>
+            <Box
+              sx={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 84,
+                backgroundColor: "#fff",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                boxShadow: "0 -2px 4px rgba(0,0,0,0.2)",
+                zIndex: 1100,
+              }}
+            >
+              <Box display="flex" justifyContent="flex-end" gap={2} width={342}>
+                <button
+                  className="btn club_btn club_btn_full club_btn_borde_violeta"
                   onClick={() => {
                     methods.reset();
                     navigate("/descubre");
@@ -73,10 +88,10 @@ export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, sub
                   disabled={isSubmitting}
                 >
                   Cancelar
-                </Button>
-                <Button variant="contained" type="submit" disabled={isSubmitting}>
+                </button>
+                <button className="btn club_btn club_btn_full club_btn_borde_gris" type="submit" disabled={isSubmitting}>
                   {isSubmitting ? <CircularProgress size={24} /> : "Publicar"}
-                </Button>
+                </button>
               </Box>
             </Box>
           </Box>

@@ -1,6 +1,8 @@
-export default function CheckIconDos() {
+import PropTypes from "prop-types";
+
+export default function CheckIconDos({ width = "24px", height = "24px" }) {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0_2086_470" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="4" width="24" height="18">
         <path
           fillRule="evenodd"
@@ -15,3 +17,8 @@ export default function CheckIconDos() {
     </svg>
   );
 }
+
+CheckIconDos.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
+};
