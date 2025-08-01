@@ -54,8 +54,7 @@ export default function ReviewPage() {
         formDataJson: JSON.stringify(finalFormData),
       };
       console.log("Payload final para crear oferta:", createPayload);
-
-      //Creacion de la ofert
+      //Creacion de la oferta
       const createOffer = await fetch(API_ENDPOINTS.CREATE_OFFER, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${sessionStorage.getItem("AccessToken")}` },
@@ -74,7 +73,14 @@ export default function ReviewPage() {
       const approbeResult = await approbeOffer.json();
       console.log({ approbeResult });
       const finalOfferData = offerResult.result;
-      navigate(`../exito`, { state: { createdOffer: finalOfferData }, replace: true });
+      const formDataObject = JSON.parse(finalOfferData.formDataJson);
+      const imageUrl = formDataObject.EventImage || formDataObject.ServiceImage;
+      const imageFieldName = formDataObject.EventImage ? "EventImage" : "ServiceImage";
+      const createdOfferFormData = {
+        ...formData,
+        [imageFieldName]: imageUrl,
+      };
+      navigate(`../exito`, { state: { createdOffer: createdOfferFormData }, replace: true });
     } catch (err) {
       console.error("Error al publicar:", err);
       alert(`Error: ${err.message}`);
@@ -111,13 +117,13 @@ export default function ReviewPage() {
     company: formData.ServiceCompany,
     phoneNumber: formData.ServicePhoneNumber,
     email: formData.ServiceEmail,
-    webSite: formData.ServiceWebSite
+    webSite: formData.ServiceWebSite,
   };
 
   return (
     <div style={{ backgroundColor: "#F0F0F0", color: "#343434" }}>
       <Box display="flex" flexDirection="column" alignItems="center" gap={2} padding={"24px 16px 90px"}>
-        <Box sx={{ width: 342 }}>
+        <Box>
           <FormSection>
             <Typography fontSize={"24px"} fontWeight={700}>
               Revisar tu {isEvent ? "evento" : "servicio"}

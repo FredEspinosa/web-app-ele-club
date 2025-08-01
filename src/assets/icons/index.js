@@ -30,3 +30,5 @@ export { default as DiscoverGroupIcon } from "./group-line.jsx";
 export { default as DiscoverCustomerIcon } from "./customer-service-2-line.jsx";
 export { default as AlertIcon } from "./alert-line.jsx";
 export { default as EditIcon } from "./edit.jsx";
+export { default as CheckboxCircleLine } from "./checkbox-circle-line.jsx";
+export { default as AddIcon } from "./add.jsx";
