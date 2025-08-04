@@ -15,7 +15,7 @@ export default function ServiceDetailsReviews({data}) {
     <>
       <StyledDetailsDirectioncontainer>
         <StyledDetailTitle $size={16}>Reseñas de clientes</StyledDetailTitle>
-        <StyledDetailsDistance>120 reseñas</StyledDetailsDistance>
+        <StyledDetailsDistance>{data?.reviews?.length || 2} reseñas</StyledDetailsDistance>
       </StyledDetailsDirectioncontainer>
       <GlobalReview data={data}/>
       {Array.isArray(reviews) && reviews.length > 0 ? (

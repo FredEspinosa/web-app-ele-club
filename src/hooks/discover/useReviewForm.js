@@ -14,8 +14,7 @@ const filterSchema = z.object({
 
 const rateLabels = ['Muy malo','Malo','Regular','Bueno','Muy bueno','Excelente']
 
-const useReviewForm = (id, userId) => {
-// const useReviewForm = () => {
+const useReviewForm = (id, userId, { onSucces, onError }) => {
   const {
     watch,
     formState: { errors },
@@ -46,13 +45,17 @@ const useReviewForm = (id, userId) => {
       const response = await reviewCreate( id, userId, rating, comment);
       if (response.inSuccess === true ) {
         console.log("Se envio tu respuesta");
+        onSucces;
         
       } else {
         console.log("Ocurrió un error ☠️");
       }
     } catch (error) {
       console.log("Ocurrió un error ☠️ grave", error);
-
+      if (error.response?.status === 409) {
+        // 🔴 Llamamos el callback para que el componente padre abra el modal
+        onError?.("Review already exists for this offer and user.");
+      }
     }
   }
 

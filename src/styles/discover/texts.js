@@ -8,7 +8,8 @@ export const StyledDiscoverRegularText = styled.p`
       color: $color ?? "var(--color-background-negro)",
     })}
   opacity: ${({ $opacity }) => $opacity ?? "1"};
-  line-height: 1.5;
+  font-weight: 400;
+  text-align: start;
 `;
 
 export const StyledDetailsTitle = styled.h1`
@@ -59,6 +60,9 @@ export const StyledDetailTitle = styled.p`
   font-size: ${({ $size }) => ($size ? `${$size}px` : "24px")};
   line-height: 150%;
   vertical-align: middle;
+  height: 17px;
+  display: flex;
+  align-items: center;
 `;
 
 export const StyledDetailOwner = styled.p`
@@ -84,6 +88,7 @@ export const StyledAboutText = styled.p`
   font-size: 14px;
   vertical-align: middle;
   color: var(--color-neutral-gris-02);
+  margin-top: 16px
 `;
 
 export const StyledDetailsDistance = styled.p`

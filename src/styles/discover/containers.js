@@ -132,15 +132,17 @@ export const StyledDetailContainer = styled.div`
 
 export const StyledEventDetailOrganizationContainer = styled.div`
   width: 100%;
+  margin-top: 16px;
   ${grid({
     gridTemplateColumns: "40px 1fr 136px",
-    columnGap: "23px",
+    columnGap: "8px",
     alignItems: "center",
   })}
 `;
 
 export const StyledDetailOwnerContainer = styled.div`
   overflow: hidden;
+  text-align: start;
 `;
 
 export const StyledTabsContainer = styled(Box)`

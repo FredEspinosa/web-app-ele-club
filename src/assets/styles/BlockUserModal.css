@@ -8,12 +8,12 @@
     display: flex;
     align-items: end;
     justify-content: center;
-    z-index: 1000;
+    z-index: 10000;
 }
 
 #modalContainer{
     background-color: white;
-    padding: 26px 21px;
+    padding: 20px 16px;
     border-radius: 16px 16px 0px 0px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 100%;
@@ -158,6 +158,7 @@
     height: 67px;
     gap: 16px;
     align-items: center;
+    text-align: center;
 }
 
 #confirmation-content>.confirmation-title p {

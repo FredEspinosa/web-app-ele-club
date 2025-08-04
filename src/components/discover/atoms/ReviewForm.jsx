@@ -1,5 +1,6 @@
 import { AnimatedCheckIcon, CloseIcon } from '@/assets/icons';
 import AnimatedCheckCircle from '@/assets/icons/AnimatedCheck';
+import ConfirmationModal from '@/components/bloqueos/organisms/ConfirmationModal';
 import { Button } from '@/components/shared/atoms';
 import useReviewForm from '@/hooks/discover/useReviewForm';
 import {
@@ -13,19 +14,19 @@ import React, { useState } from 'react';
 
 const StyledFormContainer = styled.form`
   ${flex({
-    alignItems: 'flex-start',
-    gap: '24px'
-  })}
+  alignItems: 'flex-start',
+  gap: '24px'
+})}
   padding: 26px;
 `;
 
 const StyledHeaderContainer = styled.div`
   ${flex({
-    flexDirection: 'row',
-    gap: '10px',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  })}
+  flexDirection: 'row',
+  gap: '10px',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+})}
   width: 100%;
 `;
 
@@ -39,28 +40,52 @@ const StyledCloseButton = styled.button`
 
 const StyledRateContainer = styled.div`
   ${flex({
-    gap: '8px',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  })}
+  gap: '8px',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+})}
   width: 100%;
 `;
 
 const StyledActionsContainer = styled.div`
   ${flex({
-    gap: '16px',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  })}
+  gap: '16px',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+})}
   width: 100%;
   padding: 0 7.5px;
 `;
 
 export default function ReviewForm({ handleClose, data }) {
-// export default function ReviewForm({ handleClose }) {
-  const { values, onSubmit, handleSetValue, handleSubmit, watch, rateLabel } =
-    // useReviewForm();
-    useReviewForm(data?.id, data?.userId);
+  const [showModal, setShowModal] = useState(false);
+  const [textTitleModal, setTextTitleModal] = useState('');
+  const [textBodyModal, setTextBodyModal] = useState('');
+
+  const handleSuccses = (message) => {
+    setTextTitleModal(<p style={{fontSize:'23px'}}>¡Reseña publicada!</p>);
+    setTextBodyModal(<p>Gracias por compartir tu experiencia. Tu opinión ayuda a otros usuarios a tomar mejores decisiones.</p>);
+    setShowModal(true);
+  };
+
+  const handleError = (message) => {
+    setTextTitleModal(<p style={{fontSize:'23px'}}>¡Ya publicaste tu reseña!</p>);
+    setTextBodyModal(<p>Gracias por compartir tu experiencia. Tu opinión ya había sido publicada.</p>);
+    setShowModal(true);
+  };
+
+  const {
+    values,
+    onSubmit,
+    handleSetValue,
+    handleSubmit,
+    watch,
+    rateLabel } = useReviewForm(data?.id, data?.userId, { onSucces: handleSuccses, onError: handleError });
+
+  const handleCloseConfirmationModal = () => {
+    setShowModal(false);
+  };
+
 
   return (
     <StyledFormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -114,6 +139,14 @@ export default function ReviewForm({ handleClose, data }) {
           Cancelar
         </Button>
       </StyledActionsContainer>
+      {showModal &&
+        <ConfirmationModal
+          isDynamic={true}
+          textTitleModal={textTitleModal}
+          textBodyModal={textBodyModal}
+          onClose={handleCloseConfirmationModal}
+        />
+      }
     </StyledFormContainer>
   );
 }
