@@ -1,7 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Box, Typography, Button as MuiButton } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EventsView from "@/components/discover/organisms/EventsView";
 import ServiceView from "@/components/discover/organisms/ServiceView";
 import { OFFERS_TYPE_IDS } from "@/constants/offersType";
