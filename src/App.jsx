@@ -1,69 +1,71 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Suscripción con Stripe
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 // Estilos Globales
 // import '../public/css/styles.css'
 // import './assets/css/styles.css'
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 // Páginas
-import StyleGuide from './pages/style_guide';
-import HomePage from './pages/home';
-import PerfilPage from './pages/perfil';
-import Bienvenida from './pages/bienvenida';
-import Splash from './pages/splash';
-import TipoDeCuentaPage from './pages/tipoCuenta';
-import NotificacionesPage from './pages/notificaciones';
-import PermisosUbi from './components/notificaciones/popupPermiosUbicacion';
-import CrearCuenta from './pages/crearCuenta';
-import DatosPersonalesPerfil from './pages/datos_personales';
-import PronombresPage from './pages/set_up_perfil_pages/pronombres_page';
-import IdentidadSexualPage from './pages/set_up_perfil_pages/identidad-sexual-page';
-import IdentidadGeGeneroPage from './pages/set_up_perfil_pages/identidad_de_genero';
-import EstatusDeRelacion from './components/set_up_perfil/estatus_relacion';
-import QueBuscaPage from './pages/set_up_perfil_pages/que_busca_page';
-import ConfiguracionCuenta from './pages/configuracion_cuenta';
-import Chats from './pages/chats';
-import CuantoMides from './pages/set_up_perfil_pages/cuanto_mides';
-import CincoIntereses from './pages/set_up_perfil_pages/cinco_intereses';
-import TienesMascotas from './pages/set_up_perfil_pages/tienes_mascotas';
-import TuSignoZodiacal from './pages/set_up_perfil_pages/tu_signo_zodiacal';
-import Tushabitos from './pages/set_up_perfil_pages/tus_habitos';
-import ConfirmaCodigo from './pages/confirma_codigo';
-import PrimeraFoto from './pages/set_up_perfil_pages/primeras_fotos';
-import ComoTePercibes from './pages/set_up_perfil_pages/como_te_percibes';
-import CualEsTuRol from './pages/set_up_perfil_pages/cual_es_tu_rol';
-import Suscribete from './pages/suscribete';
-import PerfilOtraPersona from './components/perfil_de_otra_persona/perfil_otra_persona';
-import InformacionDeCuenta from './pages/informacion_de_cuenta';
-import AlertasPagina from './pages/alertas_pagina';
-import LikesPage from './pages/likes_page';
-import PrivacitySecurityPage from './pages/config_pages/privacity_security_page';
-import BlockedProfiles from './pages/config_pages/BlockedProfiles';
-import SupportPage from './pages/config_pages/tech_support_page';
-import TermsConditionsPage from './pages/config_pages/terms_conditions_page';
-import PrivacyPoliciesPage from './pages/config_pages/privacy_policies_page';
-import AboutPage from './pages/config_pages/about_page';
-import PaymentForm from './components/form_stripe/payment_form';
-import ThankyouPage from './pages/thankyou_page';
-import ChatsPrivate from './components/chats/chats_private';
-import { NotificationProvider } from './components/notifications_context/notification_context';
-import AlertaNotificacion from './components/notifications_context/alert_notification';
-import { ProgressProvider } from './hooks/ProgressContext';
-import Discover from './pages/discover/page';
-import Layout from './pages/discover/EventDetails/layout';
-import EventDetails from './pages/discover/EventDetails/page';
-import ServiceDetails from './pages/discover/ServiceDetails/page';
-import Contribute from './pages/discover/contribute/page';
-import ContributeWrapper from './pages/discover/contribute/ContributeWrapper';
-import EventAndServicesDetails from './pages/discover/EditEventAndServices/page';
-import EventAndServicesList from './pages/discover/EditEventAndServices/conten_page';
+import StyleGuide from "./pages/style_guide";
+import HomePage from "./pages/home";
+import PerfilPage from "./pages/perfil";
+import Bienvenida from "./pages/bienvenida";
+import Splash from "./pages/splash";
+import TipoDeCuentaPage from "./pages/tipoCuenta";
+import NotificacionesPage from "./pages/notificaciones";
+import PermisosUbi from "./components/notificaciones/popupPermiosUbicacion";
+import CrearCuenta from "./pages/crearCuenta";
+import DatosPersonalesPerfil from "./pages/datos_personales";
+import PronombresPage from "./pages/set_up_perfil_pages/pronombres_page";
+import IdentidadSexualPage from "./pages/set_up_perfil_pages/identidad-sexual-page";
+import IdentidadGeGeneroPage from "./pages/set_up_perfil_pages/identidad_de_genero";
+import EstatusDeRelacion from "./components/set_up_perfil/estatus_relacion";
+import QueBuscaPage from "./pages/set_up_perfil_pages/que_busca_page";
+import ConfiguracionCuenta from "./pages/configuracion_cuenta";
+import Chats from "./pages/chats";
+import CuantoMides from "./pages/set_up_perfil_pages/cuanto_mides";
+import CincoIntereses from "./pages/set_up_perfil_pages/cinco_intereses";
+import TienesMascotas from "./pages/set_up_perfil_pages/tienes_mascotas";
+import TuSignoZodiacal from "./pages/set_up_perfil_pages/tu_signo_zodiacal";
+import Tushabitos from "./pages/set_up_perfil_pages/tus_habitos";
+import ConfirmaCodigo from "./pages/confirma_codigo";
+import PrimeraFoto from "./pages/set_up_perfil_pages/primeras_fotos";
+import ComoTePercibes from "./pages/set_up_perfil_pages/como_te_percibes";
+import CualEsTuRol from "./pages/set_up_perfil_pages/cual_es_tu_rol";
+import Suscribete from "./pages/suscribete";
+import PerfilOtraPersona from "./components/perfil_de_otra_persona/perfil_otra_persona";
+import InformacionDeCuenta from "./pages/informacion_de_cuenta";
+import AlertasPagina from "./pages/alertas_pagina";
+import LikesPage from "./pages/likes_page";
+import PrivacitySecurityPage from "./pages/config_pages/privacity_security_page";
+import BlockedProfiles from "./pages/config_pages/BlockedProfiles";
+import SupportPage from "./pages/config_pages/tech_support_page";
+import TermsConditionsPage from "./pages/config_pages/terms_conditions_page";
+import PrivacyPoliciesPage from "./pages/config_pages/privacy_policies_page";
+import AboutPage from "./pages/config_pages/about_page";
+import PaymentForm from "./components/form_stripe/payment_form";
+import ThankyouPage from "./pages/thankyou_page";
+import ChatsPrivate from "./components/chats/chats_private";
+import { NotificationProvider } from "./components/notifications_context/notification_context";
+import AlertaNotificacion from "./components/notifications_context/alert_notification";
+import { ProgressProvider } from "./hooks/ProgressContext";
+import Discover from "./pages/discover/page";
+import Layout from "./pages/discover/EventDetails/layout";
+import EventDetails from "./pages/discover/EventDetails/page";
+import ServiceDetails from "./pages/discover/ServiceDetails/page";
+import Contribute from "./pages/discover/contribute/page";
+import ContributeWrapper from "./pages/discover/contribute/ContributeWrapper";
+import PlansPage from "./pages/discover/contribute/PlansPage";
+import RootLayout from "./components/layouts/RootLayout";
+import ReviewPage from "./pages/discover/contribute/ReviewPage";
+import SuccessPage from "./pages/discover/contribute/SuccessPage";
+import EventAndServicesList from "./pages/discover/EditEventAndServices/conten_page";
 
 function App() {
-
   // const stripePromise = loadStripe('tu-public-key-de-stripe');
 
   // const options = {
@@ -73,193 +75,228 @@ function App() {
   //   appearance: {/*...*/},
   // };
 
-  const router = createBrowserRouter(
-    [
-      {
-        path: '/',
-        element: <Splash />
-      },
-      {
-        path: '/bienvenida',
-        element: <Bienvenida />
-      },
-      {
-        path: '/tipo_de_cuenta',
-        element: <TipoDeCuentaPage />
-      },
-      {
-        path: '/crear_cuenta',
-        element: <CrearCuenta />
-      },
-      {
-        path: '/home',
-        element: <HomePage />
-      },
-      {
-        path: '/guia_de_estilos',
-        element: <StyleGuide />
-      },
-      {
-        path: '/codigo_de_confirmacion',
-        element: <ConfirmaCodigo />
-      },
-      {
-        path: '/mi_perfil',
-        element: <ProgressProvider><PerfilPage /></ProgressProvider>
-      },
-      {
-        path: '/configuracion',
-        element: <ConfiguracionCuenta />
-      },
-      {
-        path: '/datos_personales',
-        element: <ProgressProvider><DatosPersonalesPerfil /></ProgressProvider>
-      },
-      {
-        path: '/primeras_fotos',
-        element: <ProgressProvider><PrimeraFoto /></ProgressProvider>
-      },
-      {
-        path: '/pronombres',
-        element: <ProgressProvider><PronombresPage /></ProgressProvider>
-      },
-      {
-        path: '/identidad_sexual',
-        element: <ProgressProvider><IdentidadSexualPage /></ProgressProvider>
-      },
-      {
-        path: '/como_te_percibes',
-        element: <ProgressProvider><ComoTePercibes /></ProgressProvider>
-      },
-      {
-        path: '/identidad_de_genero',
-        element: <IdentidadGeGeneroPage />
-      },
-      {
-        path: '/estatus_de_relacion',
-        element: <EstatusDeRelacion />
-      },
-      {
-        path: '/que_buscas',
-        element: <QueBuscaPage />
-      },
-      {
-        path: '/tu_rol',
-        element: <CualEsTuRol />
-      },
-      {
-        path: '/cuanto_mides',
-        element: <CuantoMides />
-      },
-      {
-        path: '/tus_intereses',
-        element: <CincoIntereses />
-      },
-      {
-        path: '/tienes_mascotas',
-        element: <TienesMascotas />
-      },
-      {
-        path: '/signo_zodiacal',
-        element: <TuSignoZodiacal />
-      },
-      {
-        path: '/fumas',
-        element: <Tushabitos />
-      },
-      {
-        path: '/notificaciones',
-        element: <NotificacionesPage />
-      },
-      {
-        path: '/modal',
-        element: <PermisosUbi />
-      },
-      {
-        path: '/chatbox',
-        element: <Chats />
-      },
-      {
-        path: '/suscripcion',
-        element: (
-          // <Elements stripe={stripePromise} options={options}>
+  const router = createBrowserRouter([
+    {
+      element: <RootLayout />,
+      children: [
+        {
+          path: "/",
+          element: <Splash />,
+        },
+        {
+          path: "/bienvenida",
+          element: <Bienvenida />,
+        },
+        {
+          path: "/tipo_de_cuenta",
+          element: <TipoDeCuentaPage />,
+        },
+        {
+          path: "/crear_cuenta",
+          element: <CrearCuenta />,
+        },
+        {
+          path: "/home",
+          element: <HomePage />,
+        },
+        {
+          path: "/guia_de_estilos",
+          element: <StyleGuide />,
+        },
+        {
+          path: "/codigo_de_confirmacion",
+          element: <ConfirmaCodigo />,
+        },
+        {
+          path: "/mi_perfil",
+          element: (
+            <ProgressProvider>
+              <PerfilPage />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/configuracion",
+          element: <ConfiguracionCuenta />,
+        },
+        {
+          path: "/datos_personales",
+          element: (
+            <ProgressProvider>
+              <DatosPersonalesPerfil />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/primeras_fotos",
+          element: (
+            <ProgressProvider>
+              <PrimeraFoto />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/pronombres",
+          element: (
+            <ProgressProvider>
+              <PronombresPage />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/identidad_sexual",
+          element: (
+            <ProgressProvider>
+              <IdentidadSexualPage />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/como_te_percibes",
+          element: (
+            <ProgressProvider>
+              <ComoTePercibes />
+            </ProgressProvider>
+          ),
+        },
+        {
+          path: "/identidad_de_genero",
+          element: <IdentidadGeGeneroPage />,
+        },
+        {
+          path: "/estatus_de_relacion",
+          element: <EstatusDeRelacion />,
+        },
+        {
+          path: "/que_buscas",
+          element: <QueBuscaPage />,
+        },
+        {
+          path: "/tu_rol",
+          element: <CualEsTuRol />,
+        },
+        {
+          path: "/cuanto_mides",
+          element: <CuantoMides />,
+        },
+        {
+          path: "/tus_intereses",
+          element: <CincoIntereses />,
+        },
+        {
+          path: "/tienes_mascotas",
+          element: <TienesMascotas />,
+        },
+        {
+          path: "/signo_zodiacal",
+          element: <TuSignoZodiacal />,
+        },
+        {
+          path: "/fumas",
+          element: <Tushabitos />,
+        },
+        {
+          path: "/notificaciones",
+          element: <NotificacionesPage />,
+        },
+        {
+          path: "/modal",
+          element: <PermisosUbi />,
+        },
+        {
+          path: "/chatbox",
+          element: <Chats />,
+        },
+        {
+          path: "/suscripcion",
+          element: (
+            // <Elements stripe={stripePromise} options={options}>
             <Suscribete />
-          // </Elements>
-        ),
-      },
-      {
-        path: '/perfil_otra_persona',
-        element: <PerfilOtraPersona />
-      },
-      {
-        path: '/informacion_de_la_cuenta',
-        element: <InformacionDeCuenta />
-      },
-      {
-        path: '/alertas',
-        element: <AlertasPagina />
-      },
-      {
-        path: '/likes',
-        element: <LikesPage />
-      },
-      {
-        path: '/privacidad_y_seguridad',
-        element: <PrivacitySecurityPage />
-      },
-      {
-        path: '/perfiles_bloqueados',
-        element: <BlockedProfiles />
-      },
-      {
-        path: '/soporte_tecnico',
-        element: <SupportPage />
-      },
-      {
-        path: '/terminos_y_condiciones',
-        element: <TermsConditionsPage />
-      },
-      {
-        path: '/politica_de_privacidad',
-        element: <PrivacyPoliciesPage />
-      },
-      {
-        path: '/acerca_de',
-        element: <AboutPage />
-      },
-      {
-        path: '/pago',
-        element: <PaymentForm />
-      },
-      {
-        path: '/gracias',
-        element: <ThankyouPage />
-      },
-      {
-        path: '/history_chat',
-        element: <ChatsPrivate />
-      },
-      {
-        path: '/descubre',
-        children: [
-          { index: true, Component: Discover },
-          {
-            Component: Layout,
-            children: [
-              { path: "evento/:id", Component: EventDetails },
-              { path: "servicio/:id", Component: ServiceDetails },
-            //   { path: "contribuir", Component: Contribute },
-            { path: "contribuir/:offerTypeId", Component: ContributeWrapper }, 
-            ],
-          },
-        ],
-      },
-      {
-        path: '/edit_post/:id',
-        element: <EventAndServicesList />
-      },
-    ]
-  )
+            // </Elements>
+          ),
+        },
+        {
+          path: "/perfil_otra_persona",
+          element: <PerfilOtraPersona />,
+        },
+        {
+          path: "/informacion_de_la_cuenta",
+          element: <InformacionDeCuenta />,
+        },
+        {
+          path: "/alertas",
+          element: <AlertasPagina />,
+        },
+        {
+          path: "/likes",
+          element: <LikesPage />,
+        },
+        {
+          path: "/privacidad_y_seguridad",
+          element: <PrivacitySecurityPage />,
+        },
+        {
+          path: "/perfiles_bloqueados",
+          element: <BlockedProfiles />,
+        },
+        {
+          path: "/soporte_tecnico",
+          element: <SupportPage />,
+        },
+        {
+          path: "/terminos_y_condiciones",
+          element: <TermsConditionsPage />,
+        },
+        {
+          path: "/politica_de_privacidad",
+          element: <PrivacyPoliciesPage />,
+        },
+        {
+          path: "/acerca_de",
+          element: <AboutPage />,
+        },
+        {
+          path: "/pago",
+          element: <PaymentForm />,
+        },
+        {
+          path: "/gracias",
+          element: <ThankyouPage />,
+        },
+        {
+          path: "/history_chat",
+          element: <ChatsPrivate />,
+        },
+        {
+          path: "/descubre",
+          children: [
+            { index: true, Component: Discover },
+            { path: "planes/:offerTypeId", Component: PlansPage },
+            {
+              Component: Layout,
+              children: [
+                { path: "evento/:id", Component: EventDetails },
+                { path: "servicio/:id", Component: ServiceDetails },
+                //   { path: "contribuir", Component: Contribute },
+                {
+                  path: "contribuir/:offerTypeId",
+                  children: [
+                    { index: true, Component: ContributeWrapper },
+                    { path: "revisar", Component: ReviewPage },
+                    { path: "exito", Component: SuccessPage }, 
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: '/edit_post/:id',
+          element: <EventAndServicesList />
+        },
+      ],
+    },
+  ]);
 
   return (
     <>
@@ -273,4 +310,3 @@ function App() {
 }
 
 export default App;
-

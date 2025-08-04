@@ -1,7 +1,7 @@
 import { dateTransform } from "@/utils/functions/discover";
 import { EventCard } from "../molecules";
 
-export default function EventsView({ data }) {
+export default function EventsView({ data }) {    
   return data?.evento?.map((info) => (
     <EventCard
       fullWidth

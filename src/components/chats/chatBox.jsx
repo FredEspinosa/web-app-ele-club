@@ -12,13 +12,13 @@ import { conversationGetAll } from "../../services/api";
 import ChatsContentGroup from "./chats_content_group";
 import ChatsContentPrivate from "./chats_content_private";
 import DeleteChatModal from "./DeleteChatModal";
-import { useDeleteConversation } from "@/hooks/discover/useDeleteConversation";
+import { useDeleteConversation } from "@/hooks/chats/useDeleteConversation";
 
 const ChatBox = () => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
-  const [vista, setVista] = useState("chatsPrivados"); // Vista inicial
+  const [vista, setVista] = useState("chatsPrivados");
   const [showLoader, setShowLoader] = useState(false);
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
   const [privateConversations, setPrivateConversations] = useState([]);

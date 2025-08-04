@@ -6,8 +6,7 @@ import { DetailsButton, DiscoverInfo } from "../atoms";
 import { StyledCardContainer, StyledDetailsEventContainer, StyledEventCardWithBg } from "../../../styles/discover/containers";
 import { StyledDiscoverRegularText } from "../../../styles/discover/texts";
 import { useGoToEvent } from "@/hooks/discover/useGoToEvent";
-// import placeholderImage from "../../../assets/images/Helena_LOGO.png"
-import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png"
+import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png";
 
 const CardContentOnBg = styled(Box)({
   position: "relative",
@@ -24,16 +23,35 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id,
       setImageSource(placeholderImage);
       return;
     }
-    const imageLoader = new Image();
-    imageLoader.src = img;
-    imageLoader.onload = () => setImageSource(img);
-    imageLoader.onerror = () => {
-      setImageSource(placeholderImage);
-    };
+
+    let timeoutId = null;
+    const loadImagePromise = new Promise((resolve, reject) => {
+      const imageLoader = new Image();
+      imageLoader.src = img;
+      imageLoader.onload = () => resolve(img);
+      imageLoader.onerror = () => reject(new Error(`Error al cargar la imagen: ${img}`));
+    });
+
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutId = setTimeout(() => {
+        reject(new Error("Tiempo de carga de imagen agotado"));
+      }, 1000);
+    });
+
+    Promise.race([loadImagePromise, timeoutPromise])
+      .then((resolvedImage) => {
+        clearTimeout(timeoutId);
+        setImageSource(resolvedImage);
+      })
+      .catch((error) => {
+        console.error(error.message);
+        setImageSource(placeholderImage);
+      });
 
     return () => {
-      imageLoader.onload = null;
-      imageLoader.onerror = null;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
   }, [img]);
 

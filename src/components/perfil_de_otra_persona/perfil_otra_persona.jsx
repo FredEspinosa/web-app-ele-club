@@ -12,6 +12,7 @@ import ReportUserModal from "../reportes/organisms/ReportUserModal";
 import DetailsReportModal from "../reportes/organisms/DetailsReportModal";
 import EvidenceReportModal from "../reportes/organisms/EvidenceReportModal";
 import ReportConfirmationModal from "../reportes/organisms/ReportConfirmationModal";
+import { useBlockUser } from "@/hooks/blockedUsers/useBlockedUsers";
 
 const PerfilOtraPersona = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,6 +24,7 @@ const PerfilOtraPersona = () => {
   const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
   const [isAdditionalInfoModalOpen, setIsAdditionalInfoModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const { blockUser, isBlocking, blockError } = useBlockUser();
   const [blockReasonSelected, setBlockReasonSelected] = useState("");
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isDetailsReportModalOpen, setIsDetailsReportModalOpen] = useState(false);
@@ -30,23 +32,25 @@ const PerfilOtraPersona = () => {
   const [isReportConfirmationModalOpen, setIsReportConfirmationModalOpen] = useState(false);
 
   const location = useLocation();
-  const profileImages = location.state?.profileImages || [];
-  const nameProfile = location.state?.nameProfile || "";
-  const age = location.state?.age || "";
-  const aboutMe = location.state?.aboutMe || "";
-  const lookingFors = location.state?.lookingFors || "";
-  const genders = location.state?.genders || "";
-  const sexualIdentities = location.state?.sexualIdentities || "";
-  const perceptions = location.state?.perceptions || "";
-  const relationshipStatus = location.state?.relationshipStatus || "";
-  const tokenSesionStorage = location.state?.tokenSesion || "";
-  const likedUserId = location.state?.likedUserId || "";
-  const locations = location.state?.locations || "";
-  const pronouns = location.state?.pronouns || "";
+  const {
+    profileImages = [],
+    nameProfile = "",
+    age = "",
+    aboutMe = "",
+    lookingFors = [],
+    genders = [],
+    sexualIdentities = [],
+    perceptions = [],
+    relationshipStatus = [],
+    tokenSesion = "",
+    likedUserId = "",
+    locations = [],
+    pronouns = [],
+  } = location.state || {};
 
   const toggleIcon = () => {
     setIsMenuOpen(!isMenuOpen);
-  };  
+  };
 
   const goToHome = () => {
     navigate("/home");
@@ -128,7 +132,7 @@ const PerfilOtraPersona = () => {
   };
 
   const handleBlockReasonSelected = (reason) => {
-    console.log(`Bloqueando a ${userToBlock.name} por: ${reason}`);
+    console.log(`Bloqueando a ${nameProfile} por: ${reason}`);
     setIsBlockModalOpen(false);
     setBlockReasonSelected(reason);
   };
@@ -143,16 +147,26 @@ const PerfilOtraPersona = () => {
     setIsBlockModalOpen(true);
   };
 
-  const handleSubmitAdditionalInfo = (additionalText) => {
-    console.log(`Bloqueando a ${userToBlock.name} por: ${blockReasonSelected}. Detalles: ${additionalText}`);
+  const handleSubmitAdditionalInfo = async (additionalText) => {
     setIsAdditionalInfoModalOpen(false);
-    setIsConfirmationModalOpen(true);
+    try {
+      console.log(`Bloqueando a ${likedUserId} por: ${blockReasonSelected}. Detalles: ${additionalText}`);
+      await blockUser({
+        targetUserId: likedUserId,
+        reason: blockReasonSelected,
+        additionalInfo: additionalText,
+        token: tokenSesion,
+      });
+      setIsConfirmationModalOpen(true);
+    } catch (error) {
+      console.error("Error al bloquear al usuario:", error.message);
+      alert(`No se pudo bloquear al usuario: ${error.message}`);
+    }
   };
 
   const handleCloseConfirmationModal = () => {
     setIsConfirmationModalOpen(false);
-    // setIsAdditionalInfoModalOpen(false);
-    // setIsBlockModalOpen(false);
+    navigate("/home");
   };
 
   const handleOpenReportModal = () => {
@@ -254,15 +268,13 @@ const PerfilOtraPersona = () => {
                   <div className="col-10">
                     <p className="club_location-profile">
                       {Array.isArray(pronouns) &&
-                      pronouns.map((item, index) => (
-                        <p className="club_location-profile" key={index}>
-                          {item.pronoun?.name || item.name}
-                        </p>
-                      ))}
+                        pronouns.map((item, index) => (
+                          <p className="club_location-profile" key={index}>
+                            {item.pronoun?.name || item.name}
+                          </p>
+                        ))}
                       <br />
-                      <p className="club_location-profile" >
-                        {locations}
-                      </p>
+                      <p className="club_location-profile">{locations}</p>
                     </p>
                   </div>
                   <div className="col-2"></div>
@@ -270,11 +282,7 @@ const PerfilOtraPersona = () => {
                 <section className="club_about-me col-12">
                   <h2 className="club_identity-h2">Acerca de mí</h2>
 
-                  {aboutMe ? (
-                    <p className="col-12">{aboutMe}</p>
-                  ) : (
-                    <p className="col-12"></p>
-                  )}
+                  {aboutMe ? <p className="col-12">{aboutMe}</p> : <p className="col-12"></p>}
                 </section>
                 <section className="club_preferences col-12">
                   <h2 className="club_identity-h2">Estoy buscando</h2>
@@ -357,13 +365,19 @@ const PerfilOtraPersona = () => {
       </div>
       {isBlockModalOpen && (
         <BlockUserModal
-          userName={userToBlock.name}
+          userName={nameProfile}
           onBlock={handleBlockReasonSelected}
           onCancel={handleCloseBlockModal}
           onOpenAdditionalInfoModal={handleOpenAdditionalInfo}
         />
       )}
-      {isAdditionalInfoModalOpen && <AdditionalInfoModal onSubmit={handleSubmitAdditionalInfo} onBack={handleBackFromAdditionalInfo} />}
+      {isAdditionalInfoModalOpen && (
+        <AdditionalInfoModal
+          onSubmit={handleSubmitAdditionalInfo}
+          onBack={handleBackFromAdditionalInfo}
+          isSubmitting={isBlocking}
+        />
+      )}
       {isConfirmationModalOpen && (
         <ConfirmationModal
           // appName={userToBlock.appName} // Si quieres pasar el nombre de la app al modal
@@ -378,12 +392,22 @@ const PerfilOtraPersona = () => {
           onOpenAdditionalInfoModal={handleOpenDetailsReportModal}
         />
       )}
-      {isDetailsReportModalOpen && <DetailsReportModal onSubmit={handleSubmitDetailsReportModal} onBack={handleBackFromDetailsReportModal} />}
-      {isEvidenceModalOpen && <EvidenceReportModal onBack={handleBackFromEvidenceReportModal} onSubmit={handleSubmitEvidenceReportModal} />}
+      {isDetailsReportModalOpen && (
+        <DetailsReportModal onSubmit={handleSubmitDetailsReportModal} onBack={handleBackFromDetailsReportModal} />
+      )}
+      {isEvidenceModalOpen && (
+        <EvidenceReportModal onBack={handleBackFromEvidenceReportModal} onSubmit={handleSubmitEvidenceReportModal} />
+      )}
       {isReportConfirmationModalOpen && <ReportConfirmationModal onClose={handleCloseReportConfirmatioModal} />}
 
       {showAlert && (
-        <AlertSuscribe mensajeModal={mensajeModal} btnAceptar={true} btnMsjButtom={"CERRAR"} handleOnclick={closeModal} bgColorButton={"club_bg_oro"} />
+        <AlertSuscribe
+          mensajeModal={mensajeModal}
+          btnAceptar={true}
+          btnMsjButtom={"CERRAR"}
+          handleOnclick={closeModal}
+          bgColorButton={"club_bg_oro"}
+        />
       )}
     </div>
   );
