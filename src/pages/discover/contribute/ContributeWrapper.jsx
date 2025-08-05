@@ -3,12 +3,14 @@ import useSWR from "swr";
 import { API_ENDPOINTS } from "@/descubreApi";
 import { fetcher } from "@/services/api";
 import EventOrServiceForm from "@/components/contribute/components/organisms/EventOrServiceForm";
-import { useNavigate, useParams } from "react-router-dom";
-import { fileToBase64 } from "@/utils/functions/discover";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 export default function ContributeWrapper() {
   const { offerTypeId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const existingFormData = location.state?.formData;
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
@@ -25,8 +27,7 @@ export default function ContributeWrapper() {
 
   const handleFormSubmit = (formData) => {
     console.log("Datos del formulario listos para revisar:", formData);
-    // Navega a la página de revisión, pasando los datos en el 'state'
-    navigate("revisar", { state: { formData } });
+    navigate(`revisar`, { state: { formData } });
   };
 
   if (isLoading) return <div>Cargando...</div>;
@@ -35,7 +36,13 @@ export default function ContributeWrapper() {
 
   return (
     <div>
-      <EventOrServiceForm schema={formSchema} onSubmit={handleFormSubmit} isSubmitting={isSubmitting} submitError={submitError} />
+      <EventOrServiceForm
+        schema={formSchema}
+        onSubmit={handleFormSubmit}
+        defaultValues={existingFormData}
+        isSubmitting={isSubmitting}
+        submitError={submitError}
+      />
     </div>
   );
 }

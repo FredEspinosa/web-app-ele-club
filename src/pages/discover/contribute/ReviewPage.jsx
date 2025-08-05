@@ -19,13 +19,16 @@ export default function ReviewPage() {
   const { formData } = location.state || {};
   const isEvent = offerTypeId === OFFERS_TYPE_IDS.EVENTO;
   const isService = offerTypeId === OFFERS_TYPE_IDS.SERVICIO;
-  console.log({ formData });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: categoryCatalogData, isLoading: isLoadingCatalog } = useSWR(
     offerTypeId ? API_ENDPOINTS.GET_OFFER_CATEGORY_CATALOG_BY_ID(offerTypeId) : null,
     fetcher
   );
+
+  const handleEdit = () => {
+    navigate(`/descubre/contribuir/${offerTypeId}`, { state: { formData } });
+  };
 
   const categoryName = useMemo(() => {
     if (isLoadingCatalog) return "Cargando categoría...";
@@ -187,7 +190,7 @@ export default function ReviewPage() {
             <button
               className="btn club_btn club_btn_full club_btn_borde_violeta"
               style={{ justifyContent: "center", gap: "8px" }}
-              onClick={() => navigate(-1)}
+              onClick={handleEdit}
               disabled={isSubmitting}
             >
               <EditIcon />

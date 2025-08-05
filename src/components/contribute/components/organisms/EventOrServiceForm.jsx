@@ -7,14 +7,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import FormSection from "../molecules/FormSection";
 import { useNavigate } from "react-router-dom";
 
-export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, submitError }) {
+export default function EventOrServiceForm({ schema, onSubmit, isSubmitting, submitError, defaultValues }) {
   const navigate = useNavigate();
   const sectionTitles = {
     description: "Descripción general",
     location: "Fecha y ubicación",
     contact: "Datos de contacto y redes",
   };
-  const methods = useForm();
+  const methods = useForm({ defaultValues: defaultValues || {} });
 
   const groupedFields = useMemo(() => {
     if (!schema?.formValues) return {};
