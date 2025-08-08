@@ -12,12 +12,11 @@ import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
 import ProgressBar from "../set_up_perfil/ProgressBar";
 import { useProgress } from "../../hooks/ProgressContext";
-import { consultOffert, userProfileMe } from "../../services/api";
+// import { consultOffert, userProfileMe } from "../../services/api";
 import { use } from "react";
 import { useCalcProgress } from "../../hooks/useCalcProgress";
+import EventAndServicesDetails from "@/pages/discover/EditEventAndServices/serviceConsult";
 import MyEventsAndServices from "../discover/atoms/MyEventsAndServices";
-import useMyEventsAndServices from "@/hooks/discover/useMyEventsAndServices";
-import EventAndServicesDetails from "@/pages/discover/EditEventAndServices/page";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -87,17 +86,6 @@ const UserProfile = () => {
 
   const scrollToTop = useCallback(() => {
     scrollTo(0,0, { behavior: "smooth" });
-  }, []);
-
-  const [idUser, setIdUser] = useState("");
-
-  useEffect(() => {
-    const uuidUser = localStorage.getItem("userId");
-    if (uuidUser) {
-      console.log("useEffect idUser", uuidUser);
-      setIdUser(uuidUser);
-      console.log("useEffect idUser 2", uuidUser);
-    }
   }, []);
 
   useEffect(() => {
@@ -377,12 +365,6 @@ const UserProfile = () => {
                     ))}
                 </div>
               </div>
-
-
-            </div>
-            <br />
-            <div className="club_info_intereses_contenedor">
-              {/* <EventAndServicesDetails idUser={idUser}/> */}
             </div>
             <br />
             <br />
@@ -427,6 +409,13 @@ const UserProfile = () => {
         dataUser={dataUser}
         type={'update'}
       />
+
+      <div className="club_contenedor club_margin_bar_40 container-lg">
+          <div className="club_info_intereses_contenedor">
+            <MyEventsAndServices />
+          </div>
+      </div>
+
       <div className="p-5 m-5"></div>
       <NavBar currentPage={"Perfil"} />
       {showLoader && <Loader />}

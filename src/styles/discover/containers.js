@@ -280,3 +280,11 @@ export const SubFilterButton = styled.button`
   background-color: ${({ isActive }) => (isActive ? "#BC8D40" : "#FFF")};
   color: ${({ isActive }) => (isActive ? "#FFFFFF" : "#BC8D40")};
 `;
+
+export const BackgroundEditList = styled.div`
+  display: block;
+  background: #FFFFFF;
+  padding: 1px 16px;
+  box-shadow: 0px 4px 11px 0px rgba(151, 151, 151, 0.25);
+  border-radius: 16px;
+`;

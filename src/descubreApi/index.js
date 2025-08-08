@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
         GET_BLOCKED_USERS: `${API_BASE_URL}/UserBlock/Blocked`,
         UNBLOCK_USER: `${API_BASE_URL}/UserBlock/Unblock`
     },
-    GET_USER_EVENTS_SERVICES:(id) => `${API_BASE_URL}/Offer/GetAllByUser/${id}`,
+    // GET_USER_EVENTS_SERVICES:`${API_BASE_URL}/Offer/GetAllByUser`,
+    GET_USER_EVENTS_SERVICES: () => `${API_BASE_URL}/Offer/GetAllByUser`,
     POST_PARTICIPANTS_ASSIST:`${API_BASE_URL}/OfferParticipants/Create`,
 };

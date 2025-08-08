@@ -63,7 +63,7 @@ import PlansPage from "./pages/discover/contribute/PlansPage";
 import RootLayout from "./components/layouts/RootLayout";
 import ReviewPage from "./pages/discover/contribute/ReviewPage";
 import SuccessPage from "./pages/discover/contribute/SuccessPage";
-import EventAndServicesList from "./pages/discover/EditEventAndServices/conten_page";
+import ConsultMyOffertsType from "./pages/discover/EditEventAndServices/ConsultMyOffertsType";
 
 function App() {
   // const stripePromise = loadStripe('tu-public-key-de-stripe');
@@ -291,8 +291,10 @@ function App() {
           ],
         },
         {
-          path: '/edit_post/:id',
-          element: <EventAndServicesList />
+          path: '/edit_post',
+          children: [
+            { index: true, Component: ConsultMyOffertsType },
+          ],
         },
       ],
     },

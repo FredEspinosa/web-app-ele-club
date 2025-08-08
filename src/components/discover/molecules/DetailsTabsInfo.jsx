@@ -7,12 +7,13 @@ import { StyledTabs, StyledTabItem, StyledTabsContainer } from '@/styles/discove
 import a11yProps from '@/utils/functions/discover';
 import { TabPanel } from '../atoms';
 
-export default function DetailsTabsInfo({ tabs }) {
+export default function DetailsTabsInfo({ tabs, onTabChange }) {
   const theme = useTheme();
   const [value, setValue] = useState(0);
 
   const handleChange = (_, newValue) => {
     setValue(newValue);
+    if (onTabChange) onTabChange(newValue); // 👉 Notifica al padre si existe la prop
   };
 
   return (

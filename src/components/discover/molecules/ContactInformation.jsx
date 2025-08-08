@@ -1,3 +1,4 @@
+// <---- Revisar este componente como mapearlo mejor, usar de ejemplo el de CATEGORY BUTTON
 import { StyledDetailContainer, StyledDetailOwnerContainer, StyledEventDetailOrganizationContainer } from '@/styles/discover/containers'
 import { StyledDetailOwner, StyledDetailOwnerLabel, StyledDetailTitle } from '@/styles/discover/texts'
 import React from 'react'
