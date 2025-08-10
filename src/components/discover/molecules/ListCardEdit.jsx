@@ -8,9 +8,11 @@ import { GlobalReview } from '../molecules';
 import { DiscoverInfo, ReviewCard } from '../atoms';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { EditIcon } from '@/assets/icons';
+import { useNavigate } from 'react-router-dom';
 
-export default function ListCardEdit({ data }) {
+export default function ListCardEdit({ data, activeId, activeName }) {
     console.log("data list", data);
+    const navigate = useNavigate();
 
     if (!data || data.length === 0) {
         return <div>No hay elementos para mostrar</div>;
@@ -33,6 +35,15 @@ export default function ListCardEdit({ data }) {
             minute: "2-digit",
         })
         : "Sin hora";
+    
+    const editOffert = () => {
+        console.log("Funcion edit");
+        if (activeId && activeName === "Evento" ) {
+            navigate(`/descubre/evento/${activeId}`);
+        } else {
+            navigate(`/descubre/servicio/${activeId}`);
+        }
+    }
 
     return (
         <>
@@ -68,7 +79,7 @@ export default function ListCardEdit({ data }) {
                             </DiscoverInfo>
                         </StyledDetailsDistance>
                         <div>
-                            <EditIcon />
+                            <EditIcon onClick={() => { editOffert() }} />
                             <FaRegTrashAlt />
                         </div>
                     </StyledDetailsDirectioncontainer>
