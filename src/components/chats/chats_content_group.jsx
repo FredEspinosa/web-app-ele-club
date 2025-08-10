@@ -33,18 +33,15 @@ const ChatsContentGroup = ({ handleOnClick, listChatsGroup, onDelete }) => {
       {listChatsGroup && listChatsGroup.length > 0 ? (
         <SwipeableList>
           {listChatsGroup.map((chatList) => {
-            // Eliminamos "index"
             const otroUsuario = chatList.conversationMembers.find((member) => member.user.userId !== userIdActual);
-
-            // ¡IMPORTANTE! Usar un ID único del objeto, no el índice del map.
             const conversationId = chatList.id;
 
             return (
               <SwipeableListItem
-                key={conversationId} // Usar el ID único como key
+                key={conversationId}
                 swipeLeft={{
-                  content: <SwipeToDeleteContent onDelete={() => onDelete(conversationId)} />,
-                  destructive: false,
+                  content: <SwipeToDeleteContent />,
+                  action: () => onDelete(conversationId, otroUsuario),
                 }}
               >
                 <div className="club_new_request col-12" style={{ backgroundColor: "white" }}>

@@ -120,6 +120,9 @@ const ChatBox = () => {
       });
 
       setPrivateConversations((prev) => prev.filter((conv) => conv.id !== conversationToDelete));
+      setGroupConversations(
+      (prevConversations) => prevConversations.filter((conv) => conv.id !== conversationToDelete)
+    );
       setShowDeleteModal(false);
       setConversationToDelete(null);
     } catch (error) {
@@ -132,18 +135,9 @@ const ChatBox = () => {
 
   const handleDeleteGroupConversation = async (conversationId) => {
     console.log("Eliminando conversación de GRUPO:", conversationId);
-
-    // 1. Actualiza el estado de los chats de grupo
     setGroupConversations(
-      (prevConversations) => prevConversations.filter((conv) => conv.id !== conversationId) // Usamos conv.id porque así parece estar en tus datos
+      (prevConversations) => prevConversations.filter((conv) => conv.id !== conversationId)
     );
-
-    // 2. (OPCIONAL PERO RECOMENDADO) Llama a tu API para borrarlo del servidor
-    // try {
-    //   await conversationDelete(tokenSesionStorage, conversationId);
-    // } catch (error) {
-    //   console.error("Error al eliminar el grupo del servidor:", error);
-    // }
   };
 
   return (
@@ -179,7 +173,7 @@ const ChatBox = () => {
               <ChatsContentGroup
                 handleOnClick={redirectBack}
                 listChatsGroup={groupConversations}
-                onDelete={handleDeleteGroupConversation}
+                onDelete={handleDeleteConversation}
               />
             )}
           </div>
