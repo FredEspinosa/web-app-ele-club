@@ -133,13 +133,6 @@ const ChatBox = () => {
     }
   };
 
-  const handleDeleteGroupConversation = async (conversationId) => {
-    console.log("Eliminando conversación de GRUPO:", conversationId);
-    setGroupConversations(
-      (prevConversations) => prevConversations.filter((conv) => conv.id !== conversationId)
-    );
-  };
-
   return (
     <div>
       <div id="chatsBox" className="club_contenedor_tres_secciones club_contenedor container-lg">
