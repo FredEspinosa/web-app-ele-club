@@ -1,129 +1,127 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react'
-import { AiFillMessage } from 'react-icons/ai';
-import { BsChatSquareDotsFill } from 'react-icons/bs'
-import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { AiFillMessage } from "react-icons/ai";
+import { BsChatSquareDotsFill } from "react-icons/bs";
+import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png";
+import { useNavigate } from "react-router-dom";
+import { SwipeableList, SwipeableListItem } from "@sandstreamdev/react-swipeable-list";
+import "@sandstreamdev/react-swipeable-list/dist/styles.css";
+import SwipeToDeleteContent from "../swiper/SwipeToDeleteContent";
 
+const ChatsContentGroup = ({ handleOnClick, listChatsGroup, onDelete }) => {
+  console.log("listChatsGroup", listChatsGroup);
+  // Recordatory: In this component, a search was performed within the arrays and the current userId was found in order to discard the information from the array that contains the same userId and display the recipient's information.
+  const navigate = useNavigate();
+  const userIdActual = localStorage.getItem("userId");
 
-const ChatsContentGroup = ({ handleOnClick, listChatsGroup }) => {
+  const sendConversation = async (userId, perfilPhoto, nameUser, conversationId, category, isGroup) => {
+    navigate("/history_chat", {
+      state: {
+        membersIds: userId,
+        photoUsers: perfilPhoto,
+        name: nameUser,
+        conversationsId: conversationId,
+        category: category,
+        isGroup: isGroup,
+      },
+    });
+  };
 
-    console.log("listChatsGroup", listChatsGroup);
-    // Recordatory: In this component, a search was performed within the arrays and the current userId was found in order to discard the information from the array that contains the same userId and display the recipient's information.
+  return (
+    <div>
+      {listChatsGroup && listChatsGroup.length > 0 ? (
+        <SwipeableList>
+          {listChatsGroup.map((chatList) => {
+            // Eliminamos "index"
+            const otroUsuario = chatList.conversationMembers.find((member) => member.user.userId !== userIdActual);
 
-    const navigate = useNavigate();
-    const userIdActual = localStorage.getItem('userId'); // Esto debe ser dinámico
+            // ¡IMPORTANTE! Usar un ID único del objeto, no el índice del map.
+            const conversationId = chatList.id;
 
-    const sendConversation = async (userId, perfilPhoto, nameUser, conversationId, category, isGroup) => {
-        navigate("/history_chat", {
-            state: {
-                membersIds: userId,
-                photoUsers: perfilPhoto,
-                name: nameUser,
-                conversationsId: conversationId,
-                category: category,
-                isGroup: isGroup,
-            },
-        });
-    };
-
-    return (
-        <div>
-            {listChatsGroup && listChatsGroup.length > 0 ?
-                <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
-                    <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
-                        <div className="club_content_scroll club_scroll_y align-items-start">
-
-                            {listChatsGroup.map((chatList, index) => {
-                                const otroUsuario = chatList.conversationMembers.find(
-                                    (member) => member.user.userId !== userIdActual
-                                );
-                                return (
-                                    <div className='club_new_request col-12' key={index} >
-                                        <div className="col-12 d-flex justify-content-center flex-wrap align-items-center">
-                                            <div className="col-10 d-flex align-items-center">
-                                                <div className="club_requqest_content_photo">
-                                                    <img className="club_cont_perfil_img"
-                                                        src={otroUsuario?.user?.userPhotos?.[0]?.photo || PerfilDefault}
-                                                        alt=""
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <p className="club_friends_name club_color_fuente_negro">{chatList?.category || "Grupo de amigas"}</p>
-                                                </div>
-                                            </div>
-                                            <div className="col-2 d-flex align-items-center justify-content-end">
-                                                {/* <button
-                                                    className="btn"
-                                                    onClick={() => {
-                                                        if (otroUsuario) {
-                                                            sendConversation(
-                                                                otroUsuario.user.userId,
-                                                                otroUsuario.user.userPhotos?.[0]?.photo || PerfilDefault,
-                                                                chatList.name,
-                                                                otroUsuario.conversationId,
-                                                                chatList.category,
-                                                                chatList.isGroup,
-                                                            );
-                                                        }
-                                                    }}
-                                                >
-                                                    <AiFillMessage className="club_color_fuente_violeta_04" size={20} />
-                                                </button> */}
-                                                <button
-                                                    className="btn"
-                                                    onClick={() => {
-                                                        const allMembers = chatList.conversationMembers
-                                                            ?.filter((member) => member.user.userId !== userIdActual)
-                                                            ?.map((member) => ({
-                                                                userId: member.user.userId,
-                                                                name: member.user.name,
-                                                                photoUser: member.user?.userPhotos?.[0]?.photo 
-                                                            }));
-
-                                                        const perfilPhoto = chatList.conversationMembers?.[0]?.user?.userPhotos?.[0]?.photo || PerfilDefault;
-
-                                                        sendConversation(
-                                                            allMembers,
-                                                            perfilPhoto,
-                                                            chatList.name,
-                                                            chatList.id,
-                                                            chatList.category,
-                                                            chatList.isGroup,
-                                                        );
-                                                    }}
-                                                >
-                                                    <AiFillMessage className="club_color_fuente_violeta_04" size={20} />
-                                                </button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                        </div>
+            return (
+              <SwipeableListItem
+                key={conversationId} // Usar el ID único como key
+                swipeLeft={{
+                  content: <SwipeToDeleteContent onDelete={() => onDelete(conversationId)} />,
+                  destructive: false,
+                }}
+              >
+                <div className="club_new_request col-12" style={{ backgroundColor: "white" }}>
+                  <div className="col-12 d-flex justify-content-center flex-wrap align-items-center">
+                    <div className="col-10 d-flex align-items-center">
+                      <div className="club_requqest_content_photo">
+                        <img
+                          className="club_cont_perfil_img"
+                          src={otroUsuario?.user?.userPhotos?.[0]?.photo || PerfilDefault}
+                          alt=""
+                        />
+                      </div>
+                      <div>
+                        <p className="club_friends_name club_color_fuente_negro">{chatList?.category || "Grupo de amigas"}</p>
+                      </div>
                     </div>
-                </div>
-                :
-                <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
-                    <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
-                        <div className="club_content">
-                            <div className="club_icon-container">
-                                <div>
-                                    <BsChatSquareDotsFill className='club_icon_card_no_notifications' size={85} />
-                                </div>
-                            </div>
-                            <h2 className="club_message-title">No tienes chats todavía</h2>
-                            <p className="club_message-description">
-                                Ve a inicio para likear perfiles - una vez que te regresen el like se volverá match y podrás chatear aquí!
-                            </p>
-                            <button className="club_action-button" onClick={handleOnClick}>Ir a Inicio</button>
-                        </div>
+                    <div className="col-2 d-flex align-items-center justify-content-end">
+                      <button
+                        className="btn"
+                        onClick={() => {
+                          const allMembers = chatList.conversationMembers
+                            ?.filter((member) => member.user.userId !== userIdActual)
+                            ?.map((member) => ({
+                              userId: member.user.userId,
+                              name: member.user.name,
+                              photoUser: member.user?.userPhotos?.[0]?.photo,
+                            }));
+
+                          const perfilPhoto = chatList.conversationMembers?.[0]?.user?.userPhotos?.[0]?.photo || PerfilDefault;
+
+                          sendConversation(
+                            allMembers,
+                            perfilPhoto,
+                            chatList.name,
+                            chatList.id,
+                            chatList.category,
+                            chatList.isGroup
+                          );
+                        }}
+                      >
+                        <AiFillMessage className="club_color_fuente_violeta_04" size={20} />
+                      </button>
                     </div>
+                  </div>
                 </div>
-            }
+              </SwipeableListItem>
+            );
+          })}
+        </SwipeableList>
+      ) : (
+        <div className="col-12 text-start club_onboarding_info d-flex align-items-center">
+          <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
+            <div className="club_content">
+              <div className="club_icon-container">
+                <div>
+                  <BsChatSquareDotsFill className="club_icon_card_no_notifications" size={85} />
+                </div>
+              </div>
+              <h2 className="club_message-title">No tienes chats todavía</h2>
+              <p className="club_message-description">
+                Ve a inicio para likear perfiles - una vez que te regresen el like se volverá match y podrás chatear aquí!
+              </p>
+              <button className="club_action-button" onClick={handleOnClick}>
+                Ir a Inicio
+              </button>
+            </div>
+          </div>
         </div>
-    )
-}
+      )}
+    </div>
+  );
+};
 
-export default ChatsContentGroup
+ChatsContentGroup.propTypes = {
+  handleOnClick: PropTypes.func,
+  listChatsGroup: PropTypes.array,
+  onDelete: PropTypes.func.isRequired,
+};
+
+export default ChatsContentGroup;

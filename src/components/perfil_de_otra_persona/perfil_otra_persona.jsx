@@ -30,6 +30,9 @@ const PerfilOtraPersona = () => {
   const [isDetailsReportModalOpen, setIsDetailsReportModalOpen] = useState(false);
   const [isEvidenceModalOpen, setIsEvidenceModalOpen] = useState(false);
   const [isReportConfirmationModalOpen, setIsReportConfirmationModalOpen] = useState(false);
+  const [reportReason, setReportReason] = useState("");
+  const [reportData, setReportData] = useState({ reason: "", details: "", evidence: null });
+  const [isSubmittingReport, setIsSubmittingReport] = useState(false);
 
   const location = useLocation();
   const {
@@ -121,14 +124,25 @@ const PerfilOtraPersona = () => {
     setShowAlert(false);
   };
 
+  const submitReport = async (finalReportData) => {
+    setIsSubmittingReport(true);
+    console.log("Enviando reporte final a la API:", finalReportData);
+
+    try {
+      setIsDetailsReportModalOpen(false);
+      setIsEvidenceModalOpen(false);
+      setIsReportConfirmationModalOpen(true);
+    } catch (error) {
+      alert(`Error al enviar el reporte: ${error.message}`);
+    } finally {
+      setIsSubmittingReport(false);
+    }
+  };
+
   const handleOpenBlockModal = () => {
     setIsBlockModalOpen(true);
     setIsAdditionalInfoModalOpen(false);
     setIsConfirmationModalOpen(false);
-  };
-
-  const handleCloseBlockModal = () => {
-    setIsBlockModalOpen(false);
   };
 
   const handleBlockReasonSelected = (reason) => {
@@ -174,16 +188,7 @@ const PerfilOtraPersona = () => {
   };
 
   const handleReportReasonSelected = (reason) => {
-    console.log(`Bloqueando a ${userToBlock.name} por: ${reason}`);
-    setIsReportModalOpen(false);
-    // setBlockReasonSelected(reason);
-  };
-
-  const handleCloseReportModal = () => {
-    setIsReportModalOpen(false);
-  };
-
-  const handleOpenDetailsReportModal = () => {
+    setReportData({ ...reportData, reason: reason });
     setIsReportModalOpen(false);
     setIsDetailsReportModalOpen(true);
   };
@@ -193,25 +198,54 @@ const PerfilOtraPersona = () => {
     setIsReportModalOpen(true);
   };
 
-  const handleSubmitDetailsReportModal = (additionalText) => {
-    console.log(`Bloqueando a ${userToBlock.name} por: ${blockReasonSelected}. Detalles: ${additionalText}`);
+  const handleSubmitDetailsReportModal = ({ details, hasEvidence }) => {
+    // Actualizamos el estado con los detalles
+    const currentReportData = { ...reportData, details };
+    setReportData(currentReportData);
     setIsDetailsReportModalOpen(false);
-    setIsEvidenceModalOpen(true);
+    if (hasEvidence) {
+      setIsEvidenceModalOpen(true);
+    } else {
+      submitReport(currentReportData);
+    }
   };
 
   const handleBackFromEvidenceReportModal = () => {
-    setIsDetailsReportModalOpen(true);
     setIsEvidenceModalOpen(false);
+    if (reportReason === "Otro motivo") {
+      setIsDetailsReportModalOpen(true);
+    } else {
+      setIsReportModalOpen(true);
+    }
   };
 
-  const handleSubmitEvidenceReportModal = (additionalText) => {
-    console.log(`Reportando a ${userToBlock.name} por: ${blockReasonSelected}. Detalles: ${additionalText}`);
-    setIsEvidenceModalOpen(false);
-    setIsReportConfirmationModalOpen(true);
+  const handleSubmitEvidenceReportModal = (evidence) => {
+    const finalReportData = { ...reportData, evidence };
+    console.log({finalReportData});
+    
+    setReportData(finalReportData);
+    submitReport(finalReportData);
   };
 
   const handleCloseReportConfirmatioModal = () => {
     setIsReportConfirmationModalOpen(false);
+    // navigate("/home");
+  };
+
+  const handleCloseAllModals = () => {
+    // Cierra todos los modales de bloqueo
+    setIsBlockModalOpen(false);
+    setIsAdditionalInfoModalOpen(false);
+    setIsConfirmationModalOpen(false);
+
+    // Cierra todos los modales de reporte
+    setIsReportModalOpen(false);
+    setIsDetailsReportModalOpen(false);
+    setIsEvidenceModalOpen(false);
+    setIsReportConfirmationModalOpen(false);
+
+    setBlockReasonSelected("");
+    setReportReason("");
   };
 
   return (
@@ -363,11 +397,12 @@ const PerfilOtraPersona = () => {
           </div>
         </div>
       </div>
+      {/* Bloquear */}
       {isBlockModalOpen && (
         <BlockUserModal
           userName={nameProfile}
           onBlock={handleBlockReasonSelected}
-          onCancel={handleCloseBlockModal}
+          onCancel={handleCloseAllModals}
           onOpenAdditionalInfoModal={handleOpenAdditionalInfo}
         />
       )}
@@ -375,28 +410,32 @@ const PerfilOtraPersona = () => {
         <AdditionalInfoModal
           onSubmit={handleSubmitAdditionalInfo}
           onBack={handleBackFromAdditionalInfo}
-          isSubmitting={isBlocking}
+          onCancel={handleCloseAllModals}
         />
       )}
-      {isConfirmationModalOpen && (
-        <ConfirmationModal
-          // appName={userToBlock.appName} // Si quieres pasar el nombre de la app al modal
-          onClose={handleCloseConfirmationModal}
-        />
-      )}
+      {isConfirmationModalOpen && <ConfirmationModal onClose={handleCloseConfirmationModal} />}
+
+      {/* Reportar */}
       {isReportModalOpen && (
         <ReportUserModal
           userName={userToBlock.name}
-          onBlock={handleReportReasonSelected}
-          onCancel={handleCloseReportModal}
-          onOpenAdditionalInfoModal={handleOpenDetailsReportModal}
+          onReasonSubmit={handleReportReasonSelected}
+          onCancel={handleCloseAllModals}
         />
       )}
       {isDetailsReportModalOpen && (
-        <DetailsReportModal onSubmit={handleSubmitDetailsReportModal} onBack={handleBackFromDetailsReportModal} />
+        <DetailsReportModal
+          onSubmit={handleSubmitDetailsReportModal}
+          onBack={handleBackFromDetailsReportModal}
+          onCancel={handleCloseAllModals}
+        />
       )}
       {isEvidenceModalOpen && (
-        <EvidenceReportModal onBack={handleBackFromEvidenceReportModal} onSubmit={handleSubmitEvidenceReportModal} />
+        <EvidenceReportModal
+          onSubmit={handleSubmitEvidenceReportModal}
+          onBack={handleBackFromEvidenceReportModal}
+          onCancel={handleCloseAllModals}
+        />
       )}
       {isReportConfirmationModalOpen && <ReportConfirmationModal onClose={handleCloseReportConfirmatioModal} />}
 

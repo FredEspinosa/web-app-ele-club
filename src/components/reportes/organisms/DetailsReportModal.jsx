@@ -5,17 +5,18 @@ import ModalHeader from "../../bloqueos/atoms/ModalHeader";
 import ModalBody from "../../bloqueos/molecules/ModalBody";
 import ModalFooter from "../../bloqueos/atoms/ModalFooter";
 
-const DetailsReportModal = ({ onSubmit, onBack }) => {
+const DetailsReportModal = ({ onSubmit, onBack, onCancel }) => {
   const [additionalText, setAdditionalText] = useState("");
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [hasEvidence, setHasEvidence] = useState(false);
+  const isDisabled = !additionalText.trim();
 
   const handleSubmit = () => {
-    onSubmit(additionalText);
+    onSubmit({ details: additionalText, hasEvidence });
   };
 
   return (
     <ModalContainer height={522}>
-      <ModalHeader text="Detalles del reporte" onCancel={onBack} />
+      <ModalHeader text="Detalles del reporte" onCancel={onCancel} />
       <ModalBody text={"Proporciona más información para ayudarnos a entender \n mejor la situación."}>
         <p className="reason-question">Describe la situación con más detalle</p>
         <textarea
@@ -26,11 +27,12 @@ const DetailsReportModal = ({ onSubmit, onBack }) => {
         />
 
         <div className="checkbox-agreement">
-          <input 
-            type="checkbox" 
-            id="agreementCheckbox" 
-            className="checkbox" 
-            onChange={() => setIsDisabled(!isDisabled)} 
+          <input
+            type="checkbox"
+            id="agreementCheckbox"
+            className="checkbox"
+            checked={hasEvidence}
+            onChange={(e) => setHasEvidence(e.target.checked)}
           />
           <label htmlFor="agreementCheckbox" className="checkbox-label">
             Tengo evidencia para respaldar este reporte
@@ -53,6 +55,7 @@ const DetailsReportModal = ({ onSubmit, onBack }) => {
 DetailsReportModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default DetailsReportModal;

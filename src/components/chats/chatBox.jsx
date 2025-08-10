@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import { db } from "../../services/firebaseConfig";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
@@ -131,6 +130,22 @@ const ChatBox = () => {
     }
   };
 
+  const handleDeleteGroupConversation = async (conversationId) => {
+    console.log("Eliminando conversación de GRUPO:", conversationId);
+
+    // 1. Actualiza el estado de los chats de grupo
+    setGroupConversations(
+      (prevConversations) => prevConversations.filter((conv) => conv.id !== conversationId) // Usamos conv.id porque así parece estar en tus datos
+    );
+
+    // 2. (OPCIONAL PERO RECOMENDADO) Llama a tu API para borrarlo del servidor
+    // try {
+    //   await conversationDelete(tokenSesionStorage, conversationId);
+    // } catch (error) {
+    //   console.error("Error al eliminar el grupo del servidor:", error);
+    // }
+  };
+
   return (
     <div>
       <div id="chatsBox" className="club_contenedor_tres_secciones club_contenedor container-lg">
@@ -153,7 +168,6 @@ const ChatBox = () => {
             colBtns={"col-6"}
           />
           <div style={{ marginTop: "20px" }}>
-            {/* Renderiza contenido basado en la vista */}
             {vista === "chatsPrivados" && (
               <ChatsContentPrivate
                 handleOnClick={redirectBack}
@@ -161,7 +175,13 @@ const ChatBox = () => {
                 onDelete={handleDeleteConversation}
               />
             )}
-            {vista === "salaDeChats" && <ChatsContentGroup handleOnClick={redirectBack} listChatsGroup={groupConversations} />}
+            {vista === "salaDeChats" && (
+              <ChatsContentGroup
+                handleOnClick={redirectBack}
+                listChatsGroup={groupConversations}
+                onDelete={handleDeleteGroupConversation}
+              />
+            )}
           </div>
         </div>
         <div className="club_contenido_bottom club_cont_info">
