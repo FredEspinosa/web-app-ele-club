@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Box, Typography, CircularProgress } from "@mui/material";
 import { dateTransform, fileToBase64 } from "@/utils/functions/discover";
@@ -9,6 +9,8 @@ import { EditIcon } from "@/assets/icons";
 import WarningMessage from "./WarningMessage";
 import EventInfoBlock from "./EventInfoBlock";
 import ServiceInfoBlock from "./ServiceInfoBlock";
+import useSWR from "swr";
+import { fetcher } from "@/services/api";
 
 export default function ReviewPage() {
   const navigate = useNavigate();
@@ -17,9 +19,25 @@ export default function ReviewPage() {
   const { formData } = location.state || {};
   const isEvent = offerTypeId === OFFERS_TYPE_IDS.EVENTO;
   const isService = offerTypeId === OFFERS_TYPE_IDS.SERVICIO;
-  console.log({ formData });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: categoryCatalogData, isLoading: isLoadingCatalog } = useSWR(
+    offerTypeId ? API_ENDPOINTS.GET_OFFER_CATEGORY_CATALOG_BY_ID(offerTypeId) : null,
+    fetcher
+  );
+
+  const handleEdit = () => {
+    navigate(`/descubre/contribuir/${offerTypeId}`, { state: { formData } });
+  };
+
+  const categoryName = useMemo(() => {
+    if (isLoadingCatalog) return "Cargando categoría...";
+    if (!categoryCatalogData?.result) return "Categoría no encontrada";
+    const categoryId = formData.EventCategory || formData.ServiceCategory;
+    const catalogArray = Object.values(categoryCatalogData.result);
+    const foundCategory = catalogArray.find((cat) => cat.id === categoryId);
+    return foundCategory ? foundCategory.name : "Categoría desconocida";
+  }, [categoryCatalogData, formData, isLoadingCatalog]);
 
   const handlePublish = async () => {
     setIsSubmitting(true);
@@ -97,7 +115,7 @@ export default function ReviewPage() {
 
   const eventData = {
     title: formData.EventTitle,
-    category: "DEPORTES",
+    category: categoryName,
     date: dateTransform(formData.EventDate),
     hour: formData.EventTimeStart,
     about: formData.EventAbout,
@@ -108,7 +126,7 @@ export default function ReviewPage() {
 
   const serviceData = {
     title: formData.ServiceTitle,
-    category: "DEPORTES",
+    category: categoryName,
     about: formData.ServiceAbout,
     includes: formData.ServiceIncludes,
     cost: formData.ServiceCost,
@@ -172,7 +190,7 @@ export default function ReviewPage() {
             <button
               className="btn club_btn club_btn_full club_btn_borde_violeta"
               style={{ justifyContent: "center", gap: "8px" }}
-              onClick={() => navigate(-1)}
+              onClick={handleEdit}
               disabled={isSubmitting}
             >
               <EditIcon />

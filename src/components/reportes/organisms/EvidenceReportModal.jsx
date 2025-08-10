@@ -6,7 +6,7 @@ import ModalBody from "../../bloqueos/molecules/ModalBody";
 import ModalFooter from "../../bloqueos/atoms/ModalFooter";
 import FileUploader from "../atoms/FileUploader";
 
-const EvidenceReportModal = ({ onSubmit, onBack }) => {
+const EvidenceReportModal = ({ onSubmit, onBack, onCancel }) => {
   const [additionalText, setAdditionalText] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -26,18 +26,12 @@ const EvidenceReportModal = ({ onSubmit, onBack }) => {
       setSelectedFile(file);
       setFileError(null);
 
-      // const formData = new FormData();
-      // formData.append('miArchivo', file);
-      // fetch('/api/upload', { method: 'POST', body: formData })
-      //   .then(response => response.json())
-      //   .then(data => console.log('Upload success:', data))
-      //   .catch(error => console.error('Upload error:', error));
     }
   };
 
   return (
     <ModalContainer height={585}>
-      <ModalHeader text="Adjuntar evidencia" onCancel={onBack} />
+      <ModalHeader text="Adjuntar evidencia" onCancel={onCancel} />
       <ModalBody text={"Puedes adjuntar capturas de pantalla, mensajes u otra\n evidencia que respalde tu reporte."}>
         <FileUploader onFileSelect={handleFileSelected} />
         <div className="textarea">
@@ -66,7 +60,6 @@ const EvidenceReportModal = ({ onSubmit, onBack }) => {
           <p>Nombre: {selectedFile.name}</p>
           <p>Tipo: {selectedFile.type}</p>
           <p>Tamaño: {(selectedFile.size / 1024).toFixed(2)} KB</p>
-          {/* Si es una imagen, podrías previsualizarla */}
           {selectedFile.type.startsWith("image/") && (
             <img src={URL.createObjectURL(selectedFile)} alt="Vista previa" style={{ maxWidth: "200px", marginTop: "10px" }} />
           )}
@@ -79,6 +72,7 @@ const EvidenceReportModal = ({ onSubmit, onBack }) => {
 EvidenceReportModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default EvidenceReportModal;

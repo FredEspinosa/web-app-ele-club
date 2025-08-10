@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import { db } from "../../services/firebaseConfig";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
@@ -121,6 +120,9 @@ const ChatBox = () => {
       });
 
       setPrivateConversations((prev) => prev.filter((conv) => conv.id !== conversationToDelete));
+      setGroupConversations(
+      (prevConversations) => prevConversations.filter((conv) => conv.id !== conversationToDelete)
+    );
       setShowDeleteModal(false);
       setConversationToDelete(null);
     } catch (error) {
@@ -129,6 +131,13 @@ const ChatBox = () => {
       alert(`No se pudo eliminar el chat: ${error.message}`);
       setShowDeleteModal(false); // Cierra el modal también en caso de error
     }
+  };
+
+  const handleDeleteGroupConversation = async (conversationId) => {
+    console.log("Eliminando conversación de GRUPO:", conversationId);
+    setGroupConversations(
+      (prevConversations) => prevConversations.filter((conv) => conv.id !== conversationId)
+    );
   };
 
   return (
@@ -153,7 +162,6 @@ const ChatBox = () => {
             colBtns={"col-6"}
           />
           <div style={{ marginTop: "20px" }}>
-            {/* Renderiza contenido basado en la vista */}
             {vista === "chatsPrivados" && (
               <ChatsContentPrivate
                 handleOnClick={redirectBack}
@@ -161,7 +169,13 @@ const ChatBox = () => {
                 onDelete={handleDeleteConversation}
               />
             )}
-            {vista === "salaDeChats" && <ChatsContentGroup handleOnClick={redirectBack} listChatsGroup={groupConversations} />}
+            {vista === "salaDeChats" && (
+              <ChatsContentGroup
+                handleOnClick={redirectBack}
+                listChatsGroup={groupConversations}
+                onDelete={handleDeleteConversation}
+              />
+            )}
           </div>
         </div>
         <div className="club_contenido_bottom club_cont_info">

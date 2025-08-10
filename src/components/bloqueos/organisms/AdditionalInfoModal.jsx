@@ -7,7 +7,7 @@ import ModalFooter from "../atoms/ModalFooter";
 import shieldLineIcon from "../../../assets/images/reportar_usuario/shield-line.png";
 
 
-const AdditionalInfoModal = ({ onSubmit, onBack }) => {
+const AdditionalInfoModal = ({ onSubmit, onBack, onCancel }) => {
   const [additionalText, setAdditionalText] = useState("");
   const isDisabled = false;
 
@@ -17,7 +17,7 @@ const AdditionalInfoModal = ({ onSubmit, onBack }) => {
 
   return (
     <ModalContainer height={522}>
-      <ModalHeader text="Información adicional" onCancel={onBack} />
+      <ModalHeader text="Información adicional" onCancel={onCancel} />
       <ModalBody text="Proporcionar más detalles nos ayuda a mejorar la experiencia para todos los usuarios.">
         <p className="reason-question">¿Hay algo más que quisieras contarnos?</p>
         <textarea className="textAreaAddInfo" value={additionalText} onChange={(e) => setAdditionalText(e.target.value)} placeholder="Describe la situación..."/>
@@ -38,6 +38,7 @@ const AdditionalInfoModal = ({ onSubmit, onBack }) => {
 AdditionalInfoModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default AdditionalInfoModal;
