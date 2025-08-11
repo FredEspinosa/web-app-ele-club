@@ -44,6 +44,7 @@ const StyledRating = materialStyled(Rating)({
 export default function GlobalReview({data}) {
 
   const [open, setOpen] = useState(false);
+  
   return (
     <StyledGlobalReviewContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', width: '100%'}}>

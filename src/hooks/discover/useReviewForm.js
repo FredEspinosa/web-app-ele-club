@@ -43,10 +43,9 @@ const useReviewForm = (id, userId, { onSucces, onError }) => {
       const comment = opinionValue;
 
       const response = await reviewCreate( id, userId, rating, comment);
-      if (response.inSuccess === true ) {
+      if (response.isSuccess === true ) {
         console.log("Se envio tu respuesta");
         onSucces;
-        
       } else {
         console.log("Ocurrió un error ☠️");
       }
