@@ -128,7 +128,7 @@ export default function ListCardEdit({ data, activeId }) {
             // await deleteOfertId(id);
             const res = await deleteOfertId(id);
             // Filtrar la lista para quitar la oferta borrada
-            if (res.succes === true) {
+            if (res.isSuccess === true) {
                 setOfferList(prev => prev.filter(offer => offer.id !== id));
                 console.log(`Oferta ${id} eliminada con éxito`);
 

@@ -909,14 +909,14 @@ export const deleteOfertId = async (idOfert) => {
   const token = getToken();
   let config = {
     method: "DELETE",
-    url: endpoints.ofertDelete,
+    url: endpoints.ofertDelete + `/${idOfert}`,
     headers: {
       Accept: "*/*",
       Authorization: `Bearer ${token}`,
     },
-    params: {
-      id: idOfert,
-    },
+    // params: {
+    //   id: idOfert,
+    // },
   };
   try {
     const response = await axios.request(config);
