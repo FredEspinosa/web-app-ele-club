@@ -11,6 +11,7 @@ import { EditIcon } from '@/assets/icons';
 import { FaCheck } from 'react-icons/fa6';
 import { deleteOfertId } from '@/services/api';
 import { useState } from 'react';
+import ConfirmationModal from '@/components/bloqueos/organisms/ConfirmationModal';
 
 // Diccionario para traducir estatus
 const statusStyles = {
@@ -28,7 +29,7 @@ const statusStyles = {
         label: "Finalizado",
         background: "#EBF3FE", // azul
         color: "#3782F3",
-        icon: <div style={{width:'15px',paddingRight:'4px'}}><FaCheck /></div>
+        icon: <div style={{ width: '15px', paddingRight: '4px' }}><FaCheck /></div>
     }
 };
 
@@ -83,9 +84,12 @@ const formatTime = (dateString) => {
 
 export default function ListCardEdit({ data, activeId }) {
     console.log("data list", data);
-    
+
     const navigate = useNavigate();
     const [offerList, setOfferList] = useState(data);
+    const [showModal, setShowModal] = useState(false);
+    const [textTitleModal, setTextTitleModal] = useState('');
+    const [textBodyModal, setTextBodyModal] = useState('');
 
     if (!data || data.length === 0) {
         return <div>No hay elementos para mostrar</div>;
@@ -121,26 +125,30 @@ export default function ListCardEdit({ data, activeId }) {
 
     const deleteOffert = async (id) => {
         try {
-            await deleteOfertId(id);
+            // await deleteOfertId(id);
+            const res = await deleteOfertId(id);
             // Filtrar la lista para quitar la oferta borrada
-            setOfferList(prev => prev.filter(offer => offer.id !== id));
-            console.log(`Oferta ${id} eliminada con éxito`);
+            if (res.succes === true) {
+                setOfferList(prev => prev.filter(offer => offer.id !== id));
+                console.log(`Oferta ${id} eliminada con éxito`);
+
+                setTextTitleModal(<p style={{ fontSize: '23px' }}>¡Oferta Borrada!</p>);
+                setTextBodyModal(<p>La oferta fue eliminada con éxito.</p>);
+                setShowModal(true);
+            }
         } catch (err) {
             console.error("Error borrando la oferta:", err);
+            if (err) {
+                setTextTitleModal(<p style={{ fontSize: '23px' }}>¡Oferta No Borrada!</p>);
+                setTextBodyModal(<p>Ocurrio un error inesperado al borrar tu oferta.</p>);
+                setShowModal(true);
+            }
         }
     };
 
-    // const deleteOffert = async (id) => {
-    //     console.log("Clic en borrar", id);
-    //     const idOfert = id
-    //     try {
-    //         const res = await deleteOfertId(idOfert); // ahora sí usa el id del elemento clickeado
-    //         console.log("Borrado con éxito", res);
-    //         // Aquí podrías actualizar el estado para removerlo del listado
-    //     } catch (err) {
-    //         console.error("Error borrando", err);
-    //     }
-    // };
+    const handleCloseConfirmationModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <>
@@ -149,7 +157,7 @@ export default function ListCardEdit({ data, activeId }) {
                 const formattedTime = formatTime(item.creationDate);
 
                 const statusInfo = statusStyles[item.status] || { label: "Sin estatus", background: "#999", icon: null };
-                
+
                 return (
                     <BackgroundEditList key={item.id || index}>
                         <StyledDetailsDirectioncontainer>
@@ -184,9 +192,9 @@ export default function ListCardEdit({ data, activeId }) {
                                 <div onClick={handleEdit}>
                                     <EditIcon size={20} />
                                 </div>
-                                <FaRegTrashAlt 
-                                    size={20} 
-                                    className='club_color_fuente_violeta_08' 
+                                <FaRegTrashAlt
+                                    size={20}
+                                    className='club_color_fuente_violeta_08'
                                     onClick={() => deleteOffert(item.id)}
                                 />
                             </StyleContentButtons>
@@ -194,6 +202,14 @@ export default function ListCardEdit({ data, activeId }) {
                     </BackgroundEditList>
                 );
             })}
+            {showModal &&
+                <ConfirmationModal
+                    isDynamic={true}
+                    textTitleModal={textTitleModal}
+                    textBodyModal={textBodyModal}
+                    onClose={handleCloseConfirmationModal}
+                />
+            }
         </>
     );
 }
