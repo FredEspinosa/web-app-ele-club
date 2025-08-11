@@ -23,15 +23,17 @@ export default function EventAndServicesDetails({ categories }) {
   // Consulta con el ID dinámico
   const { data, error, isLoading } = useMyEventsAndServices(activeId);
   const goToPlans = useGoToPlans(activeId.categoryValue);
+  const { data: eventos } = useMyEventsAndServices(categories[0]?.id);
+  const { data: servicios } = useMyEventsAndServices(categories[1]?.id);
 
   const tabs = [
-    {
-      label: "Eventos",
-      content: <> {Array.isArray(data) && data.length > 0 && <ListCardEdit data={data} activeId={activeId} activeName={activeName} />} </>,
+    { 
+      label: "Eventos", 
+      content: <> {Array.isArray(data) && data.length > 0 && <ListCardEdit data={eventos} activeId={activeId} activeName={activeName} /> } </>,
     },
-    {
-      label: "Servicios",
-      content: <> {Array.isArray(data) && data.length > 0 && <ListCardEdit data={data} activeId={activeId} activeName={activeName} />} </>,
+    { 
+      label: "Servicios", 
+      content: <> {Array.isArray(data) && data.length > 0 && <ListCardEdit data={servicios} activeId={activeId} activeName={activeName} /> } </>,
     },
   ];
 

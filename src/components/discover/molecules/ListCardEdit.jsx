@@ -9,22 +9,8 @@ import { DiscoverInfo } from '../atoms';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { EditIcon } from '@/assets/icons';
 import { FaCheck } from 'react-icons/fa6';
-
-// Estilos
-// const StyleStatusOffert = styled.p`
-//     text-transform: capitalize;
-//     width: 79px;
-//     height: 22px;
-//     angle: 0 deg;
-//     opacity: 1;
-//     gap: 10px;
-//     border-radius: 16px;
-//     padding-right: 8px;
-//     padding-left: 8px;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-// `;
+import { deleteOfertId } from '@/services/api';
+import { useState } from 'react';
 
 // Diccionario para traducir estatus
 const statusStyles = {
@@ -96,7 +82,10 @@ const formatTime = (dateString) => {
 };
 
 export default function ListCardEdit({ data, activeId }) {
+    console.log("data list", data);
+    
     const navigate = useNavigate();
+    const [offerList, setOfferList] = useState(data);
 
     if (!data || data.length === 0) {
         return <div>No hay elementos para mostrar</div>;
@@ -130,9 +119,28 @@ export default function ListCardEdit({ data, activeId }) {
         navigate(`/descubre/contribuir/${activeId}`, { state: { formData: mappedFormData } });
     };
 
-    const deleteOffert = () => {
-        console.log("Clic en borrar");
-    }
+    const deleteOffert = async (id) => {
+        try {
+            await deleteOfertId(id);
+            // Filtrar la lista para quitar la oferta borrada
+            setOfferList(prev => prev.filter(offer => offer.id !== id));
+            console.log(`Oferta ${id} eliminada con éxito`);
+        } catch (err) {
+            console.error("Error borrando la oferta:", err);
+        }
+    };
+
+    // const deleteOffert = async (id) => {
+    //     console.log("Clic en borrar", id);
+    //     const idOfert = id
+    //     try {
+    //         const res = await deleteOfertId(idOfert); // ahora sí usa el id del elemento clickeado
+    //         console.log("Borrado con éxito", res);
+    //         // Aquí podrías actualizar el estado para removerlo del listado
+    //     } catch (err) {
+    //         console.error("Error borrando", err);
+    //     }
+    // };
 
     return (
         <>
@@ -141,7 +149,7 @@ export default function ListCardEdit({ data, activeId }) {
                 const formattedTime = formatTime(item.creationDate);
 
                 const statusInfo = statusStyles[item.status] || { label: "Sin estatus", background: "#999", icon: null };
-
+                
                 return (
                     <BackgroundEditList key={item.id || index}>
                         <StyledDetailsDirectioncontainer>
@@ -155,20 +163,20 @@ export default function ListCardEdit({ data, activeId }) {
                         </StyledDetailsDirectioncontainer>
 
                         <StyledDetailsEventContainer $width="fit-content">
-                            <DiscoverInfo icon="location" colorFill="#343434" color="#343434">
+                            <DiscoverInfo icon="location" colorFill="var(--color-neutral-gris-01)" color="var(--color-neutral-gris-01)">
                                 {item.LocationName || "Sin ubicación"}
                             </DiscoverInfo>
-                            <DiscoverInfo icon="calendar" colorFill="#343434" color="#343434">
+                            <DiscoverInfo icon="calendar" colorFill="var(--color-neutral-gris-01)" color="var(--color-neutral-gris-01)">
                                 {formattedDate}
                             </DiscoverInfo>
-                            <DiscoverInfo icon="clock" colorFill="#343434" color="#343434">
+                            <DiscoverInfo icon="clock" colorFill="var(--color-neutral-gris-01)" color="var(--color-neutral-gris-01)">
                                 {formattedTime}
                             </DiscoverInfo>
                         </StyledDetailsEventContainer>
 
                         <StyledDetailsDirectioncontainer>
                             <StyledDetailsDistance>
-                                <DiscoverInfo icon="user" colorFill="#343434" color="#343434">
+                                <DiscoverInfo icon="user" colorFill="var(--color-neutral-gris-01)" color="var(--color-neutral-gris-01)">
                                     {item.reviews?.length || 0} reseñas
                                 </DiscoverInfo>
                             </StyledDetailsDistance>
@@ -176,7 +184,11 @@ export default function ListCardEdit({ data, activeId }) {
                                 <div onClick={handleEdit}>
                                     <EditIcon size={20} />
                                 </div>
-                                <FaRegTrashAlt size={20} className='club_color_fuente_violeta_08' onClick={deleteOffert}/>
+                                <FaRegTrashAlt 
+                                    size={20} 
+                                    className='club_color_fuente_violeta_08' 
+                                    onClick={() => deleteOffert(item.id)}
+                                />
                             </StyleContentButtons>
                         </StyledDetailsDirectioncontainer>
                     </BackgroundEditList>

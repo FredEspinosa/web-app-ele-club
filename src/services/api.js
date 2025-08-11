@@ -42,6 +42,7 @@ const endpoints = {
   loguinFirebase: `${hostApi}Login`,
   likesMe:`${hostApi}Likes/Me`,
   createReview:`${hostApi}Review/Create`,
+  ofertDelete:`${hostApi}Offer/Delete`,
 };
 
 export const obtenerImagenPerfil = () => {
@@ -899,6 +900,29 @@ export const reviewCreate = async (id, userId, rating, comment) => {
     return response.data;
   } catch (error) {
     console.error("Error en Review/Create: ", error);
+    throw error;
+  }
+};
+
+// Delete deleteOfertId
+export const deleteOfertId = async (idOfert) => {
+  const token = getToken();
+  let config = {
+    method: "DELETE",
+    url: endpoints.ofertDelete,
+    headers: {
+      Accept: "*/*",
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      id: idOfert,
+    },
+  };
+  try {
+    const response = await axios.request(config);
+    return response.data;
+  } catch (error) {
+    console.error("Error en deleteOfertId:", idOfert);
     throw error;
   }
 };

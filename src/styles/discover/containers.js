@@ -287,4 +287,5 @@ export const BackgroundEditList = styled.div`
   padding: 1px 16px;
   box-shadow: 0px 4px 11px 0px rgba(151, 151, 151, 0.25);
   border-radius: 16px;
+  margin-bottom: 16px;
 `;
