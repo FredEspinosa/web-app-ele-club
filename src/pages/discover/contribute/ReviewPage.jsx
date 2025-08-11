@@ -28,6 +28,7 @@ export default function ReviewPage() {
 
   const handleEdit = () => {
     navigate(`/descubre/contribuir/${offerTypeId}`, { state: { formData } });
+    console.log({state: { formData }});
   };
 
   const categoryName = useMemo(() => {

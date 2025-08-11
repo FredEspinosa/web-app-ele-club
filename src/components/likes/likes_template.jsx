@@ -26,6 +26,12 @@ const LikesTemplate = () => {
   //     setVistaActual("likes")
   //   }
   // }, [vistaActual])
+
+  useEffect(() => {
+    const viewLog = vista
+    console.log({viewLog});
+  }, [])
+  
   
   const redirectBack = () => {
     navigate("/home");
@@ -39,17 +45,16 @@ const LikesTemplate = () => {
 
   const handleButtonClick = (evento) => {
     setVista(evento); // Actualizar la vista activa
-    console.log("Vista activa:", evento); // Debug
+    console.log("Vista activa:", evento);
   };
 
   const handleOptionSelect = (selectedOption) => {
     console.log("Opción seleccionada:", selectedOption);
     setVistaActual(selectedOption)
-    // Aquí puedes manejar la lógica adicional con la opción seleccionada
   };
 
   const isLoaderShow = (loaderShow) => {
-    setShowLoader(loaderShow); // Solo actualizar el estado directamente
+    setShowLoader(loaderShow);
   };  
 
   return (
