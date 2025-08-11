@@ -7,11 +7,14 @@ import { StyledDetailsActions, StyledPageContainer, StyledTopFiltersContainer } 
 import ListCardEdit from "@/components/discover/molecules/ListCardEdit";
 import useMyEventsAndServices from "@/hooks/discover/useMyEventsAndServices";
 import { useNavigate } from "react-router-dom";
+import { useHomeFilters } from "@/hooks/discover";
+import { useGoToPlans } from "@/hooks/discover/useGoToPlans";
 
-export default function EventAndServicesDetails({ categories}) {
+export default function EventAndServicesDetails({ categories }) {
+  console.log("consulta servicio de ofertas");
+  
   // Estado para la pestaña activa
   const [activeTab, setActiveTab] = useState(0);
-  const navigate = useNavigate();
 
   // ID dinámico dependiendo de la pestaña
   const activeId = categories?.[activeTab]?.id || null;
@@ -19,31 +22,19 @@ export default function EventAndServicesDetails({ categories}) {
 
   // Consulta con el ID dinámico
   const { data, error, isLoading } = useMyEventsAndServices(activeId);
+  const goToPlans = useGoToPlans(activeId.categoryValue);
 
   const tabs = [
     {
       label: "Eventos",
-      content: <> {Array.isArray(data) && data.length > 0 && <ListCardEdit data={data} activeId={activeId} activeName={activeName} /> } </>,
+      content: <> {Array.isArray(data) && data.length > 0 && <ListCardEdit data={data} activeId={activeId} activeName={activeName} />} </>,
     },
     {
       label: "Servicios",
-      content: <> {Array.isArray(data) && data.length > 0 && <ListCardEdit data={data} activeId={activeId} activeName={activeName} /> } </>,
+      content: <> {Array.isArray(data) && data.length > 0 && <ListCardEdit data={data} activeId={activeId} activeName={activeName} />} </>,
     },
   ];
 
-  const redirectAddOffert = () => {
-    if (!activeId) {
-      console.error("No hay ID en categories");
-      return;
-    }
-    
-    if (activeId === "Evento") {
-      navigate(`/descubre/evento/${activeId}`);
-    } else {
-      navigate(`/descubre/servicio/${activeId}`);
-    }
-  };
- 
   if (isLoading) return <div>Cargando...</div>;
   if (error) return <div>Error al cargar los detalles.</div>;
 
@@ -55,8 +46,8 @@ export default function EventAndServicesDetails({ categories}) {
           tabs={tabs}
           onTabChange={(index) => setActiveTab(index)} // 👈 Aquí capturamos el cambio de pestaña
         />
-        <StyledDetailsActions>
-          <Button size="full" type="button" onClick={redirectAddOffert}>
+        <StyledDetailsActions style={{display: "block"}}>
+          <Button size="full" type="button" onClick={goToPlans}>
             Agregar {activeTab === 0 ? "evento" : "servicio"}
           </Button>
         </StyledDetailsActions>

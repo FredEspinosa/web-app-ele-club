@@ -291,7 +291,7 @@ function App() {
           ],
         },
         {
-          path: '/edit_post',
+          path: '/edit_ofert',
           children: [
             { index: true, Component: ConsultMyOffertsType },
           ],

@@ -8,7 +8,7 @@ const MyEventsAndServices = () => {
   const navigate = useNavigate();
 
   const nextStep = () => {
-    navigate(`/edit_post`);
+    navigate(`/edit_ofert`);
   };
 
   // const eventos = data?.result?.evento ?? [];
