@@ -3,10 +3,13 @@ import { MapContainer, TileLayer, Marker, Tooltip, LayerGroup } from "react-leaf
 import "leaflet/dist/leaflet.css";
 import PropTypes from "prop-types";
 import ChangeMapView from "../atoms/ChangeMapView";
+import { FilterButton, FilterControlsContainer, MapWrapper } from "@/styles/discover/mapWithCluster";
+import { EventosMarkerIcon, ServiciosMarkerIcon } from "../atoms/markersIcons";
 
 const DEFAULT_CENTER = [19.4326, -99.1332];
 function MapWithCluster({ data }) {
   const [mapCenter, setMapCenter] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("todos");
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -25,25 +28,41 @@ function MapWithCluster({ data }) {
     }
   }, []);
 
+  const handleFilterClick = (filterType) => {
+    if (activeFilter === filterType) {
+      setActiveFilter("todos");
+    } else {
+      setActiveFilter(filterType);
+    }
+  };
+
   const points = useMemo(() => {
     if (!data) return [];
-    const allOffers = [...(data.evento || []), ...(data.servicio || [])];
-    return allOffers
-      .filter(
-        (offer) =>
-          Array.isArray(offer.location) && offer.location.length === 2 && (offer.location[0] !== 0 || offer.location[1] !== 0)
-      )
+    let offersToShow = [];
+    if (activeFilter === "evento") {
+      offersToShow = (data.evento || []).map((offer) => ({ ...offer, type: "evento" }));
+    } else if (activeFilter === "servicio") {
+      offersToShow = (data.servicio || []).map((offer) => ({ ...offer, type: "servicio" }));
+    } else {
+      const eventos = (data.evento || []).map((offer) => ({ ...offer, type: "evento" }));
+      const servicios = (data.servicio || []).map((offer) => ({ ...offer, type: "servicio" }));
+      offersToShow = [...eventos, ...servicios];
+    }
+
+    return offersToShow
+      .filter((offer) => Array.isArray(offer.location) && (offer.location[0] !== 0 || offer.location[1] !== 0))
       .map((offer) => ({
         position: offer.location,
         label: offer.offerTitle,
         id: offer.id,
+        type: offer.type,
       }));
-  }, [data]);
+  }, [data, activeFilter]);
 
   const markers = useMemo(
     () =>
       points.map((pt, index) => (
-        <Marker key={index} position={pt.position}>
+        <Marker key={index} position={pt.position} icon={pt.type === "evento" ? EventosMarkerIcon : ServiciosMarkerIcon}>
           <Tooltip>{pt.label}</Tooltip>
         </Marker>
       )),
@@ -55,11 +74,22 @@ function MapWithCluster({ data }) {
   }
 
   return (
-    <MapContainer center={mapCenter} zoom={14} style={{ height: "70vh", width: "100%" }}>
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors" />
-      <LayerGroup chunkedLoading>{markers}</LayerGroup>
-      <ChangeMapView coords={mapCenter} zoom={14} />
-    </MapContainer>
+    <MapWrapper>
+      <MapContainer center={mapCenter} zoom={12} style={{ height: "100%", width: "100%" }} zoomControl={false}>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OpenStreetMap contributors" />
+        <LayerGroup chunkedLoading>{markers}</LayerGroup>
+        <ChangeMapView coords={mapCenter} zoom={14} />
+      </MapContainer>
+
+      <FilterControlsContainer>
+        <FilterButton isActive={activeFilter === "evento"} onClick={() => handleFilterClick("evento")}>
+          Eventos
+        </FilterButton>
+        <FilterButton isActive={activeFilter === "servicio"} onClick={() => handleFilterClick("servicio")}>
+          Servicios
+        </FilterButton>
+      </FilterControlsContainer>
+    </MapWrapper>
   );
 }
 
