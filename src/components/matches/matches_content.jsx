@@ -7,6 +7,7 @@ import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png"
 // import { PiCheckCircleFill } from 'react-icons/pi';
 import { AiFillMessage } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { useDeleteLike } from "../likes/hooks/useDeleteLike";
 import InputDinamico from "../inputs/inputsDinamico";
 import { SwipeableList, SwipeableListItem } from "@sandstreamdev/react-swipeable-list";
 import "@sandstreamdev/react-swipeable-list/dist/styles.css";
@@ -16,13 +17,13 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
   const navigate = useNavigate();
   const [showFriends, setShowFriends] = useState(true);
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
-  const [requests, setRequests] = useState([]);
   const [myFriendsOk, setMyFriendsOk] = useState([]);
   const [showListFriends, setShowListFriends] = useState(true);
-  const [selectedFriends, setSelectedFriends] = useState([]); // Amigos seleccionados
-  const [isGroupMode, setIsGroupMode] = useState(false); // Activar selección múltiple
+  const [selectedFriends, setSelectedFriends] = useState([]);
+  const [isGroupMode, setIsGroupMode] = useState(false);
   const [nameGroup, setNameGroup] = useState("");
   const [formData, setFormData] = useState({ nameOfGroup: "" });
+  const { deleteLike, isLoading: isDeleting, error: deleteError } = useDeleteLike();
 
   useEffect(() => {
     let tokenStorage = sessionStorage.getItem("AccessToken");
@@ -144,8 +145,20 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
   };
 
   const handleDelete = async (friendId) => {
-    console.log("Eliminando Match con ID:", friendId);
+    const currentUserId = localStorage.getItem("userId");
+    const originalFriends = [...myFriendsOk];
     setMyFriendsOk((prevFriends) => prevFriends.filter((friend) => friend.userId !== friendId));
+    try {
+      await deleteLike({
+        userId: friendId,
+        likedUserId: currentUserId,
+        token: tokenSesionStorage,
+      });
+      console.log("Eliminando Match con ID:", friendId);
+    } catch (error) {
+      console.error("Fallo al eliminar:", error);
+      setMyFriendsOk(originalFriends);
+    }
   };
 
   return (
@@ -154,42 +167,6 @@ const MatchesContent = ({ handleOnClick, isLoader }) => {
         <div className="d-flex flex-wrap align-items-center justify-content-center w-100">
           {showFriends || showListFriends.length > 0 ? (
             <div className="club_content_scroll club_scroll_y align-items-start">
-              {requests.map((solicitud, index) => (
-                <div key={index} className="club_new_request col-12">
-                  <div className="col-12 d-flex justify-content-center flex-wrap align-items-center">
-                    <div className="col-10 d-flex align-items-center">
-                      <div className="club_requqest_content_photo">
-                        <img
-                          className="club_cont_perfil_img"
-                          src={
-                            solicitud?.fromUser?.userPhotos?.length > 0
-                              ? solicitud.fromUser?.userPhotos[0].photo
-                              : `data:image/jpeg;base64,${PerfilDefault}`
-                          }
-                          alt=""
-                          srcSet=""
-                        />
-                      </div>
-                      <div>
-                        <p className="club_friends_name club_color_fuente_negro">{solicitud?.fromUser?.name || "Sin nombre"}</p>
-                        <p className="club_color_fuente_negro">te mando una solicitud de amistad aceptala y empieza a chatear</p>
-                      </div>
-                    </div>
-                    <div className="col-2 d-flex align-items-center justify-content-end">
-                      <div>
-                        <button
-                          className="btn"
-                          onClick={() => {
-                            sendRequestFriends(solicitud?.id, true);
-                          }}
-                        >
-                          <IoPersonAdd className="club_color_fuente_violeta_04" size={20} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
               <SwipeableList>
                 {myFriendsOk.map((friend, index) => (
                   <SwipeableListItem

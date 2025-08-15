@@ -1,29 +1,28 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { conversationCreate, friendsRequests, friendsResponse, myFriends } from "../../services/api";
 import PerfilDefault from "../../assets/images/perfil/blank-profile-picture.png";
 import { IoPersonAdd } from "react-icons/io5";
-// import { PiCheckCircleFill } from 'react-icons/pi';
 import { AiFillMessage } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import InputDinamico from "../inputs/inputsDinamico";
 import { SwipeableList, SwipeableListItem } from "@sandstreamdev/react-swipeable-list";
 import "@sandstreamdev/react-swipeable-list/dist/styles.css";
 import SwipeToDeleteContent from "../swiper/SwipeToDeleteContent";
+import { useDeleteFriends } from "./hooks/useDeleteFriends";
 
 const FriendsContent = ({ handleOnClick, isLoader }) => {
   const navigate = useNavigate();
   const [showFriends, setShowFriends] = useState(true);
   const [tokenSesionStorage, setTokenSesionStorage] = useState("");
-  // const [typeResponse, setTypeResponse] = useState('')
   const [requests, setRequests] = useState([]);
   const [myFriendsOk, setMyFriendsOk] = useState([]);
   const [showListFriends, setShowListFriends] = useState(true);
-  const [selectedFriends, setSelectedFriends] = useState([]); // Amigos seleccionados
-  const [isGroupMode, setIsGroupMode] = useState(false); // Activar selección múltiple
+  const [selectedFriends, setSelectedFriends] = useState([]);
+  const [isGroupMode, setIsGroupMode] = useState(false);
   const [nameGroup, setNameGroup] = useState("");
   const [formData, setFormData] = useState({ nameOfGroup: "" });
+  const { deleteFriend, isLoading: isDeleting, error: deleteError } = useDeleteFriends();
 
   useEffect(() => {
     let tokenStorage = sessionStorage.getItem("AccessToken");
@@ -101,7 +100,6 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
     }
   };
 
-  // Detectar pulsación larga para activar selección múltiple
   let pressTimer;
   const handleLongPress = (friend) => {
     pressTimer = setTimeout(() => {
@@ -176,15 +174,34 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
   };
 
   const handleDeleteRequest = async (requestId) => {
-   console.log("Eliminando Request con ID:", requestId);
-   setRequests((prevRequests) => prevRequests.filter((request) => request.id !== requestId));
- }
-
-  const handleDeleteFriends = async (friendId) => {
-    console.log("Eliminando Friend con ID:", friendId);
-    setMyFriendsOk((prevFriends) => prevFriends.filter((friend) => friend.userId !== friendId));
+    const originalRequests = [...requests];
+    setRequests((prevRequests) => prevRequests.filter((request) => request.fromUserId !== requestId));
+    try {
+      await deleteFriend({
+        friendId: requestId,
+        token: tokenSesionStorage,
+      });
+      console.log("Eliminando Request con ID:", requestId);
+    } catch (error) {
+      console.error("Fallo al eliminar:", error);
+      setRequests(originalRequests);
+    }
   };
 
+  const handleDeleteFriends = async (friendId) => {
+    const originalFriends = [...requests];
+    setMyFriendsOk((prevFriends) => prevFriends.filter((friend) => friend.userId !== friendId));
+    try {
+      await deleteFriend({
+        friendId: friendId,
+        token: tokenSesionStorage,
+      });
+      console.log("Eliminando Friend con ID:", friendId);
+    } catch (error) {
+      console.error("Fallo al eliminar:", error);
+      setRequests(originalFriends);
+    }
+  };
 
   return (
     <div>
@@ -195,10 +212,10 @@ const FriendsContent = ({ handleOnClick, isLoader }) => {
               <SwipeableList>
                 {requests.map((solicitud, index) => (
                   <SwipeableListItem
-                    key={solicitud.userId}
+                    key={solicitud.fromUserId}
                     swipeLeft={{
                       content: <SwipeToDeleteContent />,
-                      action: () => handleDeleteRequest(solicitud.id),
+                      action: () => handleDeleteRequest(solicitud.fromUserId),
                     }}
                   >
                     <div key={index} className="club_new_request col-12">

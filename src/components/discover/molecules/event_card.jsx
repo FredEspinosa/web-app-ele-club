@@ -6,7 +6,9 @@ import { DetailsButton, DiscoverInfo } from "../atoms";
 import { StyledCardContainer, StyledDetailsEventContainer, StyledEventCardWithBg } from "../../../styles/discover/containers";
 import { StyledDiscoverRegularText } from "../../../styles/discover/texts";
 import { useGoToEvent } from "@/hooks/discover/useGoToEvent";
-import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png";
+import DefaultImage from "../../../assets/images/discover/default_image.png";
+
+
 
 const CardContentOnBg = styled(Box)({
   position: "relative",
@@ -20,7 +22,7 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id,
 
   useEffect(() => {
     if (!img) {
-      setImageSource(placeholderImage);
+      setImageSource(DefaultImage);
       return;
     }
 
@@ -35,7 +37,7 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id,
     const timeoutPromise = new Promise((_, reject) => {
       timeoutId = setTimeout(() => {
         reject(new Error("Tiempo de carga de imagen agotado"));
-      }, 1000);
+      }, 2000);
     });
 
     Promise.race([loadImagePromise, timeoutPromise])
@@ -45,7 +47,7 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id,
       })
       .catch((error) => {
         console.error(error.message);
-        setImageSource(placeholderImage);
+        setImageSource(DefaultImage);
       });
 
     return () => {
@@ -113,9 +115,9 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id,
         <CardMedia
           component="img"
           height="100"
-          image={imageSource || placeholderImage}
+          image={imageSource || DefaultImage}
           alt={title}
-          onError={() => setImageSource(placeholderImage)}
+          onError={() => setImageSource(DefaultImage)}
         />
         <CardContent
           sx={{

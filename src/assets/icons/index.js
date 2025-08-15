@@ -32,3 +32,4 @@ export { default as AlertIcon } from "./alert-line.jsx";
 export { default as EditIcon } from "./edit.jsx";
 export { default as CheckboxCircleLine } from "./checkbox-circle-line.jsx";
 export { default as AddIcon } from "./add.jsx";
+export { default as DefaultImage } from "./default_image.jsx";

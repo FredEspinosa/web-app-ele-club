@@ -6,7 +6,7 @@ import { StyledServiceListTitle } from "@/styles/discover/texts";
 import { ArrowRightIcon } from "@/assets/icons";
 import { useGoToService } from "@/hooks/discover/useGoToService";
 import { useEffect, useState } from "react";
-import placeholderImage from "../../../assets/images/perfil/blank-profile-picture.png";
+import DefaultImage from "../../../assets/images/discover/default_image.png";
 
 export default function ServiceItem({ id, title, image, amount, rate }) {
   const goToService = useGoToService(id);
@@ -14,7 +14,7 @@ export default function ServiceItem({ id, title, image, amount, rate }) {
 
   useEffect(() => {
     if (!image) {
-      setImageSource(placeholderImage);
+      setImageSource(DefaultImage);
       return;
     }
 
@@ -29,7 +29,7 @@ export default function ServiceItem({ id, title, image, amount, rate }) {
     const timeoutPromise = new Promise((_, reject) => {
       timeoutId = setTimeout(() => {
         reject(new Error("Tiempo de carga de imagen agotado"));
-      }, 1000);
+      }, 2000);
     });
 
     Promise.race([loadImagePromise, timeoutPromise])
@@ -39,7 +39,7 @@ export default function ServiceItem({ id, title, image, amount, rate }) {
       })
       .catch((error) => {
         console.error(error.message);
-        setImageSource(placeholderImage);
+        setImageSource(DefaultImage);
       });
 
     return () => {
