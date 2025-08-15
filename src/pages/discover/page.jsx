@@ -24,7 +24,7 @@ export default function Discover() {
   const [viewMode, setViewMode] = useState("lista");
   const handleToggleView = () => {
     setViewMode((currentMode) => (currentMode === "lista" ? "mapa" : "lista"));
-  };
+  };  
 
   return (
     <>
@@ -49,7 +49,6 @@ export default function Discover() {
                 <EventsView {...{ data }} />
               </>
             )}
-
             {values.categoryValue === OFFERS_TYPE_IDS.SERVICIO && (
               <>
                 <SubCategoryFilters
@@ -61,7 +60,7 @@ export default function Discover() {
             )}
           </>
         )}
-        {viewMode === "mapa" && <MapWithCluster />}
+        {viewMode === "mapa" && <MapWithCluster {...{data}} />}
         <Button onClick={goToPlans} isFloating={true} right={"30px"} bottom={"110px"} icon={<PlusIcon />}>
           Agregar
         </Button>
