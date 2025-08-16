@@ -6,7 +6,6 @@ import debounce from "lodash.debounce";
 import useSWR from "swr";
 import { fetcherWithToken } from "@/services/api";
 import { API_ENDPOINTS } from "@/descubreApi";
-import { OFFERS_TYPE_IDS } from "@/constants/offersType";
 
 const filterSchema = z.object({
   search: z.string().optional(),
@@ -57,6 +56,7 @@ const useHomeFilters = () => {
     isLoading,
   } = useSWR(() => {
     const params = new URLSearchParams({
+      ordering: "closestdate",
       search: debouncedSearch || "",
       typeId: categoryValue || "",
       categoryId: subcategoryValue || "",
