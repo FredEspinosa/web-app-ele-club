@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CarruselPerfilUsuario from "../swiper/carrusel_perfil_usuario";
 import { IoMdCheckmark, IoMdHeartEmpty } from "react-icons/io";
@@ -19,6 +19,7 @@ const PerfilOtraPersona = () => {
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
   const [mensajeModal, setMensajeModal] = useState(false);
+  const [tokenSesionStorage, setTokenSesionStorage] = useState("");
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [userToBlock] = useState({ name: "Alex" });
   const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
@@ -63,6 +64,13 @@ const PerfilOtraPersona = () => {
   //     navigate("/suscripcion");
   //   };
 
+  useEffect(() => {
+    const tokenStorage = sessionStorage.getItem("AccessToken");
+    if (tokenStorage && !tokenSesionStorage) {
+      setTokenSesionStorage(tokenStorage);
+    }
+  }, []);
+
   const sendLikeProfile = async (liked) => {
     const data = {
       likedUserId: likedUserId,
@@ -71,12 +79,9 @@ const PerfilOtraPersona = () => {
     try {
       const tokenSesion = tokenSesionStorage;
       const response = await likeSend(tokenSesion, data);
-      console.log("response", response);
-
       // Validar la respuesta
       if (response?.isSuccess === true) {
         // Ajusta según el código esperado por tu API
-        console.log("Datos enviados correctamente:", response);
         setShowAlert(true);
         setMensajeModal(<p>Tu like se ha enviado correctamente.</p>);
         setTimeout(() => {
