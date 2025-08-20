@@ -64,7 +64,11 @@ export default function PlansPage() {
   };
 
   const onCancel = () => {
-    navigate("/descubre");
+    if (window.history.length > 2) {
+      navigate(-1);
+    } else {
+      navigate("/descubre");
+    }
   };
 
   const handleSuscribe = () => {

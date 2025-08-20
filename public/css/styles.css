@@ -720,7 +720,7 @@ p {
     padding: 16px 24px;
     position: fixed;
     top: 0%;
-    z-index: 2;
+    z-index: 3;
 }
 
 .club_btn_top_menu {
@@ -791,6 +791,8 @@ p {
     background: var(--color-primario-violeta-05);
     border-radius: 50%;
     box-shadow: 0 0 0 4px var(--color-neutral-blanco-06);
+    margin: auto;
+    margin-bottom: 11px;
     /* Borde con color blanco (del fondo del body) */
 }
 
@@ -2990,6 +2992,13 @@ club_onboarding_info p {
 .club_info_me li span {
     margin: 0px !important;
     padding: 0px !important;
+}
+
+.club_info_span_card_discover {
+    white-space: pre-line;
+    font-size: 12px;
+    color: var(--color-neutral-gris-02);
+    margin: 10px 0px 16px;
 }
 
 

@@ -144,7 +144,7 @@ function EventCard({ img, title, location, date, hour, assistants, distance, id,
           >
             {title}
           </p>
-          <DiscoverInfo icon={"location"} color="var(--color-gris-descubre)">
+          <DiscoverInfo icon={"location"} color="#343434">
             {location}
           </DiscoverInfo>
           <StyledDetailsEventContainer>

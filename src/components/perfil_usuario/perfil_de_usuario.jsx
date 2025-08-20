@@ -12,9 +12,11 @@ import Loader from "../loader/loader";
 import AlertSuscribe from "../alertas/alert_suscribete";
 import ProgressBar from "../set_up_perfil/ProgressBar";
 import { useProgress } from "../../hooks/ProgressContext";
-import { userProfileMe } from "../../services/api";
+// import { consultOffert, userProfileMe } from "../../services/api";
 import { use } from "react";
 import { useCalcProgress } from "../../hooks/useCalcProgress";
+import EventAndServicesDetails from "@/pages/discover/EditEventAndServices/serviceConsult";
+import MyEventsAndServices from "../discover/atoms/MyEventsAndServices";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -64,7 +66,6 @@ const UserProfile = () => {
   const { setCurrentStep } = useProgress();
   const progressValueCalc = useCalcProgress(dataUser);
 
-
   const calcularEdad = useCallback((fechaNacimiento) => {
     const hoy = new Date();
     const fechaNac = new Date(fechaNacimiento);
@@ -91,6 +92,7 @@ const UserProfile = () => {
     if (sessionStorage.getItem("AccessToken")) {
       setTokenSesionStorage(sessionStorage.getItem("AccessToken"));
     }
+    // consultOffert()
   }, []);
 
   
@@ -363,8 +365,6 @@ const UserProfile = () => {
                     ))}
                 </div>
               </div>
-
-
             </div>
             <br />
             <br />
@@ -409,6 +409,13 @@ const UserProfile = () => {
         dataUser={dataUser}
         type={'update'}
       />
+
+      <div className="club_contenedor club_margin_bar_40 container-lg">
+          <div className="club_info_intereses_contenedor">
+            <MyEventsAndServices />
+          </div>
+      </div>
+
       <div className="p-5 m-5"></div>
       <NavBar currentPage={"Perfil"} />
       {showLoader && <Loader />}

@@ -63,7 +63,7 @@ export default function ServiceItem({ id, title, image, amount, rate }) {
       <StyledServicesListInfoContainer>
         <StyledServiceListTitle>{title}</StyledServiceListTitle>
         <ServiceRate>{rate}</ServiceRate>
-        <DiscoverInfo icon={"money"} color="var(--color-background-negro)">
+        <DiscoverInfo icon={"money"} color="var(--color-background-negro)" colorFill="var(--color-primario-oro)" >
           {amount}
         </DiscoverInfo>
         <ArrowRightIcon style={{ justifySelf: "end" }} />

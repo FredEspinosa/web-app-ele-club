@@ -49,19 +49,19 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
 
   return (
     <div className="club_nav_bar">
-      <div className="club_nav_opciones">
+      <div className="club_nav_opciones col-12">
         <div
-          className={`club_nav_opcion_icono ${activeOption === "Descubre" ? "active animate__animated animate__fadeInUp" : ""
+          className={`club_nav_opcion_icono col-2 ${activeOption === "Descubre" ? "active animate__animated animate__fadeInUp" : ""
             }`}
           onClick={() => handleClick("Descubre")}
         >
           <div>
             <img src={DescubreIcon} alt="events_icon" />
           </div>
-          <span>Descubre</span>
+          <span>Directorio</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${activeOption === "Chats" ? "active animate__animated animate__fadeInUp" : ""
+          className={`club_nav_opcion_icono col-2 ${activeOption === "Chats" ? "active animate__animated animate__fadeInUp" : ""
             }`}
           onClick={() => handleClick("Chats")}
         >
@@ -71,7 +71,7 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           <span>Chats</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${activeOption === "Inicio" ? "active animate__animated animate__fadeInUp" : ""
+          className={`club_nav_opcion_icono col-2 ${activeOption === "Inicio" ? "active animate__animated animate__fadeInUp" : ""
             }`}
           onClick={() => handleClick("Inicio")}
         >
@@ -81,7 +81,7 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           <span>Inicio</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${activeOption === "Alertas" ? "active animate__animated animate__fadeInUp" : ""
+          className={`club_nav_opcion_icono col-2 ${activeOption === "Alertas" ? "active animate__animated animate__fadeInUp" : ""
             }`}
           onClick={() => handleClick("Alertas")}
         >
@@ -94,7 +94,7 @@ const NavBar = ({ currentPage, onOptionSelect }) => {
           <span>Alertas</span>
         </div>
         <div
-          className={`club_nav_opcion_icono ${activeOption === "Perfil" ? "active animate__animated animate__fadeInUp" : ""
+          className={`club_nav_opcion_icono col-2 ${activeOption === "Perfil" ? "active animate__animated animate__fadeInUp" : ""
             }`}
           onClick={() => handleClick("Perfil")}
         >

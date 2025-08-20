@@ -73,6 +73,7 @@ export const StyledDetailsHeader = styled.header`
   position: relative;
   padding: 24.5px 46px;
   background-color: var(--color-background-blanco);
+  max-height: 65px;
 `;
 
 export const StyledTitleSectionContainer = styled.div`
@@ -131,15 +132,17 @@ export const StyledDetailContainer = styled.div`
 
 export const StyledEventDetailOrganizationContainer = styled.div`
   width: 100%;
+  margin-top: 16px;
   ${grid({
     gridTemplateColumns: "40px 1fr 136px",
-    columnGap: "23px",
+    columnGap: "8px",
     alignItems: "center",
   })}
 `;
 
 export const StyledDetailOwnerContainer = styled.div`
   overflow: hidden;
+  text-align: start;
 `;
 
 export const StyledTabsContainer = styled(Box)`
@@ -276,4 +279,13 @@ export const SubFilterButton = styled.button`
   border: none;
   background-color: ${({ isActive }) => (isActive ? "#BC8D40" : "#FFF")};
   color: ${({ isActive }) => (isActive ? "#FFFFFF" : "#BC8D40")};
+`;
+
+export const BackgroundEditList = styled.div`
+  display: block;
+  background: #FFFFFF;
+  padding: 1px 16px;
+  box-shadow: 0px 4px 11px 0px rgba(151, 151, 151, 0.25);
+  border-radius: 16px;
+  margin-bottom: 16px;
 `;

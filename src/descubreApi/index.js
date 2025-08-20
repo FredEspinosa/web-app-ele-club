@@ -24,4 +24,7 @@ export const API_ENDPOINTS = {
   FRIENDS: {
     DELETE_FRIEND: (friendId) => `${API_BASE_URL}/Friends/Delete?friendId=${friendId}`,
   },
+  // GET_USER_EVENTS_SERVICES:`${API_BASE_URL}/Offer/GetAllByUser`,
+  GET_USER_EVENTS_SERVICES: () => `${API_BASE_URL}/Offer/GetAllByUser`,
+  POST_PARTICIPANTS_ASSIST: `${API_BASE_URL}/OfferParticipants/Create`,
 };

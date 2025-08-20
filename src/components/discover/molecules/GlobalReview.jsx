@@ -6,6 +6,7 @@ import Button from '../../shared/atoms/Button';
 import { styled as materialStyled } from '@mui/material/styles';
 import BottomSheetModal from '@/components/shared/atoms/BottomSheetModal';
 import ReviewForm from '../atoms/ReviewForm';
+import { StyledDetailOwnerLabel } from '@/styles/discover/texts';
 
 const StyledGlobalReviewContainer = styled.div`
   width: 100%;
@@ -41,24 +42,27 @@ const StyledRating = materialStyled(Rating)({
 });
 
 export default function GlobalReview({data}) {
-// export default function GlobalReview() {
+
   const [open, setOpen] = useState(false);
+  
   return (
     <StyledGlobalReviewContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', width: '100%'}}>
         <StyledGlobalReviewRate>
           <StyledQualification>
-            4.9 <span>{' / 5'}</span>
+            {data?.reviews?.[0]?.rating || 3.6} <span>{' / 5'}</span>
           </StyledQualification>
-          <StyledRating name='read-only' value={4.9} precision={0.1} readOnly />
+          <StyledRating name='read-only' value={data?.reviews?.[0]?.rating || 3.6} precision={0.5} readOnly style={{color:'#FFD942'}} />
         </StyledGlobalReviewRate>
         <Button type='button' variant='outlined' shape='pill' padding='3px 34px' onClick={() => setOpen(true)}>
           Escribir reseña
-        </Button>
+        </Button>        
+      </div>
+      <div style={{ display: 'flex', width: '100%', marginTop: '16px'}}>
+        <StyledDetailOwnerLabel>Basado en {data?.reviews?.length || 2} reseñas</StyledDetailOwnerLabel>
       </div>
       <BottomSheetModal isOpen={open} onClose={() => setOpen(false)}>
         <ReviewForm handleClose={() => setOpen(false)} data = {data}/>
-        {/* <ReviewForm handleClose={() => setOpen(false)} /> */}
       </BottomSheetModal>
     </StyledGlobalReviewContainer>
   );

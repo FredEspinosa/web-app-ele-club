@@ -260,11 +260,11 @@ const TinderLikeCarouselV2 = ({ubicationData}) => {
           {/* Nombre y Datos de la Persona */}
           <div className="col-12 club_carrucel_datos_persona">
             <h3 className="col-12" onClick={goPersonProfile}>
-              {profiles[currentIndex].name} {profiles[currentIndex].lastName}, {profiles[currentIndex].age} <FaCheck className='club_color_fuente_violeta_05' size={24} />
+              {profiles[currentIndex].name} {profiles[currentIndex].lastName}, {profiles[currentIndex].age} 
+              {/* <FaCheck className='club_color_fuente_violeta_05' size={24} /> */}
             </h3>
             <p className="col-12">
               {profiles[currentIndex] ? profiles[currentIndex].userLocation?.location : 'Missing data...'}
-              {/* {profiles[currentIndex].delegation}, {profiles[currentIndex].delegation} */}
             </p>
           </div>
         </div>
