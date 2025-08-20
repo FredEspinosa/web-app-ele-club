@@ -1,6 +1,6 @@
+import React, { useMemo } from "react";
 import List from "@mui/material/List";
 import { MotionSlider } from "@/components/shared/molecules";
-import React, { useMemo } from "react";
 import { EventCard, ServiceItem } from "@/components/discover/molecules";
 import { TitleSection } from "../atoms";
 import { BellIcon, CalendarIcon } from "@/assets/icons";

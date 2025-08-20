@@ -1,12 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { MapContainer, TileLayer, Marker, Tooltip, LayerGroup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, LayerGroup, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import PropTypes from "prop-types";
 import ChangeMapView from "../atoms/ChangeMapView";
 import { FilterButton, FilterControlsContainer, MapWrapper } from "@/styles/discover/mapWithCluster";
 import { EventosMarkerIcon, ServiciosMarkerIcon } from "../atoms/markersIcons";
+import EventsView from "@/components/discover/organisms/EventsView";
+import ServiceView from "@/components/discover/organisms/ServiceView";
 
 const DEFAULT_CENTER = [19.4326, -99.1332];
+
 function MapWithCluster({ data }) {
   const [mapCenter, setMapCenter] = useState(null);
   const [activeFilter, setActiveFilter] = useState("todos");
@@ -52,6 +55,7 @@ function MapWithCluster({ data }) {
     return offersToShow
       .filter((offer) => Array.isArray(offer.location) && (offer.location[0] !== 0 || offer.location[1] !== 0))
       .map((offer) => ({
+        ...offer,
         position: offer.location,
         label: offer.offerTitle,
         id: offer.id,
@@ -61,12 +65,19 @@ function MapWithCluster({ data }) {
 
   const markers = useMemo(
     () =>
-      points.map((pt, index) => (
-        <Marker key={index} position={pt.position} icon={pt.type === "evento" ? EventosMarkerIcon : ServiciosMarkerIcon}>
-          <Tooltip>{pt.label}</Tooltip>
-        </Marker>
-      )),
-    [points]
+      points
+        .filter((pt) => {
+          if (activeFilter === "todos") return true;
+          return pt.type === activeFilter;
+        })
+        .map((pt) => (
+          <Marker key={pt.id} position={pt.position} icon={pt.type === "evento" ? EventosMarkerIcon : ServiciosMarkerIcon}>
+            <Popup minWidth={300}>
+              {pt.type === "evento" ? <EventsView data={{ evento: [pt] }} /> : <ServiceView data={{ servicio: [pt] }} />}
+            </Popup>
+          </Marker>
+        )),
+    [points, activeFilter]
   );
 
   if (!mapCenter) {
